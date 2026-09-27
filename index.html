@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSSC Science Club</title>
+    
+    <!-- গুগল ফন্ট যুক্ত করা হয়েছে (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- আইকনের জন্য FontAwesome যুক্ত করা হয়েছে -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* বেসিক স্টাইল */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth; /* স্মুথ স্ক্রলিং */
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* টপ বার */
+        .top-bar {
+            background-color: #0b1c2c;
+            color: #fff;
+            padding: 10px 5%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+        .top-bar i { margin-right: 5px; color: #3498db; }
+
+        /* নেভিগেশন বার */
+        nav {
+            background-color: #1a4a75;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .logo h2 {
+            color: #fff;
+            font-size: 24px;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 25px;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover {
+            color: #f1c40f; /* হোভার করলে হলুদ হবে */
+        }
+
+        /* হিরো বা ব্যানার সেকশন */
+        .hero {
+            background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)), url('hero-banner.jpg') center/cover;
+            height: 60vh; /* ব্যানারের উচ্চতা */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        .hero h1 { font-size: 40px; margin-bottom: 10px; }
+        .hero p { font-size: 18px; margin-bottom: 20px; font-weight: 300; }
+
+        /* সাধারণ সেকশন স্টাইল */
+        .section-padding { padding: 60px 5%; }
+        .section-title {
+            text-align: center;
+            font-size: 30px;
+            color: #1a4a75;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: #f1c40f;
+            margin: 10px auto 0;
+        }
+
+        /* অ্যাবাউট সেকশন (About) */
+        .about-content {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .about-text { flex: 1; line-height: 1.8; }
+        .about-image { flex: 1; text-align: center; }
+        .about-image img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+        }
+
+        /* অবজেক্টিভস কার্ডস (Objectives) */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border-bottom: 4px solid #1a4a75;
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card i { font-size: 40px; color: #1a4a75; margin-bottom: 15px; }
+        .card h3 { margin-bottom: 15px; color: #333; }
+        .card p { color: #666; line-height: 1.6; }
+
+        /* টেবিল (Committee) */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #1a4a75; color: white; }
+        tr:hover { background-color: #f9f9f9; }
+
+        /* গ্যালারি (Gallery) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .gallery-item img:hover { transform: scale(1.05); }
+
+        /* ফুটার (Footer) */
+        footer {
+            background-color: #0b1c2c;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        footer p { font-size: 14px; color: #aaa; }
+
+        /* মোবাইল রেসপন্সিভ ডিজাইন */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; }
+            .nav-links { margin-top: 15px; flex-wrap: wrap; justify-content: center; }
+            .nav-links li { margin: 5px 10px; }
+            .about-content { flex-direction: column; }
+            .top-bar { flex-direction: column; text-align: center; gap: 10px; }
+            .hero h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- টপ বার (ফোন ও ইমেইল) -->
+    <div class="top-bar">
+        <div>
+            <!-- এখানে ঠিকানা পরিবর্তন করতে পারেন -->
+            <span><i class="fas fa-map-marker-alt"></i> 36-37, Lakshmibazar, Dhaka-1100</span>
+        </div>
+        <div>
+            <!-- এখানে ইমেইল পরিবর্তন করতে পারেন -->
+            <span><i class="fas fa-envelope"></i> info@gsscscienceclub.edu.bd</span>
+        </div>
+    </div>
+
+    <!-- নেভিগেশন বার -->
+    <nav>
+        <div class="logo">
+            <!-- এখানে লোগো বা ক্লাবের সংক্ষিপ্ত নাম দিন -->
+            <h2><i class="fas fa-atom"></i> GSSC Science Club</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#objectives">Objectives</a></li>
+            <li><a href="#committee">Committee</a></li>
+            <li><a href="#membership">Membership</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <!-- হিরো / ব্যানার সেকশন -->
+    <section class="hero" id="home">
+        <!-- এখানে প্রধান শিরোনাম দিন -->
+        <h1>Govt. Shaheed Suhrawardy College Science Club</h1>
+        <!-- এখানে সাব-টাইটেল দিন -->
+        <p>Promoting Science, Innovation, and Curiosity Since 2019</p>
+    </section>
+
+    <!-- আমাদের সম্পর্কে (About Us) -->
+    <section class="section-padding" id="about">
+        <h2 class="section-title">About Us</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <!-- এখানে About Us এর বিস্তারিত লেখা দিন -->
+                <h3>Welcome to GSSC Science Club</h3><br>
+                <p>Govt. Shaheed Suhrawardy College Science Club was established in 2019 to foster a scientific mindset among the students. Under the direct guidance of our Chief Patron, Principal Prof. Dr. Kakali Mukherjee, we aim to create a dynamic platform for young innovators.</p><br>
+                <p>Our journey is filled with science fairs, Olympiads, research workshops, and wall magazine exhibitions. Join us to explore the limitless possibilities of science!</p>
+            </div>
+            <div class="about-image">
+                <!-- এখানে About সেকশনের ছবির নাম দিন -->
+                <img src="about-image.jpg" alt="About Science Club">
+            </div>
+        </div>
+    </section>
+
+    <!-- উদ্দেশ্য (Core Objectives) -->
+    <section class="section-padding bg-light" id="objectives">
+        <h2 class="section-title">Core Objectives</h2>
+        <div class="grid-cards">
+            <!-- কার্ড ১ -->
+            <div class="card">
+                <i class="fas fa-microscope"></i>
+                <!-- এখানে কার্ড ১ এর লেখা দিন -->
+                <h3>Scientific Curiosity</h3>
+                <p>To encourage students to question the world around them and develop a keen sense of scientific curiosity.</p>
+            </div>
+            <!-- কার্ড ২ -->
+            <div class="card">
+                <i class="fas fa-rocket"></i>
+                <!-- এখানে কার্ড ২ এর লেখা দিন -->
+                <h3>Innovation & Projects</h3>
+                <p>Providing hands-on experience and support to students for creating innovative science projects.</p>
+            </div>
+            <!-- কার্ড ৩ -->
+            <div class="card">
+                <i class="fas fa-award"></i>
+                <!-- এখানে কার্ড ৩ এর লেখা দিন -->
+                <h3>Olympiads & Fairs</h3>
+                <p>Preparing and organizing students to participate in national and international science fairs and Olympiads.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- কমিটি (Committee) -->
+    <section class="section-padding" id="committee">
+        <h2 class="section-title">Executive Committee</h2>
+        <div style="overflow-x:auto;">
+            <table>
+                <tr>
+                    <th>Designation</th>
+                    <th>Name / Role</th>
+                </tr>
+                <!-- এখানে কমিটির সদস্যদের তথ্য দিন -->
+                <tr>
+                    <td>Chief Patron</td>
+                    <td>Prof. Dr. Kakali Mukherjee (Principal)</td>
+                </tr>
+                <tr>
+                    <td>Club Advisers</td>
+                    <td>Founder Advisers & Teachers</td>
+                </tr>
+                <tr>
+                    <td>President</td>
+                    <td>[President Name Here]</td>
+                </tr>
+                <tr>
+                    <td>General Secretary</td>
+                    <td>[Secretary Name Here]</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- মেম্বারশিপ (Membership) -->
+    <section class="section-padding" id="membership">
+        <h2 class="section-title">How to Join</h2>
+        <div class="about-content" style="background-color: #e3f2fd; border-left: 5px solid #1a4a75;">
+            <div class="about-text">
+                <!-- এখানে মেম্বারশিপের নিয়মকানুন দিন -->
+                <h3>Membership Rules:</h3><br>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>You must be a regular student of Govt. Shaheed Suhrawardy College.</li>
+                    <li>You have to fill up the official membership form.</li>
+                    <li>Membership fee is BDT 50 only.</li>
+                    <li>Selection may be based on written/oral exams or project submission.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- গ্যালারি (Gallery) -->
+    <section class="section-padding" id="gallery">
+        <h2 class="section-title">Our Activities Gallery</h2>
+        <div class="gallery-grid">
+            <!-- এখানে গ্যালারির ছবিগুলোর নাম দিন (event1.jpg, event2.jpg ইত্যাদি) -->
+            <div class="gallery-item"><img src="gallery1.jpg" alt="Activity 1"></div>
+            <div class="gallery-item"><img src="gallery2.jpg" alt="Activity 2"></div>
+            <div class="gallery-item"><img src="gallery3.jpg" alt="Activity 3"></div>
+            <div class="gallery-item"><img src="gallery4.jpg" alt="Activity 4"></div>
+        </div>
+    </section>
+
+    <!-- ফুটার -->
+    <footer>
+        <!-- এখানে কপিরাইট টেক্সট দিন -->
+        <p>&copy; 2026 Govt. Shaheed Suhrawardy College Science Club. All Rights Reserved.</p>
+        <p style="margin-top: 10px;">
+            <a href="#" style="color:#3498db; text-decoration:none; margin: 0 10px;"><i class="fab fa-facebook-f"></i> Facebook Page</a> | 
+            <a href="#" style="color:#3498db; text-decoration:none; margin: 0 10px;"><i class="fab fa-youtube"></i> YouTube</a>
+        </p>
+    </footer>
+
+</body>
+</html>
