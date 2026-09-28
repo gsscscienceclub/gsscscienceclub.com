@@ -75,7 +75,7 @@
 
         /* --- নোটিশ বোর্ড ও টাইটেল বার স্টাইল --- */
         .notice-title-bar {
-            position: relative; /* মেনু বাটনকে পজিশন করার জন্য */
+            position: relative;
         }
         
         /* নোটিশ বোর্ডের ভেতরের মেনু বাটন স্টাইল */
@@ -142,6 +142,19 @@
             font-weight: bold;
         }
         .sidebar-menu li a:hover { background-color: #eafaf1; color: #007e33; }
+
+        /* সাব-মেনু স্টাইল */
+        .submenu {
+            display: none;
+            list-style: none;
+            background-color: #f4fdf8;
+            padding-left: 15px;
+        }
+        .submenu li a {
+            font-size: 14px;
+            padding: 12px 20px;
+            color: #007e33;
+        }
 
         /* --- মূল কন্টেন্ট --- */
         .container {
@@ -297,6 +310,103 @@
             margin-top: 10px;
         }
 
+        /* --- Membership Modal Form Styles --- */
+        .form-modal {
+            display: none;
+            position: fixed;
+            z-index: 2500;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            overflow-y: auto;
+            padding: 20px 10px;
+        }
+
+        .form-card {
+            background: #fff;
+            max-width: 750px;
+            margin: 20px auto;
+            padding: 25px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .form-close {
+            position: absolute;
+            right: 20px; top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #cc0000;
+        }
+
+        .form-header {
+            text-align: center;
+            border-bottom: 2px solid #007e33;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-header h2 { color: #007e33; margin: 0; font-size: 22px; }
+        .form-header h4 { margin: 5px 0; color: #555; font-size: 14px; }
+        .form-header p { margin: 0; color: #d32f2f; font-weight: bold; }
+
+        .app-form { display: flex; flex-direction: column; gap: 12px; }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width { flex: 100%; }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .declaration {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .declaration label { font-size: 11px; font-weight: normal; color: #555; }
+
+        .submit-btn {
+            background: #007e33;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover { background: #004d25; }
+
         /* মোবাইলের জন্য রেসপন্সিভ স্টাইল */
         @media (max-width: 500px) {
             .header-title { font-size: 13px; }
@@ -308,6 +418,7 @@
             .notice-title-bar .menu-btn span {
                 font-size: 10px;
             }
+            .form-card { padding: 15px; }
         }
     </style>
 </head>
@@ -340,11 +451,23 @@
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
             <!-- সাইডবারের লোগো (সাইন্স ক্লাব) -->
-            <img src="FB_IMG_1788806747811.jpg" alt="Science Club Logo">
+            <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
             <span class="close-btn" onclick="closeNav()">&times;</span>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="#">Admission <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
+            <!-- Admission (ড্রপডাউন) -->
+            <li>
+                <a href="javascript:void(0);" onclick="toggleSubmenu('admissionSubmenu')">
+                    Admission <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i>
+                </a>
+                <ul id="admissionSubmenu" class="submenu">
+                    <li>
+                        <a href="javascript:void(0);" onclick="openMembershipForm()">
+                            <i class="fas fa-file-signature"></i> Membership Application
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li><a href="#">Academic <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
             <li><a href="#">About Us <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
             <li><a href="#">Result <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
@@ -483,6 +606,165 @@
     </div>
     <!-- মূল কন্টেন্ট শেষ -->
 
+    <!-- ⬇️ Membership Application Popup Form Modal ⬇️ -->
+    <div id="membershipModal" class="form-modal">
+        <div class="form-card">
+            <span class="form-close" onclick="closeMembershipForm()">&times;</span>
+            
+            <div class="form-header">
+                <h2>SCIENCE CLUB</h2>
+                <h4>Govt. Shaheed Suhrawardy College, Dhaka</h4>
+                <p>Membership Application Form</p>
+            </div>
+
+            <!-- Formspree Endpoint লিংক দিয়ে ফর্ম সাবমিট করা যাবে -->
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" enctype="multipart/form-data" class="app-form">
+                
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Passport Size Picture (ছবি আপলোড করুন) *</label>
+                        <input type="file" name="picture" accept="image/*" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>01. Name (English) *</label>
+                        <input type="text" name="name_en" required placeholder="Full Name in English">
+                    </div>
+                    <div class="form-group">
+                        <label>02. Name (বাংলায়) *</label>
+                        <input type="text" name="name_bn" required placeholder="পূর্ণ নাম বাংলায়">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>03. Father's Name (English) *</label>
+                        <input type="text" name="father_en" required>
+                    </div>
+                    <div class="form-group">
+                        <label>04. Father's Name (বাংলায়) *</label>
+                        <input type="text" name="father_bn" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>05. Mother's Name (English) *</label>
+                        <input type="text" name="mother_en" required>
+                    </div>
+                    <div class="form-group">
+                        <label>06. Mother's Name (বাংলায়) *</label>
+                        <input type="text" name="mother_bn" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>07. Date of Birth *</label>
+                        <input type="date" name="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label>08. Gender *</label>
+                        <select name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>09. Blood Group *</label>
+                        <select name="blood_group" required>
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>10. Class *</label>
+                        <input type="text" name="class" required placeholder="e.g. HSC 1st Year / Honors">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>11. Group or Department *</label>
+                        <input type="text" name="group_dept" required placeholder="e.g. Science / Physics">
+                    </div>
+                    <div class="form-group">
+                        <label>12. ID No / Roll No *</label>
+                        <input type="text" name="id_no" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>13. Session *</label>
+                        <input type="text" name="session" placeholder="e.g. 2025-2026" required>
+                    </div>
+                    <div class="form-group">
+                        <label>14. Contact Number (WhatsApp) *</label>
+                        <input type="tel" name="whatsapp_no" required placeholder="017XXXXXXXX">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>15. Guardian's Contact Number *</label>
+                        <input type="tel" name="guardian_no" required placeholder="017XXXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label>16. NID or Birth ID No *</label>
+                        <input type="text" name="nid_birth_id" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>17. Religion *</label>
+                        <input type="text" name="religion" required>
+                    </div>
+                    <div class="form-group">
+                        <label>18. Nationality *</label>
+                        <input type="text" name="nationality" value="Bangladeshi" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>19. Present Address *</label>
+                        <textarea name="present_address" rows="2" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>20. Permanent Address *</label>
+                        <textarea name="permanent_address" rows="2" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group declaration">
+                    <input type="checkbox" id="declare" required>
+                    <label for="declare">I hereby declare that the above information is completely true and accurate. I commit to abide by all the rules and regulations of the organisation.</label>
+                </div>
+
+                <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Submit Application</button>
+            </form>
+        </div>
+    </div>
+    <!-- Modal End -->
+
     <!-- ফুটার শুরু -->
     <div class="footer">
         <h3>Govt. Shaheed Suhrawardy College</h3>
@@ -507,7 +789,7 @@
     </div>
     <!-- ফুটার শেষ -->
 
-    <!-- সাইডবার মেনু সচল করার জাভাস্ক্রিপ্ট -->
+    <!-- জাভাস্ক্রিপ্ট -->
     <script>
         function openNav() {
             document.getElementById("mySidebar").style.width = "280px";
@@ -515,8 +797,27 @@
         function closeNav() {
             document.getElementById("mySidebar").style.width = "0";
         }
+
+        // ড্রপডাউন সাব-মেনু টগল ফাংশন
+        function toggleSubmenu(id) {
+            var submenu = document.getElementById(id);
+            if (submenu.style.display === "block") {
+                submenu.style.display = "none";
+            } else {
+                submenu.style.display = "block";
+            }
+        }
+
+        // মেম্বারশিপ ফর্ম মোডাল খোলা ও বন্ধ করা
+        function openMembershipForm() {
+            closeNav(); // সাইডবার মেনু বন্ধ করবে
+            document.getElementById("membershipModal").style.display = "block";
+        }
+
+        function closeMembershipForm() {
+            document.getElementById("membershipModal").style.display = "none";
+        }
     </script>
 
 </body>
 </html>
-
