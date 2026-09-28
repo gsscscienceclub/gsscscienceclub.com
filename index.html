@@ -102,6 +102,26 @@
             font-weight: bold;
         }
 
+        /* সকল নোটিশ বাটনের স্টাইল */
+        .all-notices-link {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #007e33;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+        .all-notices-link:hover {
+            color: #d32f2f;
+            text-decoration: underline;
+        }
+
         /* Sidebar Menu */
         .sidebar {
             height: 100%;
@@ -332,6 +352,11 @@
             .notice-title-bar .menu-btn span {
                 font-size: 10px;
             }
+            /* মোবাইল স্ক্রিনে সকল নোটিশ বাটনের সাইজ */
+            .all-notices-link {
+                font-size: 11px;
+                right: 10px;
+            }
         }
     </style>
 </head>
@@ -385,6 +410,7 @@
 
     <!-- Main Container -->
     <div class="container">
+        
         <!-- Notice Board -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
@@ -395,19 +421,24 @@
                 <div>
                     <i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board
                 </div>
+                <!-- সকল নোটিশ লিঙ্ক -->
+                <a href="all-notices.html" class="all-notices-link">
+                    সকল নোটিশ <i class="fas fa-chevron-right"></i>
+                </a>
             </div>
             
             <div class="section-content">
+                <!-- নোটিশ ১ -->
                 <a href="membercollectnotice.jpg" target="_blank" class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> বিজ্ঞান ক্লাবের ভর্তি পরীক্ষা সংক্রান্ত নোটিশ</span>
                     <span class="date">Sep 25, 2026</span>
                 </a>
-                <a href="ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                
+                <!-- নোটিশ ২ -->
                 <a href="ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg" target="_blank" class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
                     <span class="date">Sep 25, 2026</span>
                 </a>
-                <a href="membercollectnotice.jpg" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
 
