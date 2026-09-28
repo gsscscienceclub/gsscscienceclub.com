@@ -57,7 +57,7 @@
         .sidebar-menu li a { padding: 15px 20px; text-decoration: none; font-size: 16px; color: #333; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .sidebar-menu li a:hover { background-color: #eafaf1; color: #007e33; }
         .submenu { display: none; list-style: none; background-color: #f4fdf8; padding-left: 15px; }
-        .submenu li a { font-size: 14px; padding: 12px 20px; color: #007e33; }
+        .submenu li a { font-size: 14px; padding: 12px 20px; color: #007e33; cursor: pointer; display: block; }
 
         /* Container & Cards */
         .container { max-width: 800px; margin: 0 auto; padding: 15px; }
@@ -92,17 +92,23 @@
         .modal-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
         .modal-images img { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; }
 
-        /* Fullscreen Image Preview Modal Styles (নতুন যুক্ত করা হলো) */
+        /* Fullscreen Image Preview Modal Styles */
         #imageViewerModal { z-index: 6000 !important; background-color: rgba(0,0,0,0.9); display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; justify-content: center; align-items: center; padding: 20px; }
         .image-viewer-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
         .image-viewer-content img { width: auto; height: auto; max-width: 100%; max-height: 85vh; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .image-viewer-close { position: absolute; top: -40px; right: 0; font-size: 35px; font-weight: bold; color: #fff; cursor: pointer; }
 
+        /* About Us Modal Styles (নতুন যুক্ত করা হলো) */
+        #aboutModal { z-index: 7000 !important; background-color: rgba(0,0,0,0.85); }
+        .about-modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 8px; max-width: 700px; width: 90%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        .about-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
+        .about-modal-body { font-size: 15px; line-height: 1.6; color: #333; max-height: 400px; overflow-y: auto; }
+
         /* Gallery & Others */
         .gallery-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
         @media (min-width: 600px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
         .gallery-item { border: 1px solid #ddd; border-radius: 5px; overflow: hidden; background: #fff; }
-        .gallery-item img { width: 100%; height: 200px; object-fit: cover; display: block; cursor: pointer; } /* কার্সর পয়েন্টার করা হয়েছে */
+        .gallery-item img { width: 100%; height: 200px; object-fit: cover; display: block; cursor: pointer; }
         .gallery-item p { padding: 10px; font-size: 14px; color: #333; text-align: center; font-weight: bold; background: #fdfdfd; }
         
         .useful-links { display: flex; flex-direction: column; gap: 10px; }
@@ -132,11 +138,20 @@
         </div>
     </div>
 
-    <!-- Fullscreen Image Viewer Modal (নতুন যুক্ত করা হলো) -->
+    <!-- Fullscreen Image Viewer Modal -->
     <div id="imageViewerModal" class="modal" onclick="closeImageViewer()">
         <div class="image-viewer-content" onclick="event.stopPropagation()">
             <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
             <img id="fullSizeImage" src="" alt="Full Size Notice Image">
+        </div>
+    </div>
+
+    <!-- About Us Floating Modal Window (নতুন যুক্ত করা হলো) -->
+    <div id="aboutModal" class="modal">
+        <div class="about-modal-content">
+            <span class="modal-close" onclick="closeAboutModal()">&times;</span>
+            <div id="aboutModalTitle" class="about-modal-title">শিরোনাম</div>
+            <div id="aboutModalBody" class="about-modal-body">বিস্তারিত বিবরণ এখানে প্রদর্শিত হবে।</div>
         </div>
     </div>
 
@@ -216,7 +231,17 @@
                     </li>
                 </ul>
             </li>
-            <li><a href="#">About Us</a></li>
+            <!-- About Us Dropdown Menu (পরিবর্তন করা হয়েছে) -->
+            <li>
+                <a href="javascript:void(0);" onclick="toggleSubmenu('aboutSubmenu')">
+                    About Us <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                </a>
+                <ul id="aboutSubmenu" class="submenu">
+                    <li><a href="javascript:void(0);" onclick="openAboutModal('introduction')">আমাদের পরিচিতি</a></li>
+                    <li><a href="javascript:void(0);" onclick="openAboutModal('objectives')">ক্লাবের লক্ষ্য ও উদ্দেশ্য</a></li>
+                    <li><a href="javascript:void(0);" onclick="openAboutModal('activities')">আমাদের কার্যক্রমসমূহ</a></li>
+                </ul>
+            </li>
             <li><a href="#">Result</a></li>
             <li><a href="#">Activities</a></li>
             <li><a href="#">Gallery</a></li>
@@ -267,7 +292,7 @@
             </div>
         </div>
 
-        <!-- Recent Activities (এখানে ক্লিক ফাংশন যুক্ত করা হয়েছে) -->
+        <!-- Recent Activities -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities</div>
             <div class="section-content">
@@ -361,6 +386,32 @@
             document.getElementById('imageViewerModal').style.display = 'none';
         }
 
+        /* About Us Modal Functions (নতুন যুক্ত করা হলো) */
+        function openAboutModal(type) {
+            closeNav(); 
+            var titleElem = document.getElementById('aboutModalTitle');
+            var bodyElem = document.getElementById('aboutModalBody');
+            
+            if (type === 'introduction') {
+                titleElem.innerText = "আমাদের পরিচিতি";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০[span_0](start_span)[span_0](end_span).<br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭৫ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+            } 
+            else if (type === 'objectives') {
+                titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
+                bodyElem.innerHTML = "<ul><li><b>বিজ্ঞানচর্চার প্রসার:</b> প্রাতিষ্ঠানিক শিক্ষার পাশাপাশি বিজ্ঞানকে সহজ ও উপভোগ্য করে তোলা এবং ব্যবহারিক জ্ঞান অর্জনে শিক্ষার্থীদের সহায়তা করা।</li><li><b>দক্ষতা বৃদ্ধি:</b> কর্মশালা ও সেমিনারের মাধ্যমে বিজ্ঞান ও প্রযুক্তির আধুনিক বিভিন্ন বিষয়ের সাথে শিক্ষার্থীদের পরিচয় করিয়ে দেওয়া।</li><li><b>নেতৃত্ব ও দলগত কাজ:</b> শিক্ষার্থীদের মধ্যে নেতৃত্ব গুণাবলী, সাংগঠনিক দক্ষতা এবং দলবদ্ধভাবে কাজ করার মানসিকতা গড়ে তোলা।</li></ul>";
+            } 
+            else if (type === 'activities') {
+                titleElem.innerText = "আমাদের কার্যক্রমসমূহ";
+                bodyElem.innerHTML = "সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব নিয়মিত বিভিন্ন শিক্ষামূলক ও ব্যবহারিক কার্যক্রম পরিচালনা করে থাকে:<br><br><ul><li><b>বিজ্ঞান প্রশিক্ষণ কর্মশালা:</b> বিভিন্ন ব্যবহারিক ও প্রায়োগিক বিষয়ভিত্তিক কর্মশালা (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি)।</li><li><b>সেমিনার ও সিম্পোজিয়াম:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ টপিক নিয়ে সেমিনার আয়োজন।</li><li><b>সদস্য সংগ্রহ ও মূল্যায়ন:</b> প্রতি শিক্ষাবর্ষে নির্দিষ্ট নিয়ম ও ভর্তি প্রক্রিয়ার মাধ্যমে বিজ্ঞান বিভাগের আগ্রহী শিক্ষার্থীদের ক্লাবের সদস্য হিসেবে অন্তর্ভুক্ত করা[span_1](start_span)[span_1](end_span).</li><li><b>প্রজেক্ট প্রদর্শনী:</b> শিক্ষার্থীদের সৃজনশীল বিজ্ঞান প্রজেক্ট প্রদর্শনের সুযোগ তৈরি করে দেওয়া।</li></ul>";
+            }
+            
+            document.getElementById('aboutModal').style.display = 'block';
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').style.display = 'none';
+        }
+
         /* Modal Functions for All Notices Floating Window */
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
@@ -370,6 +421,7 @@
             var noticeModal = document.getElementById('noticeModal');
             var allNoticesModal = document.getElementById('allNoticesModal');
             var imageViewerModal = document.getElementById('imageViewerModal');
+            var aboutModal = document.getElementById('aboutModal'); // এটি যুক্ত করা হয়েছে
             
             if (event.target == noticeModal) { 
                 noticeModal.style.display = 'none'; 
@@ -377,6 +429,8 @@
                 allNoticesModal.style.display = 'none'; 
             } else if (event.target == imageViewerModal) { 
                 imageViewerModal.style.display = 'none'; 
+            } else if (event.target == aboutModal) { 
+                aboutModal.style.display = 'none'; 
             }
         }
     </script>
