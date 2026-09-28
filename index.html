@@ -74,7 +74,7 @@
         .notice-read-more { font-size: 13px; color: #d32f2f; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
         .notice-read-more:hover { text-decoration: underline; }
 
-        .all-notices-bottom { display: block; text-align: right; margin-top: 15px; color: #007e33; font-size: 14px; font-weight: bold; text-decoration: none; }
+        .all-notices-bottom { display: block; text-align: right; margin-top: 15px; color: #007e33; font-size: 14px; font-weight: bold; text-decoration: none; cursor: pointer; }
         .all-notices-bottom:hover { color: #d32f2f; text-decoration: underline; }
 
         /* Modal Styles */
@@ -110,12 +110,56 @@
 </head>
 <body>
 
-    <!-- Notice Modal Box -->
+    <!-- Notice Single Modal Box (ছবির জন্য) -->
     <div id="noticeModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
             <div id="modalImages" class="modal-images"></div>
+        </div>
+    </div>
+
+    <!-- Floating Modal Window for All Notices (সকল নোটিশের পপআপ উইন্ডো) -->
+    <div id="allNoticesModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
+            <div class="modal-title"><i class="fas fa-bullhorn" style="color: #f39c12;"></i> সকল নোটিশ</div>
+            <div style="max-height: 450px; overflow-y: auto; padding-right: 5px;">
+                
+                <!-- নোটিশ ১ -->
+                <div class="list-item">
+                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে মেম্বার কালেকশন সংক্রান্ত বিজ্ঞপ্তি</span>
+                    <div class="notice-meta">
+                        <span class="date">Sep 25, 2026</span>
+                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাবে মেম্বার কালেকশন সংক্রান্ত বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- নোটিশ ২ -->
+                <div class="list-item">
+                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
+                    <div class="notice-meta">
+                        <span class="date">Sep 25, 2026</span>
+                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি', ['ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg'])">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- নোটিশ ৩ (রেজাল্ট নোটিশ) -->
+                <div class="list-item">
+                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট</span>
+                    <div class="notice-meta">
+                        <span class="date">Oct 31, 2025</span>
+                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট', ['1Member selection result 2025 .jpg.jpg', '2Member selection result 2025.jpg', '3Member selection result 2025 .jpg'])">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -163,7 +207,7 @@
     <!-- Main Container -->
     <div class="container">
         
-        <!-- Notice Board (এখানে ৩টি নোটিশই যুক্ত আছে) -->
+        <!-- Notice Board (মূল পেজে কেবল ২টি নোটিশ দেখা যাবে) -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
@@ -193,9 +237,12 @@
                         </span>
                     </div>
                 </div>
-                <a href="all-notices.html" class="all-notices-bottom">
+
+                <!-- সকল নোটিশ পপআপ লিংক -->
+                <a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">
                     সকল নোটিশ <i class="fas fa-chevron-right"></i>
-      
+                </a>
+
             </div>
         </div>
 
@@ -220,8 +267,8 @@
                     <img src="17700954426981835287012.png" alt="College Logo">
                     <span>Govt. Shaheed Suhrawardy College</span>
                 </a>
-                <a href=https://dcu.ac.bd/ target=”_blank” class=”useful-link-item”>
-                    <img src=”DCU logo.png” alt=”DCU Logo”>
+                <a href="https://dcu.ac.bd/" target="_blank" class="useful-link-item">
+                    <img src="DCU logo.png" alt="DCU Logo">
                     <span>Dhaka Central University</span>
                 </a>
             </div>
@@ -254,7 +301,7 @@
             submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
         }
 
-        /* Modal Functions */
+        /* Modal Functions for Single Notice Image View */
         function openNoticeModal(title, imgArray) {
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
@@ -270,10 +317,18 @@
         }
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
+
+        /* Modal Functions for All Notices Floating Window */
+        function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
+        function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
+
+        /* Window Click event to close modals */
         window.onclick = function(event) {
-            var modal = document.getElementById('noticeModal');
-            if (event.target == modal) { modal.style.display = 'none'; }
+            var noticeModal = document.getElementById('noticeModal');
+            var allNoticesModal = document.getElementById('allNoticesModal');
+            if (event.target == noticeModal) { noticeModal.style.display = 'none'; }
+            if (event.target == allNoticesModal) { allNoticesModal.style.display = 'none'; }
         }
     </script>
 </body>
-    </html>
+</html>
