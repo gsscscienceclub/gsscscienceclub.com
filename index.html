@@ -102,7 +102,7 @@
         .gallery-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
         @media (min-width: 600px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
         .gallery-item { border: 1px solid #ddd; border-radius: 5px; overflow: hidden; background: #fff; }
-        .gallery-item img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .gallery-item img { width: 100%; height: 200px; object-fit: cover; display: block; cursor: pointer; } /* কার্সর পয়েন্টার করা হয়েছে */
         .gallery-item p { padding: 10px; font-size: 14px; color: #333; text-align: center; font-weight: bold; background: #fdfdfd; }
         
         .useful-links { display: flex; flex-direction: column; gap: 10px; }
@@ -149,10 +149,10 @@
                 
                 <!-- নোটিশ ১ -->
                 <div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে মেম্বার কালেকশন সংক্রান্ত বিজ্ঞপ্তি</span>
+                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাবে মেম্বার কালেকশন সংক্রান্ত বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
+                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
                             Read More <i class="fas fa-arrow-right"></i>
                         </span>
                     </div>
@@ -267,15 +267,27 @@
             </div>
         </div>
 
-        <!-- Recent Activities -->
+        <!-- Recent Activities (এখানে ক্লিক ফাংশন যুক্ত করা হয়েছে) -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities</div>
             <div class="section-content">
                 <div class="gallery-grid">
-                    <div class="gallery-item"><img src="FB_IMG_1790507317905.jpg" alt="Activity"><p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p></div>
-                    <div class="gallery-item"><img src="FB_IMG_1790507303872.jpg" alt="Activity"><p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p></div>
-                    <div class="gallery-item"><img src="FB_IMG_1790507307066.jpg" alt="Activity"><p>মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</p></div>
-                    <div class="gallery-item"><img src="FB_IMG_1790507297982.jpg" alt="Activity"><p>মাশরুম চাষ বিষয়ক সেমিনার</p></div>
+                    <div class="gallery-item">
+                        <img src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
+                        <p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="FB_IMG_1790507303872.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507303872.jpg')">
+                        <p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="FB_IMG_1790507307066.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507307066.jpg')">
+                        <p>মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</p>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="FB_IMG_1790507297982.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507297982.jpg')">
+                        <p>মাশরুম চাষ বিষয়ক সেমিনার</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -331,7 +343,6 @@
             imgArray.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
-                /* ছবিতে ক্লিক করলে এখন ফ্লোটিং ইমেজ ভিউয়ার ওপেন হবে */
                 img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
@@ -340,7 +351,7 @@
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
 
-        /* Fullscreen Image Viewer Functions (নতুন যুক্ত করা হলো) */
+        /* Fullscreen Image Viewer Functions */
         function openImageViewer(src) {
             document.getElementById('fullSizeImage').src = src;
             document.getElementById('imageViewerModal').style.display = 'flex';
