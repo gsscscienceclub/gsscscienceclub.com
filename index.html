@@ -233,17 +233,38 @@
             font-weight: bold;
         }
 
+        /* Useful Links Styling */
         .useful-links {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            align-items: center;
         }
-        .useful-links img {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        .useful-link-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #007e33;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .useful-link-item:hover {
+            background: #eafaf1;
+            border-color: #007e33;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .useful-link-item img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid #ddd;
         }
 
         .visitor-count {
@@ -461,14 +482,22 @@
             </div>
         </div>
 
-        <!-- Useful Links -->
+        <!-- Useful Links (Updated) -->
         <div class="section-card">
             <div class="section-title">
                 <i class="fas fa-link" style="color: #007e33;"></i> Useful Links
             </div>
             <div class="section-content useful-links">
-                <img src="https://gssc.college.gov.bd/" alt="Link 1">
-                <img src="https://dcu.ac.bd/" alt="Link 2">
+                <!-- সরকারি শহীদ সোহরাওয়ার্দী কলেজ ওয়েবসাইট -->
+                <a href="https://gssc.college.gov.bd/" target="_blank" class="useful-link-item">
+                    <img src="17700954426981835287012.png" alt="College Logo">
+                    <span>Govt. Shaheed Suhrawardy College</span>
+                </a>
+                <!-- ঢাকা সেন্ট্রাল ইউনিভার্সিটি ওয়েবসাইট -->
+                <a href="https://dcu.ac.bd/" target="_blank" class="useful-link-item">
+                    <img src="FB_IMG_1788806747811.png" alt="DCU Logo">
+                    <span>Dhaka Central University</span>
+                </a>
             </div>
         </div>
 
