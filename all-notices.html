@@ -1,24 +1,129 @@
-<div class="section-content">
-  <!-- Notice 1 -->
-  <div class="notice-media">
-    <span class="title"><i class="fa fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবের মেম্বার কালেকশন সংক্রান্ত বিজ্ঞপ্তি</span>
-    <span class="date">Sep 25, 2026</span>
-    <span class="open-notice-modal" section-id="noticeModal" modal-title="জিএসএসসি বিজ্ঞান ক্লাবের মেম্বার কালেকশন সংক্রান্ত বিজ্ঞপ্তি" pdf-url="" image-list="['https://gsamcscienceclub.github.io/gsamcscienceclub/FB_IMG_1710507207462.jpg']">Read More <i class="fa fa-caret-right"></i></span>
-  </div>
-  <hr class="notice-media-hr">
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সকল নোটিশ - GSSC Science Club</title>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f1f1f1; color: #333; }
 
-  <!-- Notice 2 -->
-  <div class="notice-media">
-    <span class="title"><i class="fa fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
-    <span class="date">Sep 25, 2026</span>
-    <span class="open-notice-modal" section-id="noticeModal" modal-title="জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি" pdf-url="" image-list="['https://gsamcscienceclub.github.io/gsamcscienceclub/FB_IMG_1710507281357.jpg']">Read More <i class="fa fa-caret-right"></i></span>
-  </div>
-  <hr class="notice-media-hr">
+        /* Container & Card */
+        .container { max-width: 800px; margin: 20px auto; padding: 15px; }
+        .back-home { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 15px; color: #007e33; text-decoration: none; font-weight: bold; font-size: 14px; }
+        .back-home:hover { text-decoration: underline; color: #d32f2f; }
+        
+        .section-card { background: #fff; border-radius: 5px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .section-title { background: #f9f9f9; padding: 15px; text-align: center; font-weight: bold; color: #007e33; border-bottom: 2px solid #007e33; font-size: 18px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .section-content { padding: 15px; }
+        
+        /* Notice List Styles */
+        .list-item { display: flex; flex-direction: column; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .list-item:last-child { border-bottom: none; }
+        .list-item .title { font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; color: #333; }
+        .notice-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-left: 18px; }
+        .list-item .date { font-size: 12px; color: #666; }
+        .notice-read-more { font-size: 13px; color: #d32f2f; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+        .notice-read-more:hover { text-decoration: underline; }
 
-  <!-- Notice 3 -->
-  <div class="notice-media">
-    <span class="title"><i class="fa fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ রেজাল্ট</span>
-    <span class="date">Oct 31, 2025</span>
-    <span class="open-notice-modal" section-id="noticeModal" modal-title="জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ রেজাল্ট" pdf-url="" image-list="['https://gsamcscienceclub.github.io/gsamcscienceclub/FB_IMG_1709857368617.jpg']">Read More <i class="fa fa-caret-right"></i></span>
-  </div>
-</div>
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); overflow-y: auto; padding: 20px 10px; }
+        .modal-content { background-color: #fff; margin: 3% auto; padding: 20px; border-radius: 8px; max-width: 900px; width: 95%; position: relative; }
+        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; color: #d32f2f; cursor: pointer; }
+        .modal-title { font-size: 16px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
+        .modal-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
+        .modal-images img { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; transition: transform 0.2s; }
+        .modal-images img:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- Notice Modal Box -->
+    <div id="noticeModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
+            <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
+            <div id="modalImages" class="modal-images"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> মেইন পেজে ফিরে যান</a>
+
+        <div class="section-card">
+            <div class="section-title">
+                <i class="fas fa-bullhorn" style="color: #f39c12;"></i> সকল নোটিশ
+            </div>
+            
+            <div class="section-content">
+                
+                <!-- নোটিশ ১ -->
+                <div class="list-item">
+                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবের মেম্বার কালেকশন সংক্রান্ত বিজ্ঞপ্তি</span>
+                    <div class="notice-meta">
+                        <span class="date">Sep 25, 2026</span>
+                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাবের মেম্বার কালেকশন সংক্রান্ত বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- নোটিশ ২ -->
+                <div class="list-item">
+                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
+                    <div class="notice-meta">
+                        <span class="date">Sep 25, 2026</span>
+                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি', ['ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg'])">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- নোটিশ ৩ (রেজাল্ট নোটিশ - ৩টি ইমেজ) -->
+                <div class="list-item">
+                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট</span>
+                    <div class="notice-meta">
+                        <span class="date">Oct 31, 2025</span>
+                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট', ['1Member selection result 2025 .jpg.jpg', '2Member selection result 2025.jpg', '3Member selection result 2025 .jpg'])">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup JavaScript -->
+    <script>
+        function openNoticeModal(title, imgArray) {
+            document.getElementById('modalTitle').innerText = title;
+            var container = document.getElementById('modalImages');
+            container.innerHTML = ''; 
+            
+            imgArray.forEach(function(src) {
+                var img = document.createElement('img');
+                img.src = src;
+                img.onclick = function() { window.open(src, '_blank'); }; 
+                container.appendChild(img);
+            });
+            document.getElementById('noticeModal').style.display = 'block';
+        }
+
+        function closeNoticeModal() {
+            document.getElementById('noticeModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('noticeModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
