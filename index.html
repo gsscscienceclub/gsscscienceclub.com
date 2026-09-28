@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* বেসিক স্টাইল */
+        /* Basic Styles */
         * {
             margin: 0;
             padding: 0;
@@ -21,7 +21,7 @@
             color: #333;
         }
 
-        /* --- টপ হেডার --- */
+        /* Top Header */
         .top-header {
             background: linear-gradient(135deg, #004d25, #008a36);
             color: #fff;
@@ -35,7 +35,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
-        /* লোগো সাইজ ও ফ্রেম স্টাইল */
         .header-logo img {
             height: 60px;
             width: auto;
@@ -46,7 +45,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        /* মাঝের টেক্সট ও ব্যাজ */
         .header-center {
             text-align: center;
             display: flex;
@@ -73,12 +71,11 @@
             font-weight: bold;
         }
 
-        /* --- নোটিশ বোর্ড ও টাইটেল বার স্টাইল --- */
+        /* Notice Title Bar */
         .notice-title-bar {
             position: relative;
         }
         
-        /* নোটিশ বোর্ডের ভেতরের মেনু বাটন স্টাইল */
         .notice-title-bar .menu-btn {
             position: absolute;
             left: 10px;
@@ -105,7 +102,7 @@
             font-weight: bold;
         }
 
-        /* --- সাইডবার মেনু --- */
+        /* Sidebar Menu */
         .sidebar {
             height: 100%;
             width: 0;
@@ -143,7 +140,6 @@
         }
         .sidebar-menu li a:hover { background-color: #eafaf1; color: #007e33; }
 
-        /* সাব-মেনু স্টাইল */
         .submenu {
             display: none;
             list-style: none;
@@ -156,14 +152,13 @@
             color: #007e33;
         }
 
-        /* --- মূল কন্টেন্ট --- */
+        /* Container */
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 15px;
         }
 
-        /* সেকশন কার্ড */
         .section-card {
             background: #fff;
             margin-bottom: 20px;
@@ -186,7 +181,6 @@
         }
         .section-content { padding: 15px; }
 
-        /* গ্যালারি / কার্যক্রম গ্রিড */
         .gallery-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -217,7 +211,6 @@
             background: #fdfdfd;
         }
 
-        /* নোটিশ বোর্ড ও ডাউনলোড লিস্ট */
         .list-item {
             display: flex;
             flex-direction: column;
@@ -240,7 +233,6 @@
             font-weight: bold;
         }
 
-        /* দরকারি লিংক */
         .useful-links {
             display: flex;
             flex-direction: column;
@@ -254,7 +246,6 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
-        /* ভিজিটর ইনফো */
         .visitor-count {
             text-align: center;
             font-size: 26px;
@@ -268,7 +259,7 @@
             margin-top: 5px;
         }
 
-        /* --- ফুটার --- */
+        /* Footer */
         .footer {
             background-color: #007e33;
             color: #fff;
@@ -310,7 +301,7 @@
             margin-top: 10px;
         }
 
-        /* --- Membership Modal Form Styles --- */
+        /* Modal / Pop-up for Google Form Window */
         .form-modal {
             display: none;
             position: fixed;
@@ -324,9 +315,9 @@
 
         .form-card {
             background: #fff;
-            max-width: 750px;
-            margin: 20px auto;
-            padding: 25px;
+            max-width: 700px;
+            margin: 10px auto;
+            padding: 15px;
             border-radius: 8px;
             position: relative;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
@@ -334,80 +325,27 @@
 
         .form-close {
             position: absolute;
-            right: 20px; top: 15px;
+            right: 15px; top: 10px;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
             color: #cc0000;
+            z-index: 10;
         }
 
-        .form-header {
-            text-align: center;
-            border-bottom: 2px solid #007e33;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .form-header h2 { color: #007e33; margin: 0; font-size: 22px; }
-        .form-header h4 { margin: 5px 0; color: #555; font-size: 14px; }
-        .form-header p { margin: 0; color: #d32f2f; font-weight: bold; }
-
-        .app-form { display: flex; flex-direction: column; gap: 12px; }
-
-        .form-row {
+        .google-form-container {
+            width: 100%;
+            overflow: hidden;
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .form-group {
-            flex: 1;
-            min-width: 250px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group.full-width { flex: 100%; }
-
-        .form-group label {
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 4px;
-            color: #333;
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
-            padding: 8px 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-
-        .declaration {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .declaration label { font-size: 11px; font-weight: normal; color: #555; }
-
-        .submit-btn {
-            background: #007e33;
-            color: #fff;
-            padding: 12px;
+        .google-form-container iframe {
+            width: 100%;
+            height: 80vh;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
         }
 
-        .submit-btn:hover { background: #004d25; }
-
-        /* মোবাইলের জন্য রেসপন্সিভ স্টাইল */
         @media (max-width: 500px) {
             .header-title { font-size: 13px; }
             .header-logo img { height: 45px; }
@@ -418,20 +356,17 @@
             .notice-title-bar .menu-btn span {
                 font-size: 10px;
             }
-            .form-card { padding: 15px; }
+            .form-card { padding: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- টপ হেডার শুরু -->
+    <!-- Top Header -->
     <div class="top-header">
-        <!-- বামদিকের লোগো (সরকারি শহীদ সোহরাওয়ার্দী কলেজ) -->
         <div class="header-logo">
             <img src="17700954426981835287012.png" alt="College Logo">
         </div>
-
-        <!-- মাঝের অংশ (নাম ও ব্যাজ) -->
         <div class="header-center">
             <div class="header-title">সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব</div>
             <div class="badge-container">
@@ -439,23 +374,18 @@
                 <span class="badge">College Code: 1475</span>
             </div>
         </div>
-
-        <!-- ডানদিকের লোগো (সাইন্স ক্লাব) -->
         <div class="header-logo">
             <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
         </div>
     </div>
-    <!-- টপ হেডার শেষ -->
 
-    <!-- সাইডবার মেনু শুরু -->
+    <!-- Sidebar Menu -->
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
-            <!-- সাইডবারের লোগো (সাইন্স ক্লাব) -->
             <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
             <span class="close-btn" onclick="closeNav()">&times;</span>
         </div>
         <ul class="sidebar-menu">
-            <!-- Admission (ড্রপডাউন) -->
             <li>
                 <a href="javascript:void(0);" onclick="toggleSubmenu('admissionSubmenu')">
                     Admission <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i>
@@ -478,21 +408,16 @@
             <li><a href="#">Login <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
         </ul>
     </div>
-    <!-- সাইডবার মেনু শেষ -->
 
-    <!-- মূল কন্টেন্ট শুরু -->
+    <!-- Main Container -->
     <div class="container">
-
-        <!-- নোটিশ বোর্ড সেকশন (মেনু বাটন যুক্ত) -->
+        <!-- Notice Board -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
-                <!-- বাম কর্নারের মেনু বাটন -->
                 <div class="menu-btn" onclick="openNav()">
                     <i class="fas fa-bars"></i>
                     <span>MENU</span>
                 </div>
-
-                <!-- নোটিশ বোর্ড টাইটেল -->
                 <div>
                     <i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board
                 </div>
@@ -512,7 +437,7 @@
             </div>
         </div>
 
-        <!-- সাম্প্রতিক কার্যক্রম -->
+        <!-- Recent Activities -->
         <div class="section-card">
             <div class="section-title">
                 <i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities
@@ -547,7 +472,7 @@
             </div>
         </div>
 
-        <!-- ফেসবুক পেজ সেকশন -->
+        <!-- Facebook Section -->
         <div class="section-card">
             <div class="section-title">
                 <i class="fab fa-facebook-square" style="color: #3b5998;"></i> Follow us @Facebook
@@ -563,7 +488,7 @@
             </div>
         </div>
 
-        <!-- ডাউনলোড সেকশন -->
+        <!-- Downloads Section -->
         <div class="section-card">
             <div class="section-title">
                 <i class="fas fa-cloud-download-alt" style="color: #333;"></i> Downloads
@@ -581,7 +506,7 @@
             </div>
         </div>
 
-        <!-- দরকারি লিংক সেকশন -->
+        <!-- Useful Links -->
         <div class="section-card">
             <div class="section-title">
                 <i class="fas fa-link" style="color: #007e33;"></i> Useful Links
@@ -592,7 +517,7 @@
             </div>
         </div>
 
-        <!-- ভিজিটর ইনফো সেকশন -->
+        <!-- Visitor Info -->
         <div class="section-card">
             <div class="section-title">
                 <i class="fas fa-chart-line" style="color: #007e33;"></i> Visitor Info
@@ -604,168 +529,18 @@
         </div>
 
     </div>
-    <!-- মূল কন্টেন্ট শেষ -->
 
-    <!-- ⬇️ Membership Application Popup Form Modal ⬇️ -->
+    <!-- Google Form Modal (Embedded Window) -->
     <div id="membershipModal" class="form-modal">
         <div class="form-card">
             <span class="form-close" onclick="closeMembershipForm()">&times;</span>
-            
-            <div class="form-header">
-                <h2>SCIENCE CLUB</h2>
-                <h4>Govt. Shaheed Suhrawardy College, Dhaka</h4>
-                <p>Membership Application Form</p>
+            <div class="google-form-container">
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSczBYjwir2PJVGfM5cLHzl1Qw4Jozu-kyOvui4wU6HyGJXOQQ/viewform?embedded=true">Loading…</iframe>
             </div>
-
-            <!-- Formspree Endpoint লিংক দিয়ে ফর্ম সাবমিট করা যাবে -->
-            <form action="https://formspree.io/f/mwlpwdee" method="POST" enctype="multipart/form-data" class="app-form">
-                
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>Passport Size Picture (ছবি আপলোড করুন) *</label>
-                        <input type="file" name="picture" accept="image/*" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>01. Name (English) *</label>
-                        <input type="text" name="name_en" required placeholder="Full Name in English">
-                    </div>
-                    <div class="form-group">
-                        <label>02. Name (বাংলায়) *</label>
-                        <input type="text" name="name_bn" required placeholder="পূর্ণ নাম বাংলায়">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>03. Father's Name (English) *</label>
-                        <input type="text" name="father_en" required>
-                    </div>
-                    <div class="form-group">
-                        <label>04. Father's Name (বাংলায়) *</label>
-                        <input type="text" name="father_bn" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>05. Mother's Name (English) *</label>
-                        <input type="text" name="mother_en" required>
-                    </div>
-                    <div class="form-group">
-                        <label>06. Mother's Name (বাংলায়) *</label>
-                        <input type="text" name="mother_bn" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>07. Date of Birth *</label>
-                        <input type="date" name="dob" required>
-                    </div>
-                    <div class="form-group">
-                        <label>08. Gender *</label>
-                        <select name="gender" required>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>09. Blood Group *</label>
-                        <select name="blood_group" required>
-                            <option value="">Select Blood Group</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>10. Class *</label>
-                        <input type="text" name="class" required placeholder="e.g. HSC 1st Year / Honors">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>11. Group or Department *</label>
-                        <input type="text" name="group_dept" required placeholder="e.g. Science / Physics">
-                    </div>
-                    <div class="form-group">
-                        <label>12. ID No / Roll No *</label>
-                        <input type="text" name="id_no" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>13. Session *</label>
-                        <input type="text" name="session" placeholder="e.g. 2025-2026" required>
-                    </div>
-                    <div class="form-group">
-                        <label>14. Contact Number (WhatsApp) *</label>
-                        <input type="tel" name="whatsapp_no" required placeholder="017XXXXXXXX">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>15. Guardian's Contact Number *</label>
-                        <input type="tel" name="guardian_no" required placeholder="017XXXXXXXX">
-                    </div>
-                    <div class="form-group">
-                        <label>16. NID or Birth ID No *</label>
-                        <input type="text" name="nid_birth_id" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>17. Religion *</label>
-                        <input type="text" name="religion" required>
-                    </div>
-                    <div class="form-group">
-                        <label>18. Nationality *</label>
-                        <input type="text" name="nationality" value="Bangladeshi" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>19. Present Address *</label>
-                        <textarea name="present_address" rows="2" required></textarea>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label>20. Permanent Address *</label>
-                        <textarea name="permanent_address" rows="2" required></textarea>
-                    </div>
-                </div>
-
-                <div class="form-group declaration">
-                    <input type="checkbox" id="declare" required>
-                    <label for="declare">I hereby declare that the above information is completely true and accurate. I commit to abide by all the rules and regulations of the organisation.</label>
-                </div>
-
-                <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Submit Application</button>
-            </form>
         </div>
     </div>
-    <!-- Modal End -->
 
-    <!-- ফুটার শুরু -->
+    <!-- Footer -->
     <div class="footer">
         <h3>Govt. Shaheed Suhrawardy College</h3>
         <p>36-37, Lakshmibazar,<br>Dhaka-1100, Bangladesh</p>
@@ -787,9 +562,8 @@
             &copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed for Sajib Sir
         </div>
     </div>
-    <!-- ফুটার শেষ -->
 
-    <!-- জাভাস্ক্রিপ্ট -->
+    <!-- JavaScript -->
     <script>
         function openNav() {
             document.getElementById("mySidebar").style.width = "280px";
@@ -798,7 +572,6 @@
             document.getElementById("mySidebar").style.width = "0";
         }
 
-        // ড্রপডাউন সাব-মেনু টগল ফাংশন
         function toggleSubmenu(id) {
             var submenu = document.getElementById(id);
             if (submenu.style.display === "block") {
@@ -808,9 +581,8 @@
             }
         }
 
-        // মেম্বারশিপ ফর্ম মোডাল খোলা ও বন্ধ করা
         function openMembershipForm() {
-            closeNav(); // সাইডবার মেনু বন্ধ করবে
+            closeNav();
             document.getElementById("membershipModal").style.display = "block";
         }
 
@@ -820,4 +592,4 @@
     </script>
 
 </body>
-    </html>
+</html>
