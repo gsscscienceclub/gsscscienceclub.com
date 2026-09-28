@@ -301,51 +301,6 @@
             margin-top: 10px;
         }
 
-        /* Modal / Pop-up for Google Form Window */
-        .form-modal {
-            display: none;
-            position: fixed;
-            z-index: 2500;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            overflow-y: auto;
-            padding: 20px 10px;
-        }
-
-        .form-card {
-            background: #fff;
-            max-width: 700px;
-            margin: 10px auto;
-            padding: 15px;
-            border-radius: 8px;
-            position: relative;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-
-        .form-close {
-            position: absolute;
-            right: 15px; top: 10px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #cc0000;
-            z-index: 10;
-        }
-
-        .google-form-container {
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-        }
-
-        .google-form-container iframe {
-            width: 100%;
-            height: 80vh;
-            border: none;
-        }
-
         @media (max-width: 500px) {
             .header-title { font-size: 13px; }
             .header-logo img { height: 45px; }
@@ -356,7 +311,6 @@
             .notice-title-bar .menu-btn span {
                 font-size: 10px;
             }
-            .form-card { padding: 10px; }
         }
     </style>
 </head>
@@ -392,7 +346,8 @@
                 </a>
                 <ul id="admissionSubmenu" class="submenu">
                     <li>
-                        <a href="javascript:void(0);" onclick="openMembershipForm()">
+                        <!-- সরাসরি নতুন ট্যাবে গুগল ফর্ম ওপেন হবে -->
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSczBYjwir2PJVGfM5cLHzl1Qw4Jozu-kyOvui4wU6HyGJXOQQ/viewform?usp=header" target="_blank" onclick="closeNav()">
                             <i class="fas fa-file-signature"></i> Membership Application
                         </a>
                     </li>
@@ -530,16 +485,6 @@
 
     </div>
 
-    <!-- Google Form Modal (Embedded Window) -->
-    <div id="membershipModal" class="form-modal">
-        <div class="form-card">
-            <span class="form-close" onclick="closeMembershipForm()">&times;</span>
-            <div class="google-form-container">
-                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSczBYjwir2PJVGfM5cLHzl1Qw4Jozu-kyOvui4wU6HyGJXOQQ/viewform?usp=header">Loading…</iframe>
-            </div>
-        </div>
-    </div>
-
     <!-- Footer -->
     <div class="footer">
         <h3>Govt. Shaheed Suhrawardy College</h3>
@@ -579,15 +524,6 @@
             } else {
                 submenu.style.display = "block";
             }
-        }
-
-        function openMembershipForm() {
-            closeNav();
-            document.getElementById("membershipModal").style.display = "block";
-        }
-
-        function closeMembershipForm() {
-            document.getElementById("membershipModal").style.display = "none";
         }
     </script>
 
