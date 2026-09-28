@@ -92,6 +92,12 @@
         .modal-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
         .modal-images img { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; }
 
+        /* Fullscreen Image Preview Modal Styles (নতুন যুক্ত করা হলো) */
+        #imageViewerModal { z-index: 6000 !important; background-color: rgba(0,0,0,0.9); display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; justify-content: center; align-items: center; padding: 20px; }
+        .image-viewer-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
+        .image-viewer-content img { width: auto; height: auto; max-width: 100%; max-height: 85vh; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .image-viewer-close { position: absolute; top: -40px; right: 0; font-size: 35px; font-weight: bold; color: #fff; cursor: pointer; }
+
         /* Gallery & Others */
         .gallery-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
         @media (min-width: 600px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
@@ -123,6 +129,14 @@
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
             <div id="modalImages" class="modal-images"></div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Image Viewer Modal (নতুন যুক্ত করা হলো) -->
+    <div id="imageViewerModal" class="modal" onclick="closeImageViewer()">
+        <div class="image-viewer-content" onclick="event.stopPropagation()">
+            <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
+            <img id="fullSizeImage" src="" alt="Full Size Notice Image">
         </div>
     </div>
 
@@ -317,13 +331,24 @@
             imgArray.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
-                img.onclick = function() { window.open(src, '_blank'); }; 
+                /* ছবিতে ক্লিক করলে এখন ফ্লোটিং ইমেজ ভিউয়ার ওপেন হবে */
+                img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
             document.getElementById('noticeModal').style.display = 'block';
         }
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
+
+        /* Fullscreen Image Viewer Functions (নতুন যুক্ত করা হলো) */
+        function openImageViewer(src) {
+            document.getElementById('fullSizeImage').src = src;
+            document.getElementById('imageViewerModal').style.display = 'flex';
+        }
+
+        function closeImageViewer() {
+            document.getElementById('imageViewerModal').style.display = 'none';
+        }
 
         /* Modal Functions for All Notices Floating Window */
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
@@ -333,8 +358,15 @@
         window.onclick = function(event) {
             var noticeModal = document.getElementById('noticeModal');
             var allNoticesModal = document.getElementById('allNoticesModal');
-            if (event.target == noticeModal) { noticeModal.style.display = 'none'; }
-            if (event.target == allNoticesModal) { allNoticesModal.style.display = 'none'; }
+            var imageViewerModal = document.getElementById('imageViewerModal');
+            
+            if (event.target == noticeModal) { 
+                noticeModal.style.display = 'none'; 
+            } else if (event.target == allNoticesModal) { 
+                allNoticesModal.style.display = 'none'; 
+            } else if (event.target == imageViewerModal) { 
+                imageViewerModal.style.display = 'none'; 
+            }
         }
     </script>
 </body>
