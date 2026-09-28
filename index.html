@@ -9,17 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Basic Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background-color: #f1f1f1;
-            color: #333;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f1f1f1; color: #333; }
 
         /* Top Header */
         .top-header {
@@ -34,402 +25,86 @@
             z-index: 1000;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        
         .header-logo img {
-            height: 60px;
-            width: auto;
-            display: block;
-            border-radius: 100%;
-            background: #ffffff;
-            padding: 0px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            height: 60px; width: auto; display: block; border-radius: 100%;
+            background: #ffffff; padding: 0px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-
-        .header-center {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-        .header-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-        }
-        .badge-container {
-            display: flex;
-            gap: 6px;
-        }
-        .badge {
-            background-color: #d32f2f;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-        }
+        .header-center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .header-title { font-size: 20px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); }
+        .badge-container { display: flex; gap: 6px; }
+        .badge { background-color: #d32f2f; color: white; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
 
         /* Notice Title Bar */
-        .notice-title-bar {
-            position: relative;
-        }
-        
+        .notice-title-bar { position: relative; }
         .notice-title-bar .menu-btn {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: #007e33;
-            color: #ffffff;
-            padding: 5px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: background-color 0.3s ease;
+            position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+            background-color: #007e33; color: #ffffff; padding: 5px 12px; border-radius: 4px;
+            cursor: pointer; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 6px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
-        .notice-title-bar .menu-btn:hover {
-            background-color: #004d25;
-        }
-        .notice-title-bar .menu-btn span {
-            font-size: 12px;
-            font-weight: bold;
-        }
+        .notice-title-bar .menu-btn:hover { background-color: #004d25; }
 
         /* Sidebar Menu */
         .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1001;
-            top: 0;
-            left: 0;
-            background-color: #fff;
-            overflow-x: hidden;
-            transition: 0.3s;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            height: 100%; width: 0; position: fixed; z-index: 1001; top: 0; left: 0;
+            background-color: #fff; overflow-x: hidden; transition: 0.3s; box-shadow: 2px 0 5px rgba(0,0,0,0.2);
         }
-        .sidebar-header {
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid #eee;
-            justify-content: space-between;
-            background-color: #f9f9f9;
-        }
+        .sidebar-header { padding: 15px; display: flex; align-items: center; border-bottom: 2px solid #eee; justify-content: space-between; background-color: #f9f9f9; }
         .sidebar-header img { height: 60px; }
         .close-btn { font-size: 28px; cursor: pointer; color: #d32f2f; }
-        
         .sidebar-menu { list-style: none; }
         .sidebar-menu li { border-bottom: 1px solid #eee; }
-        .sidebar-menu li a {
-            padding: 15px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            color: #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-        }
+        .sidebar-menu li a { padding: 15px 20px; text-decoration: none; font-size: 16px; color: #333; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .sidebar-menu li a:hover { background-color: #eafaf1; color: #007e33; }
+        .submenu { display: none; list-style: none; background-color: #f4fdf8; padding-left: 15px; }
+        .submenu li a { font-size: 14px; padding: 12px 20px; color: #007e33; }
 
-        .submenu {
-            display: none;
-            list-style: none;
-            background-color: #f4fdf8;
-            padding-left: 15px;
-        }
-        .submenu li a {
-            font-size: 14px;
-            padding: 12px 20px;
-            color: #007e33;
-        }
-
-        /* Container */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        .section-card {
-            background: #fff;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .section-title {
-            background: #f9f9f9;
-            padding: 12px;
-            text-align: center;
-            font-weight: bold;
-            color: #007e33;
-            border-bottom: 2px solid #007e33;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            font-size: 18px;
-        }
+        /* Container & Cards */
+        .container { max-width: 800px; margin: 0 auto; padding: 15px; }
+        .section-card { background: #fff; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-radius: 5px; overflow: hidden; }
+        .section-title { background: #f9f9f9; padding: 12px; text-align: center; font-weight: bold; color: #007e33; border-bottom: 2px solid #007e33; display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 18px; }
         .section-content { padding: 15px; }
 
-        /* Notice Board Specific Styles */
-        .list-item {
-            display: flex;
-            flex-direction: column;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-            color: #333;
-        }
+        /* Notice List Styles */
+        .list-item { display: flex; flex-direction: column; padding: 12px 0; border-bottom: 1px solid #eee; color: #333; }
         .list-item:last-child { border-bottom: none; }
-        .list-item .title { 
-            font-weight: bold; 
-            font-size: 15px; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px;
-        }
+        .list-item .title { font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+        .notice-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-left: 18px; }
+        .list-item .date { font-size: 12px; color: #666; }
+        .notice-read-more { font-size: 13px; color: #d32f2f; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+        .notice-read-more:hover { text-decoration: underline; }
+
+        .all-notices-bottom { display: block; text-align: right; margin-top: 15px; color: #007e33; font-size: 14px; font-weight: bold; text-decoration: none; }
+        .all-notices-bottom:hover { color: #d32f2f; text-decoration: underline; }
+
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); overflow-y: auto; padding: 20px 10px; }
+        .modal-content { background-color: #fff; margin: 3% auto; padding: 20px; border-radius: 8px; max-width: 900px; width: 95%; position: relative; }
+        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; color: #d32f2f; cursor: pointer; }
+        .modal-title { font-size: 16px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
+        .modal-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
+        .modal-images img { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; }
+
+        /* Gallery & Others */
+        .gallery-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        @media (min-width: 600px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
+        .gallery-item { border: 1px solid #ddd; border-radius: 5px; overflow: hidden; background: #fff; }
+        .gallery-item img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .gallery-item p { padding: 10px; font-size: 14px; color: #333; text-align: center; font-weight: bold; background: #fdfdfd; }
         
-        /* Notice date and read more container */
-        .notice-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 8px;
-            padding-left: 18px;
-        }
-        .list-item .date { 
-            font-size: 12px; 
-            color: #666; 
-        }
-        .notice-read-more {
-            font-size: 13px;
-            color: #d32f2f;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-        }
-        .notice-read-more:hover {
-            text-decoration: underline;
-        }
+        .useful-links { display: flex; flex-direction: column; gap: 10px; }
+        .useful-link-item { display: flex; align-items: center; gap: 12px; padding: 10px 15px; background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; text-decoration: none; color: #007e33; font-weight: bold; font-size: 14px; }
+        .useful-link-item img { width: 35px; height: 35px; border-radius: 50%; border: 1px solid #ddd; }
 
-        /* সকল নোটিশ বাটনের স্টাইল */
-        .all-notices-bottom {
-            display: block;
-            text-align: right;
-            margin-top: 15px;
-            color: #007e33;
-            font-size: 14px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        .all-notices-bottom i { margin-left: 5px; }
-        .all-notices-bottom:hover {
-            color: #d32f2f;
-            text-decoration: underline;
-        }
+        .visitor-count { text-align: center; font-size: 26px; font-weight: bold; color: #007e33; }
+        .visitor-date { text-align: center; font-size: 12px; color: #666; margin-top: 5px; }
 
-        /* Gallery and Downloads */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        @media (min-width: 600px) {
-            .gallery-grid { grid-template-columns: 1fr 1fr; }
-        }
-        .gallery-item {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-        }
-        .gallery-item p {
-            padding: 10px;
-            font-size: 14px;
-            color: #333;
-            text-align: center;
-            font-weight: bold;
-            background: #fdfdfd;
-        }
-
-        .read-more {
-            text-align: right;
-            display: block;
-            margin-top: 10px;
-            color: #8b0000;
-            text-decoration: none;
-            font-style: italic;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        /* Useful Links Styling */
-        .useful-links {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .useful-link-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 15px;
-            background: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            text-decoration: none;
-            color: #007e33;
-            font-weight: bold;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        .useful-link-item:hover {
-            background: #eafaf1;
-            border-color: #007e33;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .useful-link-item img {
-            width: 35px;
-            height: 35px;
-            object-fit: contain;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 1px solid #ddd;
-        }
-
-        .visitor-count {
-            text-align: center;
-            font-size: 26px;
-            font-weight: bold;
-            color: #007e33;
-        }
-        .visitor-date {
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: #007e33;
-            color: #fff;
-            padding: 20px;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .footer h3 { font-size: 18px; margin-bottom: 10px; color: #fff;}
-        .app-badges {
-            text-align: center;
-            margin: 20px 0;
-        }
-        .app-badges img { height: 40px; cursor: pointer; }
-        
-        .social-icons {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .social-icons i {
-            font-size: 20px;
-            color: white;
-            margin: 0 10px;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            line-height: 20px;
-        }
-        .fa-youtube { background: #ff0000; }
-        .fa-facebook-f { background: #3b5998; }
-        .fa-twitter { background: #1da1f2; }
-
-        .copyright {
-            text-align: center;
-            font-size: 12px;
-            border-top: 1px solid rgba(255,255,255,0.3);
-            padding-top: 10px;
-            margin-top: 10px;
-        }
-
-        /* Notice Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            overflow-y: auto;
-            padding: 20px 10px;
-        }
-        .modal-content {
-            background-color: #fff;
-            margin: 3% auto;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 900px;
-            width: 95%;
-            position: relative;
-        }
-        .modal-close {
-            position: absolute;
-            top: 10px; right: 15px;
-            font-size: 28px; font-weight: bold; color: #d32f2f; cursor: pointer;
-        }
-        .modal-title { 
-            font-size: 16px; 
-            font-weight: bold; 
-            color: #007e33; 
-            margin-bottom: 15px; 
-            padding-bottom: 10px; 
-            border-bottom: 2px solid #007e33; 
-            padding-right: 30px; 
-        }
-        .modal-images { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-            gap: 15px; 
-        }
-        .modal-images img { 
-            width: 100%; 
-            height: auto; 
-            border: 1px solid #ddd; 
-            border-radius: 6px; 
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .modal-images img:hover { transform: scale(1.02); }
+        .footer { background-color: #007e33; color: #fff; padding: 20px; font-size: 14px; line-height: 1.6; }
+        .copyright { text-align: center; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; margin-top: 10px; }
 
         @media (max-width: 500px) {
             .header-title { font-size: 13px; }
             .header-logo img { height: 45px; }
-            .notice-title-bar .menu-btn {
-                padding: 4px 8px;
-                font-size: 11px;
-            }
-            .notice-title-bar .menu-btn span {
-                font-size: 10px;
-            }
         }
     </style>
 </head>
@@ -446,9 +121,7 @@
 
     <!-- Top Header -->
     <div class="top-header">
-        <div class="header-logo">
-            <img src="17700954426981835287012.png" alt="College Logo">
-        </div>
+        <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo"></div>
         <div class="header-center">
             <div class="header-title">সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব</div>
             <div class="badge-container">
@@ -456,9 +129,7 @@
                 <span class="badge">College Code: 1475</span>
             </div>
         </div>
-        <div class="header-logo">
-            <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
-        </div>
+        <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
     <!-- Sidebar Menu -->
@@ -470,7 +141,7 @@
         <ul class="sidebar-menu">
             <li>
                 <a href="javascript:void(0);" onclick="toggleSubmenu('admissionSubmenu')">
-                    Admission <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i>
+                    Admission <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
                 </a>
                 <ul id="admissionSubmenu" class="submenu">
                     <li>
@@ -480,28 +151,23 @@
                     </li>
                 </ul>
             </li>
-            <li><a href="#">About Us <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
-            <li><a href="#">Result <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
-            <li><a href="#">Activities <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
-            <li><a href="#">Gallery <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
-            <li><a href="#">Contact Us <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
-            <li><a href="#">Login <i class="fas fa-chevron-down" style="font-size: 12px; color: #ccc;"></i></a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Result</a></li>
+            <li><a href="#">Activities</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Login</a></li>
         </ul>
     </div>
 
     <!-- Main Container -->
     <div class="container">
         
-        <!-- Notice Board -->
+        <!-- Notice Board (এখানে ৩টি নোটিশই যুক্ত আছে) -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
-                <div class="menu-btn" onclick="openNav()">
-                    <i class="fas fa-bars"></i>
-                    <span>MENU</span>
-                </div>
-                <div>
-                    <i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board
-                </div>
+                <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
+                <div><i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board</div>
             </div>
             
             <div class="section-content">
@@ -527,8 +193,18 @@
                         </span>
                     </div>
                 </div>
+
+                <!-- নোটিশ ৩ (এখানে ৩টি ফলাফল ইমেজ একসাথে যুক্ত করা আছে) -->
+                <div class="list-item">
+                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট</span>
+                    <div class="notice-meta">
+                        <span class="date">Oct 31, 2025</span>
+                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট', ['1Member selection result 2025 .jpg.jpg', '2Member selection result 2025.jpg', '3Member selection result 2025 .jpg'])">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
                 
-                <!-- নোটিশ এর নিচে ডানপাশের সকল নোটিশ বাটন -->
                 <a href="all-notices.html" class="all-notices-bottom">
                     সকল নোটিশ <i class="fas fa-chevron-right"></i>
                 </a>
@@ -538,94 +214,31 @@
 
         <!-- Recent Activities -->
         <div class="section-card">
-            <div class="section-title">
-                <i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities
-            </div>
+            <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities</div>
             <div class="section-content">
                 <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="FB_IMG_1790507317905.jpg" alt="Mushroom Training Group">
-                        <p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="FB_IMG_1790507303872.jpg" alt="Club Membership Booth">
-                        <p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="FB_IMG_1790507307066.jpg" alt="Practical Class">
-                        <p>মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</p>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="FB_IMG_1790507297982.jpg" alt="Seminar">
-                        <p>মাশরুম চাষ বিষয়ক সেমিনার</p>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="FB_IMG_1790507350917.jpg" alt="Seminar">
-                        <p>সদস্য সংগ্রহ কার্যক্রম</p>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="FB_IMG_1790507317905.jpg" alt="Plant Visit">
-                        <p>জাতীয় মাশরুম ইন্সটিটিউট</p>
-                    </div>
+                    <div class="gallery-item"><img src="FB_IMG_1790507317905.jpg" alt="Activity"><p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p></div>
+                    <div class="gallery-item"><img src="FB_IMG_1790507303872.jpg" alt="Activity"><p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p></div>
+                    <div class="gallery-item"><img src="FB_IMG_1790507307066.jpg" alt="Activity"><p>মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</p></div>
+                    <div class="gallery-item"><img src="FB_IMG_1790507297982.jpg" alt="Activity"><p>মাশরুম চাষ বিষয়ক সেমিনার</p></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Facebook Section -->
-        <div class="section-card">
-            <div class="section-title">
-                <i class="fab fa-facebook-square" style="color: #3b5998;"></i> Follow us @Facebook
-            </div>
-            <div class="section-content">
-                <div style="border: 1px solid #ddd; padding: 15px; text-align: center; border-radius: 5px; background: #f4f6f9;">
-                    <img src="FB_IMG_1788806747811.png" alt="Club Logo" style="height: 50px; margin-bottom: 10px;">
-                    <h3 style="color:#3b5998; font-size:18px;">GSSC Science Club</h3>
-                    <p style="font-size: 13px; color: #666; margin-bottom:15px;">Follow our official page for regular updates and scientific events.</p>
-                    <a href="https://www.facebook.com/share/1Dx9YrjUkR/" target="_blank">
-                    <button style="padding: 8px 15px; cursor:pointer; background:#3b5998; color:white; border:none; border-radius:3px; font-weight:bold;"><i class="fab fa-facebook"></i> Follow Page</button></a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Downloads Section -->
-        <div class="section-card">
-            <div class="section-title">
-                <i class="fas fa-cloud-download-alt" style="color: #333;"></i> Downloads
-            </div>
-            <div class="section-content">
-                <div class="list-item">
-                    <span class="title"><i class="fas fa-file-pdf" style="color: #d32f2f;"></i> GSSC Science Club Membership Form</span>
-                    <div class="notice-meta">
-                        <span class="date">Sunday, August 30, 2026</span>
-                        <a href="Science Club Membership Form.pdf" class="notice-read-more" target="_blank">Download <i class="fas fa-download"></i></a>
-                    </div>
-                </div>
-                <a href="#" class="read-more">All Downloads <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
 
         <!-- Useful Links -->
         <div class="section-card">
-            <div class="section-title">
-                <i class="fas fa-link" style="color: #007e33;"></i> Useful Links
-            </div>
+            <div class="section-title"><i class="fas fa-link" style="color: #007e33;"></i> Useful Links</div>
             <div class="section-content useful-links">
                 <a href="https://gssc.college.gov.bd/" target="_blank" class="useful-link-item">
                     <img src="17700954426981835287012.png" alt="College Logo">
                     <span>Govt. Shaheed Suhrawardy College</span>
-                </a>
-                <a href="https://dcu.ac.bd/" target="_blank" class="useful-link-item">
-                    <img src="DCU logo.png" alt="DCU Logo">
-                    <span>Dhaka Central University</span>
                 </a>
             </div>
         </div>
 
         <!-- Visitor Info -->
         <div class="section-card">
-            <div class="section-title">
-                <i class="fas fa-chart-line" style="color: #007e33;"></i> Visitor Info
-            </div>
+            <div class="section-title"><i class="fas fa-chart-line" style="color: #007e33;"></i> Visitor Info</div>
             <div class="section-content">
                 <div class="visitor-count">125,432</div>
                 <div class="visitor-date">as on 27 Sep, 2026</div>
@@ -636,46 +249,21 @@
 
     <!-- Footer -->
     <div class="footer">
-        <h3>Govt. Shaheed Suhrawardy College</h3>
-        <p>36-37, Lakshmibazar,<br>Dhaka-1100, Bangladesh</p>
-        <br>
-        <p><i class="fas fa-envelope"></i> Email: gsscscienceclub@gmail.com</p>
-        <p><i class="fas fa-phone"></i> Contact: +8801851291081</p>
-
-        <div class="app-badges">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play">
-        </div>
-
-        <div class="social-icons">
-            <i class="fab fa-youtube"></i>
-            <i class="fab fa-facebook-f"></i>
-            <i class="fab fa-twitter"></i>
-        </div>
-
-        <div class="copyright">
-            &copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib
-        </div>
+        <h3 style="text-align: center;">Govt. Shaheed Suhrawardy College</h3>
+        <p style="text-align: center;">36-37, Lakshmibazar, Dhaka-1100, Bangladesh</p>
+        <div class="copyright">&copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib</div>
     </div>
 
     <!-- JavaScript -->
     <script>
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "280px";
-        }
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-        }
-
+        function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
+        function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
         function toggleSubmenu(id) {
             var submenu = document.getElementById(id);
-            if (submenu.style.display === "block") {
-                submenu.style.display = "none";
-            } else {
-                submenu.style.display = "block";
-            }
+            submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
         }
 
-        /* Notice Modal Functions */
+        /* Modal Functions */
         function openNoticeModal(title, imgArray) {
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
@@ -684,25 +272,17 @@
             imgArray.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
-                img.alt = 'Notice Image';
                 img.onclick = function() { window.open(src, '_blank'); }; 
                 container.appendChild(img);
             });
-            
             document.getElementById('noticeModal').style.display = 'block';
         }
 
-        function closeNoticeModal() {
-            document.getElementById('noticeModal').style.display = 'none';
-        }
-
+        function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
         window.onclick = function(event) {
             var modal = document.getElementById('noticeModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
+            if (event.target == modal) { modal.style.display = 'none'; }
         }
     </script>
-
 </body>
-</html>
+    </html>
