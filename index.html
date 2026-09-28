@@ -21,9 +21,9 @@
             color: #333;
         }
 
-        /* --- টপ হেডার (নতুন ডিজাইন) --- */
+        /* --- টপ হেডার --- */
         .top-header {
-            background: linear-gradient(135deg, #004d25, #008a36); /* সুন্দর সবুজ গ্রেডিয়েন্ট ব্যাকগ্রাউন্ড */
+            background: linear-gradient(135deg, #004d25, #008a36);
             color: #fff;
             display: flex;
             justify-content: space-between;
@@ -35,7 +35,23 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
-        /* লোগো সাইজ ও ফ্রেম স্টাইল */
+        /* বামদিকের লোগো ও মেনু বাটন কন্টেইনার */
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .header-left img {
+            height: 55px;
+            width: auto;
+            display: block;
+            border-radius: 100%;
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* ডানদিকের সাইন্স ক্লাব লোগো */
         .header-logo img {
             height: 67px;
             width: auto;
@@ -46,7 +62,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        /* মাঝের টেক্সট, ব্যাজ ও মেনু বাটন */
+        /* মাঝের টেক্সট ও ব্যাজ */
         .header-center {
             text-align: center;
             display: flex;
@@ -72,23 +88,25 @@
             font-size: 11px;
             font-weight: bold;
         }
+
+        /* মেনু বাটন স্টাইল */
         .menu-btn {
-            font-size: 13px;
+            font-size: 11px;
             cursor: pointer;
             color: #fff;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 3px 10px;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 2px 8px;
             border-radius: 4px;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            margin-top: 2px;
+            gap: 4px;
             transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.3);
         }
         .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.4);
         }
-        .menu-btn span { font-size: 12px; font-weight: bold; }
+        .menu-btn span { font-size: 11px; font-weight: bold; }
 
         /* --- সাইডবার মেনু --- */
         .sidebar {
@@ -242,7 +260,7 @@
 
         /* --- ফুটার --- */
         .footer {
-            background-color: #007e33; /* কলেজের থিমের সাথে মানিয়ে সবুজ রঙ */
+            background-color: #007e33;
             color: #fff;
             padding: 20px;
             font-size: 14px;
@@ -285,7 +303,8 @@
         /* মোবাইলের জন্য রেসপন্সিভ স্টাইল */
         @media (max-width: 500px) {
             .header-title { font-size: 14px; }
-            .header-logo img { height: 45px; }
+            .header-left img { height: 45px; }
+            .header-logo img { height: 50px; }
         }
     </style>
 </head>
@@ -293,22 +312,21 @@
 
     <!-- টপ হেডার শুরু -->
     <div class="top-header">
-        <!-- বামদিকের লোগো (সরকারি শহীদ সোহরাওয়ার্দী কলেজ) -->
-        <div class="header-logo">
+        <!-- বামদিকের সেকশন: লোগো ও তার নিচে মেনু বাটন -->
+        <div class="header-left">
             <img src="17700954426981835287012.png" alt="College Logo">
+            <div class="menu-btn" onclick="openNav()">
+                <i class="fas fa-bars"></i>
+                <span>MENU</span>
+            </div>
         </div>
 
-        <!-- মাঝের অংশ (নাম, ব্যাজ ও মেনু বাটন) -->
+        <!-- মাঝের অংশ (নাম ও ব্যাজ) -->
         <div class="header-center">
             <div class="header-title">সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব</div>
             <div class="badge-container">
                 <span class="badge">EIIN: 108161</span>
                 <span class="badge">College Code: 1254</span>
-            </div>
-            <!-- সাইডবার স্লাইডার খোলার মেনু বাটন -->
-            <div class="menu-btn" onclick="openNav()">
-                <i class="fas fa-bars"></i>
-                <span>MENU</span>
             </div>
         </div>
 
@@ -322,7 +340,6 @@
     <!-- সাইডবার মেনু শুরু -->
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
-            <!-- সাইডবারের লোগো (সাইন্স ক্লাব) -->
             <img src="FB_IMG_1788806747811.jpg" alt="Science Club Logo">
             <span class="close-btn" onclick="closeNav()">&times;</span>
         </div>
@@ -357,39 +374,33 @@
             </div>
         </div>
 
-        <!-- সাম্প্রতিক কার্যক্রম (প্রোগ্রামের ছবিগুলো এখানে যুক্ত করা হলো) -->
+        <!-- সাম্প্রতিক কার্যক্রম -->
         <div class="section-card">
             <div class="section-title">
                 <i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities
             </div>
             <div class="section-content">
                 <div class="gallery-grid">
-                    <!-- প্রথম ছবি -->
                     <div class="gallery-item">
                         <img src="FB_IMG_1790507317905.jpg" alt="Mushroom Training Group">
                         <p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p>
                     </div>
-                    <!-- পঞ্চম ছবি -->
                     <div class="gallery-item">
                         <img src="FB_IMG_1790507303872.jpg" alt="Club Membership Booth">
                         <p>বিজ্ঞান ক্লাবের সদস্য সংগ্রহ কার্যক্রম</p>
                     </div>
-                    <!-- দ্বিতীয় ছবি -->
                     <div class="gallery-item">
                         <img src="FB_IMG_1790507307066.jpg" alt="Practical Class">
                         <p>মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</p>
                     </div>
-                    <!-- তৃতীয় ছবি -->
                     <div class="gallery-item">
                         <img src="FB_IMG_1790507297982.jpg" alt="Seminar">
                         <p>মাশরুম চাষ বিষয়ক সেমিনার</p>
                     </div>
-                    <!-- ষষ্ঠ ছবি -->
                     <div class="gallery-item">
                         <img src="FB_IMG_1790507350917.jpg" alt="Seminar">
                         <p>সদস্য সংগ্রহ কার্যক্রম</p>
                     </div>
-                    <!-- চতুর্থ ছবি -->
                     <div class="gallery-item">
                         <img src="FB_IMG_1790507317905.jpg" alt="Plant Visit">
                         <p>জাতীয় মাশরুম ইন্সটিটিউট</p>
@@ -438,7 +449,6 @@
                 <i class="fas fa-link" style="color: #007e33;"></i> Useful Links
             </div>
             <div class="section-content useful-links">
-                <!-- ডামি ছবি, পরে পরিবর্তন করে নিতে পারবেন -->
                 <img src="https://via.placeholder.com/300x80/2ecc71/ffffff?text=জাতীয়+ই-তথ্যকোষ" alt="Link 1">
                 <img src="https://via.placeholder.com/300x80/e74c3c/ffffff?text=eBOOK" alt="Link 2">
             </div>
@@ -466,19 +476,16 @@
         <p><i class="fas fa-envelope"></i> Email: info@gsscscienceclub.edu.bd</p>
         <p><i class="fas fa-phone"></i> Contact: +880 185 1291081</p>
 
-        <!-- গুগল প্লে স্টোর বাটন -->
         <div class="app-badges">
             <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play">
         </div>
 
-        <!-- সোশ্যাল মিডিয়া আইকন -->
         <div class="social-icons">
             <i class="fab fa-youtube"></i>
             <i class="fab fa-facebook-f"></i>
             <i class="fab fa-twitter"></i>
         </div>
 
-        <!-- কপিরাইট লেখা -->
         <div class="copyright">
             &copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed for Sajib Sir
         </div>
