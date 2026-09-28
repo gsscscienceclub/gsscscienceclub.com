@@ -102,26 +102,6 @@
             font-weight: bold;
         }
 
-        /* সকল নোটিশ বাটনের স্টাইল */
-        .all-notices-link {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #007e33;
-            font-size: 13px;
-            font-weight: bold;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: color 0.3s ease;
-        }
-        .all-notices-link:hover {
-            color: #d32f2f;
-            text-decoration: underline;
-        }
-
         /* Sidebar Menu */
         .sidebar {
             height: 100%;
@@ -201,6 +181,65 @@
         }
         .section-content { padding: 15px; }
 
+        /* Notice Board Specific Styles */
+        .list-item {
+            display: flex;
+            flex-direction: column;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+        .list-item:last-child { border-bottom: none; }
+        .list-item .title { 
+            font-weight: bold; 
+            font-size: 15px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+        }
+        
+        /* Notice date and read more container */
+        .notice-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding-left: 18px; /* Aligns with the title text avoiding icon */
+        }
+        .list-item .date { 
+            font-size: 12px; 
+            color: #666; 
+        }
+        .notice-read-more {
+            font-size: 13px;
+            color: #d32f2f;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .notice-read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* সকল নোটিশ বাটনের স্টাইল (নিচে ডানপাশে) */
+        .all-notices-bottom {
+            display: block;
+            text-align: right;
+            margin-top: 15px;
+            color: #007e33;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .all-notices-bottom i { margin-left: 5px; }
+        .all-notices-bottom:hover {
+            color: #d32f2f;
+            text-decoration: underline;
+        }
+
+        /* Gallery and Downloads */
         .gallery-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -231,17 +270,6 @@
             background: #fdfdfd;
         }
 
-        .list-item {
-            display: flex;
-            flex-direction: column;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            color: #333;
-            text-decoration: none;
-        }
-        .list-item:last-child { border-bottom: none; }
-        .list-item .title { font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px;}
-        .list-item .date { font-size: 12px; color: #666; text-align: right; margin-top: 5px; }
         .read-more {
             text-align: right;
             display: block;
@@ -352,11 +380,6 @@
             .notice-title-bar .menu-btn span {
                 font-size: 10px;
             }
-            /* মোবাইল স্ক্রিনে সকল নোটিশ বাটনের সাইজ */
-            .all-notices-link {
-                font-size: 11px;
-                right: 10px;
-            }
         }
     </style>
 </head>
@@ -392,7 +415,6 @@
                 </a>
                 <ul id="admissionSubmenu" class="submenu">
                     <li>
-                        <!-- সরাসরি নতুন ট্যাবে গুগল ফর্ম ওপেন হবে -->
                         <a href="https://docs.google.com/forms/d/e/1FAIpQLSczBYjwir2PJVGfM5cLHzl1Qw4Jozu-kyOvui4wU6HyGJXOQQ/viewform?usp=header" target="_blank" onclick="closeNav()">
                             <i class="fas fa-file-signature"></i> Membership Application
                         </a>
@@ -421,24 +443,37 @@
                 <div>
                     <i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board
                 </div>
-                <!-- সকল নোটিশ লিঙ্ক -->
-                <a href="all-notices.html" class="all-notices-link">
-                    সকল নোটিশ <i class="fas fa-chevron-right"></i>
-                </a>
             </div>
             
             <div class="section-content">
+                
                 <!-- নোটিশ ১ -->
-                <a href="membercollectnotice.jpg" target="_blank" class="list-item">
+                <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> বিজ্ঞান ক্লাবের ভর্তি পরীক্ষা সংক্রান্ত নোটিশ</span>
-                    <span class="date">Sep 25, 2026</span>
-                </a>
+                    <div class="notice-meta">
+                        <span class="date">Sep 25, 2026</span>
+                        <a href="membercollectnotice.jpg" target="_blank" class="notice-read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
                 
                 <!-- নোটিশ ২ -->
-                <a href="ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg" target="_blank" class="list-item">
+                <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
-                    <span class="date">Sep 25, 2026</span>
+                    <div class="notice-meta">
+                        <span class="date">Sep 25, 2026</span>
+                        <a href="ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg" target="_blank" class="notice-read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- নোটিশ এর নিচে ডানপাশের সকল নোটিশ বাটন -->
+                <a href="all-notices.html" class="all-notices-bottom">
+                    সকল নোটিশ <i class="fas fa-chevron-right"></i>
                 </a>
+                
             </div>
         </div>
 
@@ -499,10 +534,13 @@
                 <i class="fas fa-cloud-download-alt" style="color: #333;"></i> Downloads
             </div>
             <div class="section-content">
-                <a href="Science Club Membership Form.pdf" class="list-item">
+                <div class="list-item">
                     <span class="title"><i class="fas fa-file-pdf" style="color: #d32f2f;"></i> GSSC Science Club Membership Form</span>
-                    <span class="date">Sunday, August 30, 2026</span>
-                </a>
+                    <div class="notice-meta">
+                        <span class="date">Sunday, August 30, 2026</span>
+                        <a href="Science Club Membership Form.pdf" class="notice-read-more">Download <i class="fas fa-download"></i></a>
+                    </div>
+                </div>
                 <a href="#" class="read-more">All Downloads <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
@@ -513,12 +551,10 @@
                 <i class="fas fa-link" style="color: #007e33;"></i> Useful Links
             </div>
             <div class="section-content useful-links">
-                <!-- সরকারি শহীদ সোহরাওয়ার্দী কলেজ ওয়েবসাইট -->
                 <a href="https://gssc.college.gov.bd/" target="_blank" class="useful-link-item">
                     <img src="17700954426981835287012.png" alt="College Logo">
                     <span>Govt. Shaheed Suhrawardy College</span>
                 </a>
-                <!-- ঢাকা সেন্ট্রাল ইউনিভার্সিটি ওয়েবসাইট -->
                 <a href="https://dcu.ac.bd/" target="_blank" class="useful-link-item">
                     <img src="DCU logo.png" alt="DCU Logo">
                     <span>Dhaka Central University</span>
