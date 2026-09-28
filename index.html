@@ -98,11 +98,14 @@
         .image-viewer-content img { width: auto; height: auto; max-width: 100%; max-height: 85vh; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .image-viewer-close { position: absolute; top: -40px; right: 0; font-size: 35px; font-weight: bold; color: #fff; cursor: pointer; }
 
-        /* About Us Modal Styles (নতুন যুক্ত করা হলো) */
+        /* About Us Modal Styles */
         #aboutModal { z-index: 7000 !important; background-color: rgba(0,0,0,0.85); }
         .about-modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 8px; max-width: 700px; width: 90%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         .about-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
         .about-modal-body { font-size: 15px; line-height: 1.6; color: #333; max-height: 400px; overflow-y: auto; }
+
+        /* Result Modal Styles (নতুন যুক্ত করা হলো) */
+        #resultModal { z-index: 7500 !important; background-color: rgba(0,0,0,0.85); }
 
         /* Gallery & Others */
         .gallery-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
@@ -146,12 +149,21 @@
         </div>
     </div>
 
-    <!-- About Us Floating Modal Window (নতুন যুক্ত করা হলো) -->
+    <!-- About Us Floating Modal Window -->
     <div id="aboutModal" class="modal">
         <div class="about-modal-content">
             <span class="modal-close" onclick="closeAboutModal()">&times;</span>
             <div id="aboutModalTitle" class="about-modal-title">শিরোনাম</div>
             <div id="aboutModalBody" class="about-modal-body">বিস্তারিত বিবরণ এখানে প্রদর্শিত হবে।</div>
+        </div>
+    </div>
+
+    <!-- Result Floating Modal Window (নতুন যুক্ত করা হলো) -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeResultModal()">&times;</span>
+            <div id="resultModalTitle" class="modal-title">রেজাল্ট বিস্তারিত</div>
+            <div id="resultModalImages" class="modal-images"></div>
         </div>
     </div>
 
@@ -231,7 +243,7 @@
                     </li>
                 </ul>
             </li>
-            <!-- About Us Dropdown Menu (পরিবর্তন করা হয়েছে) -->
+            <!-- About Us Dropdown Menu -->
             <li>
                 <a href="javascript:void(0);" onclick="toggleSubmenu('aboutSubmenu')">
                     About Us <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
@@ -242,7 +254,16 @@
                     <li><a href="javascript:void(0);" onclick="openAboutModal('activities')">Our activities</a></li>
                 </ul>
             </li>
-            <li><a href="#">Result</a></li>
+            <!-- Result Dropdown Menu (নতুন যুক্ত করা হলো) -->
+            <li>
+                <a href="javascript:void(0);" onclick="toggleSubmenu('resultSubmenu')">
+                    Result <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                </a>
+                <ul id="resultSubmenu" class="submenu">
+                    <li><a href="javascript:void(0);" onclick="openResultModal('exam2026')">ভর্তি পরীক্ষা - ২০২৬ রেজাল্ট</a></li>
+                    <li><a href="javascript:void(0);" onclick="openResultModal('exam2025')">ভর্তি পরীক্ষা - ২০২৫ রেজাল্ট</a></li>
+                </ul>
+            </li>
             <li><a href="#">Activities</a></li>
             <li><a href="#">Gallery</a></li>
             <li><a href="#">Contact Us</a></li>
@@ -253,7 +274,7 @@
     <!-- Main Container -->
     <div class="container">
         
-        <!-- Notice Board (মূল পেজে কেবল ২টি নোটিশ দেখা যাবে) -->
+        <!-- Notice Board -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
@@ -386,7 +407,7 @@
             document.getElementById('imageViewerModal').style.display = 'none';
         }
 
-        /* About Us Modal Functions (নতুন যুক্ত করা হলো) */
+        /* About Us Modal Functions */
         function openAboutModal(type) {
             closeNav(); 
             var titleElem = document.getElementById('aboutModalTitle');
@@ -394,7 +415,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭৫ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন。<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭৫ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -412,6 +433,41 @@
             document.getElementById('aboutModal').style.display = 'none';
         }
 
+        /* Result Modal Functions (নতুন যুক্ত করা হলো) */
+        function openResultModal(examType) {
+            closeNav(); 
+            var titleElem = document.getElementById('resultModalTitle');
+            var container = document.getElementById('resultModalImages');
+            container.innerHTML = ''; 
+            
+            var images = [];
+            if (examType === 'exam2026') {
+                titleElem.innerText = "জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা - ২০২৬ রেজাল্ট";
+                images = ['ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg']; // আপনার রেজাল্টের ছবির নাম এখানে পরিবর্তন করতে পারেন
+            } 
+            else if (examType === 'exam2025') {
+                titleElem.innerText = "জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা - ২০২৫ রেজাল্ট";
+                images = [
+                    '1Member selection result 2025 .jpg.jpg', 
+                    '2Member selection result 2025.jpg', 
+                    '3Member selection result 2025 .jpg'
+                ]; 
+            }
+            
+            images.forEach(function(src) {
+                var img = document.createElement('img');
+                img.src = src;
+                img.onclick = function() { openImageViewer(src); }; 
+                container.appendChild(img);
+            });
+            
+            document.getElementById('resultModal').style.display = 'block';
+        }
+
+        function closeResultModal() {
+            document.getElementById('resultModal').style.display = 'none';
+        }
+
         /* Modal Functions for All Notices Floating Window */
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
@@ -421,7 +477,8 @@
             var noticeModal = document.getElementById('noticeModal');
             var allNoticesModal = document.getElementById('allNoticesModal');
             var imageViewerModal = document.getElementById('imageViewerModal');
-            var aboutModal = document.getElementById('aboutModal'); // এটি যুক্ত করা হয়েছে
+            var aboutModal = document.getElementById('aboutModal');
+            var resultModal = document.getElementById('resultModal'); // নতুন যুক্ত করা হলো
             
             if (event.target == noticeModal) { 
                 noticeModal.style.display = 'none'; 
@@ -431,6 +488,8 @@
                 imageViewerModal.style.display = 'none'; 
             } else if (event.target == aboutModal) { 
                 aboutModal.style.display = 'none'; 
+            } else if (event.target == resultModal) { 
+                resultModal.style.display = 'none'; 
             }
         }
     </script>
