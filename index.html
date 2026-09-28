@@ -35,25 +35,9 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
-        /* বামদিকের লোগো ও মেনু বাটন কন্টেইনার */
-        .header-left {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-        .header-left img {
-            height: 55px;
-            width: auto;
-            display: block;
-            border-radius: 100%;
-            background: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        /* ডানদিকের সাইন্স ক্লাব লোগো */
+        /* লোগো সাইজ ও ফ্রেম স্টাইল */
         .header-logo img {
-            height: 67px;
+            height: 60px;
             width: auto;
             display: block;
             border-radius: 100%;
@@ -89,24 +73,37 @@
             font-weight: bold;
         }
 
-        /* মেনু বাটন স্টাইল */
-        .menu-btn {
-            font-size: 11px;
-            cursor: pointer;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.25);
-            padding: 2px 8px;
+        /* --- নোটিশ বোর্ড ও টাইটেল বার স্টাইল --- */
+        .notice-title-bar {
+            position: relative; /* মেনু বাটনকে পজিশন করার জন্য */
+        }
+        
+        /* নোটিশ বোর্ডের ভেতরের মেনু বাটন স্টাইল */
+        .notice-title-bar .menu-btn {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #007e33;
+            color: #ffffff;
+            padding: 5px 12px;
             border-radius: 4px;
-            display: inline-flex;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
             align-items: center;
-            gap: 4px;
-            transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.3);
+            gap: 6px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.4);
+        .notice-title-bar .menu-btn:hover {
+            background-color: #004d25;
         }
-        .menu-btn span { font-size: 11px; font-weight: bold; }
+        .notice-title-bar .menu-btn span {
+            font-size: 12px;
+            font-weight: bold;
+        }
 
         /* --- সাইডবার মেনু --- */
         .sidebar {
@@ -302,9 +299,15 @@
 
         /* মোবাইলের জন্য রেসপন্সিভ স্টাইল */
         @media (max-width: 500px) {
-            .header-title { font-size: 14px; }
-            .header-left img { height: 45px; }
-            .header-logo img { height: 50px; }
+            .header-title { font-size: 13px; }
+            .header-logo img { height: 45px; }
+            .notice-title-bar .menu-btn {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+            .notice-title-bar .menu-btn span {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -312,13 +315,9 @@
 
     <!-- টপ হেডার শুরু -->
     <div class="top-header">
-        <!-- বামদিকের সেকশন: লোগো ও তার নিচে মেনু বাটন -->
-        <div class="header-left">
+        <!-- বামদিকের লোগো (সরকারি শহীদ সোহরাওয়ার্দী কলেজ) -->
+        <div class="header-logo">
             <img src="17700954426981835287012.png" alt="College Logo">
-            <div class="menu-btn" onclick="openNav()">
-                <i class="fas fa-bars"></i>
-                <span>MENU</span>
-            </div>
         </div>
 
         <!-- মাঝের অংশ (নাম ও ব্যাজ) -->
@@ -340,6 +339,7 @@
     <!-- সাইডবার মেনু শুরু -->
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
+            <!-- সাইডবারের লোগো (সাইন্স ক্লাব) -->
             <img src="FB_IMG_1788806747811.jpg" alt="Science Club Logo">
             <span class="close-btn" onclick="closeNav()">&times;</span>
         </div>
@@ -360,11 +360,21 @@
     <!-- মূল কন্টেন্ট শুরু -->
     <div class="container">
 
-        <!-- নোটিশ বোর্ড সেকশন -->
+        <!-- নোটিশ বোর্ড সেকশন (মেনু বাটন যুক্ত) -->
         <div class="section-card">
-            <div class="section-title">
-                <i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board
+            <div class="section-title notice-title-bar">
+                <!-- বাম কর্নারের মেনু বাটন -->
+                <div class="menu-btn" onclick="openNav()">
+                    <i class="fas fa-bars"></i>
+                    <span>MENU</span>
+                </div>
+
+                <!-- নোটিশ বোর্ড টাইটেল -->
+                <div>
+                    <i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board
+                </div>
             </div>
+            
             <div class="section-content">
                 <a href="#" class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> সদস্য সংগ্রহ চলছে…</span>
