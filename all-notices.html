@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>সকল নোটিশ - GSSC Science Club</title>
+    <title>সকল নোটিশ - Govt. Shaheed Suhrawardy College Science Club</title>
     
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,6 +11,28 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
         body { background-color: #f1f1f1; color: #333; }
+
+        /* Top Header */
+        .top-header {
+            background: linear-gradient(135deg, #004d25, #008a36);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .header-logo img {
+            height: 60px; width: auto; display: block; border-radius: 100%;
+            background: #ffffff; padding: 0px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .header-center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .header-title { font-size: 20px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); }
+        .badge-container { display: flex; gap: 6px; }
+        .badge { background-color: #d32f2f; color: white; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
 
         /* Container & Card */
         .container { max-width: 800px; margin: 20px auto; padding: 15px; }
@@ -38,6 +60,15 @@
         .modal-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
         .modal-images img { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; transition: transform 0.2s; }
         .modal-images img:hover { transform: scale(1.02); }
+
+        /* Footer */
+        .footer { background-color: #007e33; color: #fff; padding: 20px; font-size: 14px; line-height: 1.6; margin-top: 30px; }
+        .copyright { text-align: center; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; margin-top: 10px; }
+
+        @media (max-width: 500px) {
+            .header-title { font-size: 13px; }
+            .header-logo img { height: 45px; }
+        }
     </style>
 </head>
 <body>
@@ -51,8 +82,21 @@
         </div>
     </div>
 
+    <!-- Top Header -->
+    <div class="top-header">
+        <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo"></div>
+        <div class="header-center">
+            <div class="header-title">সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব</div>
+            <div class="badge-container">
+                <span class="badge">EIIN: 108508</span>
+                <span class="badge">College Code: 1475</span>
+            </div>
+        </div>
+        <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
+    </div>
+
     <div class="container">
-        <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> মেইন পেজে ফিরে যান</a>
+        <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> মূল পেজে ফিরে যান</a>
 
         <div class="section-card">
             <div class="section-title">
@@ -96,6 +140,13 @@
 
             </div>
         </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <h3 style="text-align: center;">Govt. Shaheed Suhrawardy College</h3>
+        <p style="text-align: center;">36-37, Lakshmibazar, Dhaka-1100, Bangladesh</p>
+        <div class="copyright">&copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib</div>
     </div>
 
     <!-- Modal Popup JavaScript -->
