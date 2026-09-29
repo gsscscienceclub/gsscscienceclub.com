@@ -527,23 +527,6 @@
             </div>
         </div>
 
-        <!-- NEW MODERN SCIENCE WIDGET: Fact & Countdown -->
-        <div class="science-widget-box">
-            <div class="science-widget-title">
-                <i class="fas fa-lightbulb"></i> বিজ্ঞান তথ্য ও পরবর্তী ইভেন্ট কাউন্টডাউন
-            </div>
-            <div class="science-fact-text" id="dailyScienceFact">
-                "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।"
-            </div>
-            <div style="margin-top: 12px; font-size: 13px; font-weight: bold; color: #ffeb3b;">বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:</div>
-            <div class="countdown-box" id="eventCountdown">
-                <div class="countdown-item"><div class="countdown-num" id="cdDays">00</div><div class="countdown-label">দিন</div></div>
-                <div class="countdown-item"><div class="countdown-num" id="cdHours">00</div><div class="countdown-label">ঘণ্টা</div></div>
-                <div class="countdown-item"><div class="countdown-num" id="cdMins">00</div><div class="countdown-label">মিনিট</div></div>
-                <div class="countdown-item"><div class="countdown-num" id="cdSecs">00</div><div class="countdown-label">সেকেন্ড</div></div>
-            </div>
-        </div>
-
         <!-- Recent Activities (Slideshow & Filterable Gallery Design) -->
         <div class="section-card" id="recentActivitiesSection" style="margin-top: 20px;">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
@@ -655,8 +638,27 @@
             </div>
         </div>
 
-        <!-- Executive Committee Section (Added Right After Recent Activities & Gallery) -->
-        <div class="section-card" id="executiveCommitteeSection">
+        <!-- MODERN SCIENCE WIDGET: Fact & Countdown (Successfully Moved After Recent Activities) -->
+        <div class="science-widget-box">
+            <div class="science-widget-title">
+                <i class="fas fa-lightbulb"></i> বিজ্ঞান তথ্য ও পরবর্তী ইভেন্ট কাউন্টডাউন
+            </div>
+            <div class="science-fact-text" id="dailyScienceFact">
+                <!-- JavaScript দিয়ে ডায়নামিকভাবে কনফিগারেশন থেকে আসবে -->
+            </div>
+            <div style="margin-top: 12px; font-size: 13px; font-weight: bold; color: #ffeb3b;" id="eventTitleDisplay">
+                <!-- JavaScript দিয়ে ডায়নামিকভাবে ইভেন্টের শিরোনাম আসবে -->
+            </div>
+            <div class="countdown-box" id="eventCountdown">
+                <div class="countdown-item"><div class="countdown-num" id="cdDays">00</div><div class="countdown-label">দিন</div></div>
+                <div class="countdown-item"><div class="countdown-num" id="cdHours">00</div><div class="countdown-label">ঘণ্টা</div></div>
+                <div class="countdown-item"><div class="countdown-num" id="cdMins">00</div><div class="countdown-label">মিনিট</div></div>
+                <div class="countdown-item"><div class="countdown-num" id="cdSecs">00</div><div class="countdown-label">সেকেন্ড</div></div>
+            </div>
+        </div>
+
+        <!-- Executive Committee Section -->
+        <div class="section-card" id="executiveCommitteeSection" style="margin-top: 20px;">
             <div class="section-title"><i class="fas fa-users" style="color: #007e33;"></i> কার্যনির্বাহী কমিটি (Executive Committee)</div>
             <div class="section-content">
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
@@ -743,6 +745,14 @@
 
     <!-- JavaScript -->
     <script>
+        /* ==========================================================================
+           === ইভেন্ট ও কাউন্টডাউন কনফিগারেশন (সহজে পরিবর্তনের জন্য এখানে এডিট করুন) ===
+           ========================================================================== */
+        const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:"; // এখানে ইভেন্টের নাম পরিবর্তন করুন
+        const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00"; // এখানে লক্ষ্য তারিখ ও সময় পরিবর্তন করুন (যেমন: "Dec 31, 2026 23:59:59")
+        const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।"; // এখানে বিজ্ঞান তথ্য পরিবর্তন করুন
+
+
         // Sidebar controls
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
@@ -1133,8 +1143,12 @@
                 toggleBtn.style.backgroundColor = '#f39c12';
             }
 
+            // ডায়নামিক কনফিগারেশন মানগুলো এইচটিএমএল এলিমেন্টে সেট করা
+            document.getElementById("dailyScienceFact").innerText = '"' + CONFIG_SCIENCE_FACT + '"';
+            document.getElementById("eventTitleDisplay").innerText = CONFIG_EVENT_TITLE;
+
             // 3. Dynamic Event Countdown Timer
-            const eventDate = new Date("Nov 15, 2026 10:00:00").getTime();
+            const eventDate = new Date(CONFIG_EVENT_DATE).getTime();
             setInterval(function() {
                 const now = new Date().getTime();
                 const distance = eventDate - now;
@@ -1149,6 +1163,8 @@
                     document.getElementById("cdHours").innerText = String(hours).padStart(2, '0');
                     document.getElementById("cdMins").innerText = String(minutes).padStart(2, '0');
                     document.getElementById("cdSecs").innerText = String(seconds).padStart(2, '0');
+                } else {
+                    document.getElementById("eventTitleDisplay").innerText = "ইভেন্ট ইতিমধ্যে শুরু হয়ে গেছে!";
                 }
             }, 1000);
         });
