@@ -185,9 +185,68 @@
             .header-logo img { height: 45px; }
             .slide-item img { height: 200px; }
         }
+
+        /* --- NEW MODERN FEATURES CSS (PRELOADER & DARK MODE) --- */
+        
+        /* Preloader Style */
+        #science-preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
+        .loader-content { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; animation: pulseLoader 1.5s infinite; }
+        @keyframes pulseLoader { 0% { transform: scale(0.9); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.8; } }
+        .preloader-text { margin-top: 15px; color: #007e33; font-weight: bold; font-size: 18px; letter-spacing: 2px; }
+
+        /* Dark Mode Toggle Button */
+        #darkModeToggleBtn { position: fixed; bottom: 80px; left: 20px; z-index: 999; font-size: 20px; border: none; outline: none; background-color: #333; color: white; cursor: pointer; padding: 12px 15px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: transform 0.3s ease, background-color 0.3s ease; }
+        #darkModeToggleBtn:hover { transform: scale(1.1); background-color: #555; }
+
+        /* Dark Mode Theme Classes */
+        body.dark-theme { background-color: #121212; color: #e0e0e0; }
+        body.dark-theme .top-header { background: linear-gradient(135deg, #001f0f, #003d18); box-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+        body.dark-theme .section-card, 
+        body.dark-theme .sidebar, 
+        body.dark-theme .modal-content, 
+        body.dark-theme .about-modal-content, 
+        body.dark-theme .activities-modal-content { background-color: #1e1e1e; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333; color: #e0e0e0; }
+        body.dark-theme .section-title { background-color: #2a2a2a; color: #4caf50; border-bottom: 2px solid #4caf50; }
+        body.dark-theme .list-item { border-bottom: 1px solid #333; color: #e0e0e0; }
+        body.dark-theme .list-item .date { color: #aaa; }
+        body.dark-theme .notice-read-more { color: #ff5252; }
+        body.dark-theme .sidebar-header { background-color: #1a1a1a; border-bottom: 1px solid #333; }
+        body.dark-theme .sidebar-menu li { border-bottom: 1px solid #333; }
+        body.dark-theme .sidebar-menu li a { color: #e0e0e0; }
+        body.dark-theme .sidebar-menu li a:hover, body.dark-theme .submenu li a:hover { background-color: #333; color: #4caf50; }
+        body.dark-theme .submenu { background-color: #252525; }
+        body.dark-theme .filter-btn { background-color: #333; color: #e0e0e0; }
+        body.dark-theme .filter-btn:hover, body.dark-theme .filter-btn.active { background-color: #4caf50; color: #fff; }
+        body.dark-theme .useful-link-item { background: #252525; border-color: #444; color: #4caf50; }
+        body.dark-theme .doc-item { border-bottom: 1px solid #333; }
+        body.dark-theme .doc-title { color: #e0e0e0; }
+        body.dark-theme .footer { background-color: #001a0c; border-top: 1px solid #004d25; }
+        body.dark-theme .modal-title, body.dark-theme .about-modal-title, body.dark-theme .activities-modal-title { color: #4caf50; border-bottom-color: #4caf50; }
+        body.dark-theme input { background-color: #333; color: #fff; border-color: #555; }
+        body.dark-theme label { color: #ccc !important; }
+        body.dark-theme #profileDetails { background: #252525 !important; border-color: #444 !important; color: #e0e0e0; }
+        body.dark-theme .close-btn, body.dark-theme .modal-close { color: #ff5252; }
+        body.dark-theme .all-notices-bottom { color: #4caf50; }
+        body.dark-theme .all-notices-bottom:hover { color: #ff5252; }
+        body.dark-theme #science-preloader { background-color: #121212; }
+        body.dark-theme .preloader-text { color: #4caf50; }
+
     </style>
 </head>
 <body>
+
+    <!-- Modern Science Preloader -->
+    <div id="science-preloader">
+        <div class="loader-content">
+            <i class="fas fa-atom fa-spin" style="font-size: 60px; color: #007e33;"></i>
+            <div class="preloader-text">Loading Science Club...</div>
+        </div>
+    </div>
+
+    <!-- Dark Mode Toggle Button -->
+    <button id="darkModeToggleBtn" onclick="toggleDarkMode()" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon"></i>
+    </button>
 
     <!-- Notice Single Modal Box -->
     <div id="noticeModal" class="modal">
@@ -838,7 +897,7 @@
                 bodyElem.innerHTML = "<b>সেমিনার ও আড্ডা:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ ও আধুনিক টপিক নিয়ে বিশেষজ্ঞ গবেষক ও শিক্ষকদের লেকচার, সায়েন্টিফিক ডিবেট সেশন এবং ইনডোর কুইজ প্রতিযোগিতা আয়োজন করা হয়।";
             } else if (actType === 'ecoInitiatives') {
                 titleElem.innerText = "Eco-Friendly & Social Initiatives";
-                bodyElem.innerText = "<b>পরিবেশ ও সামাজিক কার্যক্রম:</b> কলেজ ক্যাম্পাস ও আশপাশের এলাকায় সবুজায়ন এবং পরিবেশ সচেতনতা বৃদ্ধির লক্ষ্যে বৃক্ষরোপণ কর্মসূচি, ডেঙ্গু সচেতনতা ও প্লাস্টিক বর্জন ক্যাম্পেইন পরিচালনা করা হয়।";
+                bodyElem.innerText = "<b>পরিবেশ ও সামাজিক কার্যক্রম:</b> কলেজ ক্যাম্পাস ও আশপাশের এলাকায় সবুজায়ন এবং পরিবেশ সচেতনতা বৃদ্ধির লক্ষ্যে বৃক্ষরোপণ কর্মসূচি, ডেঙ্গু সচেতনতা ও প্লাস্টিক বর্জন ক্যাম্পেইন পরিচালনা করা হয়।";
             } else if (actType === 'studyTours') {
                 titleElem.innerText = "Study Tours & Excursions";
                 bodyElem.innerHTML = "<b>শিক্ষা সফর:</b> শিক্ষার্থীদের তাত্ত্বিক জ্ঞানকে বাস্তবসম্মত করতে দেশের বিজ্ঞান জাদুঘর, প্ল্যানেটোরিয়াম কিংবা বিভিন্ন গবেষণা প্রতিষ্ঠানে শিক্ষা সফর ও সায়েন্টিফিক ভিজিটের ব্যবস্থা করা হয়।";
@@ -957,6 +1016,57 @@
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
             document.getElementById("visitorDate").innerText = "as on " + new Date().toLocaleDateString('en-US', options);
         });
+
+        /* --- NEW MODERN FEATURES SCRIPT (PRELOADER & DARK MODE) --- */
+        
+        // 1. Dynamic Science Preloader logic
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('science-preloader');
+            // Adding a small delay of 800ms to show the modern animation properly before page loads
+            setTimeout(function() {
+                preloader.style.opacity = '0';
+                setTimeout(function() {
+                    preloader.style.visibility = 'hidden';
+                    preloader.style.display = 'none';
+                }, 500); // Wait for transition fade-out
+            }, 800); 
+        });
+
+        // 2. Smart Dark Mode Toggle logic
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggleBtn = document.getElementById('darkModeToggleBtn');
+            const icon = toggleBtn.querySelector('i');
+            
+            body.classList.toggle('dark-theme');
+            
+            if (body.classList.contains('dark-theme')) {
+                // Now in Dark Mode
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                toggleBtn.style.backgroundColor = '#f39c12'; // Sun color
+                localStorage.setItem('gssc_theme', 'dark');
+            } else {
+                // Now in Light Mode
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                toggleBtn.style.backgroundColor = '#333'; // Moon color
+                localStorage.setItem('gssc_theme', 'light');
+            }
+        }
+
+        // Check if user previously selected Dark Mode and apply it instantly
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('gssc_theme') === 'dark') {
+                document.body.classList.add('dark-theme');
+                const toggleBtn = document.getElementById('darkModeToggleBtn');
+                const icon = toggleBtn.querySelector('i');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                toggleBtn.style.backgroundColor = '#f39c12';
+            }
+        });
+
     </script>
 </body>
 </html>
