@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Govt. Shaheed Suhrawardy College Science Club - Inspiring students towards science and innovation.">
-    <meta name="keywords" content="GSSC, Science Club, Shaheed Suhrawardy College, Dhaka, Science Fair">
     <title>Govt. Shaheed Suhrawardy College Science Club</title>
     
     <!-- FontAwesome for Icons -->
@@ -115,40 +113,73 @@
         /* Login Modal Styles */
         #loginModal { z-index: 8500 !important; background-color: rgba(0,0,0,0.85); }
 
-        /* Scroll to Top Button */
-        #scrollTopBtn {
-            display: none; position: fixed; bottom: 20px; right: 20px; z-index: 999;
-            font-size: 18px; border: none; outline: none; background-color: #d32f2f;
-            color: white; cursor: pointer; padding: 12px 16px; border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: background-color 0.3s;
-        }
-        #scrollTopBtn:hover { background-color: #007e33; }
-
         /* --- Modern Filterable Gallery Design & Slideshow --- */
         .gallery-filters {
-            display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
         }
         .filter-btn {
-            background-color: #f1f1f1; border: none; padding: 6px 14px; border-radius: 20px;
-            cursor: pointer; font-weight: bold; font-size: 13px; color: #333; transition: all 0.3s ease;
+            background-color: #f1f1f1;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            color: #333;
+            transition: all 0.3s ease;
         }
-        .filter-btn:hover, .filter-btn.active { background-color: #007e33; color: #fff; }
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #007e33;
+            color: #fff;
+        }
 
         /* Slideshow Container Style */
         .slideshow-container {
-            position: relative; max-width: 100%; margin: auto; border-radius: 8px;
-            overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #000;
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: #000;
         }
-        .slide-item { display: none; position: relative; }
-        .slide-item img { width: 100%; height: 280px; object-fit: cover; display: block; cursor: pointer; }
+        .slide-item {
+            display: none;
+            position: relative;
+        }
+        .slide-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
         .slide-overlay {
-            position: absolute; bottom: 10px; left: 0; right: 0; background: transparent;
-            color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9); padding: 5px;
-            text-align: center; font-size: 15px; font-weight: bold;
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            background: transparent;
+            color: #ffffff;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+            padding: 5px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
         }
         /* Fade animation for slideshow */
-        .fade { animation-name: fade; animation-duration: 1.5s; }
-        @keyframes fade { from {opacity: .4} to {opacity: 1} }
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+        @keyframes fade {
+            from {opacity: .4} 
+            to {opacity: 1}
+        }
         
         .useful-links { display: flex; flex-direction: column; gap: 10px; }
         .useful-link-item { display: flex; align-items: center; gap: 12px; padding: 10px 15px; background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; text-decoration: none; color: #007e33; font-weight: bold; font-size: 14px; }
@@ -167,15 +198,44 @@
         /* Footer Custom Style & Contact Section Integration */
         .footer { background-color: #007e33; color: #fff; padding: 25px 20px; font-size: 14px; line-height: 1.6; }
         .footer-content-box {
-            max-width: 800px; margin: 0 auto 20px auto; display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 20px;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 20px;
         }
-        .footer-col h4 { font-size: 16px; margin-bottom: 12px; border-bottom: 2px solid #ffffff; display: inline-block; padding-bottom: 3px; }
-        .footer-col p { margin-bottom: 6px; font-size: 13px; }
-        .footer-contact-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-        .footer-contact-links li a { color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; transition: color 0.2s; }
-        .footer-contact-links li a:hover { color: #d32f2f; text-decoration: underline; }
+        .footer-col h4 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #ffffff;
+            display: inline-block;
+            padding-bottom: 3px;
+        }
+        .footer-col p {
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        .footer-contact-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .footer-contact-links li a {
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .footer-contact-links li a:hover {
+            color: #d32f2f;
+            text-decoration: underline;
+        }
         .copyright { text-align: center; font-size: 12px; padding-top: 5px; }
 
         @media (max-width: 500px) {
@@ -380,11 +440,11 @@
                     <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('training'); closeNav();">Training</a></li>
                     <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('seminar'); closeNav();">Seminar</a></li>
                     <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('studyTour'); closeNav();">Study Tour</a></li>
-                    <!-- Syntax Error Fixed Here -->
-                    <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('Admission Exam'); closeNav();">Admission Exam</a></li>
+                    <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('Admission Exam); closeNav();">Admission Exam</a></li>
                     <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('others'); closeNav();">Others</a></li>
                 </ul>
             </li>
+            <!-- Contact Us অপশনটিতে ক্লিক করলে সাইডবার বন্ধ হয়ে ফুটারে স্মুথলি স্ক্রল করবে -->
             <li><a href="#contactFooterSection" onclick="closeNav()">Contact Us</a></li>
             <li><a href="javascript:void(0);" onclick="openLoginModal()">Login</a></li>
         </ul>
@@ -441,8 +501,7 @@
                     <button class="filter-btn" onclick="filterGallery('training', this)">Training</button>
                     <button class="filter-btn" onclick="filterGallery('seminar', this)">Seminar</button>
                     <button class="filter-btn" onclick="filterGallery('studyTour', this)">Study Tour</button>
-                    <!-- Syntax Error Fixed Here -->
-                    <button class="filter-btn" onclick="filterGallery('Admission Exam', this)">Admission Exam</button>
+                    <button class="filter-btn" onclick="filterGallery('Admission Exam, this)">Admission Exam</button>
                     <button class="filter-btn" onclick="filterGallery('others', this)">Others</button>
                 </div>
 
@@ -450,84 +509,84 @@
                 <div class="slideshow-container" id="slideshowContainer">
                     
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="১.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ প্রশিক্ষণ.jpg')">
+                        <img src="১.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ প্রশিক্ষণ.jpg')">
                         <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
                     </div>
 
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="২.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ প্রশিক্ষণ.jpg')">
+                        <img src="২.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ প্রশিক্ষণ.jpg')">
                         <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="মুক্তা চাষ বিষয়ক কর্মশালা.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ বিষয়ক কর্মশালা.jpg')">
+                        <img src="মুক্তা চাষ বিষয়ক কর্মশালা.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ বিষয়ক কর্মশালা.jpg')">
                         <div class="slide-overlay">মুক্তা চাষ বিষয়ক কর্মশালা</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg')">
+                        <img src="১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg')">
                         <div class="slide-overlay">বিজ্ঞান ও প্রযুক্তি মেলা ২০২৫</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg" alt="Activity" onclick="openImageViewer('জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg')">
+                        <img src="জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg" alt="Activity" onclick="openImageViewer('জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg')">
                         <div class="slide-overlay">বিজ্ঞান ক্লাবের মনোনশীলতা</div>
                     </div>
 
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg" alt="Activity" onclick="openImageViewer('লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg')">
+                        <img src="লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg" alt="Activity" onclick="openImageViewer('লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg')">
                         <div class="slide-overlay">লেজার সিকিউরিটি বিশিষ্ট বাড়ি</div>
                     </div>
 
                     <div class="slide-item fade gallery-item-box" data-category="training">
-                        <img loading="lazy" src="জাতীয় মাশরুম ইনস্টিটিউট.jpg" alt="Activity" onclick="openImageViewer('জাতীয় মাশরুম ইনস্টিটিউট.jpg')">
+                        <img src="জাতীয় মাশরুম ইনস্টিটিউট.jpg" alt="Activity" onclick="openImageViewer('জাতীয় মাশরুম ইনস্টিটিউট.jpg')">
                         <div class="slide-overlay">জাতীয় মাশরুম ট্রেনিং সেন্টার</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="training">
-                        <img loading="lazy" src="মুক্তা পরিচিতি.jpg" alt="Activity" onclick="openImageViewer('মুক্তা পরিচিতি.jpg')">
+                        <img src="মুক্তা পরিচিতি.jpg" alt="Activity" onclick="openImageViewer('মুক্তা পরিচিতি.jpg')">
                         <div class="slide-overlay">মুক্তা চাষ</div>
                     </div>
 					<div class="slide-item fade gallery-item-box" data-category="training">
-                        <img loading="lazy" src="মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg')">
+                        <img src="মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg')">
                         <div class="slide-overlay">মুক্তা চাষ প্রশিক্ষণ</div>
                     </div>
 
                     <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="২.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
+                        <img src="২.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
                         <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="১.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
+                        <img src="১.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
                         <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
                     </div>
 					<div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="১.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('১.সাপ্তাহিক সভা.jpg')">
+                        <img src="১.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('১.সাপ্তাহিক সভা.jpg')">
                         <div class="slide-overlay">সাপ্তাহিক সভা</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="২.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('২.সাপ্তাহিক সভা.jpg')">
+                        <img src="২.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('২.সাপ্তাহিক সভা.jpg')">
                         <div class="slide-overlay">সাপ্তাহিক সভা</div>
                     </div>
 
                     <div class="slide-item fade gallery-item-box" data-category="studyTour">
-                        <img loading="lazy" src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
+                        <img src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
                         <div class="slide-overlay">শিক্ষা সফর ও ভিজিট</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="Admission Exam">
-                        <img loading="lazy" src="ভর্তি পরীক্ষা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('ভর্তি পরীক্ষা ২০২৫.jpg')">
+                        <img src="ভর্তি পরীক্ষা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('ভর্তি পরীক্ষা ২০২৫.jpg')">
                         <div class="slide-overlay">ভর্তি পরীক্ষা ২০২৫</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
+                        <img src="১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
                         <div class="slide-overlay">ড. সামসুন্নাহার ম্যামের বিদায়</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
+                        <img src="২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
                         <div class="slide-overlay">ড. সামসুন্নাহার ম্যামের বিদায়</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
+                        <img src="১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
                         <div class="slide-overlay">আন্তর্জাতিক মাতৃভাষা দিবস</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
+                        <img src="২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
                         <div class="slide-overlay">আন্তর্জাতিক মাতৃভাষা দিবস</div>
                     </div>
 
@@ -540,28 +599,31 @@
             <div class="section-title"><i class="fas fa-link" style="color: #007e33;"></i> Useful Links</div>
             <div class="section-content useful-links">
                 <a href="https://gssc.college.gov.bd/" target="_blank" class="useful-link-item">
-                    <img loading="lazy" src="17700954426981835287012.png" alt="College Logo">
+                    <img src="17700954426981835287012.png" alt="College Logo">
                     <span>Govt. Shaheed Suhrawardy College</span>
                 </a>
                 <a href="https://dcu.ac.bd/" target="_blank" class="useful-link-item">
-                    <img loading="lazy" src="DCU logo.png" alt="DCU Logo">
+                    <img src="DCU logo.png" alt="DCU Logo">
                     <span>Dhaka Central University</span>
                 </a>
             </div>
         </div>
 
-        <!-- Important Documents -->
+        <!-- Important Documents (গুরুত্বপূর্ণ ডকুমেন্টস) -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-file-pdf" style="color: #d32f2f;"></i> গুরুত্বপূর্ণ ডকুমেন্টস</div>
             <div class="section-content">
+                
+               
                 <div class="doc-item">
                     <span class="doc-title"><i class="fas fa-file-alt" style="color: #007e33;"></i> সদস্য ভর্তি ফর্ম (অফলাইন)</span>
                     <a href="Science Club Membership Form.pdf" target="_blank" class="doc-btn"><i class="fas fa-external-link-alt"></i> ওপেন</a>
                 </div>
+                
             </div>
         </div>
 
-        <!-- Visitor Info -->
+        <!-- Visitor Info (অটোমেটিক আপডেট আইডি যুক্ত) -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-chart-line" style="color: #007e33;"></i> Visitor Info</div>
             <div class="section-content">
@@ -572,14 +634,17 @@
 
     </div>
 
-    <!-- Footer -->
+    <!-- Footer with Contact Us Section ID Added (#contactFooterSection) -->
     <div class="footer" id="contactFooterSection">
         <div class="footer-content-box">
+            <!-- College Information -->
             <div class="footer-col">
                 <h4>Govt. Shaheed Suhrawardy College</h4>
                 <p>36-37, Lakshmibazar, Dhaka-1100, Bangladesh</p>
                 <p>EIIN: 108508 | College Code: 1475</p>
             </div>
+            
+            <!-- Contact Us Details -->
             <div class="footer-col">
                 <h4>Contact Us</h4>
                 <ul class="footer-contact-links">
@@ -594,32 +659,13 @@
         <div class="copyright">&copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib</div>
     </div>
 
-    <!-- Scroll to Top Button Element -->
-    <button onclick="scrollToTop()" id="scrollTopBtn" title="উপরে যান"><i class="fas fa-arrow-up"></i></button>
-
     <!-- JavaScript -->
     <script>
-        // Sidebar controls
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
         function toggleSubmenu(id) {
             var submenu = document.getElementById(id);
             submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
-        }
-
-        /* Scroll To Top Logic */
-        window.onscroll = function() {scrollFunction()};
-        function scrollFunction() {
-            var btn = document.getElementById("scrollTopBtn");
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                btn.style.display = "block";
-            } else {
-                btn.style.display = "none";
-            }
-        }
-        function scrollToTop() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
         }
 
         /* Slideshow and Gallery Logic */
@@ -629,6 +675,7 @@
 
         function showSlides() {
             var items = document.querySelectorAll('.gallery-item-box');
+            
             var visibleItems = [];
             items.forEach(function(item) {
                 if (currentFilteredCategory === 'all' || item.getAttribute('data-category') === currentFilteredCategory) {
@@ -666,6 +713,7 @@
 
         function filterGalleryFromMenu(category) {
             currentFilteredCategory = category;
+            
             var buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(function(b) {
                 b.classList.remove('active');
@@ -673,16 +721,21 @@
                     b.classList.add('active');
                 }
             });
+
             startSlideshow();
         }
 
-        window.onload = function() { startSlideshow(); };
+        // Initialize slideshow on page load
+        window.onload = function() {
+            startSlideshow();
+        };
 
-        /* Modals... */
+        /* Modal Functions for Single Notice Image View */
         function openNoticeModal(title, imgArray) {
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
             container.innerHTML = ''; 
+            
             imgArray.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
@@ -694,13 +747,17 @@
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
 
+        /* Fullscreen Image Viewer Functions */
         function openImageViewer(src) {
             document.getElementById('fullSizeImage').src = src;
             document.getElementById('imageViewerModal').style.display = 'flex';
         }
 
-        function closeImageViewer() { document.getElementById('imageViewerModal').style.display = 'none'; }
+        function closeImageViewer() {
+            document.getElementById('imageViewerModal').style.display = 'none';
+        }
 
+        /* About Us Modal Functions */
         function openAboutModal(type) {
             closeNav(); 
             var titleElem = document.getElementById('aboutModalTitle');
@@ -708,7 +765,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭৫ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭এফ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -718,11 +775,15 @@
                 titleElem.innerText = "আমাদের কার্যক্রমসমূহ";
                 bodyElem.innerHTML = "সরকারি শহীদ সোহরাওয়ার্দী কলেজ ক্লাব নিয়মিত বিভিন্ন শিক্ষামূলক ও ব্যবহারিক কার্যক্রম পরিচালনা করে থাকে:<br><br><ul><li><b>বিজ্ঞান প্রশিক্ষণ কর্মশালা:</b> বিভিন্ন ব্যবহারিক ও প্রায়োগিক বিষয়ভিত্তিক কর্মশালা (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি)।</li><li><b>সেমিনার ও সিম্পোজিয়াম:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ টপিক নিয়ে সেমিনার আয়োজন।</li><li><b>সদস্য সংগ্রহ ও মূল্যায়ন:</b> প্রতি শিক্ষাবর্ষে নির্দিষ্ট নিয়ম ও ভর্তি প্রক্রিয়ার মাধ্যমে বিজ্ঞান বিভাগের আগ্রহী শিক্ষার্থীদের ক্লাবের সদস্য হিসেবে অন্তর্ভুক্ত করা।.</li><li><b>প্রজেক্ট প্রদর্শনী:</b> শিক্ষার্থীদের সৃজনশীল বিজ্ঞান প্রজেক্ট প্রদর্শনের সুযোগ তৈরি করে দেওয়া।</li></ul>";
             }
+            
             document.getElementById('aboutModal').style.display = 'block';
         }
 
-        function closeAboutModal() { document.getElementById('aboutModal').style.display = 'none'; }
+        function closeAboutModal() {
+            document.getElementById('aboutModal').style.display = 'none';
+        }
 
+        /* Result Modal Functions */
         function openResultModal(examType) {
             closeNav(); 
             var titleElem = document.getElementById('resultModalTitle');
@@ -738,17 +799,22 @@
                     '3Member selection result 2025 .jpg'
                 ]; 
             }
+            
             images.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
                 img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
+            
             document.getElementById('resultModal').style.display = 'block';
         }
 
-        function closeResultModal() { document.getElementById('resultModal').style.display = 'none'; }
+        function closeResultModal() {
+            document.getElementById('resultModal').style.display = 'none';
+        }
 
+        /* Activities Modal Functions */
         function openActivitiesModal(actType) {
             closeNav();
             var titleElem = document.getElementById('activitiesModalTitle');
@@ -770,19 +836,29 @@
                 titleElem.innerText = "Study Tours & Excursions";
                 bodyElem.innerHTML = "<b>শিক্ষা সফর:</b> শিক্ষার্থীদের তাত্ত্বিক জ্ঞানকে বাস্তবসম্মত করতে দেশের বিজ্ঞান জাদুঘর, প্ল্যানেটোরিয়াম কিংবা বিভিন্ন গবেষণা প্রতিষ্ঠানে শিক্ষা সফর ও সায়েন্টিফিক ভিজিটের ব্যবস্থা করা হয়।";
             }
+
             document.getElementById('activitiesModal').style.display = 'block';
         }
 
-        function closeActivitiesModal() { document.getElementById('activitiesModal').style.display = 'none'; }
+        function closeActivitiesModal() {
+            document.getElementById('activitiesModal').style.display = 'none';
+        }
 
+        /* Modal Functions for All Notices Floating Window */
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
-        /* Login System */
+        /* --- MEMBER LOGIN MODAL SCRIPT (FIXED FOR CORS & DRIVE IMAGE SHOWING) --- */
         const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwc3j9t7qqofHGJsmbA9vi-0bNa2a3NqxIyOY04gGKS39a2lcDSYDlUPVf1IG3l9xAI/exec";
 
-        function openLoginModal() { closeNav(); document.getElementById('loginModal').style.display = 'block'; }
-        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+        function openLoginModal() {
+            closeNav();
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
 
         function handleLogin(event) {
             event.preventDefault();
@@ -802,7 +878,9 @@
 
             fetch(APPS_SCRIPT_WEB_APP_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
                 body: formData.toString()
             })
             .then(res => res.json())
@@ -815,19 +893,24 @@
                     document.getElementById('loginFormView').style.display = 'none';
                     document.getElementById('userProfileView').style.display = 'block';
 
+                    // গুগল ড্রাইভ ইমেজের লিঙ্ক প্রসেস করে ইমেজে কনভার্ট করা
                     if (data.photo) {
                         let photoUrl = data.photo;
                         const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                        if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
+                        if (match) {
+                            photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1];
+                        }
                         document.getElementById('profilePhoto').src = photoUrl;
                         document.getElementById('profilePhotoContainer').style.display = 'block';
                     } else {
                         document.getElementById('profilePhotoContainer').style.display = 'none';
                     }
 
+                    // ব্যবহারকারীর তথ্যের তালিকা থেকে ড্রাইভ লিংকের ফিল্ডটি বাদ দেওয়া
                     let html = '';
                     for (let key in data.details) {
                         const valueStr = String(data.details[key]);
+                        // ড্রাইভ লিংক বা ফটো ফিল্ড থাকলে তা সাধারণ টেক্সট হিসেবে শো করা বন্ধ
                         if (valueStr.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
                             continue;
                         }
@@ -857,22 +940,42 @@
             document.getElementById('memberLoginForm').reset();
         }
 
-        /* Outside Click Close Modals */
+        /* Window Click event to close modals */
         window.onclick = function(event) {
-            const modals = [
-                document.getElementById('noticeModal'), document.getElementById('allNoticesModal'),
-                document.getElementById('imageViewerModal'), document.getElementById('aboutModal'),
-                document.getElementById('resultModal'), document.getElementById('activitiesModal'),
-                document.getElementById('loginModal')
-            ];
-            if (modals.includes(event.target)) { event.target.style.display = 'none'; }
+            var noticeModal = document.getElementById('noticeModal');
+            var allNoticesModal = document.getElementById('allNoticesModal');
+            var imageViewerModal = document.getElementById('imageViewerModal');
+            var aboutModal = document.getElementById('aboutModal');
+            var resultModal = document.getElementById('resultModal');
+            var activitiesModal = document.getElementById('activitiesModal');
+            var loginModal = document.getElementById('loginModal');
+            
+            if (event.target == noticeModal) { 
+                noticeModal.style.display = 'none'; 
+            } else if (event.target == allNoticesModal) { 
+                allNoticesModal.style.display = 'none'; 
+            } else if (event.target == imageViewerModal) { 
+                imageViewerModal.style.display = 'none'; 
+            } else if (event.target == aboutModal) { 
+                aboutModal.style.display = 'none'; 
+            } else if (event.target == resultModal) { 
+                resultModal.style.display = 'none'; 
+            } else if (event.target == activitiesModal) { 
+                activitiesModal.style.display = 'none'; 
+            } else if (event.target == loginModal) { 
+                loginModal.style.display = 'none'; 
+            }
         }
 
-        /* Auto Visitor Counter */
+        /* --- অটোমেটিক ভিসিটর কাউন্টার স্ক্রিপ্ট --- */
         document.addEventListener("DOMContentLoaded", function() {
             let totalVisitors = localStorage.getItem("gssc_visitor_count");
-            if (!totalVisitors) { totalVisitors = 125432; } 
-            else { totalVisitors = parseInt(totalVisitors); }
+
+            if (!totalVisitors) {
+                totalVisitors = 125432;
+            } else {
+                totalVisitors = parseInt(totalVisitors);
+            }
 
             if (!sessionStorage.getItem("visited_already")) {
                 totalVisitors++; 
@@ -881,9 +984,11 @@
             }
 
             document.getElementById("visitorCount").innerText = totalVisitors.toLocaleString();
+
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            document.getElementById("visitorDate").innerText = "as on " + new Date().toLocaleDateString('en-US', options);
+            const currentDate = new Date().toLocaleDateString('en-US', options);
+            document.getElementById("visitorDate").innerText = "as on " + currentDate;
         });
     </script>
 </body>
-</html>
+				</html>
