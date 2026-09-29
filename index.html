@@ -787,7 +787,7 @@
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
-        /* --- MEMBER LOGIN MODAL SCRIPT (APPS SCRIPT INTEGRATION) --- */
+        /* --- MEMBER LOGIN MODAL SCRIPT (FIXED FOR CORS & APPS SCRIPT) --- */
         const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxK9u7NjS0aL1__cQdr41vxK9TkuVUi93dhN5f_81nuQ10ptaCZEpsLSt3GONkoTzXI/exec";
 
         function openLoginModal() {
@@ -811,10 +811,17 @@
             submitBtn.disabled = true;
             submitBtn.style.opacity = '0.7';
 
-            // Google Apps Script CORS redirection সমস্যা সমাধানের জন্য text/plain ব্যবহার করে POST পাঠানো
+            // Google Apps Script CORS Redirection সমস্যার সমাধানের জন্য URLSearchParams ব্যবহার
+            const formData = new URLSearchParams();
+            formData.append('memberId', memberId);
+            formData.append('password', password);
+
             fetch(APPS_SCRIPT_WEB_APP_URL, {
                 method: 'POST',
-                body: JSON.stringify({ memberId: memberId, password: password })
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: formData.toString()
             })
             .then(res => res.json())
             .then(data => {
@@ -853,6 +860,7 @@
                 }
             })
             .catch(err => {
+                console.error("Login Fetch Error:", err);
                 submitBtn.innerText = 'লগইন করুন';
                 submitBtn.disabled = false;
                 submitBtn.style.opacity = '1';
