@@ -288,7 +288,7 @@
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
+                        <span class="notice-read-more" onclick="openImageViewer('membercollectnotice.jpg')">
                             Read More <i class="fas fa-arrow-right"></i>
                         </span>
                     </div>
@@ -298,7 +298,7 @@
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি', ['ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg'])">
+                        <span class="notice-read-more" onclick="openImageViewer('ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg')">
                             Read More <i class="fas fa-arrow-right"></i>
                         </span>
                     </div>
@@ -380,7 +380,6 @@
                     <li><a href="javascript:void(0);" onclick="openActivitiesModal('studyTours')">Study Tours & Excursions</a></li>
                 </ul>
             </li>
-            <!-- গ্যালারি মেনু সাবমেনুসহ -->
             <li>
                 <a href="javascript:void(0);" onclick="toggleSubmenu('gallerySubmenu')">
                     Gallery <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
@@ -416,7 +415,7 @@
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
+                        <span class="notice-read-more" onclick="openImageViewer('membercollectnotice.jpg')">
                             Read More <i class="fas fa-arrow-right"></i>
                         </span>
                     </div>
@@ -426,7 +425,7 @@
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি', ['ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg'])">
+                        <span class="notice-read-more" onclick="openImageViewer('ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg')">
                             Read More <i class="fas fa-arrow-right"></i>
                         </span>
                     </div>
@@ -698,7 +697,6 @@
             var container = document.getElementById('allGalleryModalImages');
             container.innerHTML = '';
             
-            // Select all slide items in recent activities gallery
             var items = document.querySelectorAll('.gallery-item-box');
             
             items.forEach(function(item) {
@@ -749,8 +747,12 @@
             document.getElementById('allGalleryModal').style.display = 'none';
         }
 
-        /* Modals... */
+        /* Modals & Notice Logic */
         function openNoticeModal(title, imgArray) {
+            if (Array.isArray(imgArray) && imgArray.length === 1) {
+                openImageViewer(imgArray[0]);
+                return;
+            }
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
             container.innerHTML = ''; 
