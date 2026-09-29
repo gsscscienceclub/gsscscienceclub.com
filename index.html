@@ -110,7 +110,7 @@
         .activities-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
         .activities-modal-body { font-size: 15px; line-height: 1.6; color: #333; max-height: 400px; overflow-y: auto; }
 
-        /* --- Modern Filterable Gallery Design (রিসেন্ট অ্যাক্টিভিটিসের নতুন আধুনিক রূপ) --- */
+        /* --- Modern Filterable Gallery Design & Slideshow --- */
         .gallery-filters {
             display: flex;
             justify-content: center;
@@ -134,51 +134,47 @@
             color: #fff;
         }
 
-        .modern-gallery-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        @media (min-width: 600px) { 
-            .modern-gallery-grid { grid-template-columns: 1fr 1fr; } 
-        }
-
-        .modern-gallery-card {
+        /* Slideshow Container Style */
+        .slideshow-container {
             position: relative;
-            border: 1px solid #ddd;
+            max-width: 100%;
+            margin: auto;
             border-radius: 8px;
             overflow: hidden;
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: #000;
         }
-        .modern-gallery-card img {
+        .slide-item {
+            display: none;
+            position: relative;
+        }
+        .slide-item img {
             width: 100%;
-            height: 200px;
+            height: 280px;
             object-fit: cover;
             display: block;
             cursor: pointer;
-            transition: transform 0.4s ease;
         }
-        .modern-gallery-card:hover img {
-            transform: scale(1.06);
-        }
-        .modern-gallery-overlay {
+        .slide-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 126, 51, 0.9);
+            background: rgba(0, 126, 51, 0.85);
             color: #fff;
             padding: 12px;
             text-align: center;
             font-size: 14px;
             font-weight: bold;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
         }
-        .modern-gallery-card:hover .modern-gallery-overlay {
-            transform: translateY(0);
+        /* Fade animation for slideshow */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+        @keyframes fade {
+            from {opacity: .4} 
+            to {opacity: 1}
         }
         
         .useful-links { display: flex; flex-direction: column; gap: 10px; }
@@ -194,6 +190,7 @@
         @media (max-width: 500px) {
             .header-title { font-size: 13px; }
             .header-logo img { height: 45px; }
+            .slide-item img { height: 200px; }
         }
     </style>
 </head>
@@ -346,8 +343,19 @@
                     <li><a href="javascript:void(0);" onclick="openActivitiesModal('studyTours')">Study Tours & Excursions</a></li>
                 </ul>
             </li>
-            <!-- গ্যালারি মেনু আপডেট করা হলো -->
-            <li><a href="#recentActivitiesSection" onclick="closeNav()">Gallery</a></li>
+            <!-- গ্যালারি মেনু সাবমেনুসহ আপডেট করা হলো -->
+            <li>
+                <a href="javascript:void(0);" onclick="toggleSubmenu('gallerySubmenu')">
+                    Gallery <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                </a>
+                <ul id="gallerySubmenu" class="submenu">
+                    <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('all'); closeNav();">All</a></li>
+                    <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('workshop'); closeNav();">Workshop</a></li>
+                    <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('training'); closeNav();">Training</a></li>
+                    <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('seminar'); closeNav();">Seminar</a></li>
+                    <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('studyTour'); closeNav();">Study Tour</a></li>
+                </ul>
+            </li>
             <li><a href="#">Contact Us</a></li>
             <li><a href="#">Login</a></li>
         </ul>
@@ -392,7 +400,7 @@
             </div>
         </div>
 
-        <!-- Recent Activities (Modern Filterable Gallery Design) -->
+        <!-- Recent Activities (Slideshow & Filterable Gallery Design) -->
         <div class="section-card" id="recentActivitiesSection">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
             <div class="section-content">
@@ -403,29 +411,35 @@
                     <button class="filter-btn" onclick="filterGallery('workshop', this)">Workshops</button>
                     <button class="filter-btn" onclick="filterGallery('training', this)">Training</button>
                     <button class="filter-btn" onclick="filterGallery('seminar', this)">Seminar</button>
+                    <button class="filter-btn" onclick="filterGallery('studyTour', this)">Study Tour</button>
                 </div>
 
-                <!-- Modern Gallery Grid (ছবির আগের ফাইল ও নাম অপরিবর্তিত রাখা হয়েছে) -->
-                <div class="modern-gallery-grid">
+                <!-- Slideshow Container -->
+                <div class="slideshow-container" id="slideshowContainer">
                     
-                    <div class="modern-gallery-card gallery-item-box" data-category="workshop">
+                    <div class="slide-item fade gallery-item-box" data-category="workshop">
                         <img src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
-                        <div class="modern-gallery-overlay">মাশরুম চাষ প্রশিক্ষণ কর্মশালা</div>
+                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ কর্মশালা</div>
                     </div>
 
-                    <div class="modern-gallery-card gallery-item-box" data-category="workshop">
+                    <div class="slide-item fade gallery-item-box" data-category="workshop">
                         <img src="FB_IMG_1790507303872.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507303872.jpg')">
-                        <div class="modern-gallery-overlay">মাশরুম চাষ প্রশিক্ষণ কর্মশালা</div>
+                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ কর্মশালা</div>
                     </div>
 
-                    <div class="modern-gallery-card gallery-item-box" data-category="training">
+                    <div class="slide-item fade gallery-item-box" data-category="training">
                         <img src="FB_IMG_1790507307066.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507307066.jpg')">
-                        <div class="modern-gallery-overlay">মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</div>
+                        <div class="slide-overlay">মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</div>
                     </div>
 
-                    <div class="modern-gallery-card gallery-item-box" data-category="seminar">
+                    <div class="slide-item fade gallery-item-box" data-category="seminar">
                         <img src="FB_IMG_1790507297982.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507297982.jpg')">
-                        <div class="modern-gallery-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
+                        <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
+                    </div>
+
+                    <div class="slide-item fade gallery-item-box" data-category="studyTour">
+                        <img src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
+                        <div class="slide-overlay">শিক্ষা সফর ও ভিজিট</div>
                     </div>
 
                 </div>
@@ -474,21 +488,69 @@
             submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
         }
 
+        /* Slideshow and Gallery Logic */
+        var slideIndex = 0;
+        var slideInterval;
+        var currentFilteredCategory = 'all';
+
+        function showSlides() {
+            var items = document.querySelectorAll('.gallery-item-box');
+            
+            // Filter items based on current category
+            var visibleItems = [];
+            items.forEach(function(item) {
+                if (currentFilteredCategory === 'all' || item.getAttribute('data-category') === currentFilteredCategory) {
+                    visibleItems.push(item);
+                    item.style.display = "none"; // Hide all first
+                } else {
+                    item.style.display = "none";
+                }
+            });
+
+            if (visibleItems.length === 0) return;
+
+            slideIndex++;
+            if (slideIndex > visibleItems.length) { slideIndex = 1; }
+            
+            visibleItems[slideIndex - 1].style.display = "block";
+        }
+
+        function startSlideshow() {
+            if (slideInterval) clearInterval(slideInterval);
+            slideIndex = 0;
+            showSlides();
+            slideInterval = setInterval(showSlides, 3500); // Change image every 3.5 seconds
+        }
+
         /* Gallery Filter Script */
         function filterGallery(category, btn) {
             var buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(function(b) { b.classList.remove('active'); });
-            btn.classList.add('active');
+            if(btn) btn.classList.add('active');
 
-            var items = document.querySelectorAll('.gallery-item-box');
-            items.forEach(function(item) {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
+            currentFilteredCategory = category;
+            startSlideshow();
+        }
+
+        function filterGalleryFromMenu(category) {
+            currentFilteredCategory = category;
+            
+            // Update active button state on UI if exists
+            var buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(function(b) {
+                b.classList.remove('active');
+                if(b.getAttribute('onclick').includes(category)) {
+                    b.classList.add('active');
                 }
             });
+
+            startSlideshow();
         }
+
+        // Initialize slideshow on page load
+        window.onload = function() {
+            startSlideshow();
+        };
 
         /* Modal Functions for Single Notice Image View */
         function openNoticeModal(title, imgArray) {
