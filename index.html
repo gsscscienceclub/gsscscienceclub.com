@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; }
         body { background-color: #f1f1f1; color: #333; }
 
         /* Top Header */
@@ -80,10 +80,7 @@
         /* Modal Styles */
         .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow-y: auto; padding: 20px 10px; }
         
-        /* সকল নোটিশ পপআপ উইন্ডো */
         #allNoticesModal { z-index: 2000; background-color: rgba(0,0,0,0.7); }
-        
-        /* রিড মোরে ক্লিক করলে আসা ছবির পপআপ (সর্বদা উপরে থাকবে) */
         #noticeModal { z-index: 5000 !important; background-color: rgba(0,0,0,0.85); }
 
         .modal-content { background-color: #fff; margin: 3% auto; padding: 20px; border-radius: 8px; max-width: 900px; width: 95%; position: relative; }
@@ -92,7 +89,7 @@
         .modal-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
         .modal-images img { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; }
 
-        /* Fullscreen Image Preview Modal Styles */
+        /* Fullscreen Image Viewer Modal Styles */
         #imageViewerModal { z-index: 6000 !important; background-color: rgba(0,0,0,0.9); display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; justify-content: center; align-items: center; padding: 20px; }
         .image-viewer-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
         .image-viewer-content img { width: auto; height: auto; max-width: 100%; max-height: 85vh; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
@@ -107,18 +104,82 @@
         /* Result Modal Styles */
         #resultModal { z-index: 7500 !important; background-color: rgba(0,0,0,0.85); }
 
-        /* Activities Modal Styles (নতুন যুক্ত করা হলো) */
+        /* Activities Modal Styles */
         #activitiesModal { z-index: 8000 !important; background-color: rgba(0,0,0,0.85); }
         .activities-modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 8px; max-width: 700px; width: 90%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         .activities-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
         .activities-modal-body { font-size: 15px; line-height: 1.6; color: #333; max-height: 400px; overflow-y: auto; }
 
-        /* Gallery & Others */
-        .gallery-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-        @media (min-width: 600px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
-        .gallery-item { border: 1px solid #ddd; border-radius: 5px; overflow: hidden; background: #fff; }
-        .gallery-item img { width: 100%; height: 200px; object-fit: cover; display: block; cursor: pointer; }
-        .gallery-item p { padding: 10px; font-size: 14px; color: #333; text-align: center; font-weight: bold; background: #fdfdfd; }
+        /* --- Modern Filterable Gallery Design (রিসেন্ট অ্যাক্টিভিটিসের নতুন আধুনিক রূপ) --- */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background-color: #f1f1f1;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #007e33;
+            color: #fff;
+        }
+
+        .modern-gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        @media (min-width: 600px) { 
+            .modern-gallery-grid { grid-template-columns: 1fr 1fr; } 
+        }
+
+        .modern-gallery-card {
+            position: relative;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .modern-gallery-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+        .modern-gallery-card:hover img {
+            transform: scale(1.06);
+        }
+        .modern-gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 126, 51, 0.9);
+            color: #fff;
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .modern-gallery-card:hover .modern-gallery-overlay {
+            transform: translateY(0);
+        }
         
         .useful-links { display: flex; flex-direction: column; gap: 10px; }
         .useful-link-item { display: flex; align-items: center; gap: 12px; padding: 10px 15px; background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; text-decoration: none; color: #007e33; font-weight: bold; font-size: 14px; }
@@ -138,7 +199,7 @@
 </head>
 <body>
 
-    <!-- Notice Single Modal Box (ছবির জন্য) -->
+    <!-- Notice Single Modal Box -->
     <div id="noticeModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
@@ -173,7 +234,7 @@
         </div>
     </div>
 
-    <!-- Activities Floating Modal Window (নতুন যুক্ত করা হলো) -->
+    <!-- Activities Floating Modal Window -->
     <div id="activitiesModal" class="modal">
         <div class="activities-modal-content">
             <span class="modal-close" onclick="closeActivitiesModal()">&times;</span>
@@ -182,14 +243,13 @@
         </div>
     </div>
 
-    <!-- Floating Modal Window for All Notices (সকল নোটিশের পপআপ উইন্ডো) -->
+    <!-- Floating Modal Window for All Notices -->
     <div id="allNoticesModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
             <div class="modal-title"><i class="fas fa-bullhorn" style="color: #f39c12;"></i> সকল নোটিশ</div>
             <div style="max-height: 450px; overflow-y: auto; padding-right: 5px;">
                 
-                <!-- নোটিশ ১ -->
                 <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
@@ -200,7 +260,6 @@
                     </div>
                 </div>
                 
-                <!-- নোটিশ ২ -->
                 <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
@@ -211,7 +270,6 @@
                     </div>
                 </div>
 
-                <!-- নোটিশ ৩ (রেজাল্ট নোটিশ) -->
                 <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট</span>
                     <div class="notice-meta">
@@ -258,7 +316,6 @@
                     </li>
                 </ul>
             </li>
-            <!-- About Us Dropdown Menu -->
             <li>
                 <a href="javascript:void(0);" onclick="toggleSubmenu('aboutSubmenu')">
                     About Us <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
@@ -269,7 +326,6 @@
                     <li><a href="javascript:void(0);" onclick="openAboutModal('activities')">Our activities</a></li>
                 </ul>
             </li>
-            <!-- Result Dropdown Menu -->
             <li>
                 <a href="javascript:void(0);" onclick="toggleSubmenu('resultSubmenu')">
                     Result <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
@@ -278,7 +334,6 @@
                     <li><a href="javascript:void(0);" onclick="openResultModal('exam2025')">Admission Result-2025</a></li>
                 </ul>
             </li>
-            <!-- Activities Dropdown Menu (নতুন যুক্ত করা হলো) -->
             <li>
                 <a href="javascript:void(0);" onclick="toggleSubmenu('activitiesSubmenu')">
                     Activities <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
@@ -291,7 +346,8 @@
                     <li><a href="javascript:void(0);" onclick="openActivitiesModal('studyTours')">Study Tours & Excursions</a></li>
                 </ul>
             </li>
-            <li><a href="#">Gallery</a></li>
+            <!-- গ্যালারি মেনু আপডেট করা হলো -->
+            <li><a href="#recentActivitiesSection" onclick="closeNav()">Gallery</a></li>
             <li><a href="#">Contact Us</a></li>
             <li><a href="#">Login</a></li>
         </ul>
@@ -309,7 +365,6 @@
             
             <div class="section-content">
                 
-                <!-- নোটিশ ১ -->
                 <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
@@ -320,7 +375,6 @@
                     </div>
                 </div>
                 
-                <!-- নোটিশ ২ -->
                 <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
@@ -331,7 +385,6 @@
                     </div>
                 </div>
 
-                <!-- সকল নোটিশ পপআপ লিংক -->
                 <a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">
                     সকল নোটিশ <i class="fas fa-chevron-right"></i>
                 </a>
@@ -339,27 +392,42 @@
             </div>
         </div>
 
-        <!-- Recent Activities -->
-        <div class="section-card">
-            <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities</div>
+        <!-- Recent Activities (Modern Filterable Gallery Design) -->
+        <div class="section-card" id="recentActivitiesSection">
+            <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
             <div class="section-content">
-                <div class="gallery-grid">
-                    <div class="gallery-item">
+                
+                <!-- Filter Buttons -->
+                <div class="gallery-filters">
+                    <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
+                    <button class="filter-btn" onclick="filterGallery('workshop', this)">Workshops</button>
+                    <button class="filter-btn" onclick="filterGallery('training', this)">Training</button>
+                    <button class="filter-btn" onclick="filterGallery('seminar', this)">Seminar</button>
+                </div>
+
+                <!-- Modern Gallery Grid (ছবির আগের ফাইল ও নাম অপরিবর্তিত রাখা হয়েছে) -->
+                <div class="modern-gallery-grid">
+                    
+                    <div class="modern-gallery-card gallery-item-box" data-category="workshop">
                         <img src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
-                        <p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p>
+                        <div class="modern-gallery-overlay">মাশরুম চাষ প্রশিক্ষণ কর্মশালা</div>
                     </div>
-                    <div class="gallery-item">
+
+                    <div class="modern-gallery-card gallery-item-box" data-category="workshop">
                         <img src="FB_IMG_1790507303872.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507303872.jpg')">
-                        <p>মাশরুম চাষ প্রশিক্ষণ কর্মশালা</p>
+                        <div class="modern-gallery-overlay">মাশরুম চাষ প্রশিক্ষণ কর্মশালা</div>
                     </div>
-                    <div class="gallery-item">
+
+                    <div class="modern-gallery-card gallery-item-box" data-category="training">
                         <img src="FB_IMG_1790507307066.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507307066.jpg')">
-                        <p>মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</p>
+                        <div class="modern-gallery-overlay">মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</div>
                     </div>
-                    <div class="gallery-item">
+
+                    <div class="modern-gallery-card gallery-item-box" data-category="seminar">
                         <img src="FB_IMG_1790507297982.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507297982.jpg')">
-                        <p>মাশরুম চাষ বিষয়ক সেমিনার</p>
+                        <div class="modern-gallery-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -404,6 +472,22 @@
         function toggleSubmenu(id) {
             var submenu = document.getElementById(id);
             submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
+        }
+
+        /* Gallery Filter Script */
+        function filterGallery(category, btn) {
+            var buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+
+            var items = document.querySelectorAll('.gallery-item-box');
+            items.forEach(function(item) {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
 
         /* Modal Functions for Single Notice Image View */
@@ -490,7 +574,7 @@
             document.getElementById('resultModal').style.display = 'none';
         }
 
-        /* Activities Modal Functions (নতুন যুক্ত করা হলো) */
+        /* Activities Modal Functions */
         function openActivitiesModal(actType) {
             closeNav();
             var titleElem = document.getElementById('activitiesModalTitle');
@@ -507,7 +591,7 @@
                 bodyElem.innerHTML = "<b>সেমিনার ও আড্ডা:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ ও আধুনিক টপিক নিয়ে বিশেষজ্ঞ গবেষক ও শিক্ষকদের লেকচার, সায়েন্টিফিক ডিবেট সেশন এবং ইনডোর কুইজ প্রতিযোগিতা আয়োজন করা হয়।";
             } else if (actType === 'ecoInitiatives') {
                 titleElem.innerText = "Eco-Friendly & Social Initiatives";
-                bodyElem.innerHTML = "<b>পরিবেশ ও সামাজিক কার্যক্রম:</b> কলেজ ক্যাম্পাস ও আশপাশের এলাকায় সবুজায়ন এবং পরিবেশ সচেতনতা বৃদ্ধির লক্ষ্যে বৃক্ষরোপণ কর্মসূচি, ডেঙ্গু সচেতনতা ও প্লাস্টিক বর্জন ক্যাম্পেইন পরিচালনা করা হয়।";
+                bodyElem.innerText = "<b>পরিবেশ ও সামাজিক কার্যক্রম:</b> কলেজ ক্যাম্পাস ও আশপাশের এলাকায় সবুজায়ন এবং পরিবেশ সচেতনতা বৃদ্ধির লক্ষ্যে বৃক্ষরোপণ কর্মসূচি, ডেঙ্গু সচেতনতা ও প্লাস্টিক বর্জন ক্যাম্পেইন পরিচালনা করা হয়।";
             } else if (actType === 'studyTours') {
                 titleElem.innerText = "Study Tours & Excursions";
                 bodyElem.innerHTML = "<b>শিক্ষা সফর:</b> শিক্ষার্থীদের তাত্ত্বিক জ্ঞানকে বাস্তবসম্মত করতে দেশের বিজ্ঞান জাদুঘর, প্ল্যানেটোরিয়াম কিংবা বিভিন্ন গবেষণা প্রতিষ্ঠানে শিক্ষা সফর ও সায়েন্টিফিক ভিজিটের ব্যবস্থা করা হয়।";
@@ -531,7 +615,7 @@
             var imageViewerModal = document.getElementById('imageViewerModal');
             var aboutModal = document.getElementById('aboutModal');
             var resultModal = document.getElementById('resultModal');
-            var activitiesModal = document.getElementById('activitiesModal'); // নতুন যুক্ত করা হলো
+            var activitiesModal = document.getElementById('activitiesModal');
             
             if (event.target == noticeModal) { 
                 noticeModal.style.display = 'none'; 
