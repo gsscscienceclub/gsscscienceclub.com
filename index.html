@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -156,17 +157,17 @@
             cursor: pointer;
         }
         .slide-overlay {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    background: transparent; /* ব্যাকগ্রাউন্ড সম্পূর্ণ ট্রান্সপারেন্ট করা হয়েছে */
-    color: #ffffff; /* লেখার রঙ সাদা এবং স্পষ্টভাবে ফুটিয়ে তুলতে শ্যাডো দেওয়া হলো */
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
-    padding: 5px;
-    text-align: center;
-    font-size: 15px;
-    font-weight: bold;
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            background: transparent;
+            color: #ffffff;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+            padding: 5px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
         }
         /* Fade animation for slideshow */
         .fade {
@@ -185,8 +186,48 @@
         .visitor-count { text-align: center; font-size: 26px; font-weight: bold; color: #007e33; }
         .visitor-date { text-align: center; font-size: 12px; color: #666; margin-top: 5px; }
 
-        .footer { background-color: #007e33; color: #fff; padding: 20px; font-size: 14px; line-height: 1.6; }
-        .copyright { text-align: center; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; margin-top: 10px; }
+        /* Footer Custom Style & Contact Section Integration */
+        .footer { background-color: #007e33; color: #fff; padding: 25px 20px; font-size: 14px; line-height: 1.6; }
+        .footer-content-box {
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 20px;
+        }
+        .footer-col h4 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #ffffff;
+            display: inline-block;
+            padding-bottom: 3px;
+        }
+        .footer-col p {
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        .footer-contact-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .footer-contact-links li a {
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .footer-contact-links li a:hover {
+            color: #d32f2f;
+            text-decoration: underline;
+        }
+        .copyright { text-align: center; font-size: 12px; padding-top: 5px; }
 
         @media (max-width: 500px) {
             .header-title { font-size: 13px; }
@@ -344,7 +385,7 @@
                     <li><a href="javascript:void(0);" onclick="openActivitiesModal('studyTours')">Study Tours & Excursions</a></li>
                 </ul>
             </li>
-            <!-- গ্যালারি মেনু সাবমেনুসহ আপডেট করা হলো -->
+            <!-- গ্যালারি মেনু সাবমেনুসহ -->
             <li>
                 <a href="javascript:void(0);" onclick="toggleSubmenu('gallerySubmenu')">
                     Gallery <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
@@ -357,7 +398,8 @@
                     <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('studyTour'); closeNav();">Study Tour</a></li>
                 </ul>
             </li>
-            <li><a href="#">Contact Us</a></li>
+            <!-- Contact Us অপশনটিতে ক্লিক করলে সাইডবার বন্ধ হয়ে ফুটারে স্মুথলি স্ক্রল করবে -->
+            <li><a href="#contactFooterSection" onclick="closeNav()">Contact Us</a></li>
             <li><a href="#">Login</a></li>
         </ul>
     </div>
@@ -473,10 +515,28 @@
 
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <h3 style="text-align: center;">Govt. Shaheed Suhrawardy College</h3>
-        <p style="text-align: center;">36-37, Lakshmibazar, Dhaka-1100, Bangladesh</p>
+    <!-- Footer with Contact Us Section ID Added (#contactFooterSection) -->
+    <div class="footer" id="contactFooterSection">
+        <div class="footer-content-box">
+            <!-- College Information -->
+            <div class="footer-col">
+                <h4>Govt. Shaheed Suhrawardy College</h4>
+                <p>36-37, Lakshmibazar, Dhaka-1100, Bangladesh</p>
+                <p>EIIN: 108508 | College Code: 1475</p>
+            </div>
+            
+            <!-- Contact Us Details -->
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <ul class="footer-contact-links">
+                    <li><a href="tel:+8801700000000"><i class="fas fa-phone-alt"></i> Mobile: +880 1700-000000</a></li>
+                    <li><a href="mailto:gsscsc@gmail.com"><i class="fas fa-envelope"></i> E-mail: gsscsc@gmail.com</a></li>
+                    <li><a href="https://wa.me/8801700000000" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp: Chat Now</a></li>
+                    <li><a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i> Facebook Page</a></li>
+                    <li><a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram Profile</a></li>
+                </ul>
+            </div>
+        </div>
         <div class="copyright">&copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib</div>
     </div>
 
@@ -497,12 +557,11 @@
         function showSlides() {
             var items = document.querySelectorAll('.gallery-item-box');
             
-            // Filter items based on current category
             var visibleItems = [];
             items.forEach(function(item) {
                 if (currentFilteredCategory === 'all' || item.getAttribute('data-category') === currentFilteredCategory) {
                     visibleItems.push(item);
-                    item.style.display = "none"; // Hide all first
+                    item.style.display = "none";
                 } else {
                     item.style.display = "none";
                 }
@@ -520,7 +579,7 @@
             if (slideInterval) clearInterval(slideInterval);
             slideIndex = 0;
             showSlides();
-            slideInterval = setInterval(showSlides, 3500); // Change image every 3.5 seconds
+            slideInterval = setInterval(showSlides, 3500);
         }
 
         /* Gallery Filter Script */
@@ -536,7 +595,6 @@
         function filterGalleryFromMenu(category) {
             currentFilteredCategory = category;
             
-            // Update active button state on UI if exists
             var buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(function(b) {
                 b.classList.remove('active');
@@ -588,7 +646,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন。<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭৫ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন。<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭এফ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -697,3 +755,4 @@
     </script>
 </body>
 </html>
+```
