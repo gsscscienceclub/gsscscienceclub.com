@@ -156,16 +156,17 @@
             cursor: pointer;
         }
         .slide-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 126, 51, 0.85);
-            color: #fff;
-            padding: 12px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    background: transparent; /* ব্যাকগ্রাউন্ড সম্পূর্ণ ট্রান্সপারেন্ট করা হয়েছে */
+    color: #ffffff; /* লেখার রঙ সাদা এবং স্পষ্টভাবে ফুটিয়ে তুলতে শ্যাডো দেওয়া হলো */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+    padding: 5px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
         }
         /* Fade animation for slideshow */
         .fade {
