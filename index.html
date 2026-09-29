@@ -440,6 +440,8 @@
                     <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('training'); closeNav();">Training</a></li>
                     <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('seminar'); closeNav();">Seminar</a></li>
                     <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('studyTour'); closeNav();">Study Tour</a></li>
+                    <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('Admission Exam); closeNav();">Admission Exam</a></li>
+                    <li><a href="#recentActivitiesSection" onclick="filterGalleryFromMenu('others'); closeNav();">Others</a></li>
                 </ul>
             </li>
             <!-- Contact Us অপশনটিতে ক্লিক করলে সাইডবার বন্ধ হয়ে ফুটারে স্মুথলি স্ক্রল করবে -->
@@ -499,34 +501,93 @@
                     <button class="filter-btn" onclick="filterGallery('training', this)">Training</button>
                     <button class="filter-btn" onclick="filterGallery('seminar', this)">Seminar</button>
                     <button class="filter-btn" onclick="filterGallery('studyTour', this)">Study Tour</button>
+                    <button class="filter-btn" onclick="filterGallery('Admission Exam, this)">Admission Exam</button>
+                    <button class="filter-btn" onclick="filterGallery('others', this)">Others</button>
                 </div>
 
                 <!-- Slideshow Container -->
                 <div class="slideshow-container" id="slideshowContainer">
                     
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ কর্মশালা</div>
+                        <img src="১.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ প্রশিক্ষণ.jpg')">
+                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
                     </div>
 
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img src="FB_IMG_1790507303872.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507303872.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ কর্মশালা</div>
+                        <img src="২.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ প্রশিক্ষণ.jpg')">
+                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="workshop">
+                        <img src="মুক্তা চাষ বিষয়ক কর্মশালা.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ বিষয়ক কর্মশালা.jpg')">
+                        <div class="slide-overlay">মুক্তা চাষ বিষয়ক কর্মশালা</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="workshop">
+                        <img src="১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg')">
+                        <div class="slide-overlay">বিজ্ঞান ও প্রযুক্তি মেলা ২০২৫</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="workshop">
+                        <img src="জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg" alt="Activity" onclick="openImageViewer('জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg')">
+                        <div class="slide-overlay">বিজ্ঞান ক্লাবের মনোনশীলতা</div>
+                    </div>
+
+                    <div class="slide-item fade gallery-item-box" data-category="workshop">
+                        <img src="লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg" alt="Activity" onclick="openImageViewer('লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg')">
+                        <div class="slide-overlay">লেজার সিকিউরিটি বিশিষ্ট বাড়ি</div>
                     </div>
 
                     <div class="slide-item fade gallery-item-box" data-category="training">
-                        <img src="FB_IMG_1790507307066.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507307066.jpg')">
-                        <div class="slide-overlay">মাশরুম বেড তৈরির ব্যবহারিক ক্লাস</div>
+                        <img src="জাতীয় মাশরুম ইনস্টিটিউট.jpg" alt="Activity" onclick="openImageViewer('জাতীয় মাশরুম ইনস্টিটিউট.jpg')">
+                        <div class="slide-overlay">জাতীয় মাশরুম ট্রেনিং সেন্টার</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="training">
+                        <img src="মুক্তা পরিচিতি.jpg" alt="Activity" onclick="openImageViewer('মুক্তা পরিচিতি.jpg')">
+                        <div class="slide-overlay">মুক্তা চাষ</div>
+                    </div>
+					<div class="slide-item fade gallery-item-box" data-category="training">
+                        <img src="মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg')">
+                        <div class="slide-overlay">মুক্তা চাষ প্রশিক্ষণ</div>
                     </div>
 
                     <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img src="FB_IMG_1790507297982.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507297982.jpg')">
+                        <img src="২.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
                         <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="seminar">
+                        <img src="১.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
+                        <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
+                    </div>
+					<div class="slide-item fade gallery-item-box" data-category="seminar">
+                        <img src="১.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('১.সাপ্তাহিক সভা.jpg')">
+                        <div class="slide-overlay">সাপ্তাহিক সভা</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="seminar">
+                        <img src="২.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('২.সাপ্তাহিক সভা.jpg')">
+                        <div class="slide-overlay">সাপ্তাহিক সভা</div>
                     </div>
 
                     <div class="slide-item fade gallery-item-box" data-category="studyTour">
                         <img src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
                         <div class="slide-overlay">শিক্ষা সফর ও ভিজিট</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="Admission Exam">
+                        <img src="ভর্তি পরীক্ষা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('ভর্তি পরীক্ষা ২০২৫.jpg')">
+                        <div class="slide-overlay">ভর্তি পরীক্ষা ২০২৫</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="others">
+                        <img src="১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
+                        <div class="slide-overlay">ড. সামসুন্নাহার ম্যামের বিদায়</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="others">
+                        <img src="২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
+                        <div class="slide-overlay">ড. সামসুন্নাহার ম্যামের বিদায়</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="others">
+                        <img src="১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
+                        <div class="slide-overlay">আন্তর্জাতিক মাতৃভাষা দিবস</div>
+                    </div>
+                    <div class="slide-item fade gallery-item-box" data-category="others">
+                        <img src="২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
+                        <div class="slide-overlay">আন্তর্জাতিক মাতৃভাষা দিবস</div>
                     </div>
 
                 </div>
