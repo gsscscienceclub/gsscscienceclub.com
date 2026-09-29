@@ -231,6 +231,16 @@
         body.dark-theme #science-preloader { background-color: #121212; }
         body.dark-theme .preloader-text { color: #4caf50; }
 
+        /* --- ADVANCED SCIENCE WIDGET CSS --- */
+        .science-widget-box { background: linear-gradient(135deg, #004d25, #007e33); color: #fff; border-radius: 6px; padding: 15px; margin-top: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+        .science-widget-title { font-size: 15px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; color: #ffeb3b; }
+        .science-fact-text { font-size: 14px; line-height: 1.5; font-style: italic; }
+        
+        .countdown-box { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        .countdown-item { background: rgba(0,0,0,0.25); padding: 6px 10px; border-radius: 4px; min-width: 50px; }
+        .countdown-num { font-size: 16px; font-weight: bold; color: #ffeb3b; }
+        .countdown-label { font-size: 10px; text-transform: uppercase; }
+
     </style>
 </head>
 <body>
@@ -364,6 +374,16 @@
                 </div>
 
                 <div class="list-item">
+                    <span class="title"><i class="fas fa-caret-right"></i> জাতীয় বিজ্ঞান মেলা ২০২৬ উপলক্ষে প্রজেক্ট জমাদান সংক্রান্ত জরুরি বিজ্ঞপ্তি</span>
+                    <div class="notice-meta">
+                        <span class="date">Sep 29, 2026</span>
+                        <span class="notice-read-more" onclick="openNoticeModal('জাতীয় বিজ্ঞান মেলা ২০২৬ বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট</span>
                     <div class="notice-meta">
                         <span class="date">Oct 31, 2025</span>
@@ -490,6 +510,16 @@
                     </div>
                 </div>
 
+                <div class="list-item">
+                    <span class="title"><i class="fas fa-caret-right"></i> জাতীয় বিজ্ঞান মেলা ২০২৬ উপলক্ষে প্রজেক্ট জমাদান সংক্রান্ত জরুরি বিজ্ঞপ্তি</span>
+                    <div class="notice-meta">
+                        <span class="date">Sep 29, 2026</span>
+                        <span class="notice-read-more" onclick="openNoticeModal('জাতীয় বিজ্ঞান মেলা ২০২৬ বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+
                 <a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">
                     সকল নোটিশ <i class="fas fa-chevron-right"></i>
                 </a>
@@ -497,8 +527,25 @@
             </div>
         </div>
 
+        <!-- NEW MODERN SCIENCE WIDGET: Fact & Countdown -->
+        <div class="science-widget-box">
+            <div class="science-widget-title">
+                <i class="fas fa-lightbulb"></i> বিজ্ঞান তথ্য ও পরবর্তী ইভেন্ট কাউন্টডাউন
+            </div>
+            <div class="science-fact-text" id="dailyScienceFact">
+                "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।"
+            </div>
+            <div style="margin-top: 12px; font-size: 13px; font-weight: bold; color: #ffeb3b;">বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:</div>
+            <div class="countdown-box" id="eventCountdown">
+                <div class="countdown-item"><div class="countdown-num" id="cdDays">00</div><div class="countdown-label">দিন</div></div>
+                <div class="countdown-item"><div class="countdown-num" id="cdHours">00</div><div class="countdown-label">ঘণ্টা</div></div>
+                <div class="countdown-item"><div class="countdown-num" id="cdMins">00</div><div class="countdown-label">মিনিট</div></div>
+                <div class="countdown-item"><div class="countdown-num" id="cdSecs">00</div><div class="countdown-label">সেকেন্ড</div></div>
+            </div>
+        </div>
+
         <!-- Recent Activities (Slideshow & Filterable Gallery Design) -->
-        <div class="section-card" id="recentActivitiesSection">
+        <div class="section-card" id="recentActivitiesSection" style="margin-top: 20px;">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
             <div class="section-content">
                 
@@ -1017,18 +1064,17 @@
             document.getElementById("visitorDate").innerText = "as on " + new Date().toLocaleDateString('en-US', options);
         });
 
-        /* --- NEW MODERN FEATURES SCRIPT (PRELOADER & DARK MODE) --- */
+        /* --- MODERN FEATURES SCRIPT (PRELOADER, DARK MODE & COUNTDOWN) --- */
         
         // 1. Dynamic Science Preloader logic
         window.addEventListener('load', function() {
             const preloader = document.getElementById('science-preloader');
-            // Adding a small delay of 800ms to show the modern animation properly before page loads
             setTimeout(function() {
                 preloader.style.opacity = '0';
                 setTimeout(function() {
                     preloader.style.visibility = 'hidden';
                     preloader.style.display = 'none';
-                }, 500); // Wait for transition fade-out
+                }, 500);
             }, 800); 
         });
 
@@ -1041,21 +1087,18 @@
             body.classList.toggle('dark-theme');
             
             if (body.classList.contains('dark-theme')) {
-                // Now in Dark Mode
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
-                toggleBtn.style.backgroundColor = '#f39c12'; // Sun color
+                toggleBtn.style.backgroundColor = '#f39c12';
                 localStorage.setItem('gssc_theme', 'dark');
             } else {
-                // Now in Light Mode
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
-                toggleBtn.style.backgroundColor = '#333'; // Moon color
+                toggleBtn.style.backgroundColor = '#333';
                 localStorage.setItem('gssc_theme', 'light');
             }
         }
 
-        // Check if user previously selected Dark Mode and apply it instantly
         document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('gssc_theme') === 'dark') {
                 document.body.classList.add('dark-theme');
@@ -1065,6 +1108,25 @@
                 icon.classList.add('fa-sun');
                 toggleBtn.style.backgroundColor = '#f39c12';
             }
+
+            // 3. Dynamic Event Countdown Timer
+            const eventDate = new Date("Nov 15, 2026 10:00:00").getTime();
+            setInterval(function() {
+                const now = new Date().getTime();
+                const distance = eventDate - now;
+
+                if (distance > 0) {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    document.getElementById("cdDays").innerText = String(days).padStart(2, '0');
+                    document.getElementById("cdHours").innerText = String(hours).padStart(2, '0');
+                    document.getElementById("cdMins").innerText = String(minutes).padStart(2, '0');
+                    document.getElementById("cdSecs").innerText = String(seconds).padStart(2, '0');
+                }
+            }, 1000);
         });
 
     </script>
