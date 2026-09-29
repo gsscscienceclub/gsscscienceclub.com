@@ -110,6 +110,9 @@
         .activities-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
         .activities-modal-body { font-size: 15px; line-height: 1.6; color: #333; max-height: 400px; overflow-y: auto; }
 
+        /* Login Modal Styles */
+        #loginModal { z-index: 8500 !important; background-color: rgba(0,0,0,0.85); }
+
         /* --- Modern Filterable Gallery Design & Slideshow --- */
         .gallery-filters {
             display: flex;
@@ -288,6 +291,41 @@
         </div>
     </div>
 
+    <!-- Member Login Floating Modal Window -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <span class="modal-close" onclick="closeLoginModal()">&times;</span>
+            <div class="modal-title"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন</div>
+            
+            <!-- Login Form View -->
+            <div id="loginFormView">
+                <form id="memberLoginForm" onsubmit="handleLogin(event)">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:14px; color:#333;">মেম্বার আইডি:</label>
+                        <input type="text" id="loginMemberId" placeholder="আপনার মেম্বার আইডি লিখুন" required style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; font-size:14px; outline:none;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:14px; color:#333;">পাসওয়ার্ড:</label>
+                        <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড লিখুন" required style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; font-size:14px; outline:none;">
+                    </div>
+                    <div id="loginError" style="color:#d32f2f; font-size:13px; margin-bottom:12px; display:none; font-weight:bold;"></div>
+                    <button type="submit" id="loginSubmitBtn" style="width:100%; background:#007e33; color:#fff; border:none; padding:12px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:15px; transition:0.3s;">
+                        লগইন করুন
+                    </button>
+                </form>
+            </div>
+
+            <!-- User Profile View (Initially Hidden) -->
+            <div id="userProfileView" style="display:none; text-align:center;">
+                <div id="profilePhotoContainer" style="margin-bottom:15px;">
+                    <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+                </div>
+                <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:6px; font-size:14px; line-height:1.8; border:1px solid #eee; max-height:300px; overflow-y:auto;"></div>
+                <button onclick="logoutUser()" style="margin-top:15px; background:#d32f2f; color:#fff; border:none; padding:8px 22px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:14px;">লগআউট</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Modal Window for All Notices -->
     <div id="allNoticesModal" class="modal">
         <div class="modal-content">
@@ -406,7 +444,7 @@
             </li>
             <!-- Contact Us অপশনটিতে ক্লিক করলে সাইডবার বন্ধ হয়ে ফুটারে স্মুথলি স্ক্রল করবে -->
             <li><a href="#contactFooterSection" onclick="closeNav()">Contact Us</a></li>
-            <li><a href="#">Login</a></li>
+            <li><a href="javascript:void(0);" onclick="openLoginModal()">Login</a></li>
         </ul>
     </div>
 
@@ -749,6 +787,87 @@
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
+        /* --- MEMBER LOGIN MODAL SCRIPT (APPS SCRIPT INTEGRATION) --- */
+        const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzVTEvpefMjgY4G328akwas-cejZRFUOECRWIt3vC4vQUtMEogk6lDxqNDtsr0GXbs/exec";
+
+        function openLoginModal() {
+            closeNav();
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const memberId = document.getElementById('loginMemberId').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorDiv = document.getElementById('loginError');
+            const submitBtn = document.getElementById('loginSubmitBtn');
+
+            errorDiv.style.display = 'none';
+            submitBtn.innerText = 'যাচাই করা হচ্ছে...';
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+
+            fetch(APPS_SCRIPT_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ memberId: memberId, password: password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                submitBtn.innerText = 'লগইন করুন';
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+
+                if (data.status === 'success') {
+                    document.getElementById('loginFormView').style.display = 'none';
+                    document.getElementById('userProfileView').style.display = 'block';
+
+                    // গুগল ড্রাইভ ইমেজের লিঙ্ক প্রসেসিং
+                    if (data.photo) {
+                        let photoUrl = data.photo;
+                        const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                        if (match) {
+                            photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1];
+                        }
+                        document.getElementById('profilePhoto').src = photoUrl;
+                        document.getElementById('profilePhotoContainer').style.display = 'block';
+                    } else {
+                        document.getElementById('profilePhotoContainer').style.display = 'none';
+                    }
+
+                    // ব্যবহারকারীর তথ্যের তালিকা প্রদর্শন
+                    let html = '';
+                    for (let key in data.details) {
+                        html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
+                                    <strong style="color:#007e33;">${key}:</strong> ${data.details[key]}
+                                 </div>`;
+                    }
+                    document.getElementById('profileDetails').innerHTML = html;
+                } else {
+                    errorDiv.innerText = data.message || 'মেম্বার আইডি অথবা পাসওয়ার্ড সঠিক নয়!';
+                    errorDiv.style.display = 'block';
+                }
+            })
+            .catch(err => {
+                submitBtn.innerText = 'লগইন করুন';
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                errorDiv.innerText = 'সার্ভারে সংযোগ করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।';
+                errorDiv.style.display = 'block';
+            });
+        }
+
+        function logoutUser() {
+            document.getElementById('userProfileView').style.display = 'none';
+            document.getElementById('loginFormView').style.display = 'block';
+            document.getElementById('memberLoginForm').reset();
+        }
+
         /* Window Click event to close modals */
         window.onclick = function(event) {
             var noticeModal = document.getElementById('noticeModal');
@@ -757,6 +876,7 @@
             var aboutModal = document.getElementById('aboutModal');
             var resultModal = document.getElementById('resultModal');
             var activitiesModal = document.getElementById('activitiesModal');
+            var loginModal = document.getElementById('loginModal');
             
             if (event.target == noticeModal) { 
                 noticeModal.style.display = 'none'; 
@@ -770,6 +890,8 @@
                 resultModal.style.display = 'none'; 
             } else if (event.target == activitiesModal) { 
                 activitiesModal.style.display = 'none'; 
+            } else if (event.target == loginModal) { 
+                loginModal.style.display = 'none'; 
             }
         }
 
