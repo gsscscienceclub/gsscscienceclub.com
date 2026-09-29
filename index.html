@@ -704,7 +704,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন。<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭এফ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭এফ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -811,10 +811,9 @@
             submitBtn.disabled = true;
             submitBtn.style.opacity = '0.7';
 
+            // Google Apps Script CORS redirection সমস্যা সমাধানের জন্য text/plain ব্যবহার করে POST পাঠানো
             fetch(APPS_SCRIPT_WEB_APP_URL, {
                 method: 'POST',
-                mode: 'cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({ memberId: memberId, password: password })
             })
             .then(res => res.json())
