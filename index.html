@@ -36,6 +36,48 @@
         .badge-container { display: flex; gap: 6px; }
         .badge { background-color: #d32f2f; color: white; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
 
+        /* --- Latest Notice Bar CSS --- */
+        .latest-notice-wrapper {
+            background-color: #fffae6;
+            border-bottom: 1px solid #ffeeba;
+            padding: 8px 0;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .latest-notice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+        .latest-notice-badge {
+            background-color: #d32f2f;
+            color: #ffffff;
+            padding: 4px 10px;
+            font-weight: bold;
+            font-size: 12px;
+            border-radius: 4px;
+            white-space: nowrap;
+            margin-right: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .latest-notice-text {
+            width: 100%;
+            overflow: hidden;
+            font-size: 14px;
+            color: #333333;
+            font-weight: bold;
+        }
+        .latest-notice-text marquee span {
+            margin-right: 30px;
+            cursor: pointer;
+        }
+        .latest-notice-text marquee span:hover {
+            color: #007e33;
+            text-decoration: underline;
+        }
+
         /* Notice Title Bar */
         .notice-title-bar { position: relative; }
         .notice-title-bar .menu-btn {
@@ -201,6 +243,8 @@
         /* Dark Mode Theme Classes */
         body.dark-theme { background-color: #121212; color: #e0e0e0; }
         body.dark-theme .top-header { background: linear-gradient(135deg, #001f0f, #003d18); box-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+        body.dark-theme .latest-notice-wrapper { background-color: #1a261a; border-bottom: 1px solid #2a3b2a; }
+        body.dark-theme .latest-notice-text { color: #e0e0e0; }
         body.dark-theme .section-card, 
         body.dark-theme .sidebar, 
         body.dark-theme .modal-content, 
@@ -408,6 +452,22 @@
             </div>
         </div>
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- টপ হেডারের নিচে এবং নোটিশ অংশের ঠিক উপরে নতুন অংশ -->
+    <!-- ========================================== -->
+    <div class="latest-notice-wrapper">
+        <div class="latest-notice-container">
+            <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
+            <div class="latest-notice-text">
+                <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+                    <span>১. আগামীকালের ক্লাস অনিবার্য কারণে স্থগিত করা হয়েছে। | </span>
+                    <span>২. বার্ষিক পরীক্ষার রুটিন প্রকাশিত হয়েছে, নোটিশ বোর্ড থেকে ডাউনলোড করুন। | </span>
+                    <span>৩. অনলাইনে ফি জমাদান সংক্রান্ত জরুরি বিজ্ঞপ্তি।</span>
+                </marquee>
+            </div>
+        </div>
     </div>
 
     <!-- Sidebar Menu -->
@@ -647,30 +707,6 @@
                 <div class="countdown-item"><div class="countdown-num" id="cdSecs">00</div><div class="countdown-label">সেকেন্ড</div></div>
             </div>
         </div>
-
-        <!-- Executive Committee Section -->
-        <!--<div class="section-card" id="executiveCommitteeSection" style="margin-top: 20px;">
-            <div class="section-title"><i class="fas fa-users" style="color: #007e33;"></i> কার্যনির্বাহী কমিটি (Executive Committee)</div>
-            <div class="section-content">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
-                    <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
-                        <img src="FB_IMG_1788806747811.png" alt="Moderator" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid #007e33;">
-                        <h4 style="font-size: 15px; color: #007e33; margin-bottom: 4px;">ড. সামসুন্নাহার</h4>
-                        <p style="font-size: 13px; color: #666; font-weight: bold;">প্রধান মডারেটর ও শিক্ষক</p>
-                    </div>
-                    <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
-                        <img src="17700954426981835287012.png" alt="President" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid #007e33;">
-                        <h4 style="font-size: 15px; color: #007e33; margin-bottom: 4px;">মোহাম্মদ সজিব</h4>
-                        <p style="font-size: 13px; color: #666; font-weight: bold;">সভাপতি (President)</p>
-                    </div>
-                    <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
-                        <img src="FB_IMG_1788806747811.png" alt="General Secretary" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid #007e33;">
-                        <h4 style="font-size: 15px; color: #007e33; margin-bottom: 4px;">বিজ্ঞান প্রতিনিধি</h4>
-                        <p style="font-size: 13px; color: #666; font-weight: bold;">সাধারণ সম্পাদক (General Secretary)</p>
-                    </div>
-                </div>
-            </div>
-        </div>-->
 
         <!-- Useful Links -->
         <div class="section-card">
@@ -1141,7 +1177,7 @@
             // 3. Dynamic Event Countdown Timer
             const eventDate = new Date(CONFIG_EVENT_DATE).getTime();
             setInterval(function() {
-                const now = new Date().getTime();
+                now = new Date().getTime();
                 const distance = eventDate - now;
 
                 if (distance > 0) {
