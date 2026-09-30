@@ -264,7 +264,7 @@
         body.dark-theme #science-preloader { background-color: #121212; }
         body.dark-theme .preloader-text { color: #4caf50; }
 
-        /* --- FLOATING CIRCULAR PROFILE BADGE STYLING --- */
+        /* --- FLOATING CIRCULAR PROFILE BADGE STYLING (Draggable) --- */
         .floating-profile-badge {
             position: fixed;
             top: 75px;
@@ -276,21 +276,23 @@
             overflow: hidden;
             border: 2px solid #ffeb3b;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            cursor: pointer;
+            cursor: grab;
             background: #007e33;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: box-shadow 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            user-select: none;
+            touch-action: none;
         }
-        .floating-profile-badge:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+        .floating-profile-badge:active {
+            cursor: grabbing;
         }
         .floating-profile-badge img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            pointer-events: none;
         }
 
         .science-widget-box { background: linear-gradient(135deg, #004d25, #007e33); color: #fff; border-radius: 6px; padding: 15px; margin-top: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
@@ -1113,21 +1115,116 @@
             updateUIAfterLogin(photoUrl, data.details['Name'] || data.details['نام'] || 'Member');
         }
 
+        function makeElementDraggable(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            let isDragged = false;
+
+            elmnt.onmousedown = dragMouseDown;
+            elmnt.ontouchstart = dragTouchStart;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                isDragged = false;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                isDragged = true;
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                let newTop = elmnt.offsetTop - pos2;
+                let newLeft = elmnt.offsetLeft - pos1;
+
+                // Screen boundaries check
+                if (newTop < 0) newTop = 0;
+                if (newLeft < 0) newLeft = 0;
+                if (newTop > window.innerHeight - elmnt.offsetHeight) newTop = window.innerHeight - elmnt.offsetHeight;
+                if (newLeft > window.innerWidth - elmnt.offsetWidth) newLeft = window.innerWidth - elmnt.offsetWidth;
+
+                elmnt.style.top = newTop + "px";
+                elmnt.style.left = newLeft + "px";
+                elmnt.style.right = "auto";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                if (!isDragged) {
+                    openLoginModal();
+                }
+            }
+
+            function dragTouchStart(e) {
+                if (e.touches.length === 1) {
+                    isDragged = false;
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+                    document.ontouchend = closeTouchElement;
+                    document.ontouchmove = elementTouchDrag;
+                }
+            }
+
+            function elementTouchDrag(e) {
+                if (e.touches.length === 1) {
+                    isDragged = true;
+                    pos1 = pos3 - e.touches[0].clientX;
+                    pos2 = pos4 - e.touches[0].clientY;
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+
+                    let newTop = elmnt.offsetTop - pos2;
+                    let newLeft = elmnt.offsetLeft - pos1;
+
+                    if (newTop < 0) newTop = 0;
+                    if (newLeft < 0) newLeft = 0;
+                    if (newTop > window.innerHeight - elmnt.offsetHeight) newTop = window.innerHeight - elmnt.offsetHeight;
+                    if (newLeft > window.innerWidth - elmnt.offsetWidth) newLeft = window.innerWidth - elmnt.offsetWidth;
+
+                    elmnt.style.top = newTop + "px";
+                    elmnt.style.left = newLeft + "px";
+                    elmnt.style.right = "auto";
+                }
+            }
+
+            function closeTouchElement() {
+                document.ontouchend = null;
+                document.ontouchmove = null;
+                if (!isDragged) {
+                    openLoginModal();
+                }
+            }
+        }
+
         function updateUIAfterLogin(photoUrl, memberName) {
             // 1. Circular Floating Profile Badge Container
             const floatingContainer = document.getElementById('floatingProfileContainer');
             if (photoUrl) {
                 floatingContainer.innerHTML = `
-                    <div class="floating-profile-badge" onclick="openLoginModal()" title="ড্যাশবোর্ড দেখতে ক্লিক করুন: ${memberName}">
+                    <div id="draggableProfileBadge" class="floating-profile-badge" title="ড্যাশবোর্ড দেখতে ক্লিক করুন অথবা টেনে সরিয়ে নিন: ${memberName}">
                         <img src="${photoUrl}" alt="Profile">
                     </div>
                 `;
             } else {
                 floatingContainer.innerHTML = `
-                    <div class="floating-profile-badge" onclick="openLoginModal()" title="ড্যাশবোর্ড দেখতে ক্লিক করুন: ${memberName}" style="display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold;">
+                    <div id="draggableProfileBadge" class="floating-profile-badge" title="ড্যাশবোর্ড দেখতে ক্লিক করুন অথবা টেনে সরিয়ে নিন: ${memberName}" style="display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold;">
                         <i class="fas fa-user"></i>
                     </div>
                 `;
+            }
+            
+            // Enable dragging mechanism
+            const badgeElem = document.getElementById('draggableProfileBadge');
+            if (badgeElem) {
+                makeElementDraggable(badgeElem);
             }
 
             // 2. Sidebar Menu Link Update
