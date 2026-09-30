@@ -71,11 +71,7 @@
         }
         .latest-notice-text marquee span {
             margin-right: 30px;
-            cursor: pointer;
-        }
-        .latest-notice-text marquee span:hover {
-            color: #007e33;
-            text-decoration: underline;
+            /* ক্লিক বন্ধ করার জন্য কার্সর ও হোভার ইফেক্ট সরিয়ে সাধারণ টেক্সট করা হলো */
         }
 
         /* Notice Title Bar */
@@ -455,16 +451,15 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- টপ হেডারের নিচে এবং নোটিশ অংশের ঠিক উপরে নতুন অংশ -->
+    <!-- সর্বশেষ নোটিশ অংশ (টেক্সট এখন সম্পূর্ণ ক্লিক-অক্ষম) -->
     <!-- ========================================== -->
     <div class="latest-notice-wrapper">
         <div class="latest-notice-container">
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
             <div class="latest-notice-text">
                 <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-                    
                     <span>জিএসএসসি বিজ্ঞান ক্লাবের সাপ্তাহিক মিটিং প্রত্যেক রবিবার দুপুর ১২:০০ ঘটিকায় অনুষ্ঠিত হবে। | </span>
-                    <span>নতুন সদস্য সংগ্রহ কার্যক্রম ২৮শে সেপ্টেম্বর ২০২৬ থেকে ৭ই অক্টোবর ২০২৬ পর্যন্ত চলমান থাকবে। </span>।</span>
+                    <span>নতুন সদস্য সংগ্রহ কার্যক্রম ২৮শে সেপ্টেম্বর ২০২৬ থেকে ৭ই অক্টোবর ২০২৬ পর্যন্ত চলমান থাকবে।</span>
                 </marquee>
             </div>
         </div>
@@ -767,11 +762,11 @@
             </div>
         </div>
 
-        <!-- Visitor Info -->
+        <!-- Visitor Info (Updated to 507) -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-chart-line" style="color: #007e33;"></i> Visitor Info</div>
             <div class="section-content">
-                <div class="visitor-count" id="visitorCount">1823</div>
+                <div class="visitor-count" id="visitorCount">507</div>
                 <div class="visitor-date" id="visitorDate">as on 29 Sep, 2026</div>
             </div>
         </div>
@@ -977,7 +972,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭৫ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭এস এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -1137,10 +1132,10 @@
             if (modals.includes(event.target)) { event.target.style.display = 'none'; }
         }
 
-        /* Auto Visitor Counter */
+        /* Auto Visitor Counter (Default base set to 507) */
         document.addEventListener("DOMContentLoaded", function() {
             let totalVisitors = localStorage.getItem("gssc_visitor_count");
-            if (!totalVisitors) { totalVisitors = 1823; } 
+            if (!totalVisitors) { totalVisitors = 507; } 
             else { totalVisitors = parseInt(totalVisitors); }
 
             if (!sessionStorage.getItem("visited_already")) {
@@ -1226,4 +1221,4 @@
 
     </script>
 </body>
-                </html>
+</html>
