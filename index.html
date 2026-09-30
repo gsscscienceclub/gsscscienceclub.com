@@ -72,7 +72,6 @@
         }
         .latest-notice-text marquee span {
             margin-right: 30px;
-            /* ক্লিক বন্ধ করার জন্য কার্সর ও হোভার ইফেক্ট সরিয়ে সাধারণ টেক্সট করা হলো */
         }
 
         /* Notice Title Bar */
@@ -187,7 +186,6 @@
             color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9); padding: 5px;
             text-align: center; font-size: 15px; font-weight: bold;
         }
-        /* Fade animation for slideshow */
         .fade { animation-name: fade; animation-duration: 1.5s; }
         @keyframes fade { from {opacity: .4} to {opacity: 1} }
         
@@ -198,14 +196,12 @@
         .visitor-count { text-align: center; font-size: 26px; font-weight: bold; color: #007e33; }
         .visitor-date { text-align: center; font-size: 12px; color: #666; margin-top: 5px; }
 
-        /* Important Document Item Style */
         .doc-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; }
         .doc-item:last-child { border-bottom: none; }
         .doc-title { font-size: 14px; font-weight: bold; color: #333; display: flex; align-items: center; gap: 8px; }
         .doc-btn { background-color: #007e33; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: background 0.3s; }
         .doc-btn:hover { background-color: #004d25; }
 
-        /* Footer Custom Style & Contact Section Integration */
         .footer { background-color: #007e33; color: #fff; padding: 25px 20px; font-size: 14px; line-height: 1.6; }
         .footer-content-box {
             max-width: 800px; margin: 0 auto 20px auto; display: grid;
@@ -225,19 +221,15 @@
             .slide-item img { height: 200px; }
         }
 
-        /* --- NEW MODERN FEATURES CSS (PRELOADER & DARK MODE) --- */
-        
-        /* Preloader Style */
+        /* --- MODERN FEATURES CSS (PRELOADER & DARK MODE) --- */
         #science-preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
         .loader-content { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; animation: pulseLoader 1.5s infinite; }
         @keyframes pulseLoader { 0% { transform: scale(0.9); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.8; } }
         .preloader-text { margin-top: 15px; color: #007e33; font-weight: bold; font-size: 18px; letter-spacing: 2px; }
 
-        /* Dark Mode Toggle Button */
         #darkModeToggleBtn { position: fixed; bottom: 80px; left: 20px; z-index: 999; font-size: 20px; border: none; outline: none; background-color: #333; color: white; cursor: pointer; padding: 12px 15px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: transform 0.3s ease, background-color 0.3s ease; }
         #darkModeToggleBtn:hover { transform: scale(1.1); background-color: #555; }
 
-        /* Dark Mode Theme Classes */
         body.dark-theme { background-color: #121212; color: #e0e0e0; }
         body.dark-theme .top-header { background: linear-gradient(135deg, #001f0f, #003d18); box-shadow: 0 2px 8px rgba(0,0,0,0.8); }
         body.dark-theme .latest-notice-wrapper { background-color: #1a261a; border-bottom: 1px solid #2a3b2a; }
@@ -272,7 +264,28 @@
         body.dark-theme #science-preloader { background-color: #121212; }
         body.dark-theme .preloader-text { color: #4caf50; }
 
-        /* --- ADVANCED SCIENCE WIDGET CSS --- */
+        /* --- FLOATING LOGIN STATUS BADGE STYLING --- */
+        .login-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eafaf1;
+            color: #007e33;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid #a3e4d7;
+        }
+        .login-status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #27ae60;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 4px #27ae60;
+        }
+
         .science-widget-box { background: linear-gradient(135deg, #004d25, #007e33); color: #fff; border-radius: 6px; padding: 15px; margin-top: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
         .science-widget-title { font-size: 15px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; color: #ffeb3b; }
         .science-fact-text { font-size: 14px; line-height: 1.5; font-style: italic; }
@@ -356,7 +369,7 @@
     <div id="loginModal" class="modal">
         <div class="modal-content" style="max-width: 450px;">
             <span class="modal-close" onclick="closeLoginModal()">&times;</span>
-            <div class="modal-title"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন</div>
+            <div class="modal-title"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন / ড্যাশবোর্ড</div>
             
             <!-- Login Form View -->
             <div id="loginFormView">
@@ -376,7 +389,7 @@
                 </form>
             </div>
 
-            <!-- User Profile View (Initially Hidden) -->
+            <!-- User Profile View (Dynamically Controlled) -->
             <div id="userProfileView" style="display:none; text-align:center;">
                 <div id="profilePhotoContainer" style="margin-bottom:15px;">
                     <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
@@ -447,13 +460,13 @@
                 <span class="badge">EIIN: 108508</span>
                 <span class="badge">College Code: 1475</span>
             </div>
+            <!-- Dynamic Login Status Indicator in Header -->
+            <div id="headerLoginStatusContainer" style="margin-top: 2px;"></div>
         </div>
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- সর্বশেষ নোটিশ অংশ (টেক্সট এখন সম্পূর্ণ ক্লিক-অক্ষম) -->
-    <!-- ========================================== -->
+    <!-- সর্বশেষ নোটিশ অংশ -->
     <div class="latest-notice-wrapper">
         <div class="latest-notice-container">
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
@@ -530,7 +543,8 @@
                 </ul>
             </li>
             <li><a href="#contactFooterSection" onclick="closeNav()">Contact Us</a></li>
-            <li><a href="javascript:void(0);" onclick="openLoginModal()">Login</a></li>
+            <!-- Dynamic Sidebar Login Link -->
+            <li><a href="javascript:void(0);" id="sidebarLoginMenuLink" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Login</a></li>
         </ul>
     </div>
 
@@ -566,7 +580,6 @@
                     </div>
                 </div>
 
-                
                 <a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">
                     সকল নোটিশ <i class="fas fa-chevron-right"></i>
                 </a>
@@ -611,12 +624,11 @@
             </div>
         </div>
 
-        <!-- Recent Activities (Slideshow & Filterable Gallery Design) -->
+        <!-- Recent Activities -->
         <div class="section-card" id="recentActivitiesSection" style="margin-top: 20px;">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
             <div class="section-content">
                 
-                <!-- Filter Buttons -->
                 <div class="gallery-filters">
                     <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
                     <button class="filter-btn" onclick="filterGallery('workshop', this)">Workshops</button>
@@ -627,14 +639,11 @@
                     <button class="filter-btn" onclick="filterGallery('others', this)">Others</button>
                 </div>
 
-                <!-- Slideshow Container -->
                 <div class="slideshow-container" id="slideshowContainer">
-                    
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
                         <img loading="lazy" src="১.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ প্রশিক্ষণ.jpg')">
                         <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
                     </div>
-
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
                         <img loading="lazy" src="২.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ প্রশিক্ষণ.jpg')">
                         <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
@@ -651,12 +660,10 @@
                         <img loading="lazy" src="জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg" alt="Activity" onclick="openImageViewer('জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg')">
                         <div class="slide-overlay">বিজ্ঞান ক্লাবের মনোনশীলতা</div>
                     </div>
-
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
                         <img loading="lazy" src="লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg" alt="Activity" onclick="openImageViewer('লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg')">
                         <div class="slide-overlay">লেজার সিকিউরিটি বিশিষ্ট বাড়ি</div>
                     </div>
-
                     <div class="slide-item fade gallery-item-box" data-category="training">
                         <img loading="lazy" src="জাতীয় মাশরুম ইনস্টিটিউট.jpg" alt="Activity" onclick="openImageViewer('জাতীয় মাশরুম ইনস্টিটিউট.jpg')">
                         <div class="slide-overlay">জাতীয় মাশরুম ট্রেনিং সেন্টার</div>
@@ -669,7 +676,6 @@
                         <img loading="lazy" src="মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg')">
                         <div class="slide-overlay">মুক্তা চাষ প্রশিক্ষণ</div>
                     </div>
-
                     <div class="slide-item fade gallery-item-box" data-category="seminar">
                         <img loading="lazy" src="২.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
                         <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
@@ -686,7 +692,6 @@
                         <img loading="lazy" src="২.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('২.সাপ্তাহিক সভা.jpg')">
                         <div class="slide-overlay">সাপ্তাহিক সভা</div>
                     </div>
-
                     <div class="slide-item fade gallery-item-box" data-category="studyTour">
                         <img loading="lazy" src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
                         <div class="slide-overlay">শিক্ষা সফর ও ভিজিট</div>
@@ -711,29 +716,12 @@
                         <img loading="lazy" src="২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
                         <div class="slide-overlay">আন্তর্জাতিক মাতৃভাষা দিবস</div>
                     </div>
-
                 </div>
 
-                <!-- See All Image Button Below Slideshow -->
                 <a href="javascript:void(0);" onclick="openAllGalleryModal()" class="all-notices-bottom">
                     See all image <i class="fas fa-chevron-right"></i>
                 </a>
 
-            </div>
-        </div>
-
-        <!-- MODERN SCIENCE WIDGET: Fact & Countdown -->
-        <div style="display:none;" class="science-widget-box">
-            <div class="science-widget-title">
-                <i class="fas fa-lightbulb"></i> বিজ্ঞান তথ্য ও পরবর্তী ইভেন্ট কাউন্টডাউন
-            </div>
-            <div class="science-fact-text" id="dailyScienceFact"></div>
-            <div style="margin-top: 12px; font-size: 13px; font-weight: bold; color: #ffeb3b;" id="eventTitleDisplay"></div>
-            <div class="countdown-box" id="eventCountdown">
-                <div class="countdown-item"><div class="countdown-num" id="cdDays">00</div><div class="countdown-label">দিন</div></div>
-                <div class="countdown-item"><div class="countdown-num" id="cdHours">00</div><div class="countdown-label">ঘণ্টা</div></div>
-                <div class="countdown-item"><div class="countdown-num" id="cdMins">00</div><div class="countdown-label">মিনিট</div></div>
-                <div class="countdown-item"><div class="countdown-num" id="cdSecs">00</div><div class="countdown-label">সেকেন্ড</div></div>
             </div>
         </div>
 
@@ -763,7 +751,7 @@
             </div>
         </div>
 
-        <!-- Visitor Info (Updated to 507) -->
+        <!-- Visitor Info -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-chart-line" style="color: #007e33;"></i> Visitor Info</div>
             <div class="section-content">
@@ -796,7 +784,7 @@
         <div class="copyright">&copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib</div>
     </div>
 
-    <!-- Scroll to Top Button Element -->
+    <!-- Scroll to Top Button -->
     <button onclick="scrollToTop()" id="scrollTopBtn" title="উপরে যান"><i class="fas fa-arrow-up"></i></button>
 
     <!-- JavaScript -->
@@ -805,7 +793,6 @@
         const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
         const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
 
-        // Sidebar controls
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
         function toggleSubmenu(id) {
@@ -813,7 +800,6 @@
             submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
         }
 
-        /* Scroll To Top Logic */
         window.onscroll = function() {scrollFunction()};
         function scrollFunction() {
             var btn = document.getElementById("scrollTopBtn");
@@ -828,7 +814,6 @@
             document.documentElement.scrollTop = 0;
         }
 
-        /* Slideshow and Gallery Logic */
         var slideIndex = 0;
         var slideInterval;
         var currentFilteredCategory = 'all';
@@ -849,7 +834,6 @@
 
             slideIndex++;
             if (slideIndex > visibleItems.length) { slideIndex = 1; }
-            
             visibleItems[slideIndex - 1].style.display = "block";
         }
 
@@ -860,7 +844,6 @@
             slideInterval = setInterval(showSlides, 3500);
         }
 
-        /* Gallery Filter Script */
         function filterGallery(category, btn) {
             var buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(function(b) { b.classList.remove('active'); });
@@ -882,36 +865,31 @@
             startSlideshow();
         }
 
-        window.onload = function() { startSlideshow(); };
+        window.onload = function() { 
+            startSlideshow(); 
+            checkActiveLoginStateOnLoad();
+        };
 
-        /* Recent Activities All Images Floating Modal Logic */
         function openAllGalleryModal() {
             var container = document.getElementById('allGalleryModalImages');
             container.innerHTML = '';
-            
             var items = document.querySelectorAll('.gallery-item-box');
-            
             items.forEach(function(item) {
                 var imgElem = item.querySelector('img');
                 var overlayElem = item.querySelector('.slide-overlay');
-                
                 if (imgElem) {
                     var src = imgElem.getAttribute('src');
                     var titleText = overlayElem ? overlayElem.innerText : '';
-                    
                     var cardDiv = document.createElement('div');
                     cardDiv.style.position = 'relative';
                     cardDiv.style.borderRadius = '6px';
                     cardDiv.style.overflow = 'hidden';
                     cardDiv.style.boxShadow = '0 2px 5px rgba(0,0,0,0.15)';
-                    
                     var img = document.createElement('img');
                     img.src = src;
                     img.alt = titleText || 'Activity Image';
                     img.onclick = function() { openImageViewer(src); };
-                    
                     cardDiv.appendChild(img);
-                    
                     if (titleText) {
                         var caption = document.createElement('div');
                         caption.style.position = 'absolute';
@@ -927,19 +905,14 @@
                         caption.innerText = titleText;
                         cardDiv.appendChild(caption);
                     }
-                    
                     container.appendChild(cardDiv);
                 }
             });
-            
             document.getElementById('allGalleryModal').style.display = 'block';
         }
 
-        function closeAllGalleryModal() {
-            document.getElementById('allGalleryModal').style.display = 'none';
-        }
+        function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
 
-        /* Modals & Notice Logic */
         function openNoticeModal(title, imgArray) {
             if (Array.isArray(imgArray) && imgArray.length === 1) {
                 openImageViewer(imgArray[0]);
@@ -1043,11 +1016,16 @@
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
-        /* Login System */
+        /* Login System & Enhanced Session Indicator Handlers */
         const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzGHlKXnH0kI_lClenbiLVw55Bdvgaa8we4jUeoQ_lyXGszYQuNo8pRnOl3fhhVDv7f/exec";
 
-        function openLoginModal() { closeNav(); document.getElementById('loginModal').style.display = 'block'; }
-        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+        function openLoginModal() { 
+            closeNav(); 
+            document.getElementById('loginModal').style.display = 'block'; 
+        }
+        function closeLoginModal() { 
+            document.getElementById('loginModal').style.display = 'none'; 
+        }
 
         function handleLogin(event) {
             event.preventDefault();
@@ -1077,30 +1055,11 @@
                 submitBtn.style.opacity = '1';
 
                 if (data.status === 'success') {
-                    document.getElementById('loginFormView').style.display = 'none';
-                    document.getElementById('userProfileView').style.display = 'block';
+                    // Save login session to localStorage so that closing modal retains state
+                    localStorage.setItem('gssc_logged_in', 'true');
+                    localStorage.setItem('gssc_user_data', JSON.stringify(data));
 
-                    if (data.photo) {
-                        let photoUrl = data.photo;
-                        const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                        if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
-                        document.getElementById('profilePhoto').src = photoUrl;
-                        document.getElementById('profilePhotoContainer').style.display = 'block';
-                    } else {
-                        document.getElementById('profilePhotoContainer').style.display = 'none';
-                    }
-
-                    let html = '';
-                    for (let key in data.details) {
-                        const valueStr = String(data.details[key]);
-                        if (valueStr.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
-                            continue;
-                        }
-                        html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
-                                    <strong style="color:#007e33;">${key}:</strong> ${data.details[key]}
-                                 </div>`;
-                    }
-                    document.getElementById('profileDetails').innerHTML = html;
+                    renderUserSessionState(data);
                 } else {
                     errorDiv.innerText = data.message || 'মেম্বার আইডি অথবা পাসওয়ার্ড সঠিক নয়!';
                     errorDiv.style.display = 'block';
@@ -1116,13 +1075,83 @@
             });
         }
 
+        function renderUserSessionState(data) {
+            document.getElementById('loginFormView').style.display = 'none';
+            document.getElementById('userProfileView').style.display = 'block';
+
+            if (data.photo) {
+                let photoUrl = data.photo;
+                const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
+                document.getElementById('profilePhoto').src = photoUrl;
+                document.getElementById('profilePhotoContainer').style.display = 'block';
+            } else {
+                document.getElementById('profilePhotoContainer').style.display = 'none';
+            }
+
+            let html = '';
+            for (let key in data.details) {
+                const valueStr = String(data.details[key]);
+                if (valueStr.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
+                    continue;
+                }
+                html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
+                            <strong style="color:#007e33;">${key}:</strong> ${data.details[key]}
+                         </div>`;
+            }
+            document.getElementById('profileDetails').innerHTML = html;
+
+            // Update UI elements across header and sidebar to reflect logged-in status
+            updateUIAfterLogin(data.details['Name'] || data.details['نام'] || 'Member');
+        }
+
+        function updateUIAfterLogin(memberName) {
+            // 1. Header Indicator Badge
+            const headerContainer = document.getElementById('headerLoginStatusContainer');
+            headerContainer.innerHTML = `
+                <div class="login-status-badge" onclick="openLoginModal()" style="cursor:pointer;" title="Click to view profile">
+                    <span class="login-status-dot"></span> <span>Online: ${memberName}</span>
+                </div>
+            `;
+
+            // 2. Sidebar Menu Link Update
+            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
+            sidebarLink.innerHTML = `<i class="fas fa-user-circle" style="color:#27ae60;"></i> Dashboard (${memberName})`;
+            sidebarLink.onclick = function() { openLoginModal(); closeNav(); };
+        }
+
+        function checkActiveLoginStateOnLoad() {
+            const isLoggedIn = localStorage.getItem('gssc_logged_in');
+            if (isLoggedIn === 'true') {
+                const rawData = localStorage.getItem('gssc_user_data');
+                if (rawData) {
+                    try {
+                        const data = JSON.parse(rawData);
+                        renderUserSessionState(data);
+                    } catch (e) {
+                        console.error("Parse error", e);
+                    }
+                }
+            }
+        }
+
         function logoutUser() {
+            localStorage.removeItem('gssc_logged_in');
+            localStorage.removeItem('gssc_user_data');
+
             document.getElementById('userProfileView').style.display = 'none';
             document.getElementById('loginFormView').style.display = 'block';
             document.getElementById('memberLoginForm').reset();
+
+            // Reset Header & Sidebar Indicators
+            document.getElementById('headerLoginStatusContainer').innerHTML = '';
+            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
+            sidebarLink.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
+            sidebarLink.onclick = function() { openLoginModal(); };
+
+            closeLoginModal();
         }
 
-        /* Outside Click Close Modals */
         window.onclick = function(event) {
             const modals = [
                 document.getElementById('noticeModal'), document.getElementById('allNoticesModal'),
@@ -1133,7 +1162,6 @@
             if (modals.includes(event.target)) { event.target.style.display = 'none'; }
         }
 
-        /* Auto Visitor Counter (Default base set to 507) */
         document.addEventListener("DOMContentLoaded", function() {
             let totalVisitors = localStorage.getItem("gssc_visitor_count");
             if (!totalVisitors) { totalVisitors = 507; } 
@@ -1150,9 +1178,6 @@
             document.getElementById("visitorDate").innerText = "as on " + new Date().toLocaleDateString('en-US', options);
         });
 
-        /* --- MODERN FEATURES SCRIPT (PRELOADER, DARK MODE & COUNTDOWN) --- */
-        
-        // 1. Dynamic Science Preloader logic
         window.addEventListener('load', function() {
             const preloader = document.getElementById('science-preloader');
             setTimeout(function() {
@@ -1164,7 +1189,6 @@
             }, 800); 
         });
 
-        // 2. Smart Dark Mode Toggle logic
         function toggleDarkMode() {
             const body = document.body;
             const toggleBtn = document.getElementById('darkModeToggleBtn');
@@ -1198,7 +1222,6 @@
             document.getElementById("dailyScienceFact").innerText = '"' + CONFIG_SCIENCE_FACT + '"';
             document.getElementById("eventTitleDisplay").innerText = CONFIG_EVENT_TITLE;
 
-            // 3. Dynamic Event Countdown Timer
             const eventDate = new Date(CONFIG_EVENT_DATE).getTime();
             setInterval(function() {
                 let now = new Date().getTime();
