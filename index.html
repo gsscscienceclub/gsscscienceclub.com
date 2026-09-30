@@ -264,26 +264,33 @@
         body.dark-theme #science-preloader { background-color: #121212; }
         body.dark-theme .preloader-text { color: #4caf50; }
 
-        /* --- FLOATING LOGIN STATUS BADGE STYLING --- */
-        .login-status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #eafaf1;
-            color: #007e33;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            border: 1px solid #a3e4d7;
-        }
-        .login-status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #27ae60;
+        /* --- FLOATING CIRCULAR PROFILE BADGE STYLING --- */
+        .floating-profile-badge {
+            position: fixed;
+            top: 75px;
+            right: 15px;
+            z-index: 998;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 4px #27ae60;
+            overflow: hidden;
+            border: 2px solid #ffeb3b;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            background: #007e33;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .floating-profile-badge:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+        }
+        .floating-profile-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .science-widget-box { background: linear-gradient(135deg, #004d25, #007e33); color: #fff; border-radius: 6px; padding: 15px; margin-top: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
@@ -311,6 +318,9 @@
     <button id="darkModeToggleBtn" onclick="toggleDarkMode()" title="Toggle Dark/Light Mode">
         <i class="fas fa-moon"></i>
     </button>
+
+    <!-- Dynamic Circular Floating Profile Badge (Visible only when logged in) -->
+    <div id="floatingProfileContainer"></div>
 
     <!-- Notice Single Modal Box -->
     <div id="noticeModal" class="modal">
@@ -460,8 +470,6 @@
                 <span class="badge">EIIN: 108508</span>
                 <span class="badge">College Code: 1475</span>
             </div>
-            <!-- Dynamic Login Status Indicator in Header -->
-            <div id="headerLoginStatusContainer" style="margin-top: 2px;"></div>
         </div>
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
@@ -946,7 +954,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭এস এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪তের এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -1016,7 +1024,7 @@
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
-        /* Login System & Enhanced Session Indicator Handlers */
+        /* Login System & Floating Circular Profile Badge Handlers */
         const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzGHlKXnH0kI_lClenbiLVw55Bdvgaa8we4jUeoQ_lyXGszYQuNo8pRnOl3fhhVDv7f/exec";
 
         function openLoginModal() { 
@@ -1055,7 +1063,6 @@
                 submitBtn.style.opacity = '1';
 
                 if (data.status === 'success') {
-                    // Save login session to localStorage so that closing modal retains state
                     localStorage.setItem('gssc_logged_in', 'true');
                     localStorage.setItem('gssc_user_data', JSON.stringify(data));
 
@@ -1079,8 +1086,9 @@
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
 
+            let photoUrl = '';
             if (data.photo) {
-                let photoUrl = data.photo;
+                photoUrl = data.photo;
                 const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
                 if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
                 document.getElementById('profilePhoto').src = photoUrl;
@@ -1101,18 +1109,26 @@
             }
             document.getElementById('profileDetails').innerHTML = html;
 
-            // Update UI elements across header and sidebar to reflect logged-in status
-            updateUIAfterLogin(data.details['Name'] || data.details['نام'] || 'Member');
+            // Update UI elements across Floating Badge and Sidebar
+            updateUIAfterLogin(photoUrl, data.details['Name'] || data.details['نام'] || 'Member');
         }
 
-        function updateUIAfterLogin(memberName) {
-            // 1. Header Indicator Badge
-            const headerContainer = document.getElementById('headerLoginStatusContainer');
-            headerContainer.innerHTML = `
-                <div class="login-status-badge" onclick="openLoginModal()" style="cursor:pointer;" title="Click to view profile">
-                    <span class="login-status-dot"></span> <span>Online: ${memberName}</span>
-                </div>
-            `;
+        function updateUIAfterLogin(photoUrl, memberName) {
+            // 1. Circular Floating Profile Badge Container
+            const floatingContainer = document.getElementById('floatingProfileContainer');
+            if (photoUrl) {
+                floatingContainer.innerHTML = `
+                    <div class="floating-profile-badge" onclick="openLoginModal()" title="ড্যাশবোর্ড দেখতে ক্লিক করুন: ${memberName}">
+                        <img src="${photoUrl}" alt="Profile">
+                    </div>
+                `;
+            } else {
+                floatingContainer.innerHTML = `
+                    <div class="floating-profile-badge" onclick="openLoginModal()" title="ড্যাশবোর্ড দেখতে ক্লিক করুন: ${memberName}" style="display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                `;
+            }
 
             // 2. Sidebar Menu Link Update
             const sidebarLink = document.getElementById('sidebarLoginMenuLink');
@@ -1143,8 +1159,8 @@
             document.getElementById('loginFormView').style.display = 'block';
             document.getElementById('memberLoginForm').reset();
 
-            // Reset Header & Sidebar Indicators
-            document.getElementById('headerLoginStatusContainer').innerHTML = '';
+            // Clear Floating Badge & Reset Sidebar Link
+            document.getElementById('floatingProfileContainer').innerHTML = '';
             const sidebarLink = document.getElementById('sidebarLoginMenuLink');
             sidebarLink.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
             sidebarLink.onclick = function() { openLoginModal(); };
