@@ -462,7 +462,7 @@
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
             <div class="latest-notice-text">
                 <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-                    <span>১. ৩০শে সেপ্টেম্বর ২০২৬ ইং রোজ বুধবার সকাল ৯:৩০ মিনিট হতে কলেজের বিভিন্ন বিভাগে ক্লাস ব্রিফিং এবং নতুন সদস্য সংগ্রহ কার্যক্রম অনুষ্ঠিত হবে। | </span>
+                    <span>১. ৩০শে সেপ্টেম্বর ২০২৬ ইং রোজ বুধবার সকাল ৯ঃ৩০ মিনিট হতে কলেজের বিভিন্ন বিভাগে ক্লাস ব্রিফিং এবং নতুন সদস্য সংগ্রহ কার্যক্রম অনুষ্ঠিত হবে। | </span>
                     <span>২. জিএসএসসি বিজ্ঞান ক্লাবের সাপ্তাহিক মিটিং প্রত্যেক রবিবার দুপুর ১২:০০ ঘটিকায় অনুষ্ঠিত হবে। | </span>
                     <span>নতুন সদস্য সংগ্রহ কার্যক্রম ২৮শে সেপ্টেম্বর ২০২৬ থেকে ৭ই অক্টোবর ২০২৬ পর্যন্ত চলমান থাকবে। </span>।</span>
                 </marquee>
@@ -578,6 +578,35 @@
             </div>
         </div>
 
+        <!-- প্রধান পৃষ্ঠপোষক সেকশন -->
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-user-tie" style="color: #007e33;"></i> প্রধান পৃষ্ঠপোষক</div>
+            <div class="section-content" style="text-align: center;">
+                <img src="patron.jpg" alt="প্রধান পৃষ্ঠপোষক" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid #007e33; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <h4 style="font-size: 16px; color: #007e33; margin-bottom: 5px;">প্রধান পৃষ্ঠপোষকের নাম</h4>
+                <p style="font-size: 14px; color: #666; font-weight: bold;">অধ্যক্ষ, সরকারি শহীদ সোহরাওয়ার্দী কলেজ, ঢাকা</p>
+            </div>
+        </div>
+
+        <!-- প্রতিষ্ঠাতা উপদেষ্টামণ্ডলী সেকশন -->
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-users" style="color: #007e33;"></i> প্রতিষ্ঠাতা উপদেষ্টামণ্ডলী</div>
+            <div class="section-content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
+                    <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
+                        <img src="advisor1.jpg" alt="Advisor" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px;">
+                        <h5 style="font-size: 15px; color: #333; margin-bottom: 3px;">উপদেষ্টার নাম ১</h5>
+                        <p style="font-size: 13px; color: #666;">পদবি / বিভাগীয় প্রধান</p>
+                    </div>
+                    <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
+                        <img src="advisor2.jpg" alt="Advisor" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px;">
+                        <h5 style="font-size: 15px; color: #333; margin-bottom: 3px;">উপদেষ্টার নাম ২</h5>
+                        <p style="font-size: 13px; color: #666;">পদবি / শিক্ষক প্রতিনিধি</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Recent Activities (Slideshow & Filterable Gallery Design) -->
         <div class="section-card" id="recentActivitiesSection" style="margin-top: 20px;">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
@@ -689,17 +718,13 @@
             </div>
         </div>
 
-        <!-- MODERN SCIENCE WIDGET: Fact & Countdown (Successfully Moved After Recent Activities) -->
+        <!-- MODERN SCIENCE WIDGET: Fact & Countdown -->
         <div style="display:none;" class="science-widget-box">
             <div class="science-widget-title">
                 <i class="fas fa-lightbulb"></i> বিজ্ঞান তথ্য ও পরবর্তী ইভেন্ট কাউন্টডাউন
             </div>
-            <div class="science-fact-text" id="dailyScienceFact">
-                <!-- JavaScript দিয়ে ডায়নামিকভাবে কনফিগারেশন থেকে আসবে -->
-            </div>
-            <div style="margin-top: 12px; font-size: 13px; font-weight: bold; color: #ffeb3b;" id="eventTitleDisplay">
-                <!-- JavaScript দিয়ে ডায়নামিকভাবে ইভেন্টের শিরোনাম আসবে -->
-            </div>
+            <div class="science-fact-text" id="dailyScienceFact"></div>
+            <div style="margin-top: 12px; font-size: 13px; font-weight: bold; color: #ffeb3b;" id="eventTitleDisplay"></div>
             <div class="countdown-box" id="eventCountdown">
                 <div class="countdown-item"><div class="countdown-num" id="cdDays">00</div><div class="countdown-label">দিন</div></div>
                 <div class="countdown-item"><div class="countdown-num" id="cdHours">00</div><div class="countdown-label">ঘণ্টা</div></div>
@@ -772,13 +797,9 @@
 
     <!-- JavaScript -->
     <script>
-        /* ==========================================================================
-           === ইভেন্ট ও কাউন্টডাউন কনফিগারেশন (সহজে পরিবর্তনের জন্য এখানে এডিট করুন) ===
-           ========================================================================== */
-        const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:"; // এখানে ইভেন্টের নাম পরিবর্তন করুন
-        const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00"; // এখানে লক্ষ্য তারিখ ও সময় পরিবর্তন করুন (যেমন: "Dec 31, 2026 23:59:59")
-        const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।"; // এখানে বিজ্ঞান তথ্য পরিবর্তন করুন
-
+        const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
+        const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
+        const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
 
         // Sidebar controls
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
@@ -1170,14 +1191,13 @@
                 toggleBtn.style.backgroundColor = '#f39c12';
             }
 
-            // ডায়নামিক কনফিগারেশন মানগুলো এইচটিএমএল এলিমেন্টে সেট করা
             document.getElementById("dailyScienceFact").innerText = '"' + CONFIG_SCIENCE_FACT + '"';
             document.getElementById("eventTitleDisplay").innerText = CONFIG_EVENT_TITLE;
 
             // 3. Dynamic Event Countdown Timer
             const eventDate = new Date(CONFIG_EVENT_DATE).getTime();
             setInterval(function() {
-                now = new Date().getTime();
+                let now = new Date().getTime();
                 const distance = eventDate - now;
 
                 if (distance > 0) {
