@@ -487,12 +487,12 @@
             <!-- User Dashboard View (Profile & Payment Tabs) -->
             <div id="userProfileView" style="display:none;">
                 <div class="dashboard-tab-header">
-                    <button class="dash-tab-btn active" onclick="switchDashboardTab('profileTabPane', this)"><i class="fas fa-user"></i> প্রোফাইল</button>
-                    <button class="dash-tab-btn" onclick="switchDashboardTab('paymentTabPane', this)"><i class="fas fa-credit-card"></i> পেমেন্ট</button>
+                    <button class="dash-tab-btn" onclick="switchDashboardTab('profileTabPane', this)"><i class="fas fa-user"></i> প্রোফাইল</button>
+                    <button class="dash-tab-btn active" onclick="switchDashboardTab('paymentTabPane', this)"><i class="fas fa-credit-card"></i> পেমেন্ট</button>
                 </div>
 
                 <!-- Tab 1: Profile Pane -->
-                <div id="profileTabPane" class="dashboard-content-pane active" style="text-align:center;">
+                <div id="profileTabPane" class="dashboard-content-pane" style="text-align:center;">
                     <div id="profilePhotoContainer" style="margin-bottom:12px;">
                         <img id="profilePhoto" src="" alt="Profile Photo" style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
                     </div>
@@ -501,7 +501,7 @@
                 </div>
 
                 <!-- Tab 2: Payment Pane -->
-                <div id="paymentTabPane" class="dashboard-content-pane">
+                <div id="paymentTabPane" class="dashboard-content-pane active">
                     <form id="onlinePaymentForm" onsubmit="handleOnlinePayment(event)">
                         <div class="payment-form-group">
                             <label>শিক্ষার্থীর নাম:</label>
@@ -512,7 +512,15 @@
                             <input type="text" id="payId" readonly required style="background-color: #e9ecef; cursor: not-allowed;">
                         </div>
                         <div class="payment-form-group">
-                            <label>পেমেন্ট মাধ্যম (অ্যাকাউন্ট: <span style="color:#d32f2f;">01920356697</span>):</label>
+                            <label>পেমেন্টের ধরণ / ক্যাটাগরি:</label>
+                            <select id="payCategory" required>
+                                <option value="Membership Form Fee">সদস্য ফর্ম ফি (Membership Form Fee)</option>
+                                <option value="Monthly Fee">মাসিক চাঁদা (Monthly Fee)</option>
+                                <option value="Event Registration">ইভেন্ট রেজিস্ট্রেশন (Event Registration)</option>
+                            </select>
+                        </div>
+                        <div class="payment-form-group">
+                            <label>পেমেন্ট মাধ্যম (ক্লাব অ্যাকাউন্ট: <span style="color:#d32f2f;">01920356697</span>):</label>
                             <div class="payment-methods">
                                 <div class="pay-method-card active" onclick="selectPaymentMethod('bKash', this)">
                                     <span style="color: #e2136e; font-weight:bold;">bKash</span>
@@ -527,6 +535,10 @@
                                     <span>রকেট</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="payment-form-group">
+                            <label>যে নাম্বার থেকে টাকা পাঠিয়েছেন (Sender Mobile No):</label>
+                            <input type="text" id="paySenderNo" placeholder="যেমন: 01700000000" required>
                         </div>
                         <div class="payment-form-group">
                             <label>ট্রানজেকশন আইডি (TrxID):</label>
@@ -1183,6 +1195,8 @@
 
             const name = document.getElementById('payName').value;
             const id = document.getElementById('payId').value;
+            const category = document.getElementById('payCategory').value;
+            const senderNo = document.getElementById('paySenderNo').value;
             const trxId = document.getElementById('payTrxId').value;
             const submitBtn = document.getElementById('paySubmitBtn');
 
@@ -1193,7 +1207,9 @@
             formData.append('action', 'payment');
             formData.append('memberId', id);
             formData.append('name', name);
+            formData.append('category', category);
             formData.append('method', selectedPaymentMethod);
+            formData.append('senderNo', senderNo);
             formData.append('trxId', trxId);
 
             fetch(APPS_SCRIPT_WEB_APP_URL, {
@@ -1207,20 +1223,22 @@
                 submitBtn.disabled = false;
 
                 if(data.status === 'success' || data.result === 'success') {
-                    alert(`ধন্যবাদ ${name} (${id})!\nআপনার পেমেন্ট তথ্য সফলভাবে গুগল শিটে সংরক্ষিত হয়েছে।`);
+                    alert(`ধন্যবাদ ${name} (${id})!\nআপনার পেমেন্ট তথ্য সফলভাবে সংরক্ষিত হয়েছে।`);
                     document.getElementById('onlinePaymentForm').reset();
                     document.getElementById('payName').value = name;
                     document.getElementById('payId').value = id;
                 } else {
                     alert('পেমেন্ট সফলভাবে সাবমিট হয়েছে।');
                     document.getElementById('onlinePaymentForm').reset();
+                    document.getElementById('payName').value = name;
+                    document.getElementById('payId').value = id;
                 }
             })
             .catch(err => {
                 console.error("Payment Error:", err);
                 submitBtn.innerText = 'পেমেন্ট সাবমিট করুন';
                 submitBtn.disabled = false;
-                alert(`ধন্যবাদ ${name} (${id})!\nমাধ্যম: ${selectedPaymentMethod} (${CLUB_PAYMENT_NUMBER})\nTrxID: ${trxId}\n\nআপনার পেমেন্ট ডেটা সফলভাবে রিসিভ করা হয়েছে।`);
+                alert(`ধন্যবাদ ${name} (${id})!\nক্যাটাগরি: ${category}\nমাধ্যম: ${selectedPaymentMethod} (${CLUB_PAYMENT_NUMBER})\nপ্রেরক নম্বর: ${senderNo}\nTrxID: ${trxId}\n\nআপনার পেমেন্ট ডেটা সফলভাবে রিসিভ করা হয়েছে।`);
                 document.getElementById('onlinePaymentForm').reset();
                 document.getElementById('payName').value = name;
                 document.getElementById('payId').value = id;
@@ -1313,10 +1331,10 @@
             }
             document.getElementById('profileDetails').innerHTML = html;
 
-            const memberName = data.details['Name'] || data.details['نام'] || 'Member';
-            const memberIdVal = data.details['Member ID'] || data.details['ID'] || '';
+            // প্রোফাইল ডেটা থেকে নাম ও আইডি ইংরেজিতে নিয়ে পেমেন্ট ফর্মে অটো ফিল করা
+            const memberName = data.details['Name'] || data.details['Student Name'] || data.details['Full Name'] || 'Student';
+            const memberIdVal = data.details['Member ID'] || data.details['ID'] || data.details['Roll'] || '';
 
-            // পেমেন্ট ফর্মে নাম ও মেম্বার আইডি অটো ফিল করা
             document.getElementById('payName').value = memberName;
             document.getElementById('payId').value = memberIdVal;
 
