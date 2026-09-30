@@ -264,12 +264,12 @@
         body.dark-theme #science-preloader { background-color: #121212; }
         body.dark-theme .preloader-text { color: #4caf50; }
 
-        /* --- FLOATING CIRCULAR PROFILE BADGE STYLING (Draggable) --- */
+        /* --- FLOATING CIRCULAR PROFILE BADGE STYLING (Draggable & Always On Top) --- */
         .floating-profile-badge {
             position: fixed;
             top: 75px;
             right: 15px;
-            z-index: 9999; /* জেড-ইনডেক্স বাড়িয়ে সবার উপরে রাখার ব্যবস্থা করা হয়েছে */
+            z-index: 999999 !important; /* নিশ্চিত করা হয়েছে যাতে এটি সবার উপরে থাকে */
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -601,7 +601,7 @@
         <div class="section-card">
             <div class="section-title"><i class="fas fa-user-tie" style="color: #007e33;"></i> প্রধান পৃষ্ঠপোষক</div>
             <div class="section-content" style="text-align: center;">
-                <img src="কাকলি ম্যাম.jpg" alt="প্রতিষ্ঠাতা উপদেষ্টা" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #007e33; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <img src="কাকলি ম্যাম.jpg" alt="প্রতিষ্ঠাতা উপদেষ্টা" onclick="openImageViewer('কাকলি ম্যাম.jpg')" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #007e33; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer;" title="বড় করে দেখতে ক্লিক করুন">
                 <h4 style="font-size: 16px; color: #007e33; margin-bottom: 5px;">প্রফেসর ডঃ কাকলি মুখোপাধ্যায়</h4>
                 <p style="font-size: 14px; color: #666; font-weight: bold;">অধ্যক্ষ, সরকারি শহীদ সোহরাওয়ার্দী কলেজ, ঢাকা</p>
             </div>
@@ -613,19 +613,19 @@
             <div class="section-content">
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
                     <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
-                        <img src="এজাজ স্যার.jpg" alt="Advisor" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px;">
+                        <img src="এজাজ স্যার.jpg" alt="Advisor" onclick="openImageViewer('এজাজ স্যার.jpg')" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px; cursor: pointer;" title="বড় করে দেখতে ক্লিক করুন">
                         <h5 style="font-size: 15px; color: #333; margin-bottom: 3px;">ড. মোহাম্মাদ এজাজুল করিম</h5>
                         <p style="font-size: 13px; color: #666;">কনভেনার, জিএসএসসি বিজ্ঞান ক্লাব</p>
                         <p style="font-size: 13px; color: #666;">সহযোগী অধ্যাপক,পদার্থবিজ্ঞান বিভাগ</p>
                     </div>
                     <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
-                        <img src="মনোজ স্যার.jpg" alt="Advisor" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px;">
+                        <img src="মনোজ স্যার.jpg" alt="Advisor" onclick="openImageViewer('মনোজ স্যার.jpg')" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px; cursor: pointer;" title="বড় করে দেখতে ক্লিক করুন">
                         <h5 style="font-size: 15px; color: #333; margin-bottom: 3px;">মনোজ মন্ডল</h5>
                         <p style="font-size: 13px; color: #666;">সদস্য, জিএসএসসি বিজ্ঞান ক্লাব</p>
                         <p style="font-size: 13px; color: #666;">সহকারী অধ্যাপক,উদ্ভিদবিদ্যা বিভাগ</p>
                     </div>
                     <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
-                        <img src="শাহনাজ ম্যাম.jpg" alt="Advisor" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px;">
+                        <img src="শাহনাজ ম্যাম.jpg" alt="Advisor" onclick="openImageViewer('শাহনাজ ম্যাম.jpg')" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px; cursor: pointer;" title="বড় করে দেখতে ক্লিক করুন">
                         <h5 style="font-size: 15px; color: #333; margin-bottom: 3px;">মোসাম্মৎ শাহনাজ সিদ্দিকা</h5>
                         <p style="font-size: 13px; color: #666;">সদস্য, জিএসএসসি বিজ্ঞান ক্লাব </p>
                         <p style="font-size: 13px; color: #666;">সহকারী অধ্যাপক,রসায়ন বিভাগ</p>
@@ -1144,7 +1144,6 @@
                 let newTop = elmnt.offsetTop - pos2;
                 let newLeft = elmnt.offsetLeft - pos1;
 
-                // Screen boundaries check
                 if (newTop < 0) newTop = 0;
                 if (newLeft < 0) newLeft = 0;
                 if (newTop > window.innerHeight - elmnt.offsetHeight) newTop = window.innerHeight - elmnt.offsetHeight;
@@ -1205,7 +1204,6 @@
         }
 
         function updateUIAfterLogin(photoUrl, memberName) {
-            // 1. Circular Floating Profile Badge Container
             const floatingContainer = document.getElementById('floatingProfileContainer');
             if (photoUrl) {
                 floatingContainer.innerHTML = `
@@ -1221,13 +1219,11 @@
                 `;
             }
             
-            // Enable dragging mechanism
             const badgeElem = document.getElementById('draggableProfileBadge');
             if (badgeElem) {
                 makeElementDraggable(badgeElem);
             }
 
-            // 2. Sidebar Menu Link Update
             const sidebarLink = document.getElementById('sidebarLoginMenuLink');
             sidebarLink.innerHTML = `<i class="fas fa-user-circle" style="color:#27ae60;"></i> Dashboard (${memberName})`;
             sidebarLink.onclick = function() { openLoginModal(); closeNav(); };
@@ -1256,7 +1252,6 @@
             document.getElementById('loginFormView').style.display = 'block';
             document.getElementById('memberLoginForm').reset();
 
-            // Clear Floating Badge & Reset Sidebar Link
             document.getElementById('floatingProfileContainer').innerHTML = '';
             const sidebarLink = document.getElementById('sidebarLoginMenuLink');
             sidebarLink.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
@@ -1331,31 +1326,7 @@
                 icon.classList.add('fa-sun');
                 toggleBtn.style.backgroundColor = '#f39c12';
             }
-
-            document.getElementById("dailyScienceFact").innerText = '"' + CONFIG_SCIENCE_FACT + '"';
-            document.getElementById("eventTitleDisplay").innerText = CONFIG_EVENT_TITLE;
-
-            const eventDate = new Date(CONFIG_EVENT_DATE).getTime();
-            setInterval(function() {
-                let now = new Date().getTime();
-                const distance = eventDate - now;
-
-                if (distance > 0) {
-                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                    document.getElementById("cdDays").innerText = String(days).padStart(2, '0');
-                    document.getElementById("cdHours").innerText = String(hours).padStart(2, '0');
-                    document.getElementById("cdMins").innerText = String(minutes).padStart(2, '0');
-                    document.getElementById("cdSecs").innerText = String(seconds).padStart(2, '0');
-                } else {
-                    document.getElementById("eventTitleDisplay").innerText = "ইভেন্ট ইতিমধ্যে শুরু হয়ে গেছে!";
-                }
-            }, 1000);
         });
-
     </script>
 </body>
 </html>
