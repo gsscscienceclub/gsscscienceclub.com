@@ -255,7 +255,7 @@
         body.dark-theme .doc-title { color: #e0e0e0; }
         body.dark-theme .footer { background-color: #001a0c; border-top: 1px solid #004d25; }
         body.dark-theme .modal-title, body.dark-theme .about-modal-title, body.dark-theme .activities-modal-title { color: #4caf50; border-bottom-color: #4caf50; }
-        body.dark-theme input, body.dark-theme select { background-color: #333; color: #fff; border-color: #555; }
+        body.dark-theme input { background-color: #333; color: #fff; border-color: #555; }
         body.dark-theme label { color: #ccc !important; }
         body.dark-theme #profileDetails { background: #252525 !important; border-color: #444 !important; color: #e0e0e0; }
         body.dark-theme .close-btn, body.dark-theme .modal-close { color: #ff5252; }
@@ -269,7 +269,7 @@
             position: fixed;
             top: 75px;
             right: 15px;
-            z-index: 999999 !important;
+            z-index: 999999 !important; /* নিশ্চিত করা হয়েছে যাতে এটি সবার উপরে থাকে */
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -295,97 +295,14 @@
             pointer-events: none;
         }
 
-        /* --- Dashboard Tabs & Modern Payment Section CSS inside Login Modal --- */
-        .dashboard-tab-header {
-            display: flex;
-            border-bottom: 2px solid #007e33;
-            margin-bottom: 15px;
-        }
-        .dash-tab-btn {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            background: #f1f1f1;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-            color: #333;
-            transition: 0.3s;
-        }
-        .dash-tab-btn.active {
-            background: #007e33;
-            color: #fff;
-        }
-        .dashboard-content-pane {
-            display: none;
-        }
-        .dashboard-content-pane.active {
-            display: block;
-        }
-
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .pay-method-card {
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            padding: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f9f9f9;
-        }
-        .pay-method-card.active, .pay-method-card:hover {
-            border-color: #007e33;
-            background: #eafaf1;
-        }
-        .pay-method-card span {
-            font-size: 11px;
-            font-weight: bold;
-            display: block;
-            color: #333;
-        }
-        .payment-form-group {
-            margin-bottom: 10px;
-        }
-        .payment-form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 4px;
-            font-size: 12px;
-            color: #333;
-        }
-        .payment-form-group input, .payment-form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 13px;
-            outline: none;
-        }
-        .pay-submit-btn {
-            width: 100%;
-            background: #007e33;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        .pay-submit-btn:hover {
-            background: #004d25;
-        }
+        .science-widget-box { background: linear-gradient(135deg, #004d25, #007e33); color: #fff; border-radius: 6px; padding: 15px; margin-top: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+        .science-widget-title { font-size: 15px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; color: #ffeb3b; }
+        .science-fact-text { font-size: 14px; line-height: 1.5; font-style: italic; }
+        
+        .countdown-box { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        .countdown-item { background: rgba(0,0,0,0.25); padding: 6px 10px; border-radius: 4px; min-width: 50px; }
+        .countdown-num { font-size: 16px; font-weight: bold; color: #ffeb3b; }
+        .countdown-label { font-size: 10px; text-transform: uppercase; }
 
     </style>
 </head>
@@ -460,9 +377,9 @@
         </div>
     </div>
 
-    <!-- Member Login & Dashboard Modal Window -->
+    <!-- Member Login Floating Modal Window -->
     <div id="loginModal" class="modal">
-        <div class="modal-content" style="max-width: 480px;">
+        <div class="modal-content" style="max-width: 450px;">
             <span class="modal-close" onclick="closeLoginModal()">&times;</span>
             <div class="modal-title"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন / ড্যাশবোর্ড</div>
             
@@ -484,71 +401,13 @@
                 </form>
             </div>
 
-            <!-- User Dashboard View (Profile & Payment Tabs) -->
-            <div id="userProfileView" style="display:none;">
-                <div class="dashboard-tab-header">
-                    <button class="dash-tab-btn" onclick="switchDashboardTab('profileTabPane', this)"><i class="fas fa-user"></i> প্রোফাইল</button>
-                    <button class="dash-tab-btn active" onclick="switchDashboardTab('paymentTabPane', this)"><i class="fas fa-credit-card"></i> পেমেন্ট</button>
+            <!-- User Profile View (Dynamically Controlled) -->
+            <div id="userProfileView" style="display:none; text-align:center;">
+                <div id="profilePhotoContainer" style="margin-bottom:15px;">
+                    <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
                 </div>
-
-                <!-- Tab 1: Profile Pane -->
-                <div id="profileTabPane" class="dashboard-content-pane" style="text-align:center;">
-                    <div id="profilePhotoContainer" style="margin-bottom:12px;">
-                        <img id="profilePhoto" src="" alt="Profile Photo" style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
-                    </div>
-                    <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:12px; border-radius:6px; font-size:13px; line-height:1.6; border:1px solid #eee; max-height:260px; overflow-y:auto;"></div>
-                    <button onclick="logoutUser()" style="margin-top:12px; background:#d32f2f; color:#fff; border:none; padding:6px 18px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px;">লগআউট</button>
-                </div>
-
-                <!-- Tab 2: Payment Pane -->
-                <div id="paymentTabPane" class="dashboard-content-pane active">
-                    <form id="onlinePaymentForm" onsubmit="handleOnlinePayment(event)">
-                        <div class="payment-form-group">
-                            <label>শিক্ষার্থীর নাম:</label>
-                            <input type="text" id="payName" readonly required style="background-color: #e9ecef; cursor: not-allowed;">
-                        </div>
-                        <div class="payment-form-group">
-                            <label>মেম্বার আইডি / রোল নম্বর:</label>
-                            <input type="text" id="payId" readonly required style="background-color: #e9ecef; cursor: not-allowed;">
-                        </div>
-                        <div class="payment-form-group">
-                            <label>পেমেন্টের ধরণ / ক্যাটাগরি:</label>
-                            <select id="payCategory" required>
-                                <option value="Membership Form Fee">সদস্য ফর্ম ফি (Membership Form Fee)</option>
-                                <option value="Monthly Fee">মাসিক চাঁদা (Monthly Fee)</option>
-                                <option value="Event Registration">ইভেন্ট রেজিস্ট্রেশন (Event Registration)</option>
-                            </select>
-                        </div>
-                        <div class="payment-form-group">
-                            <label>পেমেন্ট মাধ্যম (ক্লাব অ্যাকাউন্ট: <span style="color:#d32f2f;">01920356697</span>):</label>
-                            <div class="payment-methods">
-                                <div class="pay-method-card active" onclick="selectPaymentMethod('bKash', this)">
-                                    <span style="color: #e2136e; font-weight:bold;">bKash</span>
-                                    <span>বিকাশ</span>
-                                </div>
-                                <div class="pay-method-card" onclick="selectPaymentMethod('Nagad', this)">
-                                    <span style="color: #f7941d; font-weight:bold;">Nagad</span>
-                                    <span>নগদ</span>
-                                </div>
-                                <div class="pay-method-card" onclick="selectPaymentMethod('Rocket', this)">
-                                    <span style="color: #8c349b; font-weight:bold;">Rocket</span>
-                                    <span>রকেট</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="payment-form-group">
-                            <label>যে নাম্বার থেকে টাকা পাঠিয়েছেন (Sender Mobile No):</label>
-                            <input type="text" id="paySenderNo" placeholder="যেমন: 01700000000" required>
-                        </div>
-                        <div class="payment-form-group">
-                            <label>ট্রানজেকশন আইডি (TrxID):</label>
-                            <input type="text" id="payTrxId" placeholder="TrxID লিখুন" required>
-                        </div>
-                        <button type="submit" id="paySubmitBtn" class="pay-submit-btn">
-                            <i class="fas fa-check-circle"></i> পেমেন্ট সাবমিট করুন
-                        </button>
-                    </form>
-                </div>
+                <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:6px; font-size:14px; line-height:1.8; border:1px solid #eee; max-height:300px; overflow-y:auto;"></div>
+                <button onclick="logoutUser()" style="margin-top:15px; background:#d32f2f; color:#fff; border:none; padding:8px 22px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:14px;">লগআউট</button>
             </div>
         </div>
     </div>
@@ -940,7 +799,9 @@
 
     <!-- JavaScript -->
     <script>
-        const CLUB_PAYMENT_NUMBER = "01920356697";
+        const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
+        const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
+        const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
 
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
@@ -1165,86 +1026,6 @@
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
-        /* Dashboard Tabs Switcher */
-        function switchDashboardTab(tabId, btnElem) {
-            const panes = document.querySelectorAll('.dashboard-content-pane');
-            panes.forEach(pane => pane.classList.remove('active'));
-            const buttons = document.querySelectorAll('.dash-tab-btn');
-            buttons.forEach(b => b.classList.remove('active'));
-
-            document.getElementById(tabId).classList.add('active');
-            btnElem.classList.add('active');
-        }
-
-        /* Payment Method Selection & Handler */
-        let selectedPaymentMethod = 'bKash';
-        function selectPaymentMethod(method, element) {
-            selectedPaymentMethod = method;
-            const cards = document.querySelectorAll('.pay-method-card');
-            cards.forEach(card => card.classList.remove('active'));
-            element.classList.add('active');
-        }
-
-        function handleOnlinePayment(event) {
-            event.preventDefault();
-            const isLoggedIn = localStorage.getItem('gssc_logged_in');
-            if (isLoggedIn !== 'true') {
-                alert("দয়া করে প্রথমে আপনার মেম্বার আইডি দিয়ে লগইন করুন!");
-                return;
-            }
-
-            const name = document.getElementById('payName').value;
-            const id = document.getElementById('payId').value;
-            const category = document.getElementById('payCategory').value;
-            const senderNo = document.getElementById('paySenderNo').value;
-            const trxId = document.getElementById('payTrxId').value;
-            const submitBtn = document.getElementById('paySubmitBtn');
-
-            submitBtn.innerText = 'সাবমিট হচ্ছে...';
-            submitBtn.disabled = true;
-
-            const formData = new URLSearchParams();
-            formData.append('action', 'payment');
-            formData.append('memberId', id);
-            formData.append('name', name);
-            formData.append('category', category);
-            formData.append('method', selectedPaymentMethod);
-            formData.append('senderNo', senderNo);
-            formData.append('trxId', trxId);
-
-            fetch(APPS_SCRIPT_WEB_APP_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                body: formData.toString()
-            })
-            .then(res => res.json())
-            .then(data => {
-                submitBtn.innerText = 'পেমেন্ট সাবমিট করুন';
-                submitBtn.disabled = false;
-
-                if(data.status === 'success' || data.result === 'success') {
-                    alert(`ধন্যবাদ ${name} (${id})!\nআপনার পেমেন্ট তথ্য সফলভাবে সংরক্ষিত হয়েছে।`);
-                    document.getElementById('onlinePaymentForm').reset();
-                    document.getElementById('payName').value = name;
-                    document.getElementById('payId').value = id;
-                } else {
-                    alert('পেমেন্ট সফলভাবে সাবমিট হয়েছে।');
-                    document.getElementById('onlinePaymentForm').reset();
-                    document.getElementById('payName').value = name;
-                    document.getElementById('payId').value = id;
-                }
-            })
-            .catch(err => {
-                console.error("Payment Error:", err);
-                submitBtn.innerText = 'পেমেন্ট সাবমিট করুন';
-                submitBtn.disabled = false;
-                alert(`ধন্যবাদ ${name} (${id})!\nক্যাটাগরি: ${category}\nমাধ্যম: ${selectedPaymentMethod} (${CLUB_PAYMENT_NUMBER})\nপ্রেরক নম্বর: ${senderNo}\nTrxID: ${trxId}\n\nআপনার পেমেন্ট ডেটা সফলভাবে রিসিভ করা হয়েছে।`);
-                document.getElementById('onlinePaymentForm').reset();
-                document.getElementById('payName').value = name;
-                document.getElementById('payId').value = id;
-            });
-        }
-
         /* Login System & Floating Circular Profile Badge Handlers */
         const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzGHlKXnH0kI_lClenbiLVw55Bdvgaa8we4jUeoQ_lyXGszYQuNo8pRnOl3fhhVDv7f/exec";
 
@@ -1288,7 +1069,6 @@
                     localStorage.setItem('gssc_user_data', JSON.stringify(data));
 
                     renderUserSessionState(data);
-                    closeLoginModal();
                 } else {
                     errorDiv.innerText = data.message || 'মেম্বার আইডি অথবা পাসওয়ার্ড সঠিক নয়!';
                     errorDiv.style.display = 'block';
@@ -1325,20 +1105,14 @@
                 if (valueStr.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
                     continue;
                 }
-                html += `<div style="margin-bottom:4px; border-bottom:1px dashed #ddd; padding-bottom:3px;">
+                html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
                             <strong style="color:#007e33;">${key}:</strong> ${data.details[key]}
                          </div>`;
             }
             document.getElementById('profileDetails').innerHTML = html;
 
-            // --- ডাটা থেকে ইংরেজি নাম ও আইডি পেমেন্ট ফর্মে স্বয়ংক্রিয়ভাবে সেট করা হলো ---
-            const memberName = data.details['Name'] || data.details['Student Name'] || data.details['Full Name'] || 'Student';
-            const memberIdVal = data.details['Member ID'] || data.details['ID'] || data.details['Roll'] || '';
-
-            document.getElementById('payName').value = memberName;
-            document.getElementById('payId').value = memberIdVal;
-
-            updateUIAfterLogin(photoUrl, memberName);
+            // Update UI elements across Floating Badge and Sidebar
+            updateUIAfterLogin(photoUrl, data.details['Name'] || data.details['نام'] || 'Member');
         }
 
         function makeElementDraggable(elmnt) {
@@ -1478,9 +1252,6 @@
             document.getElementById('loginFormView').style.display = 'block';
             document.getElementById('memberLoginForm').reset();
 
-            document.getElementById('payName').value = '';
-            document.getElementById('payId').value = '';
-
             document.getElementById('floatingProfileContainer').innerHTML = '';
             const sidebarLink = document.getElementById('sidebarLoginMenuLink');
             sidebarLink.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
@@ -1542,7 +1313,7 @@
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
                 toggleBtn.style.backgroundColor = '#333';
-                localStorage.setItem('gss_theme', 'light');
+                localStorage.setItem('gssc_theme', 'light');
             }
         }
 
