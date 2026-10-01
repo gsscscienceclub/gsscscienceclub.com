@@ -272,7 +272,7 @@
             position: fixed;
             top: 75px;
             right: 15px;
-            z-index: 999999 !important; /* নিশ্চিত করা হয়েছে যাতে এটি সবার উপরে থাকে */
+            z-index: 999999 !important;
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -1132,7 +1132,7 @@
             document.getElementById('profileDetails').innerHTML = html;
 
             // Update UI elements across Floating Badge and Sidebar
-            updateUIAfterLogin(photoUrl, data.details['Name'] || data.details['نام'] || 'Member');
+            updateUIAfterLogin(photoUrl, data.details['Name'] || data.details['নাম'] || 'Member');
         }
 
         function makeElementDraggable(elmnt) {
@@ -1280,7 +1280,7 @@
             closeLoginModal();
         }
 
-        // --- NEW FEATURE: Profile PDF Download Functionality ---
+        // --- UPDATED FEATURE: Profile PDF Download Functionality ---
         function downloadProfilePDF() {
             const rawData = localStorage.getItem('gssc_user_data');
             if(!rawData) {
@@ -1291,10 +1291,26 @@
 
             // Create a virtual container for the PDF format
             const printDiv = document.createElement('div');
-            printDiv.style.padding = '40px';
+            printDiv.style.padding = '30px';
             printDiv.style.fontFamily = 'Arial, sans-serif';
             printDiv.style.color = '#333';
             printDiv.style.background = '#fff';
+
+            // Top Header: Left College Logo, Center Name, Right Science Club Logo
+            let headerHtml = `
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #007e33; padding-bottom: 12px; margin-bottom: 10px;">
+                    <img src="17700954426981835287012.png" style="height: 60px; width: auto; object-fit: contain;">
+                    <div style="text-align: center; flex-grow: 1; padding: 0 10px;">
+                        <h2 style="color: #007e33; margin: 0; font-size: 19px; font-weight: bold; line-height: 1.3;">
+                            সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব
+                        </h2>
+                        <div style="color: #555; margin-top: 5px; font-size: 13px; font-weight: bold;">
+                            Official Member Profile
+                        </div>
+                    </div>
+                    <img src="FB_IMG_1788806747811.png" style="height: 60px; width: auto; object-fit: contain;">
+                </div>
+            `;
 
             let photoHtml = '';
             if (data.photo) {
@@ -1302,22 +1318,16 @@
                 const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
                 if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
                 photoHtml = `
-                    <div style="text-align:center; margin-bottom:20px;">
-                        <img src="${photoUrl}" style="width:120px; height:120px; border-radius:50%; border:3px solid #007e33; object-fit:cover;">
+                    <div style="text-align:center; margin: 15px 0;">
+                        <img src="${photoUrl}" style="width:110px; height:110px; border-radius:50%; border:3px solid #007e33; object-fit:cover;">
                     </div>
                 `;
             }
 
-            // Constructing an official-looking form for the PDF
-            let detailsHtml = `
-                <h2 style="text-align:center; color:#007e33; margin-bottom:5px; font-size:24px;">Govt. Shaheed Suhrawardy College Science Club</h2>
-                <h4 style="text-align:center; color:#555; margin-bottom:20px; border-bottom:2px solid #007e33; padding-bottom:10px;">Official Member Profile</h4>
-            `;
-            
-            detailsHtml += '<table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:14px;">';
+            // Member Details Table
+            let detailsHtml = '<table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:14px;">';
             for (let key in data.details) {
                 const val = String(data.details[key]);
-                // Skipping unnecessary URLs/photos from showing as text
                 if (val.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
                     continue;
                 }
@@ -1328,16 +1338,8 @@
                 </tr>`;
             }
             detailsHtml += '</table>';
-            
-            // Adding Signature Footer for PDF
-            detailsHtml += `
-                <div style="margin-top:70px; display:flex; justify-content:space-between; padding:0 20px;">
-                    <div style="border-top:1px solid #333; padding-top:5px; text-align:center; width:200px; font-weight:bold;">সদস্যের স্বাক্ষর</div>
-                    <div style="border-top:1px solid #333; padding-top:5px; text-align:center; width:200px; font-weight:bold;">কর্তৃপক্ষের স্বাক্ষর</div>
-                </div>
-            `;
 
-            printDiv.innerHTML = photoHtml + detailsHtml;
+            printDiv.innerHTML = headerHtml + photoHtml + detailsHtml;
 
             // Generate the PDF
             const userName = data.details['Name'] || 'Member';
@@ -1345,7 +1347,7 @@
                 margin:       0.5,
                 filename:     userName.replace(/\s+/g, '_') + '_GSSC_Profile.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true }, // useCORS is important for google drive images
+                html2canvas:  { scale: 2, useCORS: true },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
@@ -1359,7 +1361,6 @@
                 btn.disabled = false;
             });
         }
-        // --- END OF NEW FEATURE ---
 
         window.onclick = function(event) {
             const modals = [
