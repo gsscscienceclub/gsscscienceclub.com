@@ -974,6 +974,15 @@
             startSlideshow();
         }
 
+        // Hide preloader when window loads
+        window.addEventListener('load', function() {
+            var preloader = document.getElementById('science-preloader');
+            if(preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(function() { preloader.style.visibility = 'hidden'; }, 500);
+            }
+        });
+
         window.onload = function() { 
             startSlideshow(); 
             checkActiveLoginStateOnLoad();
@@ -1325,306 +1334,172 @@
                 console.error("Payment Submission Error:", err);
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
                 confirmBtn.disabled = false;
-                statusMsg.style.color = '#2e7d32';
-                statusMsg.innerText = 'আপনার পেমেন্ট রিকোয়েস্ট জমা নেওয়া হয়েছে! অতি শীঘ্রই এডমিন প্যানেল থেকে নিশ্চিত করা হবে।';
+                statusMsg.style.color = '#d32f2f';
+                statusMsg.innerText = 'সার্ভারে সংযোগ করতে সমস্যা হয়েছে! আবার চেষ্টা করুন।';
                 statusMsg.style.display = 'block';
             });
+        } // End of handlePaymentSubmit
+
+        /* --- MISSING FUNCTIONS ADDED BELOW --- */
+
+        // Check Login State on Load (Keeps user logged in after page reload)
+        function checkActiveLoginStateOnLoad() {
+            const isLoggedIn = localStorage.getItem('gssc_logged_in');
+            if (isLoggedIn === 'true') {
+                const userData = JSON.parse(localStorage.getItem('gssc_user_data'));
+                if (userData) {
+                    renderUserSessionState(userData);
+                }
+            }
         }
 
-        function makeElementDraggable(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            let isDragged = false;
+        // Update UI After Login (Floating Badge and Menu Changes)
+        function updateUIAfterLogin(photoUrl, name) {
+            // Update Sidebar Login link
+            const sidebarLogin = document.getElementById('sidebarLoginMenuLink');
+            if (sidebarLogin) {
+                sidebarLogin.innerHTML = '<i class="fas fa-user-circle"></i> Dashboard';
+            }
+            
+            // Create Floating Badge if not exists
+            let badge = document.getElementById('floatingProfileBadge');
+            if (!badge) {
+                badge = document.createElement('div');
+                badge.id = 'floatingProfileBadge';
+                badge.className = 'floating-profile-badge';
+                badge.onclick = openLoginModal; // Clicking opens dashboard
+                document.getElementById('floatingProfileContainer').appendChild(badge);
+                
+                // Add drag functionality
+                makeDraggable(badge);
+            }
+            
+            // Set Badge Image
+            if (photoUrl) {
+                badge.innerHTML = `<img src="${photoUrl}" alt="${name}" title="${name}">`;
+            } else {
+                badge.innerHTML = `<i class="fas fa-user" style="color:white; font-size: 20px;"></i>`;
+            }
+        }
 
+        // Logout Function
+        function logoutUser() {
+            localStorage.removeItem('gssc_logged_in');
+            localStorage.removeItem('gssc_user_data');
+            
+            // Reset UI Views
+            document.getElementById('loginFormView').style.display = 'block';
+            document.getElementById('userProfileView').style.display = 'none';
+            document.getElementById('memberLoginForm').reset();
+            
+            // Remove floating badge
+            const badge = document.getElementById('floatingProfileBadge');
+            if (badge) badge.remove();
+            
+            // Reset Sidebar Link
+            const sidebarLogin = document.getElementById('sidebarLoginMenuLink');
+            if (sidebarLogin) {
+                sidebarLogin.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            }
+            
+            closeLoginModal();
+            alert('আপনি সফলভাবে লগআউট হয়েছেন!');
+        }
+
+        // Download Profile Details as PDF
+        function downloadProfilePDF() {
+            const element = document.createElement('div');
+            element.innerHTML = `
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h2 style="text-align:center; color:#007e33; margin-bottom: 5px;">Govt. Shaheed Suhrawardy College Science Club</h2>
+                    <h3 style="text-align:center; margin-top: 0; color: #333;">Member Profile Details</h3>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        ${document.getElementById('profilePhotoContainer').innerHTML}
+                    </div>
+                    <div style="background:#f9f9f9; padding: 15px; border: 1px solid #ddd; border-radius: 6px;">
+                        ${document.getElementById('profileDetails').innerHTML}
+                    </div>
+                    <p style="text-align: center; margin-top: 30px; font-size: 12px; color: #666;">Generated from GSSC Science Club Official Portal</p>
+                </div>
+            `;
+            
+            // Options for PDF generation
+            const opt = {
+                margin:       10,
+                filename:     'Member_Profile_GSSC.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().from(element).set(opt).save();
+        }
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-theme');
+            const btn = document.getElementById('darkModeToggleBtn');
+            if (document.body.classList.contains('dark-theme')) {
+                btn.innerHTML = '<i class="fas fa-sun" style="color:#ffeb3b;"></i>';
+            } else {
+                btn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        // Make element draggable for floating profile badge
+        function makeDraggable(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             elmnt.onmousedown = dragMouseDown;
-            elmnt.ontouchstart = dragTouchStart;
+            elmnt.ontouchstart = dragMouseDown;
 
             function dragMouseDown(e) {
                 e = e || window.event;
-                e.preventDefault();
-                isDragged = false;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
+                // prevent default for touch to avoid scrolling, except for clicks
+                if (e.type !== "touchstart") e.preventDefault();
+                
+                if (e.type === "touchstart") {
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+                } else {
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                }
                 document.onmouseup = closeDragElement;
                 document.onmousemove = elementDrag;
+                document.ontouchend = closeDragElement;
+                document.ontouchmove = elementDrag;
             }
 
             function elementDrag(e) {
                 e = e || window.event;
-                e.preventDefault();
-                isDragged = true;
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
+                if (e.type !== "touchmove") e.preventDefault();
+                
+                let clientX, clientY;
+                if (e.type === "touchmove") {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
 
-                let newTop = elmnt.offsetTop - pos2;
-                let newLeft = elmnt.offsetLeft - pos1;
-
-                if (newTop < 0) newTop = 0;
-                if (newLeft < 0) newLeft = 0;
-                if (newTop > window.innerHeight - elmnt.offsetHeight) newTop = window.innerHeight - elmnt.offsetHeight;
-                if (newLeft > window.innerWidth - elmnt.offsetWidth) newLeft = window.innerWidth - elmnt.offsetWidth;
-
-                elmnt.style.top = newTop + "px";
-                elmnt.style.left = newLeft + "px";
-                elmnt.style.right = "auto";
+                pos1 = pos3 - clientX;
+                pos2 = pos4 - clientY;
+                pos3 = clientX;
+                pos4 = clientY;
+                
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                elmnt.style.right = 'auto'; // release right snap if moved
             }
 
             function closeDragElement() {
                 document.onmouseup = null;
                 document.onmousemove = null;
-                if (!isDragged) {
-                    openLoginModal();
-                }
-            }
-
-            function dragTouchStart(e) {
-                if (e.touches.length === 1) {
-                    isDragged = false;
-                    pos3 = e.touches[0].clientX;
-                    pos4 = e.touches[0].clientY;
-                    document.ontouchend = closeTouchElement;
-                    document.ontouchmove = elementTouchDrag;
-                }
-            }
-
-            function elementTouchDrag(e) {
-                if (e.touches.length === 1) {
-                    isDragged = true;
-                    pos1 = pos3 - e.touches[0].clientX;
-                    pos2 = pos4 - e.touches[0].clientY;
-                    pos3 = e.touches[0].clientX;
-                    pos4 = e.touches[0].clientY;
-
-                    let newTop = elmnt.offsetTop - pos2;
-                    let newLeft = elmnt.offsetLeft - pos1;
-
-                    if (newTop < 0) newTop = 0;
-                    if (newLeft < 0) newLeft = 0;
-                    if (newTop > window.innerHeight - elmnt.offsetHeight) newTop = window.innerHeight - elmnt.offsetHeight;
-                    if (newLeft > window.innerWidth - elmnt.offsetWidth) newLeft = window.innerWidth - elmnt.offsetWidth;
-
-                    elmnt.style.top = newTop + "px";
-                    elmnt.style.left = newLeft + "px";
-                    elmnt.style.right = "auto";
-                }
-            }
-
-            function closeTouchElement() {
                 document.ontouchend = null;
                 document.ontouchmove = null;
-                if (!isDragged) {
-                    openLoginModal();
-                }
             }
         }
-
-        function updateUIAfterLogin(photoUrl, memberName) {
-            const floatingContainer = document.getElementById('floatingProfileContainer');
-            if (photoUrl) {
-                floatingContainer.innerHTML = `
-                    <div id="draggableProfileBadge" class="floating-profile-badge" title="ড্যাশবোর্ড দেখতে ক্লিক করুন অথবা টেনে সরিয়ে নিন: ${memberName}">
-                        <img src="${photoUrl}" alt="Profile">
-                    </div>
-                `;
-            } else {
-                floatingContainer.innerHTML = `
-                    <div id="draggableProfileBadge" class="floating-profile-badge" title="ড্যাশবোর্ড দেখতে ক্লিক করুন অথবা টেনে সরিয়ে নিন: ${memberName}" style="display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold;">
-                        <i class="fas fa-user"></i>
-                    </div>
-                `;
-            }
-            
-            const badgeElem = document.getElementById('draggableProfileBadge');
-            if (badgeElem) {
-                makeElementDraggable(badgeElem);
-            }
-
-            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
-            sidebarLink.innerHTML = `<i class="fas fa-user-circle" style="color:#27ae60;"></i> Dashboard (${memberName})`;
-            sidebarLink.onclick = function() { openLoginModal(); closeNav(); };
-        }
-
-        function checkActiveLoginStateOnLoad() {
-            const isLoggedIn = localStorage.getItem('gssc_logged_in');
-            if (isLoggedIn === 'true') {
-                const rawData = localStorage.getItem('gssc_user_data');
-                if (rawData) {
-                    try {
-                        const data = JSON.parse(rawData);
-                        renderUserSessionState(data);
-                    } catch (e) {
-                        console.error("Parse error", e);
-                    }
-                }
-            }
-        }
-
-        function logoutUser() {
-            localStorage.removeItem('gssc_logged_in');
-            localStorage.removeItem('gssc_user_data');
-
-            document.getElementById('userProfileView').style.display = 'none';
-            document.getElementById('loginFormView').style.display = 'block';
-            document.getElementById('memberLoginForm').reset();
-
-            document.getElementById('floatingProfileContainer').innerHTML = '';
-            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
-            sidebarLink.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
-            sidebarLink.onclick = function() { openLoginModal(); };
-
-            closeLoginModal();
-        }
-
-        // --- Profile PDF Download Functionality ---
-        function downloadProfilePDF() {
-            const rawData = localStorage.getItem('gssc_user_data');
-            if(!rawData) {
-                alert('কোনো ডাটা পাওয়া যায়নি!');
-                return;
-            }
-            const data = JSON.parse(rawData);
-
-            // Create a virtual container for the PDF format
-            const printDiv = document.createElement('div');
-            printDiv.style.padding = '30px';
-            printDiv.style.fontFamily = 'Arial, sans-serif';
-            printDiv.style.color = '#333';
-            printDiv.style.background = '#fff';
-
-            // Top Header: Left College Logo, Center Name, Right Science Club Logo
-            let headerHtml = `
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #007e33; padding-bottom: 12px; margin-bottom: 10px;">
-                    <img src="17700954426981835287012.png" style="height: 60px; width: auto; object-fit: contain;">
-                    <div style="text-align: center; flex-grow: 1; padding: 0 10px;">
-                        <h2 style="color: #007e33; margin: 0; font-size: 19px; font-weight: bold; line-height: 1.3;">
-                            সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব
-                        </h2>
-                        <div style="color: #555; margin-top: 5px; font-size: 13px; font-weight: bold;">
-                            Official Member Profile
-                        </div>
-                    </div>
-                    <img src="FB_IMG_1788806747811.png" style="height: 60px; width: auto; object-fit: contain;">
-                </div>
-            `;
-
-            let photoHtml = '';
-            if (data.photo) {
-                let photoUrl = data.photo;
-                const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
-                photoHtml = `
-                    <div style="text-align:center; margin: 15px 0;">
-                        <img src="${photoUrl}" style="width:110px; height:110px; border-radius:50%; border:3px solid #007e33; object-fit:cover;">
-                    </div>
-                `;
-            }
-
-            // Member Details Table
-            let detailsHtml = '<table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:14px;">';
-            for (let key in data.details) {
-                const val = String(data.details[key]);
-                if (val.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
-                    continue;
-                }
-                detailsHtml += `
-                <tr>
-                    <td style="padding:10px 15px; border:1px solid #ddd; font-weight:bold; width:35%; background-color:#f4fdf8; color:#007e33;">${key}</td>
-                    <td style="padding:10px 15px; border:1px solid #ddd; color:#333;">${val}</td>
-                </tr>`;
-            }
-            detailsHtml += '</table>';
-
-            printDiv.innerHTML = headerHtml + photoHtml + detailsHtml;
-
-            // Generate the PDF
-            const userName = data.details['Name'] || data.details['নাম(ইংরেজিতে)'] || 'Member';
-            const opt = {
-                margin:       0.5,
-                filename:     userName.replace(/\s+/g, '_') + '_GSSC_Profile.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-
-            const btn = document.getElementById('pdfDownloadBtn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> পিডিএফ তৈরি হচ্ছে...';
-            btn.disabled = true;
-
-            html2pdf().set(opt).from(printDiv).save().then(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
-        }
-
-        window.onclick = function(event) {
-            const modals = [
-                document.getElementById('noticeModal'), document.getElementById('allNoticesModal'),
-                document.getElementById('imageViewerModal'), document.getElementById('aboutModal'),
-                document.getElementById('resultModal'), document.getElementById('activitiesModal'),
-                document.getElementById('loginModal'), document.getElementById('allGalleryModal')
-            ];
-            if (modals.includes(event.target)) { event.target.style.display = 'none'; }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            let totalVisitors = localStorage.getItem("gssc_visitor_count");
-            if (!totalVisitors) { totalVisitors = 507; } 
-            else { totalVisitors = parseInt(totalVisitors); }
-
-            if (!sessionStorage.getItem("visited_already")) {
-                totalVisitors++; 
-                localStorage.setItem("gssc_visitor_count", totalVisitors);
-                sessionStorage.setItem("visited_already", "true");
-            }
-
-            document.getElementById("visitorCount").innerText = totalVisitors.toLocaleString();
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            document.getElementById("visitorDate").innerText = "as on " + new Date().toLocaleDateString('en-US', options);
-        });
-
-        window.addEventListener('load', function() {
-            const preloader = document.getElementById('science-preloader');
-            setTimeout(function() {
-                preloader.style.opacity = '0';
-                setTimeout(function() {
-                    preloader.style.visibility = 'hidden';
-                    preloader.style.display = 'none';
-                }, 500);
-            }, 800); 
-        });
-
-        function toggleDarkMode() {
-            const body = document.body;
-            const toggleBtn = document.getElementById('darkModeToggleBtn');
-            const icon = toggleBtn.querySelector('i');
-            
-            body.classList.toggle('dark-theme');
-            
-            if (body.classList.contains('dark-theme')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                toggleBtn.style.backgroundColor = '#f39c12';
-                localStorage.setItem('gssc_theme', 'dark');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                toggleBtn.style.backgroundColor = '#333';
-                localStorage.setItem('gssc_theme', 'light');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('gssc_theme') === 'dark') {
-                document.body.classList.add('dark-theme');
-                const toggleBtn = document.getElementById('darkModeToggleBtn');
-                const icon = toggleBtn.querySelector('i');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                toggleBtn.style.backgroundColor = '#f39c12';
-            }
-        });
     </script>
 </body>
 </html>
