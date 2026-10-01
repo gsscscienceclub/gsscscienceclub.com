@@ -280,7 +280,7 @@
         body.dark-theme .profile-tab-btn.active { background: #4caf50; color: #fff; }
         body.dark-theme .pay-method-box { background: #2a2a2a !important; border-color: #444 !important; }
 
-        /* --- FLOATING CIRCULAR PROFILE BADGE STYLING (Draggable & Always On Top) --- */
+        /* --- FLOATING CIRCULAR PROFILE BADGE STYLING --- */
         .floating-profile-badge {
             position: fixed;
             top: 75px;
@@ -301,25 +301,8 @@
             user-select: none;
             touch-action: none;
         }
-        .floating-profile-badge:active {
-            cursor: grabbing;
-        }
-        .floating-profile-badge img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            pointer-events: none;
-        }
-
-        .science-widget-box { background: linear-gradient(135deg, #004d25, #007e33); color: #fff; border-radius: 6px; padding: 15px; margin-top: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
-        .science-widget-title { font-size: 15px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; color: #ffeb3b; }
-        .science-fact-text { font-size: 14px; line-height: 1.5; font-style: italic; }
-        
-        .countdown-box { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
-        .countdown-item { background: rgba(0,0,0,0.25); padding: 6px 10px; border-radius: 4px; min-width: 50px; }
-        .countdown-num { font-size: 16px; font-weight: bold; color: #ffeb3b; }
-        .countdown-label { font-size: 10px; text-transform: uppercase; }
-
+        .floating-profile-badge:active { cursor: grabbing; }
+        .floating-profile-badge img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -337,7 +320,7 @@
         <i class="fas fa-moon"></i>
     </button>
 
-    <!-- Dynamic Circular Floating Profile Badge (Visible only when logged in) -->
+    <!-- Dynamic Circular Floating Profile Badge -->
     <div id="floatingProfileContainer"></div>
 
     <!-- Notice Single Modal Box -->
@@ -419,7 +402,6 @@
 
             <!-- User Dashboard View with Profile & Payment Tabs -->
             <div id="userProfileView" style="display:none;">
-                <!-- Profile Nav Tabs -->
                 <div style="display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #007e33; padding-bottom: 10px;">
                     <button id="tabProfileBtn" class="profile-tab-btn active" onclick="switchProfileTab('profile')">
                         <i class="fas fa-user-circle"></i> প্রোফাইল
@@ -436,7 +418,6 @@
                     </div>
                     <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:6px; font-size:14px; line-height:1.8; border:1px solid #eee; max-height:300px; overflow-y:auto;"></div>
                     
-                    <!-- Download PDF and Logout buttons -->
                     <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
                         <button id="pdfDownloadBtn" onclick="downloadProfilePDF()" style="background:#0288d1; color:#fff; border:none; padding:8px 15px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s;">
                             <i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড
@@ -468,16 +449,13 @@
                             <label style="display:block; font-weight:bold; margin-bottom:6px; font-size:13px; color:#333;">৪. পেমেন্ট মাধ্যম:</label>
                             <div class="pay-method-box" style="display:flex; justify-content:space-around; align-items:center; background:#f9f9f9; padding:10px 5px; border:1px solid #ddd; border-radius:6px;">
                                 <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:bold; color:#d81b60; font-size:13px;">
-                                    <input type="radio" name="payMethod" value="bKash" checked required> 
-                                    <i class="fas fa-mobile-alt"></i> বিকাশ
+                                    <input type="radio" name="payMethod" value="bKash" checked required> বিকাশ
                                 </label>
                                 <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:bold; color:#f57c00; font-size:13px;">
-                                    <input type="radio" name="payMethod" value="Nagad" required> 
-                                    <i class="fas fa-wallet"></i> নগদ
+                                    <input type="radio" name="payMethod" value="Nagad" required> নগদ
                                 </label>
                                 <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:bold; color:#8e24aa; font-size:13px;">
-                                    <input type="radio" name="payMethod" value="Rocket" required> 
-                                    <i class="fas fa-university"></i> রকেট
+                                    <input type="radio" name="payMethod" value="Rocket" required> রকেট
                                 </label>
                             </div>
                         </div>
@@ -499,7 +477,6 @@
                         </button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -510,47 +487,20 @@
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
             <div class="modal-title"><i class="fas fa-bullhorn" style="color: #f39c12;"></i> সকল নোটিশ</div>
             <div style="max-height: 450px; overflow-y: auto; padding-right: 5px;">
-                
                 <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openImageViewer('membercollectnotice.jpg')">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
+                        <span class="notice-read-more" onclick="openImageViewer('membercollectnotice.jpg')">Read More <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
-                
                 <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openImageViewer('ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg')">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
+                        <span class="notice-read-more" onclick="openImageViewer('ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg')">Read More <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
-
-                <div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> জাতীয় বিজ্ঞান মেলা ২০২৬ উপলক্ষে প্রজেক্ট জমাদান সংক্রান্ত জরুরি বিজ্ঞপ্তি</span>
-                    <div class="notice-meta">
-                        <span class="date">Sep 29, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('জাতীয় বিজ্ঞান মেলা ২০২৬ বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট</span>
-                    <div class="notice-meta">
-                        <span class="date">Oct 31, 2025</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট', ['1Member selection result 2025 .jpg.jpg', '2Member selection result 2025.jpg', '3Member selection result 2025 .jpg'])">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
@@ -568,7 +518,7 @@
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
-    <!-- সর্বশেষ নোটিশ অংশ -->
+    <!-- Latest Notice Bar -->
     <div class="latest-notice-wrapper">
         <div class="latest-notice-container">
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
@@ -645,7 +595,6 @@
                 </ul>
             </li>
             <li><a href="#contactFooterSection" onclick="closeNav()">Contact Us</a></li>
-            <!-- Dynamic Sidebar Login Link -->
             <li><a href="javascript:void(0);" id="sidebarLoginMenuLink" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Login</a></li>
         </ul>
     </div>
@@ -659,33 +608,22 @@
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
                 <div><i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board</div>
             </div>
-            
             <div class="section-content">
-                
                 <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openImageViewer('membercollectnotice.jpg')">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
+                        <span class="notice-read-more" onclick="openImageViewer('membercollectnotice.jpg')">Read More <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
-                
                 <div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openImageViewer('ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg')">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
+                        <span class="notice-read-more" onclick="openImageViewer('ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg')">Read More <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
-
-                <a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">
-                    সকল নোটিশ <i class="fas fa-chevron-right"></i>
-                </a>
-
+                <a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">সকল নোটিশ <i class="fas fa-chevron-right"></i></a>
             </div>
         </div>
 
@@ -693,44 +631,16 @@
         <div class="section-card">
             <div class="section-title"><i class="fas fa-user-tie" style="color: #007e33;"></i> প্রধান পৃষ্ঠপোষক</div>
             <div class="section-content" style="text-align: center;">
-                <img src="কাকলি ম্যাম.jpg" alt="প্রতিষ্ঠাতা উপদেষ্টা" onclick="openImageViewer('কাকলি ম্যাম.jpg')" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #007e33; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer;" title="বড় করে দেখতে ক্লিক করুন">
+                <img src="কাকলি ম্যাম.jpg" alt="প্রধান পৃষ্ঠপোষক" onclick="openImageViewer('কাকলি ম্যাম.jpg')" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #007e33; margin-bottom: 10px; cursor: pointer;">
                 <h4 style="font-size: 16px; color: #007e33; margin-bottom: 5px;">প্রফেসর ডঃ কাকলি মুখোপাধ্যায়</h4>
                 <p style="font-size: 14px; color: #666; font-weight: bold;">অধ্যক্ষ, সরকারি শহীদ সোহরাওয়ার্দী কলেজ, ঢাকা</p>
             </div>
         </div>
 
-        <!-- উপদেষ্টা সেকশন -->
-        <div class="section-card">
-            <div class="section-title"><i class="fas fa-users" style="color: #007e33;"></i> উপদেষ্টামণ্ডলী</div>
-            <div class="section-content">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
-                    <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
-                        <img src="এজাজ স্যার.jpg" alt="Advisor" onclick="openImageViewer('এজাজ স্যার.jpg')" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px; cursor: pointer;" title="বড় করে দেখতে ক্লিক করুন">
-                        <h5 style="font-size: 15px; color: #333; margin-bottom: 3px;">ড. মোহাম্মাদ এজাজুল করিম</h5>
-                        <p style="font-size: 13px; color: #666;">কনভেনার, জিএসএসসি বিজ্ঞান ক্লাব</p>
-                        <p style="font-size: 13px; color: #666;">সহযোগী অধ্যাপক,পদার্থবিজ্ঞান বিভাগ</p>
-                    </div>
-                    <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
-                        <img src="মনোজ স্যার.jpg" alt="Advisor" onclick="openImageViewer('মনোজ স্যার.jpg')" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px; cursor: pointer;" title="বড় করে দেখতে ক্লিক করুন">
-                        <h5 style="font-size: 15px; color: #333; margin-bottom: 3px;">মনোজ মন্ডল</h5>
-                        <p style="font-size: 13px; color: #666;">সদস্য, জিএসএসসি বিজ্ঞান ক্লাব</p>
-                        <p style="font-size: 13px; color: #666;">সহকারী অধ্যাপক,উদ্ভিদবিদ্যা বিভাগ</p>
-                    </div>
-                    <div style="background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee;">
-                        <img src="শাহনাজ ম্যাম.jpg" alt="Advisor" onclick="openImageViewer('শাহনাজ ম্যাম.jpg')" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid #007e33; margin-bottom: 10px; cursor: pointer;" title="বড় করে দেখতে ক্লিক করুন">
-                        <h5 style="font-size: 15px; color: #333; margin-bottom: 3px;">মোসাম্মৎ শাহনাজ সিদ্দিকা</h5>
-                        <p style="font-size: 13px; color: #666;">সদস্য, জিএসএসসি বিজ্ঞান ক্লাব </p>
-                        <p style="font-size: 13px; color: #666;">সহকারী অধ্যাপক,রসায়ন বিভাগ</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Recent Activities -->
-        <div class="section-card" id="recentActivitiesSection" style="margin-top: 20px;">
+        <div class="section-card" id="recentActivitiesSection">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
             <div class="section-content">
-                
                 <div class="gallery-filters">
                     <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
                     <button class="filter-btn" onclick="filterGallery('workshop', this)">Workshops</button>
@@ -740,135 +650,19 @@
                     <button class="filter-btn" onclick="filterGallery('Admission Exam', this)">Admission Exam</button>
                     <button class="filter-btn" onclick="filterGallery('others', this)">Others</button>
                 </div>
-			    <div class="slideshow-container" id="slideshowContainer">
+                <div class="slideshow-container" id="slideshowContainer">
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
                         <img loading="lazy" src="সদস্য সংগ্রহ ডেস্ক.jpg" alt="Activity" onclick="openImageViewer('সদস্য সংগ্রহ ডেস্ক.jpg')">
-                        <div class="slide-overlay">সদস্য সংগ্রহ কার্যক্রম </div>
+                        <div class="slide-overlay">সদস্য সংগ্রহ কার্যক্রম</div>
                     </div>
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
                         <img loading="lazy" src="ক্লাশ ব্রিফিং.jpg" alt="Activity" onclick="openImageViewer('ক্লাশ ব্রিফিং.jpg')">
                         <div class="slide-overlay">ক্লাশ ব্রিফিং</div>
-                    </div> 	
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="১.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ প্রশিক্ষণ.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="২.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ প্রশিক্ষণ.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="মুক্তা চাষ বিষয়ক কর্মশালা.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ বিষয়ক কর্মশালা.jpg')">
-                        <div class="slide-overlay">মুক্তা চাষ বিষয়ক কর্মশালা</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg')">
-                        <div class="slide-overlay">বিজ্ঞান ও প্রযুক্তি মেলা ২০২৫</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg" alt="Activity" onclick="openImageViewer('জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg')">
-                        <div class="slide-overlay">বিজ্ঞান ক্লাবের মনোনশীলতা</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg" alt="Activity" onclick="openImageViewer('লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg')">
-                        <div class="slide-overlay">লেজার সিকিউরিটি বিশিষ্ট বাড়ি</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="training">
-                        <img loading="lazy" src="জাতীয় মাশরুম ইনস্টিটিউট.jpg" alt="Activity" onclick="openImageViewer('জাতীয় মাশরুম ইনস্টিটিউট.jpg')">
-                        <div class="slide-overlay">জাতীয় মাশরুম ট্রেনিং সেন্টার</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="training">
-                        <img loading="lazy" src="মুক্তা পরিচিতি.jpg" alt="Activity" onclick="openImageViewer('মুক্তা পরিচিতি.jpg')">
-                        <div class="slide-overlay">মুক্তা চাষ</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="training">
-                        <img loading="lazy" src="মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg')">
-                        <div class="slide-overlay">মুক্তা চাষ প্রশিক্ষণ</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="২.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="১.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="১.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('১.সাপ্তাহিক সভা.jpg')">
-                        <div class="slide-overlay">সাপ্তাহিক সভা</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="২.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('২.সাপ্তাহিক সভা.jpg')">
-                        <div class="slide-overlay">সাপ্তাহিক সভা</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="studyTour">
-                        <img loading="lazy" src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
-                        <div class="slide-overlay">শিক্ষা সফর ও ভিজিট</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="Admission Exam">
-                        <img loading="lazy" src="ভর্তি পরীক্ষা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('ভর্তি পরীক্ষা ২০২৫.jpg')">
-                        <div class="slide-overlay">ভর্তি পরীক্ষা ২০২৫</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
-                        <div class="slide-overlay">ড. সামসুন্নাহার ম্যামের বিদায়</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
-                        <div class="slide-overlay">ড. সামসুন্নাহার ম্যামের বিদায়</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
-                        <div class="slide-overlay">আন্তর্জাতিক মাতৃভাষা দিবস</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
-                        <div class="slide-overlay">আন্তর্জাতিক মাতৃভাষা দিবস</div>
                     </div>
                 </div>
-
-                <a href="javascript:void(0);" onclick="openAllGalleryModal()" class="all-notices-bottom">
-                    See all image <i class="fas fa-chevron-right"></i>
-                </a>
-
+                <a href="javascript:void(0);" onclick="openAllGalleryModal()" class="all-notices-bottom">See all image <i class="fas fa-chevron-right"></i></a>
             </div>
         </div>
-
-        <!-- Useful Links -->
-        <div class="section-card">
-            <div class="section-title"><i class="fas fa-link" style="color: #007e33;"></i> Useful Links</div>
-            <div class="section-content useful-links">
-                <a href="https://gssc.college.gov.bd/" target="_blank" class="useful-link-item">
-                    <img loading="lazy" src="17700954426981835287012.png" alt="College Logo">
-                    <span>Govt. Shaheed Suhrawardy College</span>
-                </a>
-                <a href="https://dcu.ac.bd/" target="_blank" class="useful-link-item">
-                    <img loading="lazy" src="DCU logo.png" alt="DCU Logo">
-                    <span>Dhaka Central University</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Important Documents -->
-        <div class="section-card">
-            <div class="section-title"><i class="fas fa-file-pdf" style="color: #d32f2f;"></i> গুরুত্বপূর্ণ ডকুমেন্টস</div>
-            <div class="section-content">
-                <div class="doc-item">
-                    <span class="doc-title"><i class="fas fa-file-alt" style="color: #007e33;"></i> সদস্য ভর্তি ফর্ম (অফলাইন)</span>
-                    <a href="Science Club Membership Form.pdf" target="_blank" class="doc-btn"><i class="fas fa-external-link-alt"></i> ওপেন</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Visitor Info -->
-        <div class="section-card">
-            <div class="section-title"><i class="fas fa-chart-line" style="color: #007e33;"></i> Visitor Info</div>
-            <div class="section-content">
-                <div class="visitor-count" id="visitorCount">507</div>
-                <div class="visitor-date" id="visitorDate">as on 29 Sep, 2026</div>
-            </div>
-        </div>
-
     </div>
 
     <!-- Footer -->
@@ -885,8 +679,6 @@
                     <li><a href="tel:+8801851291081"><i class="fas fa-phone-alt"></i> Mobile: +880 1851291081</a></li>
                     <li><a href="mailto:gsscscienceclub@gmail.com"><i class="fas fa-envelope"></i> E-mail: gsscscienceclub@gmail.com</a></li>
                     <li><a href="https://wa.me/8801851291081" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp: Chat Now</a></li>
-                    <li><a href="https://www.facebook.com/share/1EvHq76RsU/" target="_blank"><i class="fab fa-facebook-f"></i> Facebook Page</a></li>
-                    <li><a href="https://www.instagram.com/gssc.scienceclub?stkn=cDBhaWhsZ29ycGFn" target="_blank"><i class="fab fa-instagram"></i> Instagram Profile</a></li>
                 </ul>
             </div>
         </div>
@@ -898,10 +690,6 @@
 
     <!-- JavaScript -->
     <script>
-        const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
-        const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
-        const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
-
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
         function toggleSubmenu(id) {
@@ -909,7 +697,7 @@
             submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
         }
 
-        window.onscroll = function() {scrollFunction()};
+        window.onscroll = function() { scrollFunction() };
         function scrollFunction() {
             var btn = document.getElementById("scrollTopBtn");
             if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
@@ -977,7 +765,25 @@
         window.onload = function() { 
             startSlideshow(); 
             checkActiveLoginStateOnLoad();
+            
+            // Hide Preloader on load
+            const preloader = document.getElementById('science-preloader');
+            if(preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => { preloader.style.display = 'none'; }, 500);
+            }
         };
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('gssc_dark_mode', isDark ? 'enabled' : 'disabled');
+        }
+
+        // Check stored dark mode on load
+        if (localStorage.getItem('gssc_dark_mode') === 'enabled') {
+            document.body.classList.add('dark-theme');
+        }
 
         function openAllGalleryModal() {
             var container = document.getElementById('allGalleryModalImages');
@@ -1055,7 +861,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪তের এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭৫ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -1063,7 +869,7 @@
             } 
             else if (type === 'activities') {
                 titleElem.innerText = "আমাদের কার্যক্রমসমূহ";
-                bodyElem.innerHTML = "সরকারি শহীদ সোহরাওয়ার্দী কলেজ ক্লাব নিয়মিত বিভিন্ন শিক্ষামূলক ও ব্যবহারিক কার্যক্রম পরিচালনা করে থাকে:<br><br><ul><li><b>বিজ্ঞান প্রশিক্ষণ কর্মশালা:</b> বিভিন্ন ব্যবহারিক ও প্রায়োগিক বিষয়ভিত্তিক কর্মশালা (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি)।</li><li><b>সেমিনার ও সিম্পোজিয়াম:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ টপিক নিয়ে সেমিনার আয়োজন।</li><li><b>সদস্য সংগ্রহ ও মূল্যায়ন:</b> প্রতি শিক্ষাবর্ষে নির্দিষ্ট নিয়ম ও ভর্তি প্রক্রিয়ার মাধ্যমে বিজ্ঞান বিভাগের আগ্রহী শিক্ষার্থীদের ক্লাবের সদস্য হিসেবে অন্তর্ভুক্ত করা।.</li><li><b>প্রজেক্ট প্রদর্শনী:</b> শিক্ষার্থীদের সৃজনশীল বিজ্ঞান প্রজেক্ট প্রদর্শনের সুযোগ তৈরি করে দেওয়া।</li></ul>";
+                bodyElem.innerHTML = "সরকারি শহীদ সোহরাওয়ার্দী কলেজ ক্লাব নিয়মিত বিভিন্ন শিক্ষামূলক ও ব্যবহারিক কার্যক্রম পরিচালনা করে থাকে:<br><br><ul><li><b>বিজ্ঞান প্রশিক্ষণ কর্মশালা:</b> বিভিন্ন ব্যবহারিক ও প্রায়োগিক বিষয়ভিত্তিক কর্মশালা।</li><li><b>সেমিনার ও সিম্পোজিয়াম:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ টপিক নিয়ে সেমিনার আয়োজন।</li><li><b>সদস্য সংগ্রহ ও মূল্যায়ন:</b> প্রতি শিক্ষাবর্ষে নির্দিষ্ট নিয়ম ও ভর্তি প্রক্রিয়ার মাধ্যমে বিজ্ঞান বিভাগের আগ্রহী শিক্ষার্থীদের ক্লাবের সদস্য হিসেবে অন্তর্ভুক্ত করা।</li></ul>";
             }
             document.getElementById('aboutModal').style.display = 'block';
         }
@@ -1103,19 +909,10 @@
 
             if (actType === 'scienceFair') {
                 titleElem.innerText = "Science Fair & Exhibition";
-                bodyElem.innerHTML = "<b>বিজ্ঞান মেলা ও প্রজেক্ট প্রদর্শনী:</b> কলেজ প্রাঙ্গণে বিজ্ঞান ক্লাবের উদ্যোগে বার্ষিক বিজ্ঞান মেলা আয়োজন করা হয়, যেখানে শিক্ষার্থীরা তাদের সৃজনশীল সায়েন্স প্রজেক্ট (যেমন: রোবটিক্স, রিনিউয়েবল এনার্জি ইত্যাদি) প্রদর্শন করে। এছাড়া বিজ্ঞান বিষয়ক আকর্ষণীয় দেওয়াল পত্রিকা প্রকাশ করা হয়।";
+                bodyElem.innerHTML = "<b>বিজ্ঞান মেলা ও প্রজেক্ট প্রদর্শনী:</b> কলেজ প্রাঙ্গণে বিজ্ঞান ক্লাবের উদ্যোগে বার্ষিক বিজ্ঞান মেলা আয়োজন করা হয়।";
             } else if (actType === 'workshops') {
                 titleElem.innerText = "Workshops & Training";
-                bodyElem.innerHTML = "<b>কর্মশালা ও প্রশিক্ষণ:</b> বেসিক প্রোগ্রামিং, পাইথন, ওয়েব ডিজাইন কিংবা ব্যবহারিক ল্যাব সেশন এবং প্রায়োগিক প্রশিক্ষণ (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি) এর মাধ্যমে শিক্ষার্থীদের হাতে-কলমে দক্ষতা বৃদ্ধি করা হয়।";
-            } else if (actType === 'seminars') {
-                titleElem.innerText = "Seminars & Science Talks";
-                bodyElem.innerHTML = "<b>সেমিনার ও আড্ডা:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ ও আধুনিক টপিক নিয়ে বিশেষজ্ঞ গবেষক ও শিক্ষকদের লেকচার, সায়েন্টিফিক ডিবেট সেশন এবং ইনডোর কুইজ প্রতিযোগিতা আয়োজন করা হয়।";
-            } else if (actType === 'ecoInitiatives') {
-                titleElem.innerText = "Eco-Friendly & Social Initiatives";
-                bodyElem.innerText = "<b>পরিবেশ ও সামাজিক কার্যক্রম:</b> কলেজ ক্যাম্পাস ও আশপাশের এলাকায় সবুজায়ন এবং পরিবেশ সচেতনতা বৃদ্ধির লক্ষ্যে বৃক্ষরোপণ কর্মসূচি, ডেঙ্গু সচেতনতা ও প্লাস্টিক বর্জন ক্যাম্পেইন পরিচালনা করা হয়।";
-            } else if (actType === 'studyTours') {
-                titleElem.innerText = "Study Tours & Excursions";
-                bodyElem.innerHTML = "<b>শিক্ষা সফর:</b> শিক্ষার্থীদের তাত্ত্বিক জ্ঞানকে বাস্তবসম্মত করতে দেশের বিজ্ঞান জাদুঘর, প্ল্যানেটোরিয়াম কিংবা বিভিন্ন গবেষণা প্রতিষ্ঠানে শিক্ষা সফর ও সায়েন্টিফিক ভিজিটের ব্যবস্থা করা হয়।";
+                bodyElem.innerHTML = "<b>কর্মশালা ও প্রশিক্ষণ:</b> বেসিক প্রোগ্রামিং, পাইথন, ল্যাব সেশন এবং প্রায়োগিক প্রশিক্ষণ।";
             }
             document.getElementById('activitiesModal').style.display = 'block';
         }
@@ -1125,18 +922,11 @@
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
-        /* Login System & Floating Circular Profile Badge Handlers */
         const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyw2AaELDCNapiZC2TI6Wm6nimh2gTf9HRfeDGOy1sWv1IhrI1ScEqyokpDgC8JhT4B/exec";
 
-        function openLoginModal() { 
-            closeNav(); 
-            document.getElementById('loginModal').style.display = 'block'; 
-        }
-        function closeLoginModal() { 
-            document.getElementById('loginModal').style.display = 'none'; 
-        }
+        function openLoginModal() { closeNav(); document.getElementById('loginModal').style.display = 'block'; }
+        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
 
-        /* Profile & Payment Tab Switcher */
         function switchProfileTab(tabName) {
             const profileContent = document.getElementById('profileTabContent');
             const paymentContent = document.getElementById('paymentTabContent');
@@ -1166,7 +956,6 @@
             errorDiv.style.display = 'none';
             submitBtn.innerText = 'যাচাই করা হচ্ছে...';
             submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.7';
 
             const formData = new URLSearchParams();
             formData.append('memberId', memberId);
@@ -1181,14 +970,11 @@
             .then(data => {
                 submitBtn.innerText = 'লগইন করুন';
                 submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
 
                 if (data.status === 'success') {
-                    // Save login session and raw response
                     data.savedMemberId = memberId;
                     localStorage.setItem('gssc_logged_in', 'true');
                     localStorage.setItem('gssc_user_data', JSON.stringify(data));
-
                     renderUserSessionState(data);
                 } else {
                     errorDiv.innerText = data.message || 'মেম্বার আইডি অথবা পাসওয়ার্ড সঠিক নয়!';
@@ -1196,11 +982,9 @@
                 }
             })
             .catch(err => {
-                console.error("Login Fetch Error:", err);
                 submitBtn.innerText = 'লগইন করুন';
                 submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                errorDiv.innerText = 'দু:খিত! সার্ভারে সংযোগ করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।';
+                errorDiv.innerText = 'সার্ভারে সংযোগ করতে সমস্যা হয়েছে।';
                 errorDiv.style.display = 'block';
             });
         }
@@ -1208,8 +992,6 @@
         function renderUserSessionState(data) {
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
-
-            // Ensure Profile Tab is open by default
             switchProfileTab('profile');
 
             let photoUrl = '';
@@ -1223,408 +1005,38 @@
                 document.getElementById('profilePhotoContainer').style.display = 'none';
             }
 
-            // Detect English Name & Member ID for Payment auto-fill
             let studentName = '';
             let memberId = data.savedMemberId || '';
-
             let html = '';
+
             for (let key in data.details) {
                 const valueStr = String(data.details[key]);
-                if (valueStr.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
-                    continue;
-                }
+                if (valueStr.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo')) continue;
 
-                // Extract Name (English) or Name for Payment Form Auto-Fill
-                if (!studentName && (key.includes('নাম(ইংরেজিতে)') || key.toLowerCase().includes('english') || key.toLowerCase().includes('name') || key.includes('নাম'))) {
+                if (!studentName && (key.includes('নাম') || key.toLowerCase().includes('name'))) {
                     studentName = valueStr;
                 }
-                if (!memberId && (key.toLowerCase().includes('id') || key.includes('আইডি'))) {
-                    memberId = valueStr;
-                }
-
-                // Payment Status Styling (Shows Paid Badge if verified from Google Sheet)
-                let displayVal = valueStr;
-                if (key.toLowerCase().includes('payment') || key.includes('পেমেন্ট')) {
-                    if (valueStr.toLowerCase().includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড')) {
-                        displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
-                    } else {
-                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> ${valueStr}</span>`;
-                    }
-                }
-
                 html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
-                            <strong style="color:#007e33;">${key}:</strong> ${displayVal}
+                            <strong style="color:#007e33;">${key}:</strong> ${valueStr}
                          </div>`;
             }
             document.getElementById('profileDetails').innerHTML = html;
-
-            // Auto-fill payment fields
             document.getElementById('payStudentName').value = studentName || 'সদস্য';
-            document.getElementById('payMemberId').value = memberId || document.getElementById('loginMemberId').value || '';
-
-            // Update UI elements across Floating Badge and Sidebar
-            updateUIAfterLogin(photoUrl, studentName || 'Member');
-        }
-
-        /* Payment Submission Handler */
-        function handlePaymentSubmit(event) {
-            event.preventDefault();
-
-            const studentName = document.getElementById('payStudentName').value.trim();
-            const memberId = document.getElementById('payMemberId').value.trim();
-            const payType = document.getElementById('payType').value;
-            const payMethodElem = document.querySelector('input[name="payMethod"]:checked');
-            const payMethod = payMethodElem ? payMethodElem.value : '';
-            const senderNumber = document.getElementById('paySenderNumber').value.trim();
-            const trxId = document.getElementById('payTrxId').value.trim();
-            const amount = document.getElementById('payAmount').value.trim();
-
-            const statusMsg = document.getElementById('paymentStatusMsg');
-            const confirmBtn = document.getElementById('payConfirmBtn');
-
-            statusMsg.style.display = 'none';
-            confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেস করা হচ্ছে...';
-            confirmBtn.disabled = true;
-
-            const formData = new URLSearchParams();
-            formData.append('action', 'payment');
-            formData.append('memberId', memberId);
-            formData.append('studentName', studentName);
-            formData.append('payType', payType);
-            formData.append('payMethod', payMethod);
-            formData.append('senderNumber', senderNumber);
-            formData.append('trxId', trxId);
-            formData.append('amount', amount);
-
-            fetch(APPS_SCRIPT_WEB_APP_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                body: formData.toString()
-            })
-            .then(res => res.json())
-            .then(data => {
-                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
-                confirmBtn.disabled = false;
-
-                if (data.status === 'success') {
-                    statusMsg.style.color = '#2e7d32';
-                    statusMsg.innerText = 'ধন্যবাদ! আপনার পেমেন্ট তথ্য সফলভাবে জমা দেওয়া হয়েছে। যাচাই শেষে স্ট্যাটাস আপডেট হবে।';
-                    statusMsg.style.display = 'block';
-                    document.getElementById('memberPaymentForm').reset();
-                    // Re-fill static inputs
-                    document.getElementById('payStudentName').value = studentName;
-                    document.getElementById('payMemberId').value = memberId;
-                    document.getElementById('payAmount').value = "50 Tk";
-                } else {
-                    statusMsg.style.color = '#d32f2f';
-                    statusMsg.innerText = data.message || 'পেমেন্ট তথ্য জমাদানে সমস্যা হয়েছে। আবার চেষ্টা করুন।';
-                    statusMsg.style.display = 'block';
-                }
-            })
-            .catch(err => {
-                console.error("Payment Submission Error:", err);
-                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
-                confirmBtn.disabled = false;
-                statusMsg.style.color = '#2e7d32';
-                statusMsg.innerText = 'আপনার পেমেন্ট রিকোয়েস্ট জমা নেওয়া হয়েছে! অতি শীঘ্রই এডমিন প্যানেল থেকে নিশ্চিত করা হবে।';
-                statusMsg.style.display = 'block';
-            });
-        }
-
-        function makeElementDraggable(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            let isDragged = false;
-
-            elmnt.onmousedown = dragMouseDown;
-            elmnt.ontouchstart = dragTouchStart;
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                isDragged = false;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                isDragged = true;
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-
-                let newTop = elmnt.offsetTop - pos2;
-                let newLeft = elmnt.offsetLeft - pos1;
-
-                if (newTop < 0) newTop = 0;
-                if (newLeft < 0) newLeft = 0;
-                if (newTop > window.innerHeight - elmnt.offsetHeight) newTop = window.innerHeight - elmnt.offsetHeight;
-                if (newLeft > window.innerWidth - elmnt.offsetWidth) newLeft = window.innerWidth - elmnt.offsetWidth;
-
-                elmnt.style.top = newTop + "px";
-                elmnt.style.left = newLeft + "px";
-                elmnt.style.right = "auto";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-                if (!isDragged) {
-                    openLoginModal();
-                }
-            }
-
-            function dragTouchStart(e) {
-                if (e.touches.length === 1) {
-                    isDragged = false;
-                    pos3 = e.touches[0].clientX;
-                    pos4 = e.touches[0].clientY;
-                    document.ontouchend = closeTouchElement;
-                    document.ontouchmove = elementTouchDrag;
-                }
-            }
-
-            function elementTouchDrag(e) {
-                if (e.touches.length === 1) {
-                    isDragged = true;
-                    pos1 = pos3 - e.touches[0].clientX;
-                    pos2 = pos4 - e.touches[0].clientY;
-                    pos3 = e.touches[0].clientX;
-                    pos4 = e.touches[0].clientY;
-
-                    let newTop = elmnt.offsetTop - pos2;
-                    let newLeft = elmnt.offsetLeft - pos1;
-
-                    if (newTop < 0) newTop = 0;
-                    if (newLeft < 0) newLeft = 0;
-                    if (newTop > window.innerHeight - elmnt.offsetHeight) newTop = window.innerHeight - elmnt.offsetHeight;
-                    if (newLeft > window.innerWidth - elmnt.offsetWidth) newLeft = window.innerWidth - elmnt.offsetWidth;
-
-                    elmnt.style.top = newTop + "px";
-                    elmnt.style.left = newLeft + "px";
-                    elmnt.style.right = "auto";
-                }
-            }
-
-            function closeTouchElement() {
-                document.ontouchend = null;
-                document.ontouchmove = null;
-                if (!isDragged) {
-                    openLoginModal();
-                }
-            }
-        }
-
-        function updateUIAfterLogin(photoUrl, memberName) {
-            const floatingContainer = document.getElementById('floatingProfileContainer');
-            if (photoUrl) {
-                floatingContainer.innerHTML = `
-                    <div id="draggableProfileBadge" class="floating-profile-badge" title="ড্যাশবোর্ড দেখতে ক্লিক করুন অথবা টেনে সরিয়ে নিন: ${memberName}">
-                        <img src="${photoUrl}" alt="Profile">
-                    </div>
-                `;
-            } else {
-                floatingContainer.innerHTML = `
-                    <div id="draggableProfileBadge" class="floating-profile-badge" title="ড্যাশবোর্ড দেখতে ক্লিক করুন অথবা টেনে সরিয়ে নিন: ${memberName}" style="display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold;">
-                        <i class="fas fa-user"></i>
-                    </div>
-                `;
-            }
-            
-            const badgeElem = document.getElementById('draggableProfileBadge');
-            if (badgeElem) {
-                makeElementDraggable(badgeElem);
-            }
-
-            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
-            sidebarLink.innerHTML = `<i class="fas fa-user-circle" style="color:#27ae60;"></i> Dashboard (${memberName})`;
-            sidebarLink.onclick = function() { openLoginModal(); closeNav(); };
-        }
-
-        function checkActiveLoginStateOnLoad() {
-            const isLoggedIn = localStorage.getItem('gssc_logged_in');
-            if (isLoggedIn === 'true') {
-                const rawData = localStorage.getItem('gssc_user_data');
-                if (rawData) {
-                    try {
-                        const data = JSON.parse(rawData);
-                        renderUserSessionState(data);
-                    } catch (e) {
-                        console.error("Parse error", e);
-                    }
-                }
-            }
+            document.getElementById('payMemberId').value = memberId;
         }
 
         function logoutUser() {
             localStorage.removeItem('gssc_logged_in');
             localStorage.removeItem('gssc_user_data');
-
-            document.getElementById('userProfileView').style.display = 'none';
-            document.getElementById('loginFormView').style.display = 'block';
-            document.getElementById('memberLoginForm').reset();
-
-            document.getElementById('floatingProfileContainer').innerHTML = '';
-            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
-            sidebarLink.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
-            sidebarLink.onclick = function() { openLoginModal(); };
-
-            closeLoginModal();
+            location.reload();
         }
 
-        // --- Profile PDF Download Functionality ---
-        function downloadProfilePDF() {
-            const rawData = localStorage.getItem('gssc_user_data');
-            if(!rawData) {
-                alert('কোনো ডাটা পাওয়া যায়নি!');
-                return;
-            }
-            const data = JSON.parse(rawData);
-
-            // Create a virtual container for the PDF format
-            const printDiv = document.createElement('div');
-            printDiv.style.padding = '30px';
-            printDiv.style.fontFamily = 'Arial, sans-serif';
-            printDiv.style.color = '#333';
-            printDiv.style.background = '#fff';
-
-            // Top Header: Left College Logo, Center Name, Right Science Club Logo
-            let headerHtml = `
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #007e33; padding-bottom: 12px; margin-bottom: 10px;">
-                    <img src="17700954426981835287012.png" style="height: 60px; width: auto; object-fit: contain;">
-                    <div style="text-align: center; flex-grow: 1; padding: 0 10px;">
-                        <h2 style="color: #007e33; margin: 0; font-size: 19px; font-weight: bold; line-height: 1.3;">
-                            সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব
-                        </h2>
-                        <div style="color: #555; margin-top: 5px; font-size: 13px; font-weight: bold;">
-                            Official Member Profile
-                        </div>
-                    </div>
-                    <img src="FB_IMG_1788806747811.png" style="height: 60px; width: auto; object-fit: contain;">
-                </div>
-            `;
-
-            let photoHtml = '';
-            if (data.photo) {
-                let photoUrl = data.photo;
-                const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
-                photoHtml = `
-                    <div style="text-align:center; margin: 15px 0;">
-                        <img src="${photoUrl}" style="width:110px; height:110px; border-radius:50%; border:3px solid #007e33; object-fit:cover;">
-                    </div>
-                `;
-            }
-
-            // Member Details Table
-            let detailsHtml = '<table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:14px;">';
-            for (let key in data.details) {
-                const val = String(data.details[key]);
-                if (val.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
-                    continue;
-                }
-                detailsHtml += `
-                <tr>
-                    <td style="padding:10px 15px; border:1px solid #ddd; font-weight:bold; width:35%; background-color:#f4fdf8; color:#007e33;">${key}</td>
-                    <td style="padding:10px 15px; border:1px solid #ddd; color:#333;">${val}</td>
-                </tr>`;
-            }
-            detailsHtml += '</table>';
-
-            printDiv.innerHTML = headerHtml + photoHtml + detailsHtml;
-
-            // Generate the PDF
-            const userName = data.details['Name'] || data.details['নাম(ইংরেজিতে)'] || 'Member';
-            const opt = {
-                margin:       0.5,
-                filename:     userName.replace(/\s+/g, '_') + '_GSSC_Profile.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-
-            const btn = document.getElementById('pdfDownloadBtn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> পিডিএফ তৈরি হচ্ছে...';
-            btn.disabled = true;
-
-            html2pdf().set(opt).from(printDiv).save().then(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
-        }
-
-        window.onclick = function(event) {
-            const modals = [
-                document.getElementById('noticeModal'), document.getElementById('allNoticesModal'),
-                document.getElementById('imageViewerModal'), document.getElementById('aboutModal'),
-                document.getElementById('resultModal'), document.getElementById('activitiesModal'),
-                document.getElementById('loginModal'), document.getElementById('allGalleryModal')
-            ];
-            if (modals.includes(event.target)) { event.target.style.display = 'none'; }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            let totalVisitors = localStorage.getItem("gssc_visitor_count");
-            if (!totalVisitors) { totalVisitors = 507; } 
-            else { totalVisitors = parseInt(totalVisitors); }
-
-            if (!sessionStorage.getItem("visited_already")) {
-                totalVisitors++; 
-                localStorage.setItem("gssc_visitor_count", totalVisitors);
-                sessionStorage.setItem("visited_already", "true");
-            }
-
-            document.getElementById("visitorCount").innerText = totalVisitors.toLocaleString();
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            document.getElementById("visitorDate").innerText = "as on " + new Date().toLocaleDateString('en-US', options);
-        });
-
-        window.addEventListener('load', function() {
-            const preloader = document.getElementById('science-preloader');
-            setTimeout(function() {
-                preloader.style.opacity = '0';
-                setTimeout(function() {
-                    preloader.style.visibility = 'hidden';
-                    preloader.style.display = 'none';
-                }, 500);
-            }, 800); 
-        });
-
-        function toggleDarkMode() {
-            const body = document.body;
-            const toggleBtn = document.getElementById('darkModeToggleBtn');
-            const icon = toggleBtn.querySelector('i');
-            
-            body.classList.toggle('dark-theme');
-            
-            if (body.classList.contains('dark-theme')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                toggleBtn.style.backgroundColor = '#f39c12';
-                localStorage.setItem('gssc_theme', 'dark');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                toggleBtn.style.backgroundColor = '#333';
-                localStorage.setItem('gssc_theme', 'light');
+        function checkActiveLoginStateOnLoad() {
+            if (localStorage.getItem('gssc_logged_in') === 'true') {
+                const data = JSON.parse(localStorage.getItem('gssc_user_data'));
+                if (data) renderUserSessionState(data);
             }
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('gssc_theme') === 'dark') {
-                document.body.classList.add('dark-theme');
-                const toggleBtn = document.getElementById('darkModeToggleBtn');
-                const icon = toggleBtn.querySelector('i');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                toggleBtn.style.backgroundColor = '#f39c12';
-            }
-        });
     </script>
 </body>
 </html>
