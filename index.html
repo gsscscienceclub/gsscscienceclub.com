@@ -1222,8 +1222,14 @@
             switchProfileTab('profile');
 
             let photoUrl = '';
+            // Handle profile photo from 'photo' property or direct details
             if (data.photo) {
                 photoUrl = data.photo;
+            } else if (data.details && (data.details.photo || data.details.Photo || data.details['ছবির লিংক'])) {
+                photoUrl = data.details.photo || data.details.Photo || data.details['ছবির লিংক'];
+            }
+
+            if (photoUrl) {
                 const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
                 if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
                 document.getElementById('profilePhoto').src = photoUrl;
@@ -1237,23 +1243,28 @@
             let memberId = data.savedMemberId || '';
 
             let html = '';
-            for (let key in data.details) {
-                const valueStr = String(data.details[key]);
-                if (valueStr.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
+            let detailsObj = data.details || data; // Fallback if details object is structured differently
+
+            for (let key in detailsObj) {
+                // Skip internal or system keys if necessary, but show user details
+                const valueStr = String(detailsObj[key]);
+                const lowerKey = key.toLowerCase();
+
+                if (valueStr.includes('drive.google.com') || lowerKey.includes('picture') || lowerKey.includes('photo') || lowerKey.includes('image') || lowerKey.includes('password')) {
                     continue;
                 }
 
-                // Extract Name (English) or Name for Payment Form Auto-Fill
-                if (!studentName && (key.includes('নাম(ইংরেজিতে)') || key.toLowerCase().includes('english') || key.toLowerCase().includes('name') || key.includes('নাম'))) {
+                // Extract Name and Member ID for Payment Form Auto-Fill
+                if (!studentName && (key.includes('নাম(ইংরেজিতে)') || lowerKey.includes('english') || lowerKey.includes('name') || key.includes('নাম'))) {
                     studentName = valueStr;
                 }
-                if (!memberId && (key.toLowerCase().includes('id') || key.includes('আইডি'))) {
+                if (!memberId && (lowerKey.includes('id') || key.includes('আইডি'))) {
                     memberId = valueStr;
                 }
 
                 // Payment Status Styling (Shows Paid Badge if verified from Google Sheet)
                 let displayVal = valueStr;
-                if (key.toLowerCase().includes('payment') || key.includes('পেমেন্ট')) {
+                if (lowerKey.includes('payment') || key.includes('পেমেন্ট')) {
                     if (valueStr.toLowerCase().includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড')) {
                         displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
                     } else {
@@ -1265,6 +1276,11 @@
                             <strong style="color:#007e33;">${key}:</strong> ${displayVal}
                          </div>`;
             }
+            
+            if(html === '') {
+                html = '<div style="color:#666; text-align:center;">কোনো তথ্য পাওয়া যায়নি।</div>';
+            }
+            
             document.getElementById('profileDetails').innerHTML = html;
 
             // Auto-fill payment fields
@@ -1448,16 +1464,14 @@
 
         // Make element draggable for floating profile badge
         function makeDraggable(elmnt) {
-            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             elmnt.onmousedown = dragMouseDown;
             elmnt.ontouchstart = dragMouseDown;
 
             function dragMouseDown(e) {
                 e = e || window.event;
-                // prevent default for touch to avoid scrolling, except for clicks
-                if (e.type !== "touchstart") e.preventDefault();
-                
-                if (e.type === "touchstart") {
+                e.preventDefault();
+                if (e.type === 'touchstart') {
                     pos3 = e.touches[0].clientX;
                     pos4 = e.touches[0].clientY;
                 } else {
@@ -1465,38 +1479,35 @@
                     pos4 = e.clientY;
                 }
                 document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
                 document.ontouchend = closeDragElement;
+                document.onmousemove = elementDrag;
                 document.ontouchmove = elementDrag;
             }
 
             function elementDrag(e) {
                 e = e || window.event;
-                if (e.type !== "touchmove") e.preventDefault();
-                
+                e.preventDefault();
                 let clientX, clientY;
-                if (e.type === "touchmove") {
+                if (e.type === 'touchmove') {
                     clientX = e.touches[0].clientX;
                     clientY = e.touches[0].clientY;
                 } else {
                     clientX = e.clientX;
                     clientY = e.clientY;
                 }
-
                 pos1 = pos3 - clientX;
                 pos2 = pos4 - clientY;
                 pos3 = clientX;
                 pos4 = clientY;
-                
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                elmnt.style.right = 'auto'; // release right snap if moved
+                elmnt.style.right = "auto";
             }
 
             function closeDragElement() {
                 document.onmouseup = null;
-                document.onmousemove = null;
                 document.ontouchend = null;
+                document.onmousemove = null;
                 document.ontouchmove = null;
             }
         }
