@@ -158,6 +158,16 @@
         /* Login Modal Styles */
         #loginModal { z-index: 8500 !important; background-color: rgba(0,0,0,0.85); }
 
+        /* Profile Nav Tabs Styling */
+        .profile-tab-btn {
+            flex: 1; padding: 9px; font-weight: bold; border: none; background: #e0e0e0; color: #333;
+            border-radius: 5px; cursor: pointer; transition: all 0.3s ease; font-size: 14px;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .profile-tab-btn.active {
+            background: #007e33; color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
         /* Scroll to Top Button */
         #scrollTopBtn {
             display: none; position: fixed; bottom: 20px; right: 20px; z-index: 999;
@@ -258,7 +268,7 @@
         body.dark-theme .doc-title { color: #e0e0e0; }
         body.dark-theme .footer { background-color: #001a0c; border-top: 1px solid #004d25; }
         body.dark-theme .modal-title, body.dark-theme .about-modal-title, body.dark-theme .activities-modal-title { color: #4caf50; border-bottom-color: #4caf50; }
-        body.dark-theme input { background-color: #333; color: #fff; border-color: #555; }
+        body.dark-theme input, body.dark-theme select { background-color: #333; color: #fff; border-color: #555; }
         body.dark-theme label { color: #ccc !important; }
         body.dark-theme #profileDetails { background: #252525 !important; border-color: #444 !important; color: #e0e0e0; }
         body.dark-theme .close-btn, body.dark-theme .modal-close { color: #ff5252; }
@@ -266,6 +276,9 @@
         body.dark-theme .all-notices-bottom:hover { color: #ff5252; }
         body.dark-theme #science-preloader { background-color: #121212; }
         body.dark-theme .preloader-text { color: #4caf50; }
+        body.dark-theme .profile-tab-btn { background: #333; color: #ccc; }
+        body.dark-theme .profile-tab-btn.active { background: #4caf50; color: #fff; }
+        body.dark-theme .pay-method-box { background: #2a2a2a !important; border-color: #444 !important; }
 
         /* --- FLOATING CIRCULAR PROFILE BADGE STYLING (Draggable & Always On Top) --- */
         .floating-profile-badge {
@@ -382,9 +395,9 @@
 
     <!-- Member Login Floating Modal Window -->
     <div id="loginModal" class="modal">
-        <div class="modal-content" style="max-width: 450px;">
+        <div class="modal-content" style="max-width: 480px;">
             <span class="modal-close" onclick="closeLoginModal()">&times;</span>
-            <div class="modal-title"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন / ড্যাশবোর্ড</div>
+            <div class="modal-title" id="modalHeaderTitle"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন / ড্যাশবোর্ড</div>
             
             <!-- Login Form View -->
             <div id="loginFormView">
@@ -404,22 +417,89 @@
                 </form>
             </div>
 
-            <!-- User Profile View (Dynamically Controlled) -->
-            <div id="userProfileView" style="display:none; text-align:center;">
-                <div id="profilePhotoContainer" style="margin-bottom:15px;">
-                    <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
-                </div>
-                <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:6px; font-size:14px; line-height:1.8; border:1px solid #eee; max-height:300px; overflow-y:auto;"></div>
-                
-                <!-- Added Download PDF and Logout buttons -->
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
-                    <button id="pdfDownloadBtn" onclick="downloadProfilePDF()" style="background:#0288d1; color:#fff; border:none; padding:8px 15px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s;">
-                        <i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড
+            <!-- User Dashboard View with Profile & Payment Tabs -->
+            <div id="userProfileView" style="display:none;">
+                <!-- Profile Nav Tabs -->
+                <div style="display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #007e33; padding-bottom: 10px;">
+                    <button id="tabProfileBtn" class="profile-tab-btn active" onclick="switchProfileTab('profile')">
+                        <i class="fas fa-user-circle"></i> প্রোফাইল
                     </button>
-                    <button onclick="logoutUser()" style="background:#d32f2f; color:#fff; border:none; padding:8px 20px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s;">
-                        <i class="fas fa-sign-out-alt"></i> লগআউট
+                    <button id="tabPaymentBtn" class="profile-tab-btn" onclick="switchProfileTab('payment')">
+                        <i class="fas fa-wallet"></i> পেমেন্ট
                     </button>
                 </div>
+
+                <!-- Tab 1: Profile Details Content -->
+                <div id="profileTabContent" style="text-align:center;">
+                    <div id="profilePhotoContainer" style="margin-bottom:15px;">
+                        <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+                    </div>
+                    <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:6px; font-size:14px; line-height:1.8; border:1px solid #eee; max-height:300px; overflow-y:auto;"></div>
+                    
+                    <!-- Download PDF and Logout buttons -->
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                        <button id="pdfDownloadBtn" onclick="downloadProfilePDF()" style="background:#0288d1; color:#fff; border:none; padding:8px 15px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s;">
+                            <i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড
+                        </button>
+                        <button onclick="logoutUser()" style="background:#d32f2f; color:#fff; border:none; padding:8px 20px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s;">
+                            <i class="fas fa-sign-out-alt"></i> লগআউট
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Payment Form Content -->
+                <div id="paymentTabContent" style="display:none; text-align:left;">
+                    <form id="memberPaymentForm" onsubmit="handlePaymentSubmit(event)">
+                        <div style="margin-bottom: 12px;">
+                            <label style="display:block; font-weight:bold; margin-bottom:4px; font-size:13px; color:#333;">১. শিক্ষার্থীর নাম:</label>
+                            <input type="text" id="payStudentName" readonly style="width:100%; padding:8px 10px; border:1px solid #ccc; border-radius:4px; background:#f0f0f0; font-size:14px; outline:none; font-weight:bold; color:#007e33;">
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="display:block; font-weight:bold; margin-bottom:4px; font-size:13px; color:#333;">২. মেম্বার আইডি:</label>
+                            <input type="text" id="payMemberId" readonly style="width:100%; padding:8px 10px; border:1px solid #ccc; border-radius:4px; background:#f0f0f0; font-size:14px; outline:none; font-weight:bold; color:#007e33;">
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="display:block; font-weight:bold; margin-bottom:4px; font-size:13px; color:#333;">৩. পেমেন্টের ধরন:</label>
+                            <select id="payType" required style="width:100%; padding:8px 10px; border:1px solid #ccc; border-radius:4px; font-size:14px; outline:none; background:#fff;">
+                                <option value="মেম্বারশীপ এপ্লিকেশন ফর্ম ফি" selected>মেম্বারশীপ এপ্লিকেশন ফর্ম ফি</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="display:block; font-weight:bold; margin-bottom:6px; font-size:13px; color:#333;">৪. পেমেন্ট মাধ্যম:</label>
+                            <div class="pay-method-box" style="display:flex; justify-content:space-around; align-items:center; background:#f9f9f9; padding:10px 5px; border:1px solid #ddd; border-radius:6px;">
+                                <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:bold; color:#d81b60; font-size:13px;">
+                                    <input type="radio" name="payMethod" value="bKash" checked required> 
+                                    <i class="fas fa-mobile-alt"></i> বিকাশ
+                                </label>
+                                <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:bold; color:#f57c00; font-size:13px;">
+                                    <input type="radio" name="payMethod" value="Nagad" required> 
+                                    <i class="fas fa-wallet"></i> নগদ
+                                </label>
+                                <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:bold; color:#8e24aa; font-size:13px;">
+                                    <input type="radio" name="payMethod" value="Rocket" required> 
+                                    <i class="fas fa-university"></i> রকেট
+                                </label>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="display:block; font-weight:bold; margin-bottom:4px; font-size:13px; color:#333;">৫. যে নম্বর থেকে সেন্ডমানি করেছেন:</label>
+                            <input type="tel" id="paySenderNumber" placeholder="যেমন: 018XXXXXXXX" required style="width:100%; padding:8px 10px; border:1px solid #ccc; border-radius:4px; font-size:14px; outline:none;">
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="display:block; font-weight:bold; margin-bottom:4px; font-size:13px; color:#333;">৬. ট্রানজেকশন আইডি (TrxID):</label>
+                            <input type="text" id="payTrxId" placeholder="যেমন: 9H7X8Y2K" required style="width:100%; padding:8px 10px; border:1px solid #ccc; border-radius:4px; font-size:14px; outline:none;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display:block; font-weight:bold; margin-bottom:4px; font-size:13px; color:#333;">৭. পেমেন্টের পরিমাণ:</label>
+                            <input type="text" id="payAmount" value="50 Tk" readonly style="width:100%; padding:8px 10px; border:1px solid #ccc; border-radius:4px; background:#f0f0f0; font-weight:bold; color:#007e33; font-size:14px; outline:none;">
+                        </div>
+                        <div id="paymentStatusMsg" style="font-size:13px; margin-bottom:12px; display:none; font-weight:bold; text-align:center;"></div>
+                        <button type="submit" id="payConfirmBtn" style="width:100%; background:#007e33; color:#fff; border:none; padding:10px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:15px; transition:0.3s;">
+                            <i class="fas fa-check-circle"></i> কনফার্ম করুন
+                        </button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -669,7 +749,6 @@
                         <img loading="lazy" src="ক্লাশ ব্রিফিং.jpg" alt="Activity" onclick="openImageViewer('ক্লাশ ব্রিফিং.jpg')">
                         <div class="slide-overlay">ক্লাশ ব্রিফিং</div>
                     </div> 	
-                <div class="slideshow-container" id="slideshowContainer">
                     <div class="slide-item fade gallery-item-box" data-category="workshop">
                         <img loading="lazy" src="১.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ প্রশিক্ষণ.jpg')">
                         <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
@@ -1057,6 +1136,26 @@
             document.getElementById('loginModal').style.display = 'none'; 
         }
 
+        /* Profile & Payment Tab Switcher */
+        function switchProfileTab(tabName) {
+            const profileContent = document.getElementById('profileTabContent');
+            const paymentContent = document.getElementById('paymentTabContent');
+            const tabProfileBtn = document.getElementById('tabProfileBtn');
+            const tabPaymentBtn = document.getElementById('tabPaymentBtn');
+
+            if (tabName === 'profile') {
+                profileContent.style.display = 'block';
+                paymentContent.style.display = 'none';
+                tabProfileBtn.classList.add('active');
+                tabPaymentBtn.classList.remove('active');
+            } else if (tabName === 'payment') {
+                profileContent.style.display = 'none';
+                paymentContent.style.display = 'block';
+                tabProfileBtn.classList.remove('active');
+                tabPaymentBtn.classList.add('active');
+            }
+        }
+
         function handleLogin(event) {
             event.preventDefault();
             const memberId = document.getElementById('loginMemberId').value.trim();
@@ -1085,6 +1184,8 @@
                 submitBtn.style.opacity = '1';
 
                 if (data.status === 'success') {
+                    // Save login session and raw response
+                    data.savedMemberId = memberId;
                     localStorage.setItem('gssc_logged_in', 'true');
                     localStorage.setItem('gssc_user_data', JSON.stringify(data));
 
@@ -1108,6 +1209,9 @@
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
 
+            // Ensure Profile Tab is open by default
+            switchProfileTab('profile');
+
             let photoUrl = '';
             if (data.photo) {
                 photoUrl = data.photo;
@@ -1119,20 +1223,112 @@
                 document.getElementById('profilePhotoContainer').style.display = 'none';
             }
 
+            // Detect English Name & Member ID for Payment auto-fill
+            let studentName = '';
+            let memberId = data.savedMemberId || '';
+
             let html = '';
             for (let key in data.details) {
                 const valueStr = String(data.details[key]);
                 if (valueStr.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
                     continue;
                 }
+
+                // Extract Name (English) or Name for Payment Form Auto-Fill
+                if (!studentName && (key.includes('নাম(ইংরেজিতে)') || key.toLowerCase().includes('english') || key.toLowerCase().includes('name') || key.includes('নাম'))) {
+                    studentName = valueStr;
+                }
+                if (!memberId && (key.toLowerCase().includes('id') || key.includes('আইডি'))) {
+                    memberId = valueStr;
+                }
+
+                // Payment Status Styling (Shows Paid Badge if verified from Google Sheet)
+                let displayVal = valueStr;
+                if (key.toLowerCase().includes('payment') || key.includes('পেমেন্ট')) {
+                    if (valueStr.toLowerCase().includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড')) {
+                        displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
+                    } else {
+                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> ${valueStr}</span>`;
+                    }
+                }
+
                 html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
-                            <strong style="color:#007e33;">${key}:</strong> ${data.details[key]}
+                            <strong style="color:#007e33;">${key}:</strong> ${displayVal}
                          </div>`;
             }
             document.getElementById('profileDetails').innerHTML = html;
 
+            // Auto-fill payment fields
+            document.getElementById('payStudentName').value = studentName || 'সদস্য';
+            document.getElementById('payMemberId').value = memberId || document.getElementById('loginMemberId').value || '';
+
             // Update UI elements across Floating Badge and Sidebar
-            updateUIAfterLogin(photoUrl, data.details['Name'] || data.details['নাম'] || 'Member');
+            updateUIAfterLogin(photoUrl, studentName || 'Member');
+        }
+
+        /* Payment Submission Handler */
+        function handlePaymentSubmit(event) {
+            event.preventDefault();
+
+            const studentName = document.getElementById('payStudentName').value.trim();
+            const memberId = document.getElementById('payMemberId').value.trim();
+            const payType = document.getElementById('payType').value;
+            const payMethodElem = document.querySelector('input[name="payMethod"]:checked');
+            const payMethod = payMethodElem ? payMethodElem.value : '';
+            const senderNumber = document.getElementById('paySenderNumber').value.trim();
+            const trxId = document.getElementById('payTrxId').value.trim();
+            const amount = document.getElementById('payAmount').value.trim();
+
+            const statusMsg = document.getElementById('paymentStatusMsg');
+            const confirmBtn = document.getElementById('payConfirmBtn');
+
+            statusMsg.style.display = 'none';
+            confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেস করা হচ্ছে...';
+            confirmBtn.disabled = true;
+
+            const formData = new URLSearchParams();
+            formData.append('action', 'payment');
+            formData.append('memberId', memberId);
+            formData.append('studentName', studentName);
+            formData.append('payType', payType);
+            formData.append('payMethod', payMethod);
+            formData.append('senderNumber', senderNumber);
+            formData.append('trxId', trxId);
+            formData.append('amount', amount);
+
+            fetch(APPS_SCRIPT_WEB_APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: formData.toString()
+            })
+            .then(res => res.json())
+            .then(data => {
+                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
+                confirmBtn.disabled = false;
+
+                if (data.status === 'success') {
+                    statusMsg.style.color = '#2e7d32';
+                    statusMsg.innerText = 'ধন্যবাদ! আপনার পেমেন্ট তথ্য সফলভাবে জমা দেওয়া হয়েছে। যাচাই শেষে স্ট্যাটাস আপডেট হবে।';
+                    statusMsg.style.display = 'block';
+                    document.getElementById('memberPaymentForm').reset();
+                    // Re-fill static inputs
+                    document.getElementById('payStudentName').value = studentName;
+                    document.getElementById('payMemberId').value = memberId;
+                    document.getElementById('payAmount').value = "50 Tk";
+                } else {
+                    statusMsg.style.color = '#d32f2f';
+                    statusMsg.innerText = data.message || 'পেমেন্ট তথ্য জমাদানে সমস্যা হয়েছে। আবার চেষ্টা করুন।';
+                    statusMsg.style.display = 'block';
+                }
+            })
+            .catch(err => {
+                console.error("Payment Submission Error:", err);
+                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
+                confirmBtn.disabled = false;
+                statusMsg.style.color = '#2e7d32';
+                statusMsg.innerText = 'আপনার পেমেন্ট রিকোয়েস্ট জমা নেওয়া হয়েছে! অতি শীঘ্রই এডমিন প্যানেল থেকে নিশ্চিত করা হবে।';
+                statusMsg.style.display = 'block';
+            });
         }
 
         function makeElementDraggable(elmnt) {
@@ -1280,7 +1476,7 @@
             closeLoginModal();
         }
 
-        // --- UPDATED FEATURE: Profile PDF Download Functionality ---
+        // --- Profile PDF Download Functionality ---
         function downloadProfilePDF() {
             const rawData = localStorage.getItem('gssc_user_data');
             if(!rawData) {
@@ -1342,7 +1538,7 @@
             printDiv.innerHTML = headerHtml + photoHtml + detailsHtml;
 
             // Generate the PDF
-            const userName = data.details['Name'] || 'Member';
+            const userName = data.details['Name'] || data.details['নাম(ইংরেজিতে)'] || 'Member';
             const opt = {
                 margin:       0.5,
                 filename:     userName.replace(/\s+/g, '_') + '_GSSC_Profile.pdf',
