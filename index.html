@@ -10,6 +10,9 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- html2pdf.js for Modern PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; }
         body { background-color: #f1f1f1; color: #333; }
@@ -407,7 +410,16 @@
                     <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
                 </div>
                 <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:6px; font-size:14px; line-height:1.8; border:1px solid #eee; max-height:300px; overflow-y:auto;"></div>
-                <button onclick="logoutUser()" style="margin-top:15px; background:#d32f2f; color:#fff; border:none; padding:8px 22px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:14px;">লগআউট</button>
+                
+                <!-- Added Download PDF and Logout buttons -->
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                    <button id="pdfDownloadBtn" onclick="downloadProfilePDF()" style="background:#0288d1; color:#fff; border:none; padding:8px 15px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s;">
+                        <i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড
+                    </button>
+                    <button onclick="logoutUser()" style="background:#d32f2f; color:#fff; border:none; padding:8px 20px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s;">
+                        <i class="fas fa-sign-out-alt"></i> লগআউট
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1267,6 +1279,87 @@
 
             closeLoginModal();
         }
+
+        // --- NEW FEATURE: Profile PDF Download Functionality ---
+        function downloadProfilePDF() {
+            const rawData = localStorage.getItem('gssc_user_data');
+            if(!rawData) {
+                alert('কোনো ডাটা পাওয়া যায়নি!');
+                return;
+            }
+            const data = JSON.parse(rawData);
+
+            // Create a virtual container for the PDF format
+            const printDiv = document.createElement('div');
+            printDiv.style.padding = '40px';
+            printDiv.style.fontFamily = 'Arial, sans-serif';
+            printDiv.style.color = '#333';
+            printDiv.style.background = '#fff';
+
+            let photoHtml = '';
+            if (data.photo) {
+                let photoUrl = data.photo;
+                const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
+                photoHtml = `
+                    <div style="text-align:center; margin-bottom:20px;">
+                        <img src="${photoUrl}" style="width:120px; height:120px; border-radius:50%; border:3px solid #007e33; object-fit:cover;">
+                    </div>
+                `;
+            }
+
+            // Constructing an official-looking form for the PDF
+            let detailsHtml = `
+                <h2 style="text-align:center; color:#007e33; margin-bottom:5px; font-size:24px;">Govt. Shaheed Suhrawardy College Science Club</h2>
+                <h4 style="text-align:center; color:#555; margin-bottom:20px; border-bottom:2px solid #007e33; padding-bottom:10px;">Official Member Profile</h4>
+            `;
+            
+            detailsHtml += '<table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:14px;">';
+            for (let key in data.details) {
+                const val = String(data.details[key]);
+                // Skipping unnecessary URLs/photos from showing as text
+                if (val.includes('drive.google.com') || key.toLowerCase().includes('picture') || key.toLowerCase().includes('photo') || key.toLowerCase().includes('image')) {
+                    continue;
+                }
+                detailsHtml += `
+                <tr>
+                    <td style="padding:10px 15px; border:1px solid #ddd; font-weight:bold; width:35%; background-color:#f4fdf8; color:#007e33;">${key}</td>
+                    <td style="padding:10px 15px; border:1px solid #ddd; color:#333;">${val}</td>
+                </tr>`;
+            }
+            detailsHtml += '</table>';
+            
+            // Adding Signature Footer for PDF
+            detailsHtml += `
+                <div style="margin-top:70px; display:flex; justify-content:space-between; padding:0 20px;">
+                    <div style="border-top:1px solid #333; padding-top:5px; text-align:center; width:200px; font-weight:bold;">সদস্যের স্বাক্ষর</div>
+                    <div style="border-top:1px solid #333; padding-top:5px; text-align:center; width:200px; font-weight:bold;">কর্তৃপক্ষের স্বাক্ষর</div>
+                </div>
+            `;
+
+            printDiv.innerHTML = photoHtml + detailsHtml;
+
+            // Generate the PDF
+            const userName = data.details['Name'] || 'Member';
+            const opt = {
+                margin:       0.5,
+                filename:     userName.replace(/\s+/g, '_') + '_GSSC_Profile.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true }, // useCORS is important for google drive images
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            const btn = document.getElementById('pdfDownloadBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> পিডিএফ তৈরি হচ্ছে...';
+            btn.disabled = true;
+
+            html2pdf().set(opt).from(printDiv).save().then(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+        // --- END OF NEW FEATURE ---
 
         window.onclick = function(event) {
             const modals = [
