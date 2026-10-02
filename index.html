@@ -1331,93 +1331,154 @@
             .then(data => {
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
                 confirmBtn.disabled = false;
-                
+
                 if (data.status === 'success') {
                     statusMsg.style.color = '#2e7d32';
-                    statusMsg.innerHTML = data.message || 'পেমেন্ট সফলভাবে সাবমিট হয়েছে!';
+                    statusMsg.innerText = data.message || 'পেমেন্ট সফলভাবে জমা হয়েছে!';
                     statusMsg.style.display = 'block';
                     document.getElementById('memberPaymentForm').reset();
+                    document.getElementById('payStudentName').value = studentName;
+                    document.getElementById('payMemberId').value = memberId;
+                    document.getElementById('payAmount').value = "50";
                 } else {
                     statusMsg.style.color = '#d32f2f';
-                    statusMsg.innerHTML = data.message || 'পেমেন্ট সাবমিট করতে সমস্যা হয়েছে!';
+                    statusMsg.innerText = data.message || 'পেমেন্ট জমা দিতে সমস্যা হয়েছে।';
                     statusMsg.style.display = 'block';
                 }
             })
             .catch(err => {
-                console.error("Payment Fetch Error:", err);
+                console.error("Payment Error:", err);
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
                 confirmBtn.disabled = false;
                 statusMsg.style.color = '#d32f2f';
-                statusMsg.innerHTML = 'সার্ভার এরর! দয়া করে আবার চেষ্টা করুন।';
+                statusMsg.innerText = 'সার্ভার সংযোগ সমস্যা! পুনরায় চেষ্টা করুন।';
                 statusMsg.style.display = 'block';
             });
         }
 
-        // --- নতুন যুক্ত হওয়া ফাংশনসমূহ (Floating Badge, Logout, Download & Theme) ---
-        
-        // লগইন করার পর ড্যাশবোর্ড খোলার জন্য ফ্লোটিং ব্যাজ যুক্ত করার ফাংশন
-        function updateUIAfterLogin(photoUrl, studentName) {
-            var container = document.getElementById('floatingProfileContainer');
-            var finalPhoto = photoUrl ? photoUrl : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'; // Fallback Image
-            
-            // onclick="openLoginModal()" দেওয়া হয়েছে যেনো ব্যাজে ক্লিক করলেই ড্যাশবোর্ড উইন্ডো (Modal) ওপেন হয়ে যায়
-            container.innerHTML = '<div class="floating-profile-badge" onclick="openLoginModal()" title="Dashboard"><img src="' + finalPhoto + '" alt="Profile"></div>';
-            
-            // সাইডবারের লগইন বাটনের টেক্সট পরিবর্তন করে Dashboard লেখা
-            var sidebarLink = document.getElementById('sidebarLoginMenuLink');
-            if (sidebarLink) {
-                sidebarLink.innerHTML = '<i class="fas fa-user-circle"></i> Dashboard';
-            }
-        }
-
-        // পেজ লোড হওয়ার সময় আগের লগইন সেশন চেক করার ফাংশন
         function checkActiveLoginStateOnLoad() {
-            var isLoggedIn = localStorage.getItem('gssc_logged_in');
-            if (isLoggedIn === 'true') {
-                var userData = localStorage.getItem('gssc_user_data');
-                if (userData) {
-                    try {
-                        renderUserSessionState(JSON.parse(userData));
-                    } catch(e) {
-                        console.error('Session data parse error:', e);
-                    }
+            const isLoggedIn = localStorage.getItem('gssc_logged_in');
+            const userDataStr = localStorage.getItem('gssc_user_data');
+
+            if (isLoggedIn === 'true' && userDataStr) {
+                try {
+                    const data = JSON.parse(userDataStr);
+                    renderUserSessionState(data);
+                } catch (e) {
+                    console.error("Error parsing user session:", e);
                 }
             }
         }
 
-        // লগআউট ফাংশন 
+        function updateUIAfterLogin(photoUrl, name) {
+            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
+            if (sidebarLink) {
+                sidebarLink.innerHTML = `<i class="fas fa-user-check"></i> ${name} (Profile)`;
+            }
+
+            let floatContainer = document.getElementById('floatingProfileContainer');
+            let imgHTML = photoUrl ? `<img src="${photoUrl}" alt="Profile">` : `<i class="fas fa-user" style="color:#fff; font-size:20px;"></i>`;
+            
+            floatContainer.innerHTML = `
+                <div class="floating-profile-badge" id="draggableBadge" onclick="openLoginModal()" title="প্রোফাইল ড্যাশবোর্ড খুলুন">
+                    ${imgHTML}
+                </div>
+            `;
+
+            makeBadgeDraggable(document.getElementById('draggableBadge'));
+        }
+
         function logoutUser() {
             localStorage.removeItem('gssc_logged_in');
             localStorage.removeItem('gssc_user_data');
             
+            document.getElementById('floatingProfileContainer').innerHTML = '';
             document.getElementById('userProfileView').style.display = 'none';
             document.getElementById('loginFormView').style.display = 'block';
-            document.getElementById('floatingProfileContainer').innerHTML = ''; // ফ্লোটিং ব্যাজ রিমুভ করা
             
-            var sidebarLink = document.getElementById('sidebarLoginMenuLink');
+            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
             if (sidebarLink) {
-                sidebarLink.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+                sidebarLink.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
             }
-            
+
             closeLoginModal();
         }
 
-        // পিডিএফ ডাউনলোড ফাংশন
         function downloadProfilePDF() {
-            var element = document.getElementById('profileTabContent');
-            var opt = {
-              margin:       0.5,
-              filename:     'Student_Profile.pdf',
-              image:        { type: 'jpeg', quality: 0.98 },
-              html2canvas:  { scale: 2 },
-              jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            const element = document.getElementById('userProfileView');
+            const opt = {
+                margin:       10,
+                filename:     'GSSC_Science_Club_Profile.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             html2pdf().set(opt).from(element).save();
         }
 
-        // ডার্ক মোড চেঞ্জ করার ফাংশন
         function toggleDarkMode() {
             document.body.classList.toggle('dark-theme');
+            const btn = document.getElementById('darkModeToggleBtn');
+            if (document.body.classList.contains('dark-theme')) {
+                btn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                btn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        function makeBadgeDraggable(elmnt) {
+            if (!elmnt) return;
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            
+            elmnt.onmousedown = dragMouseDown;
+            elmnt.ontouchstart = dragTouchStart;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function dragTouchStart(e) {
+                var touch = e.touches[0];
+                pos3 = touch.clientX;
+                pos4 = touch.clientY;
+                document.ontouchend = closeDragElement;
+                document.ontouchmove = elementTouchDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                elmnt.style.right = 'auto';
+            }
+
+            function elementTouchDrag(e) {
+                var touch = e.touches[0];
+                pos1 = pos3 - touch.clientX;
+                pos2 = pos4 - touch.clientY;
+                pos3 = touch.clientX;
+                pos4 = touch.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                elmnt.style.right = 'auto';
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                document.ontouchend = null;
+                document.ontouchmove = null;
+            }
         }
     </script>
 </body>
