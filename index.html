@@ -903,6 +903,9 @@
         const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
         const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
 
+        // *** গুগল ওয়েব অ্যাপের URL এখানে বসান ***
+        const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
+
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
         function toggleSubmenu(id) {
@@ -975,508 +978,72 @@
             startSlideshow();
         }
 
-        // Hide preloader when window loads
-        window.addEventListener('load', function() {
-            var preloader = document.getElementById('science-preloader');
-            if(preloader) {
-                preloader.style.opacity = '0';
-                setTimeout(function() { preloader.style.visibility = 'hidden'; }, 500);
-            }
-        });
-
-        window.onload = function() { 
-            startSlideshow(); 
-            checkActiveLoginStateOnLoad();
-        };
-
-        function openAllGalleryModal() {
-            var container = document.getElementById('allGalleryModalImages');
-            container.innerHTML = '';
-            var items = document.querySelectorAll('.gallery-item-box');
-            items.forEach(function(item) {
-                var imgElem = item.querySelector('img');
-                var overlayElem = item.querySelector('.slide-overlay');
-                if (imgElem) {
-                    var src = imgElem.getAttribute('src');
-                    var titleText = overlayElem ? overlayElem.innerText : '';
-                    var cardDiv = document.createElement('div');
-                    cardDiv.style.position = 'relative';
-                    cardDiv.style.borderRadius = '6px';
-                    cardDiv.style.overflow = 'hidden';
-                    cardDiv.style.boxShadow = '0 2px 5px rgba(0,0,0,0.15)';
-                    var img = document.createElement('img');
-                    img.src = src;
-                    img.alt = titleText || 'Activity Image';
-                    img.onclick = function() { openImageViewer(src); };
-                    cardDiv.appendChild(img);
-                    if (titleText) {
-                        var caption = document.createElement('div');
-                        caption.style.position = 'absolute';
-                        caption.style.bottom = '0';
-                        caption.style.left = '0';
-                        caption.style.right = '0';
-                        caption.style.background = 'rgba(0,0,0,0.65)';
-                        caption.style.color = '#fff';
-                        caption.style.fontSize = '12px';
-                        caption.style.padding = '4px 6px';
-                        caption.style.textAlign = 'center';
-                        caption.style.fontWeight = 'bold';
-                        caption.innerText = titleText;
-                        cardDiv.appendChild(caption);
-                    }
-                    container.appendChild(cardDiv);
-                }
-            });
-            document.getElementById('allGalleryModal').style.display = 'block';
-        }
-
-        function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
-
-        function openNoticeModal(title, imgArray) {
-            if (Array.isArray(imgArray) && imgArray.length === 1) {
-                openImageViewer(imgArray[0]);
-                return;
-            }
-            document.getElementById('modalTitle').innerText = title;
-            var container = document.getElementById('modalImages');
-            container.innerHTML = ''; 
-            imgArray.forEach(function(src) {
-                var img = document.createElement('img');
-                img.src = src;
-                img.onclick = function() { openImageViewer(src); }; 
-                container.appendChild(img);
-            });
-            document.getElementById('noticeModal').style.display = 'block';
-        }
-
-        function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
-
-        function openImageViewer(src) {
-            document.getElementById('fullSizeImage').src = src;
-            document.getElementById('imageViewerModal').style.display = 'flex';
-        }
-
-        function closeImageViewer() { document.getElementById('imageViewerModal').style.display = 'none'; }
-
-        function openAboutModal(type) {
-            closeNav(); 
-            var titleElem = document.getElementById('aboutModalTitle');
-            var bodyElem = document.getElementById('aboutModalBody');
-            
-            if (type === 'introduction') {
-                titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪তের এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
-            } 
-            else if (type === 'objectives') {
-                titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
-                bodyElem.innerHTML = "<ul><li><b>বিজ্ঞানচর্চার প্রসার:</b> প্রাতিষ্ঠানিক শিক্ষার পাশাপাশি বিজ্ঞানকে সহজ ও উপভোগ্য করে তোলা এবং ব্যবহারিক জ্ঞান অর্জনে শিক্ষার্থীদের সহায়তা করা।</li><li><b>দক্ষতা বৃদ্ধি:</b> কর্মশালা ও সেমিনারের মাধ্যমে বিজ্ঞান ও প্রযুক্তির আধুনিক বিভিন্ন বিষয়ের সাথে শিক্ষার্থীদের পরিচয় করিয়ে দেওয়া।</li><li><b>নেতৃত্ব ও দলগত কাজ:</b> শিক্ষার্থীদের মধ্যে নেতৃত্ব গুণাবলী, সাংগঠনিক দক্ষতা এবং দলবদ্ধভাবে কাজ করার মানসিকতা গড়ে তোলা।</li></ul>";
-            } 
-            else if (type === 'activities') {
-                titleElem.innerText = "আমাদের কার্যক্রমসমূহ";
-                bodyElem.innerHTML = "সরকারি শহীদ সোহরাওয়ার্দী কলেজ ক্লাব নিয়মিত বিভিন্ন শিক্ষামূলক ও ব্যবহারিক কার্যক্রম পরিচালনা করে থাকে:<br><br><ul><li><b>বিজ্ঞান প্রশিক্ষণ কর্মশালা:</b> বিভিন্ন ব্যবহারিক ও প্রায়োগিক বিষয়ভিত্তিক কর্মশালা (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি)।</li><li><b>সেমিনার ও সিম্পোজিয়াম:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ টপিক নিয়ে সেমিনার আয়োজন।</li><li><b>সদস্য সংগ্রহ ও মূল্যায়ন:</b> প্রতি শিক্ষাবর্ষে নির্দিষ্ট নিয়ম ও ভর্তি প্রক্রিয়ার মাধ্যমে বিজ্ঞান বিভাগের আগ্রহী শিক্ষার্থীদের ক্লাবের সদস্য হিসেবে অন্তর্ভুক্ত করা।.</li><li><b>প্রজেক্ট প্রদর্শনী:</b> শিক্ষার্থীদের সৃজনশীল বিজ্ঞান প্রজেক্ট প্রদর্শনের সুযোগ তৈরি করে দেওয়া।</li></ul>";
-            }
-            document.getElementById('aboutModal').style.display = 'block';
-        }
-
-        function closeAboutModal() { document.getElementById('aboutModal').style.display = 'none'; }
-
-        function openResultModal(examType) {
-            closeNav(); 
-            var titleElem = document.getElementById('resultModalTitle');
-            var container = document.getElementById('resultModalImages');
-            container.innerHTML = ''; 
-            
-            var images = [];
-            if (examType === 'exam2025') {
-                titleElem.innerText = "জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা- ২০২৫ রেজাল্ট";
-                images = [
-                    '1Member selection result 2025 .jpg.jpg', 
-                    '2Member selection result 2025.jpg', 
-                    '3Member selection result 2025 .jpg'
-                ]; 
-            }
-            images.forEach(function(src) {
-                var img = document.createElement('img');
-                img.src = src;
-                img.onclick = function() { openImageViewer(src); }; 
-                container.appendChild(img);
-            });
-            document.getElementById('resultModal').style.display = 'block';
-        }
-
-        function closeResultModal() { document.getElementById('resultModal').style.display = 'none'; }
-
-        function openActivitiesModal(actType) {
-            closeNav();
-            var titleElem = document.getElementById('activitiesModalTitle');
-            var bodyElem = document.getElementById('activitiesModalBody');
-
-            if (actType === 'scienceFair') {
-                titleElem.innerText = "Science Fair & Exhibition";
-                bodyElem.innerHTML = "<b>বিজ্ঞান মেলা ও প্রজেক্ট প্রদর্শনী:</b> কলেজ প্রাঙ্গণে বিজ্ঞান ক্লাবের উদ্যোগে বার্ষিক বিজ্ঞান মেলা আয়োজন করা হয়, যেখানে শিক্ষার্থীরা তাদের সৃজনশীল সায়েন্স অনুমোদন প্রজেক্ট (যেমন: রোবটিক্স, রিনিউয়েবল এনার্জি ইত্যাদি) প্রদর্শন করে। এছাড়া বিজ্ঞান বিষয়ক আকর্ষণীয় দেওয়াল পত্রিকা প্রকাশ করা হয়।";
-            } else if (actType === 'workshops') {
-                titleElem.innerText = "Workshops & Training";
-                bodyElem.innerHTML = "<b>কর্মশালা ও প্রশিক্ষণ:</b> বেসিক প্রোগ্রামিং, পাইথন, ওয়েব ডিজাইন কিংবা ব্যবহারিক ল্যাব সেশন এবং প্রায়োগিক প্রশিক্ষণ (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি) এর মাধ্যমে শিক্ষার্থীদের হাতে-কলমে দক্ষতা বৃদ্ধি করা হয়।";
-            } else if (actType === 'seminars') {
-                titleElem.innerText = "Seminars & Science Talks";
-                bodyElem.innerHTML = "<b>সেমিনার ও আড্ডা:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ ও আধুনিক টপিক নিয়ে বিশেষজ্ঞ গবেষক ও শিক্ষকদের লেকচার, সায়েন্টিফিক ডিবেট সেশন এবং ইনডোর কুইজ প্রতিযোগিতা আয়োজন করা হয়।";
-            } else if (actType === 'ecoInitiatives') {
-                titleElem.innerText = "Eco-Friendly & Social Initiatives";
-                bodyElem.innerHTML = "<b>পরিবেশ ও সামাজিক কার্যক্রম:</b> কলেজ ক্যাম্পাস ও আশপাশের এলাকায় সবুজায়ন এবং পরিবেশ সচেতনতা বৃদ্ধির লক্ষ্যে বৃক্ষরোপণ কর্মসূচি, ডেঙ্গু সচেতনতা ও প্লাস্টিক বর্জন ক্যাম্পেইন পরিচালনা করা হয়।";
-            } else if (actType === 'studyTours') {
-                titleElem.innerText = "Study Tours & Excursions";
-                bodyElem.innerHTML = "<b>শিক্ষা সফর:</b> শিক্ষার্থীদের তাত্ত্বিক জ্ঞানকে বাস্তবসম্মত করতে দেশের বিজ্ঞান জাদুঘর, প্ল্যানেটোরিয়াম কিংবা বিভিন্ন গবেষণা প্রতিষ্ঠানে শিক্ষা সফর ও সায়েন্টিফিক ভিজিটের ব্যবস্থা করা হয়।";
-            }
-            document.getElementById('activitiesModal').style.display = 'block';
-        }
-
-        function closeActivitiesModal() { document.getElementById('activitiesModal').style.display = 'none'; }
-
-        function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
-        function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
-
-        /* Login System & Floating Circular Profile Badge Handlers */
-        const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw4edWAyf2DierCsRFOt9l2BDrwuv-8AxtHsSRQ7AVVS-F0Q2n8WcOTTZTJ7thlkCs_/exec";
-
-        function openLoginModal() { 
-            closeNav(); 
-            document.getElementById('loginModal').style.display = 'block'; 
-        }
-        function closeLoginModal() { 
-            document.getElementById('loginModal').style.display = 'none'; 
-        }
-
-        /* Profile & Payment Tab Switcher */
-        function switchProfileTab(tabName) {
-            const profileContent = document.getElementById('profileTabContent');
-            const paymentContent = document.getElementById('paymentTabContent');
-            const tabProfileBtn = document.getElementById('tabProfileBtn');
-            const tabPaymentBtn = document.getElementById('tabPaymentBtn');
-
-            if (tabName === 'profile') {
-                profileContent.style.display = 'block';
-                paymentContent.style.display = 'none';
-                tabProfileBtn.classList.add('active');
-                tabPaymentBtn.classList.remove('active');
-            } else if (tabName === 'payment') {
-                profileContent.style.display = 'none';
-                paymentContent.style.display = 'block';
-                tabProfileBtn.classList.remove('active');
-                tabPaymentBtn.classList.add('active');
-            }
-        }
-
-        function handleLogin(event) {
-            event.preventDefault();
-            const memberId = document.getElementById('loginMemberId').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            const errorDiv = document.getElementById('loginError');
-            const submitBtn = document.getElementById('loginSubmitBtn');
-
-            errorDiv.style.display = 'none';
-            submitBtn.innerText = 'যাচাই করা হচ্ছে...';
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.7';
-
-            const formData = new URLSearchParams();
-            formData.append('memberId', memberId);
-            formData.append('password', password);
-
-            fetch(APPS_SCRIPT_WEB_APP_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                body: formData.toString()
-            })
-            .then(res => res.json())
-            .then(data => {
-                submitBtn.innerText = 'লগইন করুন';
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-
-                if (data.status === 'success') {
-                    // Save login session and raw response
-                    data.savedMemberId = memberId;
-                    localStorage.setItem('gssc_logged_in', 'true');
-                    localStorage.setItem('gssc_user_data', JSON.stringify(data));
-
-                    renderUserSessionState(data);
-                } else {
-                    errorDiv.innerText = data.message || 'মেম্বার আইডি অথবা পাসওয়ার্ড সঠিক নয়!';
-                    errorDiv.style.display = 'block';
-                }
-            })
-            .catch(err => {
-                console.error("Login Fetch Error:", err);
-                submitBtn.innerText = 'লগইন করুন';
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                errorDiv.innerText = 'দু:খিত! সার্ভারে সংযোগ করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।';
-                errorDiv.style.display = 'block';
-            });
-        }
-
-        function renderUserSessionState(data) {
-            document.getElementById('loginFormView').style.display = 'none';
-            document.getElementById('userProfileView').style.display = 'block';
-
-            // Ensure Profile Tab is open by default
-            switchProfileTab('profile');
-
-            let photoUrl = '';
-            // Handle profile photo from 'photo' property or direct details
-            if (data.photo) {
-                photoUrl = data.photo;
-            } else if (data.details && (data.details.photo || data.details.Photo || data.details['ছবির লিংক'])) {
-                photoUrl = data.details.photo || data.details.Photo || data.details['ছবির লিংক'];
-            }
-
-            if (photoUrl) {
-                const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
-                document.getElementById('profilePhoto').src = photoUrl;
-                document.getElementById('profilePhotoContainer').style.display = 'block';
-            } else {
-                document.getElementById('profilePhotoContainer').style.display = 'none';
-            }
-
-            // Populating Profile Details
-            let detailsHtml = '';
-            let studentName = '';
-            if (data.details && typeof data.details === 'object') {
-                for (const [key, value] of Object.entries(data.details)) {
-                    if (key.toLowerCase().includes('name') || key.includes('নাম')) {
-                        studentName = value;
-                    }
-                    detailsHtml += `<div><strong>${key}:</strong> ${value}</div>`;
-                }
-            } else {
-                detailsHtml = `<div><strong>মেম্বার আইডি:</strong> ${data.savedMemberId || ''}</div>`;
-            }
-
-            document.getElementById('profileDetails').innerHTML = detailsHtml;
-
-            // Auto-fill Payment Form details
-            document.getElementById('payMemberId').value = data.savedMemberId || '';
-            document.getElementById('payStudentName').value = studentName || (data.name || 'শিক্ষার্থী');
-
-            // Show Floating Profile Badge
-            showFloatingBadge(photoUrl);
-
-            // Update Sidebar Login Text
-            const sidebarBtn = document.getElementById('sidebarLoginMenuLink');
-            if (sidebarBtn) {
-                sidebarBtn.innerHTML = '<i class="fas fa-user"></i> ড্যাশবোর্ড';
-            }
-        }
-
-        function checkActiveLoginStateOnLoad() {
-            const isLoggedIn = localStorage.getItem('gssc_logged_in');
-            const userDataStr = localStorage.getItem('gssc_user_data');
-
-            if (isLoggedIn === 'true' && userDataStr) {
-                try {
-                    const data = JSON.parse(userDataStr);
-                    renderUserSessionState(data);
-                } catch (e) {
-                    console.error("Session parse error:", e);
-                }
-            }
-        }
-
-        function logoutUser() {
-            localStorage.removeItem('gssc_logged_in');
-            localStorage.removeItem('gssc_user_data');
-
-            document.getElementById('loginFormView').style.display = 'block';
-            document.getElementById('userProfileView').style.display = 'none';
-            document.getElementById('memberLoginForm').reset();
-
-            // Hide Floating Badge
-            const container = document.getElementById('floatingProfileContainer');
-            if (container) container.innerHTML = '';
-
-            const sidebarBtn = document.getElementById('sidebarLoginMenuLink');
-            if (sidebarBtn) {
-                sidebarBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-            }
-
-            closeLoginModal();
-        }
-
-        /* --- Payment Form Submit Handler (Fixed to properly send payMethod) --- */
+        // --- পেমেন্ট ফর্ম জমা নেওয়া ও গুগল স্ক্রিপ্টে তথ্য পাঠানোর ফাংশন ---
         function handlePaymentSubmit(event) {
             event.preventDefault();
-            
-            const studentName = document.getElementById('payStudentName').value;
-            const memberId = document.getElementById('payMemberId').value;
-            const payType = document.getElementById('payType').value;
-            const paySenderNumber = document.getElementById('paySenderNumber').value.trim();
-            const payTrxId = document.getElementById('payTrxId').value.trim();
-            const payAmount = document.getElementById('payAmount').value;
-            
-            // Get selected radio value for Payment Method
-            const payMethodRadio = document.querySelector('input[name="payMethod"]:checked');
-            const payMethod = payMethodRadio ? payMethodRadio.value : '';
 
-            const statusMsg = document.getElementById('paymentStatusMsg');
-            const confirmBtn = document.getElementById('payConfirmBtn');
+            var studentName = document.getElementById('payStudentName').value;
+            var memberId = document.getElementById('payMemberId').value;
+            var payType = document.getElementById('payType').value;
+            
+            // পেমেন্ট মাধ্যম রেডিও বাটন থেকে নির্বাচিত টেক্সট নেওয়া (bKash / Nagad / Rocket)
+            var selectedMethodElement = document.querySelector('input[name="payMethod"]:checked');
+            var payMethod = selectedMethodElement ? selectedMethodElement.value : 'অজানা';
 
-            statusMsg.style.display = 'none';
-            confirmBtn.innerText = 'জমা হচ্ছে...';
+            var senderNumber = document.getElementById('paySenderNumber').value;
+            var trxId = document.getElementById('payTrxId').value;
+            var amount = document.getElementById('payAmount').value;
+
+            var statusMsg = document.getElementById('paymentStatusMsg');
+            var confirmBtn = document.getElementById('payConfirmBtn');
+
+            statusMsg.style.display = 'block';
+            statusMsg.style.color = '#007e33';
+            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> পেমেন্ট তথ্য পাঠানো হচ্ছে...';
             confirmBtn.disabled = true;
 
-            const formData = new URLSearchParams();
-            formData.append('action', 'submitPayment');
-            formData.append('studentName', studentName);
-            formData.append('memberId', memberId);
-            formData.append('payType', payType);
-            formData.append('payMethod', payMethod); // bKash, Nagad, or Rocket
-            formData.append('paySenderNumber', paySenderNumber);
-            formData.append('payTrxId', payTrxId);
-            formData.append('payAmount', payAmount);
+            var paymentData = {
+                studentName: studentName,
+                memberId: memberId,
+                payType: payType,
+                payMethod: payMethod, // টেক্সট আকারে পেমেন্ট মাধ্যম
+                senderNumber: senderNumber,
+                trxId: trxId,
+                amount: amount
+            };
 
-            fetch(APPS_SCRIPT_WEB_APP_URL, {
+            fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                body: formData.toString()
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(paymentData)
             })
-            .then(res => res.json())
-            .then(data => {
-                confirmBtn.innerText = 'কনফার্ম করুন';
+            .then(function(response) {
+                statusMsg.style.color = '#007e33';
+                statusMsg.innerHTML = '<i class="fas fa-check-circle"></i> পেমেন্ট তথ্য সফলভাবে পাঠানো হয়েছে!';
+                document.getElementById('memberPaymentForm').reset();
                 confirmBtn.disabled = false;
-
-                if (data.status === 'success') {
-                    statusMsg.style.color = '#007e33';
-                    statusMsg.innerText = 'ধন্যবাদ! আপনার পেমেন্টের তথ্য সফলভাবে গৃহীত হয়েছে।';
-                    statusMsg.style.display = 'block';
-                    document.getElementById('memberPaymentForm').reset();
-                    // Restore default values
-                    document.getElementById('payMemberId').value = memberId;
-                    document.getElementById('payStudentName').value = studentName;
-                    document.getElementById('payAmount').value = "50";
-                } else {
-                    statusMsg.style.color = '#d32f2f';
-                    statusMsg.innerText = data.message || 'দুঃখিত! তথ্য জমা দিতে সমস্যা হয়েছে।';
-                    statusMsg.style.display = 'block';
-                }
             })
-            .catch(err => {
-                console.error("Payment Submission Error:", err);
-                confirmBtn.innerText = 'কনফার্ম করুন';
-                confirmBtn.disabled = false;
+            .catch(function(error) {
                 statusMsg.style.color = '#d32f2f';
-                statusMsg.innerText = 'সার্ভার সমস্যা! অনুগ্রহ করে পুনরায় চেষ্টা করুন।';
-                statusMsg.style.display = 'block';
+                statusMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> পেমেন্ট পাঠাতে সমস্যা হয়েছে। পুনরায় চেষ্টা করুন।';
+                confirmBtn.disabled = false;
             });
         }
 
-        /* --- Floating Profile Badge & Draggable Logic --- */
-        function showFloatingBadge(photoUrl) {
-            const container = document.getElementById('floatingProfileContainer');
-            if (!container) return;
-
-            let imgSrc = photoUrl || 'https://via.placeholder.com/150';
-            container.innerHTML = `
-                <div id="dragBadge" class="floating-profile-badge" onclick="openLoginModal()" title="প্রোফাইল/ড্যাশবোর্ড খুলুন">
-                    <img src="${imgSrc}" alt="User">
-                </div>
-            `;
-
-            makeElementDraggable(document.getElementById('dragBadge'));
-        }
-
-        function makeElementDraggable(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            let isDragging = false;
-
-            elmnt.onmousedown = dragMouseDown;
-            elmnt.ontouchstart = dragTouchStart;
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                isDragging = false;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
+        // পেজ লোড হওয়ার সময় প্রি-লোডার বন্ধ করা
+        window.addEventListener('load', function() {
+            var preloader = document.getElementById('science-preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(function() {
+                    preloader.style.display = 'none';
+                }, 500);
             }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                isDragging = true;
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                elmnt.style.right = 'auto';
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
-
-            function dragTouchStart(e) {
-                const touch = e.touches[0];
-                pos3 = touch.clientX;
-                pos4 = touch.clientY;
-                isDragging = false;
-                document.ontouchend = closeTouchDrag;
-                document.ontouchmove = touchDrag;
-            }
-
-            function touchDrag(e) {
-                const touch = e.touches[0];
-                isDragging = true;
-                pos1 = pos3 - touch.clientX;
-                pos2 = pos4 - touch.clientY;
-                pos3 = touch.clientX;
-                pos4 = touch.clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                elmnt.style.right = 'auto';
-            }
-
-            function closeTouchDrag() {
-                document.ontouchend = null;
-                document.ontouchmove = null;
-            }
-
-            elmnt.addEventListener('click', function(e) {
-                if (isDragging) {
-                    e.stopImmediatePropagation();
-                    e.preventDefault();
-                }
-            }, true);
-        }
-
-        /* Dark Mode Toggle Function */
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-theme');
-            const icon = document.querySelector('#darkModeToggleBtn i');
-            if (document.body.classList.contains('dark-theme')) {
-                icon.className = 'fas fa-sun';
-            } else {
-                icon.className = 'fas fa-moon';
-            }
-        }
-
-        /* Profile PDF Download */
-        function downloadProfilePDF() {
-            const element = document.getElementById('profileTabContent');
-            const opt = {
-                margin:       10,
-                filename:     'GSSC_Member_Profile.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        }
+            startSlideshow();
+        });
     </script>
 </body>
 </html>
