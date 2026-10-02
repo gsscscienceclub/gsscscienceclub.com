@@ -1121,7 +1121,7 @@
                 bodyElem.innerHTML = "<b>সেমিনার ও আড্ডা:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ ও আধুনিক টপিক নিয়ে বিশেষজ্ঞ গবেষক ও শিক্ষকদের লেকচার, সায়েন্টিফিক ডিবেট সেশন এবং ইনডোর কুইজ প্রতিযোগিতা আয়োজন করা হয়।";
             } else if (actType === 'ecoInitiatives') {
                 titleElem.innerText = "Eco-Friendly & Social Initiatives";
-                bodyElem.innerText = "<b>পরিবেশ ও সামাজিক কার্যক্রম:</b> কলেজ ক্যাম্পাস ও আশপাশের এলাকায় সবুজায়ন এবং পরিবেশ সচেতনতা বৃদ্ধির লক্ষ্যে বৃক্ষরোপণ কর্মসূচি, ডেঙ্গু সচেতনতা ও প্লাস্টিক বর্জন ক্যাম্পেইন পরিচালনা করা হয়।";
+                bodyElem.innerHTML = "<b>পরিবেশ ও সামাজিক কার্যক্রম:</b> কলেজ ক্যাম্পাস ও আশপাশের এলাকায় সবুজায়ন এবং পরিবেশ সচেতনতা বৃদ্ধির লক্ষ্যে বৃক্ষরোপণ কর্মসূচি, ডেঙ্গু সচেতনতা ও প্লাস্টিক বর্জন ক্যাম্পেইন পরিচালনা করা হয়।";
             } else if (actType === 'studyTours') {
                 titleElem.innerText = "Study Tours & Excursions";
                 bodyElem.innerHTML = "<b>শিক্ষা সফর:</b> শিক্ষার্থীদের তাত্ত্বিক জ্ঞানকে বাস্তবসম্মত করতে দেশের বিজ্ঞান জাদুঘর, প্ল্যানেটোরিয়াম কিংবা বিভিন্ন গবেষণা প্রতিষ্ঠানে শিক্ষা সফর ও সায়েন্টিফিক ভিজিটের ব্যবস্থা করা হয়।";
@@ -1354,9 +1354,7 @@
                 statusMsg.innerText = 'সার্ভারে সংযোগ করতে সমস্যা হয়েছে! আবার চেষ্টা করুন।';
                 statusMsg.style.display = 'block';
             });
-        } // End of handlePaymentSubmit
-
-        /* --- MISSING FUNCTIONS ADDED BELOW --- */
+        }
 
         // Check Login State on Load (Keeps user logged in after page reload)
         function checkActiveLoginStateOnLoad() {
@@ -1422,6 +1420,73 @@
             alert('আপনি সফলভাবে লগআউট হয়েছেন!');
         }
 
+        // Make element draggable
+        function makeDraggable(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            elmnt.onmousedown = dragMouseDown;
+            elmnt.ontouchstart = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                if (e.type === "touchstart") {
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+                } else {
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                }
+                document.onmouseup = closeDragElement;
+                document.ontouchend = closeDragElement;
+                document.onmousemove = elementDrag;
+                document.ontouchmove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+                let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+
+                pos1 = pos3 - clientX;
+                pos2 = pos4 - clientY;
+                pos3 = clientX;
+                pos4 = clientY;
+
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                elmnt.style.right = "auto";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.ontouchend = null;
+                document.onmousemove = null;
+                document.ontouchmove = null;
+            }
+        }
+
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('gssc_dark_mode', isDark ? 'true' : 'false');
+            
+            const darkBtnIcon = document.querySelector('#darkModeToggleBtn i');
+            if (isDark) {
+                darkBtnIcon.className = 'fas fa-sun';
+            } else {
+                darkBtnIcon.className = 'fas fa-moon';
+            }
+        }
+
+        // Check dark mode state on load
+        if (localStorage.getItem('gssc_dark_mode') === 'true') {
+            document.body.classList.add('dark-theme');
+            const darkBtnIcon = document.querySelector('#darkModeToggleBtn i');
+            if (darkBtnIcon) darkBtnIcon.className = 'fas fa-sun';
+        }
+
         // Download Profile Details as PDF
         function downloadProfilePDF() {
             const element = document.createElement('div');
@@ -1439,7 +1504,6 @@
                 </div>
             `;
             
-            // Options for PDF generation
             const opt = {
                 margin:       10,
                 filename:     'Member_Profile_GSSC.pdf',
@@ -1449,67 +1513,6 @@
             };
             
             html2pdf().from(element).set(opt).save();
-        }
-
-        // Dark Mode Toggle
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-theme');
-            const btn = document.getElementById('darkModeToggleBtn');
-            if (document.body.classList.contains('dark-theme')) {
-                btn.innerHTML = '<i class="fas fa-sun" style="color:#ffeb3b;"></i>';
-            } else {
-                btn.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        }
-
-        // Make element draggable for floating profile badge
-        function makeDraggable(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            elmnt.onmousedown = dragMouseDown;
-            elmnt.ontouchstart = dragMouseDown;
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                if (e.type === 'touchstart') {
-                    pos3 = e.touches[0].clientX;
-                    pos4 = e.touches[0].clientY;
-                } else {
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
-                }
-                document.onmouseup = closeDragElement;
-                document.ontouchend = closeDragElement;
-                document.onmousemove = elementDrag;
-                document.ontouchmove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                let clientX, clientY;
-                if (e.type === 'touchmove') {
-                    clientX = e.touches[0].clientX;
-                    clientY = e.touches[0].clientY;
-                } else {
-                    clientX = e.clientX;
-                    clientY = e.clientY;
-                }
-                pos1 = pos3 - clientX;
-                pos2 = pos4 - clientY;
-                pos3 = clientX;
-                pos4 = clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                elmnt.style.right = "auto";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.ontouchend = null;
-                document.onmousemove = null;
-                document.ontouchmove = null;
-            }
         }
     </script>
 </body>
