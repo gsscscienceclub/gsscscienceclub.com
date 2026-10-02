@@ -1112,7 +1112,7 @@
 
             if (actType === 'scienceFair') {
                 titleElem.innerText = "Science Fair & Exhibition";
-                bodyElem.innerHTML = "<b>বিজ্ঞান মেলা ও প্রজেক্ট প্রদর্শনী:</b> কলেজ প্রাঙ্গণে বিজ্ঞান ক্লাবের উদ্যোগে বার্ষিক বিজ্ঞান মেলা আয়োজন করা হয়, যেখানে শিক্ষার্থীরা তাদের সৃজনশীল সায়েন্স প্রজেক্ট (যেমন: রোবটিক্স, রিনিউয়েবল এনার্জি ইত্যাদি) প্রদর্শন করে। এছাড়া বিজ্ঞান বিষয়ক আকর্ষণীয় দেওয়াল পত্রিকা প্রকাশ করা হয়।";
+                bodyElem.innerHTML = "<b>বিজ্ঞান মেলা ও প্রজেক্ট প্রদর্শনী:</b> কলেজ প্রাঙ্গণে বিজ্ঞান ক্লাবের উদ্যোগে বার্ষিক বিজ্ঞান মেলা আয়োজন করা হয়, যেখানে শিক্ষার্থীরা তাদের সৃজনশীল সায়েন্স অনুমোদন প্রজেক্ট (যেমন: রোবটিক্স, রিনিউয়েবল এনার্জি ইত্যাদি) প্রদর্শন করে। এছাড়া বিজ্ঞান বিষয়ক আকর্ষণীয় দেওয়াল পত্রিকা প্রকাশ করা হয়।";
             } else if (actType === 'workshops') {
                 titleElem.innerText = "Workshops & Training";
                 bodyElem.innerHTML = "<b>কর্মশালা ও প্রশিক্ষণ:</b> বেসিক প্রোগ্রামিং, পাইথন, ওয়েব ডিজাইন কিংবা ব্যবহারিক ল্যাব সেশন এবং প্রায়োগিক প্রশিক্ষণ (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি) এর মাধ্যমে শিক্ষার্থীদের হাতে-কলমে দক্ষতা বৃদ্ধি করা হয়।";
@@ -1330,189 +1330,93 @@
             .then(data => {
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
                 confirmBtn.disabled = false;
-
+                
                 if (data.status === 'success') {
                     statusMsg.style.color = '#2e7d32';
-                    statusMsg.innerText = 'ধন্যবাদ! আপনার পেমেন্ট তথ্য সফলভাবে জমা দেওয়া হয়েছে। যাচাই শেষে স্ট্যাটাস আপডেট হবে।';
+                    statusMsg.innerHTML = data.message || 'পেমেন্ট সফলভাবে সাবমিট হয়েছে!';
                     statusMsg.style.display = 'block';
                     document.getElementById('memberPaymentForm').reset();
-                    // Re-fill static inputs
-                    document.getElementById('payStudentName').value = studentName;
-                    document.getElementById('payMemberId').value = memberId;
-                    document.getElementById('payAmount').value = "50 Tk";
                 } else {
                     statusMsg.style.color = '#d32f2f';
-                    statusMsg.innerText = data.message || 'পেমেন্ট তথ্য জমাদানে সমস্যা হয়েছে। আবার চেষ্টা করুন।';
+                    statusMsg.innerHTML = data.message || 'পেমেন্ট সাবমিট করতে সমস্যা হয়েছে!';
                     statusMsg.style.display = 'block';
                 }
             })
             .catch(err => {
-                console.error("Payment Submission Error:", err);
+                console.error("Payment Fetch Error:", err);
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
                 confirmBtn.disabled = false;
                 statusMsg.style.color = '#d32f2f';
-                statusMsg.innerText = 'সার্ভারে সংযোগ করতে সমস্যা হয়েছে! আবার চেষ্টা করুন।';
+                statusMsg.innerHTML = 'সার্ভার এরর! দয়া করে আবার চেষ্টা করুন।';
                 statusMsg.style.display = 'block';
             });
         }
 
-        // Check Login State on Load (Keeps user logged in after page reload)
+        // --- নতুন যুক্ত হওয়া ফাংশনসমূহ (Floating Badge, Logout, Download & Theme) ---
+        
+        // লগইন করার পর ড্যাশবোর্ড খোলার জন্য ফ্লোটিং ব্যাজ যুক্ত করার ফাংশন
+        function updateUIAfterLogin(photoUrl, studentName) {
+            var container = document.getElementById('floatingProfileContainer');
+            var finalPhoto = photoUrl ? photoUrl : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'; // Fallback Image
+            
+            // onclick="openLoginModal()" দেওয়া হয়েছে যেনো ব্যাজে ক্লিক করলেই ড্যাশবোর্ড উইন্ডো (Modal) ওপেন হয়ে যায়
+            container.innerHTML = '<div class="floating-profile-badge" onclick="openLoginModal()" title="Dashboard"><img src="' + finalPhoto + '" alt="Profile"></div>';
+            
+            // সাইডবারের লগইন বাটনের টেক্সট পরিবর্তন করে Dashboard লেখা
+            var sidebarLink = document.getElementById('sidebarLoginMenuLink');
+            if (sidebarLink) {
+                sidebarLink.innerHTML = '<i class="fas fa-user-circle"></i> Dashboard';
+            }
+        }
+
+        // পেজ লোড হওয়ার সময় আগের লগইন সেশন চেক করার ফাংশন
         function checkActiveLoginStateOnLoad() {
-            const isLoggedIn = localStorage.getItem('gssc_logged_in');
+            var isLoggedIn = localStorage.getItem('gssc_logged_in');
             if (isLoggedIn === 'true') {
-                const userData = JSON.parse(localStorage.getItem('gssc_user_data'));
+                var userData = localStorage.getItem('gssc_user_data');
                 if (userData) {
-                    renderUserSessionState(userData);
+                    try {
+                        renderUserSessionState(JSON.parse(userData));
+                    } catch(e) {
+                        console.error('Session data parse error:', e);
+                    }
                 }
             }
         }
 
-        // Update UI After Login (Floating Badge and Menu Changes)
-        function updateUIAfterLogin(photoUrl, name) {
-            // Update Sidebar Login link
-            const sidebarLogin = document.getElementById('sidebarLoginMenuLink');
-            if (sidebarLogin) {
-                sidebarLogin.innerHTML = '<i class="fas fa-user-circle"></i> Dashboard';
-            }
-            
-            // Create Floating Badge if not exists
-            let badge = document.getElementById('floatingProfileBadge');
-            if (!badge) {
-                badge = document.createElement('div');
-                badge.id = 'floatingProfileBadge';
-                badge.className = 'floating-profile-badge';
-                badge.onclick = openLoginModal; // Clicking opens dashboard
-                document.getElementById('floatingProfileContainer').appendChild(badge);
-                
-                // Add drag functionality
-                makeDraggable(badge);
-            }
-            
-            // Set Badge Image
-            if (photoUrl) {
-                badge.innerHTML = `<img src="${photoUrl}" alt="${name}" title="${name}">`;
-            } else {
-                badge.innerHTML = `<i class="fas fa-user" style="color:white; font-size: 20px;"></i>`;
-            }
-        }
-
-        // Logout Function
+        // লগআউট ফাংশন 
         function logoutUser() {
             localStorage.removeItem('gssc_logged_in');
             localStorage.removeItem('gssc_user_data');
             
-            // Reset UI Views
-            document.getElementById('loginFormView').style.display = 'block';
             document.getElementById('userProfileView').style.display = 'none';
-            document.getElementById('memberLoginForm').reset();
+            document.getElementById('loginFormView').style.display = 'block';
+            document.getElementById('floatingProfileContainer').innerHTML = ''; // ফ্লোটিং ব্যাজ রিমুভ করা
             
-            // Remove floating badge
-            const badge = document.getElementById('floatingProfileBadge');
-            if (badge) badge.remove();
-            
-            // Reset Sidebar Link
-            const sidebarLogin = document.getElementById('sidebarLoginMenuLink');
-            if (sidebarLogin) {
-                sidebarLogin.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            var sidebarLink = document.getElementById('sidebarLoginMenuLink');
+            if (sidebarLink) {
+                sidebarLink.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
             }
             
             closeLoginModal();
-            alert('আপনি সফলভাবে লগআউট হয়েছেন!');
         }
 
-        // Make element draggable
-        function makeDraggable(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            elmnt.onmousedown = dragMouseDown;
-            elmnt.ontouchstart = dragMouseDown;
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                if (e.type === "touchstart") {
-                    pos3 = e.touches[0].clientX;
-                    pos4 = e.touches[0].clientY;
-                } else {
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
-                }
-                document.onmouseup = closeDragElement;
-                document.ontouchend = closeDragElement;
-                document.onmousemove = elementDrag;
-                document.ontouchmove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
-                let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-
-                pos1 = pos3 - clientX;
-                pos2 = pos4 - clientY;
-                pos3 = clientX;
-                pos4 = clientY;
-
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                elmnt.style.right = "auto";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.ontouchend = null;
-                document.onmousemove = null;
-                document.ontouchmove = null;
-            }
+        // পিডিএফ ডাউনলোড ফাংশন
+        function downloadProfilePDF() {
+            var element = document.getElementById('profileTabContent');
+            var opt = {
+              margin:       0.5,
+              filename:     'Student_Profile.pdf',
+              image:        { type: 'jpeg', quality: 0.98 },
+              html2canvas:  { scale: 2 },
+              jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
         }
 
-        // Toggle Dark Mode
+        // ডার্ক মোড চেঞ্জ করার ফাংশন
         function toggleDarkMode() {
             document.body.classList.toggle('dark-theme');
-            const isDark = document.body.classList.contains('dark-theme');
-            localStorage.setItem('gssc_dark_mode', isDark ? 'true' : 'false');
-            
-            const darkBtnIcon = document.querySelector('#darkModeToggleBtn i');
-            if (isDark) {
-                darkBtnIcon.className = 'fas fa-sun';
-            } else {
-                darkBtnIcon.className = 'fas fa-moon';
-            }
-        }
-
-        // Check dark mode state on load
-        if (localStorage.getItem('gssc_dark_mode') === 'true') {
-            document.body.classList.add('dark-theme');
-            const darkBtnIcon = document.querySelector('#darkModeToggleBtn i');
-            if (darkBtnIcon) darkBtnIcon.className = 'fas fa-sun';
-        }
-
-        // Download Profile Details as PDF
-        function downloadProfilePDF() {
-            const element = document.createElement('div');
-            element.innerHTML = `
-                <div style="font-family: Arial, sans-serif; padding: 20px;">
-                    <h2 style="text-align:center; color:#007e33; margin-bottom: 5px;">Govt. Shaheed Suhrawardy College Science Club</h2>
-                    <h3 style="text-align:center; margin-top: 0; color: #333;">Member Profile Details</h3>
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        ${document.getElementById('profilePhotoContainer').innerHTML}
-                    </div>
-                    <div style="background:#f9f9f9; padding: 15px; border: 1px solid #ddd; border-radius: 6px;">
-                        ${document.getElementById('profileDetails').innerHTML}
-                    </div>
-                    <p style="text-align: center; margin-top: 30px; font-size: 12px; color: #666;">Generated from GSSC Science Club Official Portal</p>
-                </div>
-            `;
-            
-            const opt = {
-                margin:       10,
-                filename:     'Member_Profile_GSSC.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            
-            html2pdf().from(element).set(opt).save();
         }
     </script>
 </body>
