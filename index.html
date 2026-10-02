@@ -1239,121 +1239,34 @@
                 document.getElementById('profilePhotoContainer').style.display = 'none';
             }
 
-            // Detect English Name & Member ID for Payment auto-fill
+            // Populating Profile Details
+            let detailsHtml = '';
             let studentName = '';
-            let memberId = data.savedMemberId || '';
-
-            let html = '';
-            let detailsObj = data.details || data; // Fallback if details object is structured differently
-
-            for (let key in detailsObj) {
-                // Skip internal or system keys if necessary, but show user details
-                const valueStr = String(detailsObj[key]);
-                const lowerKey = key.toLowerCase();
-
-                if (valueStr.includes('drive.google.com') || lowerKey.includes('picture') || lowerKey.includes('photo') || lowerKey.includes('image') || lowerKey.includes('password')) {
-                    continue;
-                }
-
-                // Extract Name and Member ID for Payment Form Auto-Fill
-                if (!studentName && (key.includes('নাম(ইংরেজিতে)') || lowerKey.includes('english') || lowerKey.includes('name') || key.includes('নাম'))) {
-                    studentName = valueStr;
-                }
-                if (!memberId && (lowerKey.includes('id') || key.includes('আইডি'))) {
-                    memberId = valueStr;
-                }
-
-                // Payment Status Styling (Shows Paid Badge if verified from Google Sheet)
-                let displayVal = valueStr;
-                if (lowerKey.includes('payment') || key.includes('পেমেন্ট')) {
-                    if (valueStr.toLowerCase().includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড')) {
-                        displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
-                    } else {
-                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> ${valueStr}</span>`;
+            if (data.details && typeof data.details === 'object') {
+                for (const [key, value] of Object.entries(data.details)) {
+                    if (key.toLowerCase().includes('name') || key.includes('নাম')) {
+                        studentName = value;
                     }
+                    detailsHtml += `<div><strong>${key}:</strong> ${value}</div>`;
                 }
-
-                html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
-                            <strong style="color:#007e33;">${key}:</strong> ${displayVal}
-                         </div>`;
+            } else {
+                detailsHtml = `<div><strong>মেম্বার আইডি:</strong> ${data.savedMemberId || ''}</div>`;
             }
-            
-            if(html === '') {
-                html = '<div style="color:#666; text-align:center;">কোনো তথ্য পাওয়া যায়নি।</div>';
+
+            document.getElementById('profileDetails').innerHTML = detailsHtml;
+
+            // Auto-fill Payment Form details
+            document.getElementById('payMemberId').value = data.savedMemberId || '';
+            document.getElementById('payStudentName').value = studentName || (data.name || 'শিক্ষার্থী');
+
+            // Show Floating Profile Badge
+            showFloatingBadge(photoUrl);
+
+            // Update Sidebar Login Text
+            const sidebarBtn = document.getElementById('sidebarLoginMenuLink');
+            if (sidebarBtn) {
+                sidebarBtn.innerHTML = '<i class="fas fa-user"></i> ড্যাশবোর্ড';
             }
-            
-            document.getElementById('profileDetails').innerHTML = html;
-
-            // Auto-fill payment fields
-            document.getElementById('payStudentName').value = studentName || 'সদস্য';
-            document.getElementById('payMemberId').value = memberId || document.getElementById('loginMemberId').value || '';
-
-            // Update UI elements across Floating Badge and Sidebar
-            updateUIAfterLogin(photoUrl, studentName || 'Member');
-        }
-
-        /* Payment Submission Handler */
-        function handlePaymentSubmit(event) {
-            event.preventDefault();
-
-            const studentName = document.getElementById('payStudentName').value.trim();
-            const memberId = document.getElementById('payMemberId').value.trim();
-            const payType = document.getElementById('payType').value;
-            const payMethodElem = document.querySelector('input[name="payMethod"]:checked');
-            const payMethod = payMethodElem ? payMethodElem.value : '';
-            const senderNumber = document.getElementById('paySenderNumber').value.trim();
-            const trxId = document.getElementById('payTrxId').value.trim();
-            const amount = document.getElementById('payAmount').value.trim();
-
-            const statusMsg = document.getElementById('paymentStatusMsg');
-            const confirmBtn = document.getElementById('payConfirmBtn');
-
-            statusMsg.style.display = 'none';
-            confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেস করা হচ্ছে...';
-            confirmBtn.disabled = true;
-
-            const formData = new URLSearchParams();
-            formData.append('action', 'payment');
-            formData.append('memberId', memberId);
-            formData.append('studentName', studentName);
-            formData.append('payType', payType);
-            formData.append('payMethod', payMethod);
-            formData.append('senderNumber', senderNumber);
-            formData.append('trxId', trxId);
-            formData.append('amount', amount);
-
-            fetch(APPS_SCRIPT_WEB_APP_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                body: formData.toString()
-            })
-            .then(res => res.json())
-            .then(data => {
-                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
-                confirmBtn.disabled = false;
-
-                if (data.status === 'success') {
-                    statusMsg.style.color = '#2e7d32';
-                    statusMsg.innerText = data.message || 'পেমেন্ট সফলভাবে জমা হয়েছে!';
-                    statusMsg.style.display = 'block';
-                    document.getElementById('memberPaymentForm').reset();
-                    document.getElementById('payStudentName').value = studentName;
-                    document.getElementById('payMemberId').value = memberId;
-                    document.getElementById('payAmount').value = "50";
-                } else {
-                    statusMsg.style.color = '#d32f2f';
-                    statusMsg.innerText = data.message || 'পেমেন্ট জমা দিতে সমস্যা হয়েছে।';
-                    statusMsg.style.display = 'block';
-                }
-            })
-            .catch(err => {
-                console.error("Payment Error:", err);
-                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> কনফার্ম করুন';
-                confirmBtn.disabled = false;
-                statusMsg.style.color = '#d32f2f';
-                statusMsg.innerText = 'সার্ভার সংযোগ সমস্যা! পুনরায় চেষ্টা করুন।';
-                statusMsg.style.display = 'block';
-            });
         }
 
         function checkActiveLoginStateOnLoad() {
@@ -1365,71 +1278,117 @@
                     const data = JSON.parse(userDataStr);
                     renderUserSessionState(data);
                 } catch (e) {
-                    console.error("Error parsing user session:", e);
+                    console.error("Session parse error:", e);
                 }
             }
-        }
-
-        function updateUIAfterLogin(photoUrl, name) {
-            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
-            if (sidebarLink) {
-                sidebarLink.innerHTML = `<i class="fas fa-user-check"></i> ${name} (Profile)`;
-            }
-
-            let floatContainer = document.getElementById('floatingProfileContainer');
-            let imgHTML = photoUrl ? `<img src="${photoUrl}" alt="Profile">` : `<i class="fas fa-user" style="color:#fff; font-size:20px;"></i>`;
-            
-            floatContainer.innerHTML = `
-                <div class="floating-profile-badge" id="draggableBadge" onclick="openLoginModal()" title="প্রোফাইল ড্যাশবোর্ড খুলুন">
-                    ${imgHTML}
-                </div>
-            `;
-
-            makeBadgeDraggable(document.getElementById('draggableBadge'));
         }
 
         function logoutUser() {
             localStorage.removeItem('gssc_logged_in');
             localStorage.removeItem('gssc_user_data');
-            
-            document.getElementById('floatingProfileContainer').innerHTML = '';
-            document.getElementById('userProfileView').style.display = 'none';
+
             document.getElementById('loginFormView').style.display = 'block';
-            
-            const sidebarLink = document.getElementById('sidebarLoginMenuLink');
-            if (sidebarLink) {
-                sidebarLink.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
+            document.getElementById('userProfileView').style.display = 'none';
+            document.getElementById('memberLoginForm').reset();
+
+            // Hide Floating Badge
+            const container = document.getElementById('floatingProfileContainer');
+            if (container) container.innerHTML = '';
+
+            const sidebarBtn = document.getElementById('sidebarLoginMenuLink');
+            if (sidebarBtn) {
+                sidebarBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
             }
 
             closeLoginModal();
         }
 
-        function downloadProfilePDF() {
-            const element = document.getElementById('userProfileView');
-            const opt = {
-                margin:       10,
-                filename:     'GSSC_Science_Club_Profile.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-theme');
-            const btn = document.getElementById('darkModeToggleBtn');
-            if (document.body.classList.contains('dark-theme')) {
-                btn.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                btn.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        }
-
-        function makeBadgeDraggable(elmnt) {
-            if (!elmnt) return;
-            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        /* --- Payment Form Submit Handler (Fixed to properly send payMethod) --- */
+        function handlePaymentSubmit(event) {
+            event.preventDefault();
             
+            const studentName = document.getElementById('payStudentName').value;
+            const memberId = document.getElementById('payMemberId').value;
+            const payType = document.getElementById('payType').value;
+            const paySenderNumber = document.getElementById('paySenderNumber').value.trim();
+            const payTrxId = document.getElementById('payTrxId').value.trim();
+            const payAmount = document.getElementById('payAmount').value;
+            
+            // Get selected radio value for Payment Method
+            const payMethodRadio = document.querySelector('input[name="payMethod"]:checked');
+            const payMethod = payMethodRadio ? payMethodRadio.value : '';
+
+            const statusMsg = document.getElementById('paymentStatusMsg');
+            const confirmBtn = document.getElementById('payConfirmBtn');
+
+            statusMsg.style.display = 'none';
+            confirmBtn.innerText = 'জমা হচ্ছে...';
+            confirmBtn.disabled = true;
+
+            const formData = new URLSearchParams();
+            formData.append('action', 'submitPayment');
+            formData.append('studentName', studentName);
+            formData.append('memberId', memberId);
+            formData.append('payType', payType);
+            formData.append('payMethod', payMethod); // bKash, Nagad, or Rocket
+            formData.append('paySenderNumber', paySenderNumber);
+            formData.append('payTrxId', payTrxId);
+            formData.append('payAmount', payAmount);
+
+            fetch(APPS_SCRIPT_WEB_APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: formData.toString()
+            })
+            .then(res => res.json())
+            .then(data => {
+                confirmBtn.innerText = 'কনফার্ম করুন';
+                confirmBtn.disabled = false;
+
+                if (data.status === 'success') {
+                    statusMsg.style.color = '#007e33';
+                    statusMsg.innerText = 'ধন্যবাদ! আপনার পেমেন্টের তথ্য সফলভাবে গৃহীত হয়েছে।';
+                    statusMsg.style.display = 'block';
+                    document.getElementById('memberPaymentForm').reset();
+                    // Restore default values
+                    document.getElementById('payMemberId').value = memberId;
+                    document.getElementById('payStudentName').value = studentName;
+                    document.getElementById('payAmount').value = "50";
+                } else {
+                    statusMsg.style.color = '#d32f2f';
+                    statusMsg.innerText = data.message || 'দুঃখিত! তথ্য জমা দিতে সমস্যা হয়েছে।';
+                    statusMsg.style.display = 'block';
+                }
+            })
+            .catch(err => {
+                console.error("Payment Submission Error:", err);
+                confirmBtn.innerText = 'কনফার্ম করুন';
+                confirmBtn.disabled = false;
+                statusMsg.style.color = '#d32f2f';
+                statusMsg.innerText = 'সার্ভার সমস্যা! অনুগ্রহ করে পুনরায় চেষ্টা করুন।';
+                statusMsg.style.display = 'block';
+            });
+        }
+
+        /* --- Floating Profile Badge & Draggable Logic --- */
+        function showFloatingBadge(photoUrl) {
+            const container = document.getElementById('floatingProfileContainer');
+            if (!container) return;
+
+            let imgSrc = photoUrl || 'https://via.placeholder.com/150';
+            container.innerHTML = `
+                <div id="dragBadge" class="floating-profile-badge" onclick="openLoginModal()" title="প্রোফাইল/ড্যাশবোর্ড খুলুন">
+                    <img src="${imgSrc}" alt="User">
+                </div>
+            `;
+
+            makeElementDraggable(document.getElementById('dragBadge'));
+        }
+
+        function makeElementDraggable(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            let isDragging = false;
+
             elmnt.onmousedown = dragMouseDown;
             elmnt.ontouchstart = dragTouchStart;
 
@@ -1438,21 +1397,15 @@
                 e.preventDefault();
                 pos3 = e.clientX;
                 pos4 = e.clientY;
+                isDragging = false;
                 document.onmouseup = closeDragElement;
                 document.onmousemove = elementDrag;
-            }
-
-            function dragTouchStart(e) {
-                var touch = e.touches[0];
-                pos3 = touch.clientX;
-                pos4 = touch.clientY;
-                document.ontouchend = closeDragElement;
-                document.ontouchmove = elementTouchDrag;
             }
 
             function elementDrag(e) {
                 e = e || window.event;
                 e.preventDefault();
+                isDragging = true;
                 pos1 = pos3 - e.clientX;
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
@@ -1462,8 +1415,23 @@
                 elmnt.style.right = 'auto';
             }
 
-            function elementTouchDrag(e) {
-                var touch = e.touches[0];
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+
+            function dragTouchStart(e) {
+                const touch = e.touches[0];
+                pos3 = touch.clientX;
+                pos4 = touch.clientY;
+                isDragging = false;
+                document.ontouchend = closeTouchDrag;
+                document.ontouchmove = touchDrag;
+            }
+
+            function touchDrag(e) {
+                const touch = e.touches[0];
+                isDragging = true;
                 pos1 = pos3 - touch.clientX;
                 pos2 = pos4 - touch.clientY;
                 pos3 = touch.clientX;
@@ -1473,12 +1441,41 @@
                 elmnt.style.right = 'auto';
             }
 
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
+            function closeTouchDrag() {
                 document.ontouchend = null;
                 document.ontouchmove = null;
             }
+
+            elmnt.addEventListener('click', function(e) {
+                if (isDragging) {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                }
+            }, true);
+        }
+
+        /* Dark Mode Toggle Function */
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-theme');
+            const icon = document.querySelector('#darkModeToggleBtn i');
+            if (document.body.classList.contains('dark-theme')) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        }
+
+        /* Profile PDF Download */
+        function downloadProfilePDF() {
+            const element = document.getElementById('profileTabContent');
+            const opt = {
+                margin:       10,
+                filename:     'GSSC_Member_Profile.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
         }
     </script>
 </body>
