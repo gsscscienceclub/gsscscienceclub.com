@@ -1065,7 +1065,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন।<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪তের এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন。<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪তের এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -1214,25 +1214,60 @@
             });
         }
 
+        // Google Drive Link Converter Helper
+        function getDirectDriveImageUrl(url) {
+            if (!url) return '';
+            let stringUrl = String(url).trim();
+            if (stringUrl.includes('drive.google.com')) {
+                let fileId = '';
+                if (stringUrl.includes('/d/')) {
+                    let parts = stringUrl.split('/d/');
+                    if (parts[1]) {
+                        fileId = parts[1].split('/')[0];
+                    }
+                } else if (stringUrl.includes('id=')) {
+                    let urlParams = new URLSearchParams(stringUrl.split('?')[1]);
+                    fileId = urlParams.get('id');
+                }
+                if (fileId) {
+                    return `https://lh3.googleusercontent.com/d/${fileId}`;
+                }
+            }
+            return stringUrl;
+        }
+
         function renderUserSessionState(data) {
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
 
-            let photoUrl = data.photo || data.photoUrl || data['picture'] || '';
+            let rawPhotoUrl = data.photo || data.photoUrl || data['picture'] || data['ছবি'] || '';
+            let photoUrl = getDirectDriveImageUrl(rawPhotoUrl);
+            
             let studentName = data.nameEn || data.studentName || data['নাম'] || '';
             let memberId = data.memberId || data['মেম্বার আইডি'] || data.savedMemberId || '';
+            
+            // Set profile photo in dashboard
+            if (photoUrl) {
+                document.getElementById('profilePhoto').src = photoUrl;
+            } else {
+                document.getElementById('profilePhoto').src = '';
+            }
             
             let html = '';
             let detailsObj = data.details || data;
 
             for (let key in detailsObj) {
-                if (key === 'photo' || key === 'picture' || key === 'photoUrl' || key === 'password') continue;
+                if (key === 'photo' || key === 'picture' || key === 'photoUrl' || key === 'password' || key === 'ছবি') continue;
                 
                 let valueStr = String(detailsObj[key]);
                 let lowerKey = String(key).toLowerCase();
                 let displayVal = valueStr;
 
-                if (lowerKey.includes('payment') || key.includes('পেমেন্ট')) {
+                // Check for Google Drive Link in data fields (e.g. if photo is inside details)
+                if ((lowerKey.includes('photo') || lowerKey.includes('picture') || key.includes('ছবি')) && valueStr.includes('drive.google.com')) {
+                    let directImg = getDirectDriveImageUrl(valueStr);
+                    displayVal = `<a href="${directImg}" target="_blank"><img src="${directImg}" style="width:60px; height:60px; border-radius:50%; object-fit:cover;" alt="Photo"></a>`;
+                } else if (lowerKey.includes('payment') || key.includes('পেমেন্ট')) {
                     let valLower = valueStr.toLowerCase();
                     if (valLower.includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড') || valLower.includes('included')) {
                         displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
