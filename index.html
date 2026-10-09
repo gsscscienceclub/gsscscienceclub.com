@@ -1264,17 +1264,19 @@
                 }
 
                 // Payment Status Styling (Shows Paid Badge if verified from Google Sheet)
-                if (valueStr.includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('included')) {
+				let displayValue = valueStr; 
+let statusTag = '';
+
+if (valueStr.includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('included')) {
     displayValue = 'Paid';
     statusTag = '<span style="background-color: #2e7d32; color: white; padding: 2px 8px; border-radius: 4px;">Paid</span>';
 } else if (valueStr.includes('unpaid') || valueStr.includes('অপরিশোধিত')) {
     displayValue = 'Unpaid';
     statusTag = '<span style="background-color: #c62828; color: white; padding: 2px 8px; border-radius: 4px;">Unpaid</span>';
-} else {
+} else if (valueStr.includes('pending') || valueStr.includes('পেন্ডিং')) {
     displayValue = 'Pending';
     statusTag = '<span style="background-color: #f57c00; color: white; padding: 2px 8px; border-radius: 4px;">Pending</span>';
 }
-
 
                 html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
                             <strong style="color:#007e33;">${key}:</strong> ${displayVal}
