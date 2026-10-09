@@ -1218,69 +1218,19 @@
         function renderUserSessionState(data) {
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
+let displayVal = valueStr;
+                if (lowerKey.includes('payment') || key.includes('পেমেন্ট')) {
+                    if (valueStr.toLowerCase().includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড')) {
+                        displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
+                    } else {
+                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> ${valueStr}</span>`;
+                    }
+                }
 
-            // Ensure Profile Tab is open by default
-            switchProfileTab('profile');
-
-            let photoUrl = '';
-            // Handle profile photo from 'photo' property or direct details
-            if (data.photo) {
-                photoUrl = data.photo;
-            } else if (data.details && (data.details.photo || data.details.Photo || data.details['ছবির লিংক'])) {
-                photoUrl = data.details.photo || data.details.Photo || data.details['ছবির লিংক'];
+                html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
+                            <strong style="color:#007e33;">${key}:</strong> ${displayVal}
+                         </div>`;
             }
-
-            if (photoUrl) {
-                const match = photoUrl.match(/id=([a-zA-Z0-9_-]+)/) || photoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                if (match) { photoUrl = 'https://lh3.googleusercontent.com/d/' + match[1]; }
-                document.getElementById('profilePhoto').src = photoUrl;
-                document.getElementById('profilePhotoContainer').style.display = 'block';
-            } else {
-                document.getElementById('profilePhotoContainer').style.display = 'none';
-            }
-
-            // Detect English Name & Member ID for Payment auto-fill
-            let studentName = '';
-            let memberId = data.savedMemberId || '';
-
-            let html = '';
-            let detailsObj = data.details || data; // Fallback if details object is structured differently
-
-            for (let key in detailsObj) {
-                // Skip internal or system keys if necessary, but show user details
-                const valueStr = String(detailsObj[key]);
-                const lowerKey = key.toLowerCase();
-
-                if (valueStr.includes('drive.google.com') || lowerKey.includes('picture') || lowerKey.includes('photo') || lowerKey.includes('image') || lowerKey.includes('password')) {
-                    continue;
-                }
-
-                // Extract Name and Member ID for Payment Form Auto-Fill
-                if (!studentName && (key.includes('নাম(ইংরেজিতে)') || lowerKey.includes('english') || lowerKey.includes('name') || key.includes('নাম'))) {
-                    studentName = valueStr;
-                }
-                if (!memberId && (lowerKey.includes('id') || key.includes('আইডি'))) {
-                    memberId = valueStr;
-                }
-
-                // Payment Status Styling (Shows Paid Badge if verified from Google Sheet)
-				let displayVal = valueStr;
-				if (lowerKey.includes('payment') || key.includes('পেমেন্ট')) {
-					let valLower = valueStr.toLowerCase();
-					if (valLower.includes('paid') || valLower.includes('পরিশোধিত') || valLower.includes('পেইড')) {
-						displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
-					} 
-					else if (valLower.includes('unpaid') || valLower.includes('অপরিশোধিত')) {
-						displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-times-circle"></i> Unpaid</span>`;
-					} 
-					else if (valLower.includes('waiting') || valLower.includes('অপেক্ষমান')) {
-						displayVal = `<span style="background:#ef6c00; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> Waiting</span>`;
-					}
-				}
-				html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
-				<strong style="color:#007e33;">${key}:</strong> ${displayVal}
-				</div>`;
-
             if(html === '') {
                 html = '<div style="color:#666; text-align:center;">কোনো তথ্য পাওয়া যায়নি।</div>';
             }
