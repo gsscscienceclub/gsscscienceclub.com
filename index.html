@@ -1264,19 +1264,29 @@
                 }
 
                 // Payment Status Styling (Shows Paid Badge if verified from Google Sheet)
-				                let displayVal = valueStr;
-                if (lowerKey.includes('payment') || key.includes('পেমেন্ট')) {
-                    if (valueStr.toLowerCase().includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড')) {
-                        displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
-                    } else {
-                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> ${valueStr}</span>`;
-                    }
-                }
+				let displayVal = valueStr;
+				if (lowerKey.includes('payment') || key.includes('পেমেন্ট')) {
+    let valLower = valueStr.toLowerCase();
 
-                html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
-                            <strong style="color:#007e33;">${key}:</strong> ${displayVal}
-                         </div>`;
-            }
+    if (valLower.includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড')) {
+        // Paid - সবুজ রঙ
+        displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
+    } else if (valLower.includes('unpaid') || valueStr.includes('অপরিশোধিত')) {
+        // Unpaid - লাল রঙ
+        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-times-circle"></i> Unpaid</span>`;
+    } else if (valLower.includes('waiting') || valueStr.includes('অপেক্ষমান')) {
+        // Waiting - কমলা রঙ
+        displayVal = `<span style="background:#ef6c00; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> Waiting</span>`;
+    } else {
+        // অন্য কোনো লেখা থাকলে ডিফল্ট ধূসর রঙে দেখাবে
+        displayVal = `<span style="background:#757575; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;">${valueStr}</span>`;
+    }
+}
+
+html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
+            <strong style="color:#007e33;">${key}:</strong> ${displayVal}
+         </div>`;
+}
 
                 
             if(html === '') {
