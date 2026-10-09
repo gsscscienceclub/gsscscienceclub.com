@@ -1194,7 +1194,6 @@
                 submitBtn.style.opacity = '1';
 
                 if (data.status === 'success') {
-                    // Save login session and raw response
                     data.savedMemberId = memberId;
                     localStorage.setItem('gssc_logged_in', 'true');
                     localStorage.setItem('gssc_user_data', JSON.stringify(data));
@@ -1218,12 +1217,31 @@
         function renderUserSessionState(data) {
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
-let displayVal = valueStr;
+
+            let photoUrl = data.photo || data.photoUrl || data['picture'] || '';
+            let studentName = data.nameEn || data.studentName || data['নাম'] || '';
+            let memberId = data.memberId || data['মেম্বার আইডি'] || data.savedMemberId || '';
+            
+            let html = '';
+            let detailsObj = data.details || data;
+
+            for (let key in detailsObj) {
+                if (key === 'photo' || key === 'picture' || key === 'photoUrl' || key === 'password') continue;
+                
+                let valueStr = String(detailsObj[key]);
+                let lowerKey = String(key).toLowerCase();
+                let displayVal = valueStr;
+
                 if (lowerKey.includes('payment') || key.includes('পেমেন্ট')) {
-                    if (valueStr.toLowerCase().includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড')) {
+                    let valLower = valueStr.toLowerCase();
+                    if (valLower.includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড') || valLower.includes('included')) {
                         displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
+                    } else if (valLower.includes('unpaid') || valueStr.includes('অপরিশোধিত')) {
+                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-times-circle"></i> Unpaid</span>`;
+                    } else if (valLower.includes('waiting') || valueStr.includes('অপেক্ষমান') || valLower.includes('pending')) {
+                        displayVal = `<span style="background:#ef6c00; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> Waiting</span>`;
                     } else {
-                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> ${valueStr}</span>`;
+                        displayVal = `<span style="background:#ef6c00; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> ${valueStr}</span>`;
                     }
                 }
 
@@ -1231,6 +1249,7 @@ let displayVal = valueStr;
                             <strong style="color:#007e33;">${key}:</strong> ${displayVal}
                          </div>`;
             }
+
             if(html === '') {
                 html = '<div style="color:#666; text-align:center;">কোনো তথ্য পাওয়া যায়নি।</div>';
             }
