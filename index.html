@@ -321,6 +321,101 @@
         .countdown-num { font-size: 16px; font-weight: bold; color: #ffeb3b; }
         .countdown-label { font-size: 10px; text-transform: uppercase; }
 
+        /* --- Floating Support Chat Widget CSS --- */
+        #floating-chat-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99999;
+            background-color: #007e33;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        #floating-chat-btn:hover { transform: scale(1.1); }
+
+        #chat-widget-box {
+            position: fixed;
+            bottom: 85px;
+            right: 20px;
+            width: 320px;
+            height: 420px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+            z-index: 99999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        .chat-widget-header {
+            background: #007e33;
+            color: #fff;
+            padding: 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-widget-body {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .chat-msg {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .chat-msg.user {
+            background: #007e33;
+            color: #fff;
+            align-self: flex-end;
+        }
+        .chat-msg.admin {
+            background: #e0e0e0;
+            color: #333;
+            align-self: flex-start;
+        }
+        .chat-widget-footer {
+            padding: 8px;
+            display: flex;
+            gap: 5px;
+            background: #fff;
+            border-top: 1px solid #eee;
+        }
+        .chat-widget-footer input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            font-size: 13px;
+        }
+        .chat-widget-footer button {
+            background: #007e33;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
     </style>
 	    <!-- গুগল সার্চে ওয়েবসাইটের নাম ও লোগো আপডেট করার জন্য এসইও কোড -->
     <meta property="og:site_name" content="Govt. Shaheed Suhrawardy College Science Club">
@@ -919,6 +1014,23 @@
     <!-- Scroll to Top Button -->
     <button onclick="scrollToTop()" id="scrollTopBtn" title="উপরে যান"><i class="fas fa-arrow-up"></i></button>
 
+    <!-- Floating Support Chat Widget HTML -->
+    <button id="floating-chat-btn" onclick="toggleChatBox()"><i class="fas fa-comments"></i></button>
+
+    <div id="chat-widget-box">
+        <div class="chat-widget-header">
+            <span><i class="fas fa-headset"></i> Support Desk</span>
+            <span style="cursor:pointer;" onclick="toggleChatBox()">&times;</span>
+        </div>
+        <div class="chat-widget-body" id="chatWidgetBody">
+            <div class="chat-msg admin">আসসালামু আলাইকুম স্যার! কীভাবে সাহায্য করতে পারি?</div>
+        </div>
+        <div class="chat-widget-footer">
+            <input type="text" id="chatUserMsg" placeholder="বার্তা লিখুন..." onkeypress="handleChatKeyPress(event)">
+            <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script>
         const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
@@ -1508,6 +1620,72 @@
                 document.ontouchmove = null;
             }
         }
+
+        /* --- Floating Support Chat Widget JavaScript --- */
+        let currentChatId = localStorage.getItem('gssc_chat_id') || 'chat_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('gssc_chat_id', currentChatId);
+
+        function toggleChatBox() {
+            const chatBox = document.getElementById('chat-widget-box');
+            if (chatBox.style.display === 'flex') {
+                chatBox.style.display = 'none';
+            } else {
+                chatBox.style.display = 'flex';
+                fetchChatReplies();
+            }
+        }
+
+        function handleChatKeyPress(e) {
+            if (e.key === 'Enter') sendChatMessage();
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatUserMsg');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const body = document.getElementById('chatWidgetBody');
+            body.innerHTML += `<div class="chat-msg user">${msg}</div>`;
+            body.scrollTop = body.scrollHeight;
+            input.value = '';
+
+            const formData = new URLSearchParams();
+            formData.append('action', 'chat_send');
+            formData.append('chatId', currentChatId);
+            formData.append('message', msg);
+            formData.append('sender', 'User');
+
+            fetch(APPS_SCRIPT_WEB_APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: formData.toString()
+            });
+        }
+
+        function fetchChatReplies() {
+            fetch(`${APPS_SCRIPT_WEB_APP_URL}?action=chat_fetch&chatId=${currentChatId}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success' && data.messages.length > 0) {
+                    const body = document.getElementById('chatWidgetBody');
+                    body.innerHTML = `<div class="chat-msg admin">আসসালামু আলাইকুম স্যার! কীভাবে সাহায্য করতে পারি?</div>`;
+                    data.messages.forEach(item => {
+                        let msgClass = item.sender === 'Admin' ? 'admin' : 'user';
+                        body.innerHTML += `<div class="chat-msg ${msgClass}">${item.text}</div>`;
+                    });
+                    body.scrollTop = body.scrollHeight;
+                }
+            })
+            .catch(err => console.error(err));
+        }
+
+        // প্রতি ১০ সেকেন্ড পর পর নতুন রিপ্লাই চেক করবে
+        setInterval(() => {
+            const chatBox = document.getElementById('chat-widget-box');
+            if (chatBox.style.display === 'flex') {
+                fetchChatReplies();
+            }
+        }, 10000);
     </script>
 </body>
 </html>
