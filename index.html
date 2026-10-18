@@ -1365,7 +1365,7 @@
             return stringUrl;
         }
 
-        /* প্রোফাইল রেন্ডারার ফাংশন (গুগল শিটের ডেটা হুবহু দেখানোর জন্য আপডেট করা হয়েছে) */
+        /* প্রোফাইল রেন্ডারার ফাংশন: শিটের পেমেন্ট স্ট্যাটাস অনুযায়ী সঠিক রঙ ও টেক্সট প্রদর্শন */
         function renderUserSessionState(data) {
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
@@ -1384,7 +1384,6 @@
                 document.getElementById('profilePhoto').src = '';
             }
 
-            // মানগুলো সরাসরি অ্যাপস স্ক্রিপ্ট বা কলামের কি (Key) থেকে নেওয়া
             let v1 = detailsObj['Contact Number (Whatsapp)'] || detailsObj['WhatsApp Number'] || detailsObj['Contact Number'] || detailsObj['Number'] || '';
             let v2 = detailsObj["Guardian's Contact Number"] || detailsObj["Guardian's Number"] || '';
             let v3 = detailsObj['NID or Birth ID No'] || detailsObj['NID or Birth ID'] || detailsObj['NID Number'] || '';
@@ -1403,20 +1402,25 @@
                 realGuardian = strV3;
             }
 
-            // সরাসরি গুগল শিট থেকে পেমেন্ট স্ট্যাটাস স্ট্রিং নেওয়া
+            // গুগল শিট থেকে পেমেন্ট স্ট্যাটাস স্ট্রিং নেওয়া এবং নিখুঁত রঙ ও লেবেল সেট করা
             let rawPayStatus = String(detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || detailsObj['status'] || detailsObj['Status'] || 'Unpaid').trim();
-            
             let lowerPay = rawPayStatus.toLowerCase();
-            let payBadgeBg = '#555';
+            
+            let payBadgeBg = '#c62828'; // ডিফল্ট লাল (Unpaid এর জন্য)
+            let payDisplayText = rawPayStatus;
+
             if (lowerPay.includes('paid') || lowerPay.includes('পেইড') || lowerPay.includes('পরিশোধিত')) {
-                payBadgeBg = '#2e7d32';
-            } else if (lowerPay.includes('unpaid') || lowerPay.includes('অপরিশোধিত')) {
-                payBadgeBg = '#c62828';
+                payBadgeBg = '#2e7d32'; // সবুজ (Paid)
+                payDisplayText = 'Paid';
             } else if (lowerPay.includes('waiting') || lowerPay.includes('pending') || lowerPay.includes('অপেক্ষমাণ')) {
-                payBadgeBg = '#ef6c00';
+                payBadgeBg = '#ef6c00'; // কমলা (Waiting)
+                payDisplayText = 'Waiting';
+            } else if (lowerPay.includes('unpaid') || lowerPay.includes('অপরিশোধিত')) {
+                payBadgeBg = '#c62828'; // লাল (Unpaid)
+                payDisplayText = 'Unpaid';
             }
 
-            let payDisplayHtml = `<span style="background:${payBadgeBg}; color:#fff; padding:2px 10px; border-radius:10px; font-weight:bold; font-size:12px;">${rawPayStatus}</span>`;
+            let payDisplayHtml = `<span style="background:${payBadgeBg}; color:#fff; padding:2px 10px; border-radius:10px; font-weight:bold; font-size:12px;">${payDisplayText}</span>`;
 
             // সুনির্দিষ্ট অর্ডারে তথ্যের প্রদর্শন
             const profileFields = [
@@ -1533,7 +1537,23 @@
             if (isLoggedIn === 'true' && userDataStr) {
                 try {
                     const data = JSON.parse(userDataStr);
-                    renderUserSessionState(data);
+                    // পুরনো ক্যাশ বা ডাটা থাকলে সার্ভার থেকে ফ্রেশ ডাটা ফেচ করার জন্য অটো-সিঙ্ক রিকোয়েস্ট
+                    const memberId = data.savedMemberId || (data.details && data.details['Member ID']) || '';
+                    if (memberId) {
+                        fetch(`${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=`)
+                        .then(res => res.json())
+                        .then(freshData => {
+                            if (freshData.status === 'success' || freshData.Status === 'Success') {
+                                freshData.savedMemberId = memberId;
+                                localStorage.setItem('gssc_user_data', JSON.stringify(freshData));
+                                renderUserSessionState(freshData);
+                            } else {
+                                renderUserSessionState(data);
+                            }
+                        }).catch(() => { renderUserSessionState(data); });
+                    } else {
+                        renderUserSessionState(data);
+                    }
                 } catch (e) {
                     console.error("Error parsing user session:", e);
                 }
@@ -1624,16 +1644,21 @@
             let nationalityVal = detailsObj['Nationality'] || detailsObj['জাতীয়তা'] || 'Bangladeshi';
 
             let valLowerPdf = paymentStatusVal.toLowerCase();
-            let pdfBadgeColor = '#333';
+            let pdfBadgeColor = '#c62828';
+            let pdfDisplayText = paymentStatusVal;
+
             if (valLowerPdf.includes('paid') || valLowerPdf.includes('পেইড') || valLowerPdf.includes('পরিশোধিত')) {
                 pdfBadgeColor = '#2e7d32';
-            } else if (valLowerPdf.includes('unpaid') || valLowerPdf.includes('অপরিশোধিত')) {
-                pdfBadgeColor = '#c62828';
+                pdfDisplayText = 'Paid';
             } else if (valLowerPdf.includes('waiting') || valLowerPdf.includes('pending') || valLowerPdf.includes('অপেক্ষমাণ')) {
                 pdfBadgeColor = '#ef6c00';
+                pdfDisplayText = 'Waiting';
+            } else if (valLowerPdf.includes('unpaid') || valLowerPdf.includes('অপরিশোধিত')) {
+                pdfBadgeColor = '#c62828';
+                pdfDisplayText = 'Unpaid';
             }
 
-            let payBadge = `<span style="color:${pdfBadgeColor}; font-weight:bold;">${paymentStatusVal}</span>`;
+            let payBadge = `<span style="color:${pdfBadgeColor}; font-weight:bold;">${pdfDisplayText}</span>`;
 
             const printContainer = document.createElement('div');
             printContainer.style.background = '#ffffff';
