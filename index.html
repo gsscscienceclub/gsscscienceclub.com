@@ -1552,30 +1552,33 @@
             try { userData = JSON.parse(userDataStr || '{}'); } catch(e){}
             let detailsObj = userData.details || userData;
 
-            let memberIdVal = detailsObj['memberId'] || detailsObj['মেম্বার আইডি'] || userData.savedMemberId || ${memberIdVal};
+            let memberIdVal = detailsObj['Member ID'] || detailsObj['মেম্বার আইডি'] || userData.savedMemberId || ${memberIdVal};
             let appDateVal = detailsObj['date'] || detailsObj['তারিখ'] || let appDateVal=detailsObj['Submission Time'];
             let photoUrl = getDirectDriveImageUrl(userData.photo || userData.photoUrl || detailsObj['photo'] || detailsObj['ছবি'] || '');
             
             // Extract profile info fields
-            let paymentStatus = detailsObj['paymentStatus'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || '<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>';
-            let emailVal = detailsObj['email'] || detailsObj['ইমেইল'] || '';
-            let nameEnVal = detailsObj['nameEn'] || detailsObj['নাম (ইংলিশ)'] || '';
-            let nameBnVal = detailsObj['nameBn'] || detailsObj['নাম (বাংলা)'] || '';
-            let fatherBnVal = detailsObj['fatherNameBn'] || detailsObj['বাবার নাম (বাংলা)'] || '';
-            let motherBnVal = detailsObj['motherNameBn'] || detailsObj['মায়ের নাম (বাংলা)'] || '';
-            let dobVal = detailsObj['dob'] || detailsObj['জন্ম তারিখ'] || '';
-            let bloodGroupVal = detailsObj['bloodGroup'] || detailsObj['রক্তের গ্রুপ'] || '';
-            let classVal = detailsObj['class'] || detailsObj['শ্রেণি'] || '';
-            let departmentVal = detailsObj['department'] || detailsObj['বিভাগ'] || '';
-            let idNoVal = detailsObj['idNo'] || detailsObj['আইডি নম্বর'] || '';
-            let sessionVal = detailsObj['session'] || detailsObj['সেশন'] || '';
-            let whatsappVal = detailsObj['whatsapp'] || detailsObj['whatsapp নম্বর'] || '';
-            let guardianContactVal = detailsObj['guardianContact'] || detailsObj['অভিভাবকের নম্বর'] || '';
-            let nidVal = detailsObj['nid'] || detailsObj['জাতীয় পরিচয়পত্র/জন্ম নিবন্ধন নং'] || '';
-            let religionVal = detailsObj['religion'] || detailsObj['ধর্ম'] || '';
-            let presentAddressVal = detailsObj['presentAddress'] || detailsObj['বর্তমান ঠিকানা'] || '';
-            let permanentAddressVal = detailsObj['permanentAddress'] || detailsObj['স্থায়ী ঠিকানা'] || '';
-            let nationalityVal = detailsObj['nationality'] || detailsObj['জাতীয়তা'] || '';
+			let statusVal = detailsObj['Status'] || detailsObj['স্ট্যাটাস'] ||'';
+            let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || '<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>';
+            let emailVal = detailsObj['Email'] || detailsObj['ইমেইল'] || '';
+            let nameEnVal = detailsObj['Name (En)'] || detailsObj['নাম (ইংলিশ)'] || '';
+            let nameBnVal = detailsObj['Name (Bn)'] || detailsObj['নাম (বাংলা)'] || '';
+            let fatherVal = detailsObj['Father's Name'] || detailsObj['বাবার নাম'] || '';
+            let motherVal = detailsObj['Mother's Name'] || detailsObj['মায়ের নাম'] || '';
+			let genderVal = detailsObj['Gender'] || detailsObj['লিঙ্গ'] || '';
+            let dobVal = detailsObj['Date of Birth'] || detailsObj['জন্ম তারিখ'] || '';
+            let bloodGroupVal = detailsObj['Blood Group'] || detailsObj['রক্তের গ্রুপ'] || '';
+            let classVal = detailsObj['Class'] || detailsObj['শ্রেণি'] || '';
+			let sessionVal = detailsObj['Session'] || detailsObj['সেশন'] || '';
+            let departmentVal = detailsObj['Group or Department'] || detailsObj['বিভাগ'] || '';
+            let idNoVal = detailsObj['College ID'] || detailsObj['কলেজ আইডি'] || '';
+            
+            let whatsappVal = detailsObj['Number'] || detailsObj['নম্বর'] || '';
+            let guardianContactVal = detailsObj['Guardian's Number'] || detailsObj['অভিভাবকের নম্বর'] || '';
+            let nidVal = detailsObj['NID or Birth ID'] || detailsObj['জাতীয় পরিচয়পত্র/জন্ম নিবন্ধন নং'] || '';
+            let religionVal = detailsObj['Religion'] || detailsObj['ধর্ম'] || '';
+            let presentAddressVal = detailsObj['Present Address'] || detailsObj['বর্তমান ঠিকানা'] || '';
+            let permanentAddressVal = detailsObj['Permanent Address'] || detailsObj['স্থায়ী ঠিকানা'] || '';
+            let nationalityVal = detailsObj['Nationality'] || detailsObj['জাতীয়তা'] || '';
 
             // Constructing clean, official Membership Form container for PDF Download
             const printContainer = document.createElement('div');
