@@ -1323,7 +1323,7 @@
                 submitBtn.disabled = false;
                 submitBtn.style.opacity = '1';
 
-                if (data.status === 'success') {
+                if (data.status === 'success' || data.Status === 'Success') {
                     data.savedMemberId = memberId;
                     localStorage.setItem('gssc_logged_in', 'true');
                     localStorage.setItem('gssc_user_data', JSON.stringify(data));
@@ -1370,11 +1370,11 @@
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
 
-            let rawPhotoUrl = data.photo || data.photoUrl || data['picture'] || data['ছবি'] || '';
+            let rawPhotoUrl = data.Photo || data.photo || data.photoUrl || data['picture'] || data['ছবি'] || '';
             let photoUrl = getDirectDriveImageUrl(rawPhotoUrl);
             
-            let studentName = data.nameEn || data.studentName || data['নাম'] || '';
-            let memberId = data.memberId || data['মেম্বার আইডি'] || data.savedMemberId || '';
+            let studentName = data['Name (En)'] || data['Name (Bn)'] || data.nameEn || data.studentName || data['নাম'] || '';
+            let memberId = data['Member ID'] || data.memberId || data['মেম্বার আইডি'] || data.savedMemberId || '';
             
             // Set profile photo in dashboard
             if (photoUrl) {
@@ -1387,7 +1387,7 @@
             let detailsObj = data.details || data;
 
             for (let key in detailsObj) {
-                if (key === 'photo' || key === 'picture' || key === 'photoUrl' || key === 'password' || key === 'ছবি') continue;
+                if (key === 'Photo' || key === 'photo' || key === 'picture' || key === 'photoUrl' || key === 'password' || key === 'ছবি' || key === 'Status') continue;
                 
                 let valueStr = String(detailsObj[key]);
                 let lowerKey = String(key).toLowerCase();
@@ -1548,7 +1548,7 @@
 
             let memberIdVal = detailsObj['Member ID'] || detailsObj['মেম্বার আইডি'] || userData.savedMemberId || '';
             let appDateVal = detailsObj['Submission Time'] || detailsObj['তারিখ'] || '';
-            let photoUrl = getDirectDriveImageUrl(userData.photo || userData.photoUrl || detailsObj['photo'] || detailsObj['ছবি'] || '');
+            let photoUrl = getDirectDriveImageUrl(userData.Photo || userData.photo || userData.photoUrl || detailsObj['photo'] || detailsObj['ছবি'] || '');
             
             let statusVal = detailsObj['Status'] || detailsObj['স্ট্যাটাস'] || '';
             let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || '<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>';
