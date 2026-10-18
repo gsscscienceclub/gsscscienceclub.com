@@ -1313,7 +1313,6 @@
             submitBtn.disabled = true;
             submitBtn.style.opacity = '0.7';
 
-            // doGet মেথডের মাধ্যমে প্যারামিটার পাস করার জন্য URL তৈরি
             const targetUrl = `${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=${encodeURIComponent(password)}`;
 
             fetch(targetUrl)
@@ -1376,7 +1375,6 @@
             let studentName = data['Name (En)'] || data['Name (Bn)'] || data.nameEn || data.studentName || data['নাম'] || '';
             let memberId = data['Member ID'] || data.memberId || data['মেম্বার আইডি'] || data.savedMemberId || '';
             
-            // Set profile photo in dashboard
             if (photoUrl) {
                 document.getElementById('profilePhoto').src = photoUrl;
             } else {
@@ -1393,7 +1391,6 @@
                 let lowerKey = String(key).toLowerCase();
                 let displayVal = valueStr;
 
-                // Check for Google Drive Link in data fields (e.g. if photo is inside details)
                 if ((lowerKey.includes('photo') || lowerKey.includes('picture') || key.includes('ছবি')) && valueStr.includes('drive.google.com')) {
                     let directImg = getDirectDriveImageUrl(valueStr);
                     displayVal = `<a href="${directImg}" target="_blank"><img src="${directImg}" style="width:60px; height:60px; border-radius:50%; object-fit:cover;" alt="Photo"></a>`;
@@ -1421,11 +1418,9 @@
             
             document.getElementById('profileDetails').innerHTML = html;
 
-            // Auto-fill payment fields
             document.getElementById('payStudentName').value = studentName || 'সদস্য';
             document.getElementById('payMemberId').value = memberId || document.getElementById('loginMemberId').value || '';
 
-            // Update UI elements across Floating Badge and Sidebar
             updateUIAfterLogin(photoUrl, studentName || 'Member');
         }
 
@@ -1540,93 +1535,7 @@
             closeLoginModal();
         }
 
-        function downloadProfilePDF() {
-            const userDataStr = localStorage.getItem('gssc_user_data');
-            let userData = {};
-            try { userData = JSON.parse(userDataStr || '{}'); } catch(e){}
-            let detailsObj = userData.details || userData;
-
-            let memberIdVal = detailsObj['Member ID'] || detailsObj['মেম্বার আইডি'] || userData.savedMemberId || '';
-            let appDateVal = detailsObj['Submission Time'] || detailsObj['তারিখ'] || '';
-            let photoUrl = getDirectDriveImageUrl(userData.Photo || userData.photo || userData.photoUrl || detailsObj['photo'] || detailsObj['ছবি'] || '');
-            
-            let statusVal = detailsObj['Status'] || detailsObj['স্ট্যাটাস'] || '';
-            let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || '<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>';
-            let emailVal = detailsObj['Email'] || detailsObj['ইমেইল'] || '';
-            let nameEnVal = detailsObj['Name (En)'] || detailsObj['নাম (ইংলিশ)'] || '';
-            let nameBnVal = detailsObj['Name (Bn)'] || detailsObj['নাম (বাংলা)'] || '';
-            let fatherVal = detailsObj['Father\'s Name'] || detailsObj['বাবার নাম'] || '';
-            let motherVal = detailsObj['Mother\'s Name'] || detailsObj['মায়ের নাম'] || '';
-            let genderVal = detailsObj['Gender'] || detailsObj['লিঙ্গ'] || '';
-            let dobVal = detailsObj['Date of Birth'] || detailsObj['জন্ম তারিখ'] || '';
-            let bloodGroupVal = detailsObj['Blood Group'] || detailsObj['রক্তের গ্রুপ'] || '';
-            let classVal = detailsObj['Class'] || detailsObj['শ্রেণি'] || '';
-            let sessionVal = detailsObj['Session'] || detailsObj['সেশন'] || '';
-            let departmentVal = detailsObj['Group or Department'] || detailsObj['বিভাগ'] || '';
-            let idNoVal = detailsObj['College ID'] || detailsObj['কলেজ আইডি'] || '';
-            
-            let whatsappVal = detailsObj['Number'] || detailsObj['নম্বর'] || '';
-            let guardianContactVal = detailsObj['Guardian\'s Number'] || detailsObj['অভিভাবকের নম্বর'] || '';
-            let nidVal = detailsObj['NID or Birth ID'] || detailsObj['জাতীয় পরিচয়পত্র/জন্ম নিবন্ধন নং'] || '';
-            let religionVal = detailsObj['Religion'] || detailsObj['ধর্ম'] || '';
-            let presentAddressVal = detailsObj['Present Address'] || detailsObj['বর্তমান ঠিকানা'] || '';
-            let permanentAddressVal = detailsObj['Permanent Address'] || detailsObj['স্থায়ী ঠিকানা'] || '';
-            let nationalityVal = detailsObj['Nationality'] || detailsObj['জাতীয়তা'] || '';
-
-            const printContainer = document.createElement('div');
-            printContainer.style.background = '#ffffff';
-            printContainer.style.color = '#000000';
-            printContainer.style.padding = '20px';
-            printContainer.style.width = '210mm';
-            printContainer.style.margin = '0 auto';
-            printContainer.style.fontSize = '12px';
-            printContainer.style.lineHeight = '1.4';
-            printContainer.style.fontFamily = 'Arial, sans-serif';
-
-            printContainer.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #007e33; padding-bottom: 10px; margin-bottom: 10px;">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="17700954426981835287012.png" alt="College Logo" style="width: 50px; height: 50px; object-fit: contain;">
-                        <div>
-                            <div style="font-size: 11px; border: 1px solid #333; padding: 2px 6px; display: inline-block; font-weight: bold; margin-bottom: 3px;">Office Copy</div>
-                            <div style="font-size: 11px; font-weight: bold;">Code No.: <span style="border-bottom: 1px dotted #333; padding-right: 15px;">${memberIdVal}</span></div>
-                            <div style="font-size: 11px; font-weight: bold;">Date : <span style="border-bottom: 1px dotted #333; padding-right: 15px;">${appDateVal}</span></div>
-                        </div>
-                    </div>
-                    <div style="text-align: center; flex: 1; padding: 0 10px;">
-                        <h2 style="font-size: 16px; color: #007e33; margin-bottom: 2px; font-weight: bold;">SCIENCE CLUB</h2>
-                        <h3 style="font-size: 13px; color: #333; margin-bottom: 2px; font-weight: bold;">GOVT. SHAHEED SUHRAWARDY COLLEGE</h3>
-                        <p style="font-size: 10px; color: #555; margin-bottom: 5px;">36-37, LAKSHMIBAZAR, SUTRAPUR, DHAKA-1100</p>
-                        <div style="background: #007e33; color: #fff; font-size: 11px; padding: 3px 10px; display: inline-block; font-weight: bold; border-radius: 3px;">Membership Application</div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="text-align: right;">
-                            <img src="FB_IMG_1788806747811.png" alt="Club Logo" style="width: 50px; height: 50px; object-fit: contain;">
-                        </div>
-                        <div style="width: 75px; height: 90px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 10px; color: #666; background: #fafafa; overflow:hidden;">
-                            ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" alt="Photo">` : 'Picture<br>(PP Size)'}
-                        </div>
-                    </div>
-                </div>
-
-                <div style="font-size: 11px; margin-bottom: 8px;">
-                    I am applying for the MEMBERSHIP of SCIENCE CLUB, Govt. Shaheed Suhrawardy College, Dhaka.<br>
-                    <strong>My details are given below:</strong>
-                </div>
-
-                <div style="display: flex; flex-direction: column; gap: 4px; font-size: 11px;">
-                    <div><strong>Payment Status:</strong> ${paymentStatusVal}</div>
-                    <div><strong>01. Name (English):</strong> ${nameEnVal}</div>
-                    <div><strong>02. Name (বাংলা):</strong> ${nameBnVal}</div>
-                    <div><strong>03. Father's Name:</strong> ${fatherVal}</div>
-                    <div><strong>04. Mother's Name:</strong> ${motherVal}</div>
-                    <div><strong>05. Date of Birth:</strong> ${dobVal}</div>
-                    <div style="display:flex; justify-content:space-between;">
-                        <span><strong>06. Blood Group:</strong> ${bloodGroupVal}</span>
-                        <span><strong>Gender:</strong> ${genderVal}</span>
-                    </div>
-                    <div><strong>07. Class:</strong> ${classVal}</div>
-                    <div><strong>08. Group or Department:</strong> ${departmentVal}</div>
+        /* আপডেটকৃত downloadProfilePDF ফাংশন (পাসপোর্ট সাইজ ছবি ও সঠিক লেআউট সহ) */
         function downloadProfilePDF() {
             const userDataStr = localStorage.getItem('gssc_user_data');
             let userData = {};
@@ -1658,7 +1567,6 @@
             let permanentAddressVal = detailsObj['Permanent Address'] || detailsObj['স্থায়ী ঠিকানা'] || '';
             let nationalityVal = detailsObj['Nationality'] || detailsObj['জাতীয়তা'] || '';
 
-            // পেমেন্ট স্ট্যাটাস ব্যাজ কালার
             let payBadge = `<span style="color:#c62828; font-weight:bold;">Unpaid</span>`;
             let valLower = String(paymentStatusVal).toLowerCase();
             if (valLower.includes('paid') || valLower.includes('পেইড')) {
@@ -1759,7 +1667,6 @@
                 </div>
             `;
 
-            // ছবি ইমেজ এলিমেন্ট হিসেবে লোড করে PDF জেনারেট
             const opt = {
                 margin:       0,
                 filename:     `GSSC_Science_Club_${memberIdVal || 'Profile'}.pdf`,
@@ -1770,7 +1677,6 @@
 
             html2pdf().set(opt).from(printContainer).save();
         }
-
 
         function toggleDarkMode() {
             document.body.classList.toggle('dark-theme');
