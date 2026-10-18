@@ -1365,7 +1365,7 @@
             return stringUrl;
         }
 
-        /* প্রোফাইল রেন্ডারার ফাংশন (সঠিক ম্যাপিং ও অটো-কারেকশন) */
+        /* প্রোফাইল রেন্ডারার ফাংশন (পেমেন্ট স্ট্যাটাস কন্ডিশন সম্পূর্ণ ফিক্সড) */
         function renderUserSessionState(data) {
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
@@ -1384,7 +1384,7 @@
                 document.getElementById('profilePhoto').src = '';
             }
 
-            // র মানগুলো সরাসরি অ্যাপস স্ক্রিপ্ট বা কলামের কি (Key) থেকে নেওয়া
+            // মানগুলো সরাসরি অ্যাপস স্ক্রিপ্ট বা কলামের কি (Key) থেকে নেওয়া
             let v1 = detailsObj['Contact Number (Whatsapp)'] || detailsObj['WhatsApp Number'] || detailsObj['Contact Number'] || detailsObj['Number'] || '';
             let v2 = detailsObj["Guardian's Contact Number"] || detailsObj["Guardian's Number"] || '';
             let v3 = detailsObj['NID or Birth ID No'] || detailsObj['NID or Birth ID'] || detailsObj['NID Number'] || '';
@@ -1403,9 +1403,12 @@
                 realGuardian = strV3;
             }
 
+            // পেমেন্ট স্ট্যাটাস নির্ণয়
+            let rawPayStatus = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || detailsObj['status'] || detailsObj['Status'] || 'Unpaid';
+
             // সুনির্দিষ্ট অর্ডারে তথ্যের প্রদর্শন
             const profileFields = [
-                { label: 'Payment Status', val: detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || 'Unpaid', isPay: true },
+                { label: 'Payment Status', val: rawPayStatus, isPay: true },
                 { label: 'Name (English)', val: detailsObj['Name (En)'] || detailsObj['Name (English)'] || '' },
                 { label: 'Name (বাংলা)', val: detailsObj['Name (Bn)'] || detailsObj['Name (Bengali)'] || '' },
                 { label: "Father's Name", val: detailsObj["Father's Name"] || '' },
@@ -1433,12 +1436,14 @@
 
                 if (item.isPay) {
                     let valLower = valueStr.toLowerCase();
-                    if (valLower.includes('paid') || valueStr.includes('পরিশোধিত') || valueStr.includes('পেইড')) {
-                        displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
-                    } else if (valLower.includes('unpaid') || valueStr.includes('অপরিশোধিত')) {
-                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-times-circle"></i> Unpaid</span>`;
+                    if (valLower.includes('unpaid') || valLower.includes('অপরিশোধিত')) {
+                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 10px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-times-circle"></i> Unpaid</span>`;
+                    } else if (valLower.includes('paid') || valLower.includes('পরিশোধিত') || valLower.includes('পেইড')) {
+                        displayVal = `<span style="background:#2e7d32; color:#fff; padding:2px 10px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>`;
+                    } else if (valLower.includes('waiting') || valLower.includes('pending') || valLower.includes('অপেক্ষমাণ')) {
+                        displayVal = `<span style="background:#ef6c00; color:#fff; padding:2px 10px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> Waiting</span>`;
                     } else {
-                        displayVal = `<span style="background:#ef6c00; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-clock"></i> Waiting</span>`;
+                        displayVal = `<span style="background:#c62828; color:#fff; padding:2px 10px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-times-circle"></i> Unpaid</span>`;
                     }
                 }
 
@@ -1584,7 +1589,7 @@
             let rawPhotoUrl = userData.Photo || userData.photo || userData.photoUrl || detailsObj['Photo'] || detailsObj['photo'] || detailsObj['ছবি'] || '';
             let photoUrl = getDirectDriveImageUrl(rawPhotoUrl);
             
-            let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || 'Unpaid';
+            let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || detailsObj['status'] || detailsObj['Status'] || 'Unpaid';
             let nameEnVal = detailsObj['Name (En)'] || detailsObj['Name (English)'] || detailsObj['নাম (ইংলিশ)'] || '';
             let nameBnVal = detailsObj['Name (Bn)'] || detailsObj['Name (Bengali)'] || detailsObj['নাম (বাংলা)'] || '';
             let fatherVal = detailsObj["Father's Name"] || detailsObj['বাবার নাম'] || '';
@@ -1597,7 +1602,7 @@
             let departmentVal = detailsObj['Group or Department'] || detailsObj['Department'] || detailsObj['বিভাগ'] || '';
             let idNoVal = detailsObj['College ID'] || detailsObj['College ID No'] || detailsObj['কলেজ আইডি'] || '';
             
-            // র মানগুলোর ম্যাপিং
+            // মানগুলোর ম্যাপিং
             let v1 = detailsObj['Contact Number (Whatsapp)'] || detailsObj['WhatsApp Number'] || detailsObj['Contact Number'] || detailsObj['Number'] || '';
             let v2 = detailsObj["Guardian's Contact Number"] || detailsObj["Guardian's Number"] || '';
             let v3 = detailsObj['NID or Birth ID No'] || detailsObj['NID or Birth ID'] || detailsObj['NID Number'] || '';
@@ -1621,11 +1626,11 @@
             let permanentAddressVal = detailsObj['Permanent Address'] || detailsObj['স্থায়ী ঠিকানা'] || '';
             let nationalityVal = detailsObj['Nationality'] || detailsObj['জাতীয়তা'] || 'Bangladeshi';
 
-            let payBadge = `<span style="color:#2e7d32; font-weight:bold;">Paid</span>`;
+            let payBadge = `<span style="color:#c62828; font-weight:bold;">Unpaid</span>`;
             let valLower = String(paymentStatusVal).toLowerCase();
-            if (valLower.includes('unpaid') || valLower.includes('অপরিশোধিত')) {
-                payBadge = `<span style="color:#c62828; font-weight:bold;">Unpaid</span>`;
-            } else if (valLower.includes('waiting') || valLower.includes('pending')) {
+            if (valLower.includes('paid') || valLower.includes('পেইড')) {
+                payBadge = `<span style="color:#2e7d32; font-weight:bold;">Paid</span>`;
+            } else if (valLower.includes('waiting') || valLower.includes('pending') || valLower.includes('অপেক্ষমাণ')) {
                 payBadge = `<span style="color:#ef6c00; font-weight:bold;">Waiting</span>`;
             }
 
