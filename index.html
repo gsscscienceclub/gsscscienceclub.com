@@ -1535,7 +1535,7 @@
             closeLoginModal();
         }
 
-        /* প্রফেশনাল ও স্ট্যান্ডার্ড A4 লেআউট সম্বলিত downloadProfilePDF ফাংশন */
+        /* প্রফেশনাল ও স্ট্যান্ডার্ড A4 লেআউট এবং সঠিক ফিল্ড ম্যাপিং সহ downloadProfilePDF ফাংশন */
         function downloadProfilePDF() {
             const userDataStr = localStorage.getItem('gssc_user_data');
             let userData = {};
@@ -1548,20 +1548,23 @@
             let photoUrl = getDirectDriveImageUrl(rawPhotoUrl);
             
             let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || 'Unpaid';
-            let nameEnVal = detailsObj['Name (En)'] || detailsObj['নাম (ইংলিশ)'] || '';
-            let nameBnVal = detailsObj['Name (Bn)'] || detailsObj['নাম (বাংলা)'] || '';
-            let fatherVal = detailsObj['Father\'s Name'] || detailsObj['বাবার নাম'] || '';
-            let motherVal = detailsObj['Mother\'s Name'] || detailsObj['মায়ের নাম'] || '';
+            let nameEnVal = detailsObj['Name (En)'] || detailsObj['Name (English)'] || detailsObj['নাম (ইংলিশ)'] || '';
+            let nameBnVal = detailsObj['Name (Bn)'] || detailsObj['Name (Bengali)'] || detailsObj['নাম (বাংলা)'] || '';
+            let fatherVal = detailsObj["Father's Name"] || detailsObj['বাবার নাম'] || '';
+            let motherVal = detailsObj["Mother's Name"] || detailsObj['মায়ের নাম'] || '';
             let genderVal = detailsObj['Gender'] || detailsObj['লিঙ্গ'] || '';
             let dobVal = detailsObj['Date of Birth'] || detailsObj['জন্ম তারিখ'] || '';
             let bloodGroupVal = detailsObj['Blood Group'] || detailsObj['রক্তের গ্রুপ'] || '';
             let classVal = detailsObj['Class'] || detailsObj['শ্রেণি'] || '';
             let sessionVal = detailsObj['Session'] || detailsObj['সেশন'] || '';
-            let departmentVal = detailsObj['Group or Department'] || detailsObj['বিভাগ'] || '';
-            let idNoVal = detailsObj['College ID'] || detailsObj['কলেজ আইডি'] || '';
-            let whatsappVal = detailsObj['Number'] || detailsObj['নম্বর'] || '';
-            let guardianContactVal = detailsObj['Guardian\'s Number'] || detailsObj['অভিভাবকের নম্বর'] || '';
-            let nidVal = detailsObj['NID or Birth ID'] || detailsObj['জাতীয় পরিচয়পত্র/জন্ম নিবন্ধন নং'] || '';
+            let departmentVal = detailsObj['Group or Department'] || detailsObj['Department'] || detailsObj['বিভাগ'] || '';
+            let idNoVal = detailsObj['College ID'] || detailsObj['College ID No'] || detailsObj['কলেজ আইডি'] || '';
+            
+            // সঠিক ফিল্ড ম্যাপিং (Contact, Guardian Contact & NID/Birth ID)
+            let whatsappVal = detailsObj['Contact Number (Whatsapp)'] || detailsObj['WhatsApp Number'] || detailsObj['Contact Number'] || detailsObj['Number'] || detailsObj['নম্বর'] || '';
+            let guardianContactVal = detailsObj["Guardian's Contact Number"] || detailsObj["Guardian's Number"] || detailsObj['অভিভাবকের নম্বরভিউ'] || detailsObj['অভিভাবকের নম্বর'] || '';
+            let nidVal = detailsObj['NID or Birth ID No'] || detailsObj['NID or Birth ID'] || detailsObj['NID Number'] || detailsObj['Birth Registration No'] || detailsObj['জাতীয় পরিচয়পত্র/জন্ম নিবন্ধন নং'] || '';
+            
             let religionVal = detailsObj['Religion'] || detailsObj['ধর্ম'] || '';
             let presentAddressVal = detailsObj['Present Address'] || detailsObj['বর্তমান ঠিকানা'] || '';
             let permanentAddressVal = detailsObj['Permanent Address'] || detailsObj['স্থায়ী ঠিকানা'] || '';
