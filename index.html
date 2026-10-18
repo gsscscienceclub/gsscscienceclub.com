@@ -1313,14 +1313,16 @@
             submitBtn.disabled = true;
             submitBtn.style.opacity = '0.7';
 
-            const formData = new URLSearchParams();
+            // Fixed: Use URLSearchParams for correct POST data transmission
+            const formData = new FormData(document.getElementById('memberLoginForm'));
             formData.append('memberId', memberId);
             formData.append('password', password);
+            const params = new URLSearchParams(formData);
 
             fetch(APPS_SCRIPT_WEB_APP_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                body: formData.toString()
+                body: params.toString()
             })
             .then(res => res.json())
             .then(data => {
@@ -1546,7 +1548,6 @@
         }
 
         function downloadProfilePDF() {
-            // Get user session data for dynamic insertion in PDF layout
             const userDataStr = localStorage.getItem('gssc_user_data');
             let userData = {};
             try { userData = JSON.parse(userDataStr || '{}'); } catch(e){}
@@ -1556,7 +1557,6 @@
             let appDateVal = detailsObj['Submission Time'] || detailsObj['তারিখ'] || '';
             let photoUrl = getDirectDriveImageUrl(userData.photo || userData.photoUrl || detailsObj['photo'] || detailsObj['ছবি'] || '');
             
-            // Extract profile info fields matching Apps Script exact keys
             let statusVal = detailsObj['Status'] || detailsObj['স্ট্যাটাস'] || '';
             let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || '<span style="background:#2e7d32; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:12px;"><i class="fas fa-check-circle"></i> Paid</span>';
             let emailVal = detailsObj['Email'] || detailsObj['ইমেইল'] || '';
@@ -1580,7 +1580,6 @@
             let permanentAddressVal = detailsObj['Permanent Address'] || detailsObj['স্থায়ী ঠিকানা'] || '';
             let nationalityVal = detailsObj['Nationality'] || detailsObj['জাতীয়তা'] || '';
 
-            // Constructing clean, official Membership Form container for PDF Download
             const printContainer = document.createElement('div');
             printContainer.style.background = '#ffffff';
             printContainer.style.color = '#000000';
