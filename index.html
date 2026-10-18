@@ -1535,7 +1535,7 @@
             closeLoginModal();
         }
 
-        /* আপডেটকৃত downloadProfilePDF ফাংশন (কোলন সোজাসুজি এবং বড় ওয়াটারমার্ক সহ) */
+        /* প্রফেশনাল ও স্ট্যান্ডার্ড A4 লেআউট সম্বলিত downloadProfilePDF ফাংশন */
         function downloadProfilePDF() {
             const userDataStr = localStorage.getItem('gssc_user_data');
             let userData = {};
@@ -1578,91 +1578,93 @@
             const printContainer = document.createElement('div');
             printContainer.style.background = '#ffffff';
             printContainer.style.color = '#000000';
-            printContainer.style.padding = '25px 30px';
+            printContainer.style.padding = '30px 40px';
             printContainer.style.width = '210mm';
             printContainer.style.minHeight = '297mm';
             printContainer.style.margin = '0 auto';
-            printContainer.style.fontSize = '12px';
-            printContainer.style.lineHeight = '1.5';
+            printContainer.style.fontSize = '13px';
+            printContainer.style.lineHeight = '1.6';
             printContainer.style.fontFamily = 'Arial, sans-serif';
             printContainer.style.position = 'relative';
             printContainer.style.boxSizing = 'border-box';
 
-            const labelStyle = "display: inline-block; width: 230px; font-weight: bold;";
-
             printContainer.innerHTML = `
-                <!-- ব্যাকগ্রাউন্ড ওয়াটারমার্ক (বড় সাইজের Science Club Logo) -->
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.10; pointer-events: none; z-index: 0;">
-                    <img src="FB_IMG_1788806747811.png" style="width: 520px; height: auto;" alt="Watermark">
+                <!-- ব্যাকগ্রাউন্ড ওয়াটারমার্ক (সঠিক সাইজের Science Club Logo) -->
+                <div style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%); opacity: 0.11; pointer-events: none; z-index: 0;">
+                    <img src="FB_IMG_1788806747811.png" style="width: 500px; height: auto;" alt="Watermark">
                 </div>
 
                 <div style="position: relative; z-index: 1;">
-                    <!-- হেডার সেকশন -->
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #007e33; padding-bottom: 12px; margin-bottom: 15px;">
-                        <div style="text-align: left; width: 220px;">
-                            <img src="17700954426981835287012.png" alt="College Logo" style="width: 55px; height: 55px; object-fit: contain; display: block; margin-bottom: 6px;">
-                            <div style="font-size: 10px; border: 1px solid #333; padding: 1px 6px; display: inline-block; font-weight: bold; margin-bottom: 4px; border-radius: 2px;">Office Copy</div>
-                            <div style="font-size: 11px; font-weight: bold; color:#111;">Member ID No: <span style="font-weight: normal;">${memberIdVal}</span></div>
-                            <div style="font-size: 11px; font-weight: bold; color:#111;">Submission Time: <span style="font-weight: normal;">${appDateVal}</span></div>
-                        </div>
+                    <!-- গ্রিড/টেবিল হেডার সেকশন (নিখুঁত সেন্টারিং এর জন্য) -->
+                    <table style="width: 100%; border-collapse: collapse; border-bottom: 2px solid #007e33; padding-bottom: 12px; margin-bottom: 20px;">
+                        <tr>
+                            <td style="width: 28%; vertical-align: top; text-align: left;">
+                                <img src="17700954426981835287012.png" alt="College Logo" style="width: 58px; height: 58px; object-fit: contain; display: block; margin-bottom: 6px;">
+                                <div style="font-size: 10px; border: 1px solid #333; padding: 2px 6px; display: inline-block; font-weight: bold; margin-bottom: 4px; border-radius: 2px;">Office Copy</div>
+                                <div style="font-size: 11px; font-weight: bold; color:#111;">Member ID No: <span style="font-weight: normal;">${memberIdVal}</span></div>
+                                <div style="font-size: 11px; font-weight: bold; color:#111;">Submission Time: <span style="font-weight: normal;">${appDateVal}</span></div>
+                            </td>
+                            <td style="width: 44%; vertical-align: top; text-align: center;">
+                                <h2 style="font-size: 20px; color: #007e33; margin: 0 0 4px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">SCIENCE CLUB</h2>
+                                <h3 style="font-size: 13px; color: #222; margin: 0 0 4px 0; font-weight: bold;">GOVT. SHAHEED SUHRAWARDY COLLEGE</h3>
+                                <p style="font-size: 10px; color: #444; margin: 0 0 10px 0; font-weight: 500;">36-37, LAKSHMIBAZAR, SUTRAPUR, DHAKA-1100</p>
+                                <div style="background: #007e33; color: #fff; font-size: 12px; padding: 5px 16px; display: inline-block; font-weight: bold; border-radius: 3px; letter-spacing: 0.5px;">Membership Application</div>
+                            </td>
+                            <td style="width: 28%; vertical-align: top; text-align: right;">
+                                <div style="display: inline-block; width: 96px; height: 115px; border: 1px solid #333; background: #fafafa; overflow:hidden; text-align: center; vertical-align: middle;">
+                                    ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : '<div style="margin-top:40px; font-size:10px; color:#666;">Picture<br>(PP Size)</div>'}
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
 
-                        <div style="text-align: center; flex: 1; padding: 0 10px;">
-                            <h2 style="font-size: 18px; color: #007e33; margin: 0 0 3px 0; font-weight: bold; text-transform: uppercase;">SCIENCE CLUB</h2>
-                            <h3 style="font-size: 13px; color: #222; margin: 0 0 3px 0; font-weight: bold;">GOVT. SHAHEED SUHRAWARDY COLLEGE</h3>
-                            <p style="font-size: 10px; color: #444; margin: 0 0 8px 0; font-weight: 500;">36-37, LAKSHMIBAZAR, SUTRAPUR, DHAKA-1100</p>
-                            <div style="background: #007e33; color: #fff; font-size: 12px; padding: 4px 14px; display: inline-block; font-weight: bold; border-radius: 3px; letter-spacing: 0.5px;">Membership Application</div>
-                        </div>
-
-                        <div style="width: 105px; text-align: right; display: flex; justify-content: flex-end;">
-                            <div style="width: 90px; height: 108px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 10px; color: #666; background: #fafafa; overflow:hidden;">
-                                ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : 'Picture<br>(PP Size)'}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="font-size: 12px; margin-bottom: 12px; font-style: italic; color: #333;">
+                    <div style="font-size: 13px; margin-bottom: 16px; font-style: italic; color: #333; line-height: 1.5;">
                         I am applying for the MEMBERSHIP of SCIENCE CLUB, Govt. Shaheed Suhrawardy College, Dhaka.<br>
                         <strong style="font-style: normal; text-decoration: underline;">My details are given below:</strong>
                     </div>
 
-                    <!-- সোজাসুজি লাইনে সাজানো ফিল্ডসমূহ -->
-                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #111;">
-                        <div><span style="${labelStyle}">Payment Status:</span> ${payBadge}</div>
-                        <div><span style="${labelStyle}">01. Name (English):</span> ${nameEnVal}</div>
-                        <div><span style="${labelStyle}">02. Name (বাংলা):</span> ${nameBnVal}</div>
-                        <div><span style="${labelStyle}">03. Father's Name:</span> ${fatherVal}</div>
-                        <div><span style="${labelStyle}">04. Mother's Name:</span> ${motherVal}</div>
-                        <div><span style="${labelStyle}">05. Date of Birth:</span> ${dobVal}</div>
-                        <div><span style="${labelStyle}">06. Blood Group:</span> ${bloodGroupVal}</div>
-                        <div><span style="${labelStyle}">07. Gender:</span> ${genderVal}</div>
-                        <div><span style="${labelStyle}">08. Class:</span> ${classVal}</div>
-                        <div><span style="${labelStyle}">09. Group or Department:</span> ${departmentVal}</div>
-                        <div><span style="${labelStyle}">10. College ID No:</span> ${idNoVal}</div>
-                        <div><span style="${labelStyle}">11. Session:</span> ${sessionVal}</div>
-                        <div><span style="${labelStyle}">12. Contact Number (Whatsapp):</span> ${whatsappVal}</div>
-                        <div><span style="${labelStyle}">13. Guardian's Contact Number:</span> ${guardianContactVal}</div>
-                        <div><span style="${labelStyle}">14. NID or Birth ID No:</span> ${nidVal}</div>
-                        <div><span style="${labelStyle}">15. Religion:</span> ${religionVal}</div>
-                        <div><span style="${labelStyle}">16. Present Address:</span> ${presentAddressVal}</div>
-                        <div><span style="${labelStyle}">17. Permanent Address:</span> ${permanentAddressVal}</div>
-                        <div><span style="${labelStyle}">18. Nationality:</span> ${nationalityVal}</div>
-                    </div>
+                    <!-- টেবিল গ্রিড দিয়ে কোলনগুলো একদম সোজাসুজি লাইনে সাজানো -->
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #111;">
+                        <tr style="height: 28px;"><td style="width: 210px; font-weight: bold;">Payment Status</td><td style="width: 15px; text-align: center; font-weight: bold;">:</td><td>${payBadge}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">01. Name (English)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameEnVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">02. Name (বাংলা)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameBnVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">03. Father's Name</td><td style="text-align: center; font-weight: bold;">:</td><td>${fatherVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">04. Mother's Name</td><td style="text-align: center; font-weight: bold;">:</td><td>${motherVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">05. Date of Birth</td><td style="text-align: center; font-weight: bold;">:</td><td>${dobVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">06. Blood Group</td><td style="text-align: center; font-weight: bold;">:</td><td>${bloodGroupVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">07. Gender</td><td style="text-align: center; font-weight: bold;">:</td><td>${genderVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">08. Class</td><td style="text-align: center; font-weight: bold;">:</td><td>${classVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">09. Group or Department</td><td style="text-align: center; font-weight: bold;">:</td><td>${departmentVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">10. College ID No</td><td style="text-align: center; font-weight: bold;">:</td><td>${idNoVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">11. Session</td><td style="text-align: center; font-weight: bold;">:</td><td>${sessionVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">12. Contact Number (Whatsapp)</td><td style="text-align: center; font-weight: bold;">:</td><td>${whatsappVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">13. Guardian's Contact Number</td><td style="text-align: center; font-weight: bold;">:</td><td>${guardianContactVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">14. NID or Birth ID No</td><td style="text-align: center; font-weight: bold;">:</td><td>${nidVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">15. Religion</td><td style="text-align: center; font-weight: bold;">:</td><td>${religionVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">16. Present Address</td><td style="text-align: center; font-weight: bold;">:</td><td>${presentAddressVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">17. Permanent Address</td><td style="text-align: center; font-weight: bold;">:</td><td>${permanentAddressVal}</td></tr>
+                        <tr style="height: 28px;"><td style="font-weight: bold;">18. Nationality</td><td style="text-align: center; font-weight: bold;">:</td><td>${nationalityVal}</td></tr>
+                    </table>
 
-                    <div style="margin-top: 15px; font-size: 11px; border-top: 1px dashed #aaa; padding-top: 8px; color: #444; line-height: 1.4;">
+                    <div style="margin-top: 25px; font-size: 11px; border-top: 1px dashed #aaa; padding-top: 10px; color: #444; line-height: 1.4;">
                         I hereby declare that the above information is completely true and accurate. I have signed below committing to abide by all the rules and regulations of the organization.
                     </div>
 
-                    <!-- সিগনেচার সেকশন -->
-                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 45px;">
-                        <div style="text-align: center;">
-                            <div style="border-bottom: 1px solid #333; width: 140px; margin-bottom: 4px;"></div>
-                            <div style="font-size: 11px; font-weight: bold; color: #222;">Recipient's Sign</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="border-bottom: 1px solid #333; width: 140px; margin-bottom: 4px;"></div>
-                            <div style="font-size: 11px; font-weight: bold; color: #222;">Applicant's Sign</div>
-                        </div>
-                    </div>
+                    <!-- প্রফেশনাল স্পেসিং সহ সিগনেচার সেকশন -->
+                    <table style="width: 100%; margin-top: 55px; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 50%; text-align: left; vertical-align: bottom;">
+                                <div style="border-bottom: 1px solid #333; width: 150px; margin-bottom: 4px;"></div>
+                                <div style="font-size: 11px; font-weight: bold; color: #222; padding-left: 15px;">Recipient's Sign</div>
+                            </td>
+                            <td style="width: 50%; text-align: right; vertical-align: bottom;">
+                                <div style="display: inline-block; text-align: center;">
+                                    <div style="border-bottom: 1px solid #333; width: 150px; margin-bottom: 4px;"></div>
+                                    <div style="font-size: 11px; font-weight: bold; color: #222;">Applicant's Sign</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             `;
 
