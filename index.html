@@ -1271,7 +1271,7 @@
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
         /* Login System & Floating Circular Profile Badge Handlers */
-        const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxYfK0nMgvZrvW_iEP_iEzza500mONygbvHUIZ4hbKIC2THe0f3miJamfetQGHwSlgQ/exec";
+        const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyyUFxi7-8lrlbGVrX1mEVPpgeiGcNoLFWXRN-6SCzkStAbSiceaHlFtlrE4rZ3skJo/exec";
 
         function openLoginModal() { 
             closeNav(); 
@@ -1313,17 +1313,10 @@
             submitBtn.disabled = true;
             submitBtn.style.opacity = '0.7';
 
-            // Fixed: Use URLSearchParams for correct POST data transmission
-            const formData = new FormData(document.getElementById('memberLoginForm'));
-            formData.append('memberId', memberId);
-            formData.append('password', password);
-            const params = new URLSearchParams(formData);
+            // doGet মেথডের মাধ্যমে প্যারামিটার পাস করার জন্য URL তৈরি
+            const targetUrl = `${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=${encodeURIComponent(password)}`;
 
-            fetch(APPS_SCRIPT_WEB_APP_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-                body: params.toString()
-            })
+            fetch(targetUrl)
             .then(res => res.json())
             .then(data => {
                 submitBtn.innerText = 'লগইন করুন';
