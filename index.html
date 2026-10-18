@@ -1572,7 +1572,7 @@
             closeLoginModal();
         }
 
-        /* ১০০% পারফেক্ট ও প্রফেশনাল A4 কাভারেজ সহ আপডেটকৃত downloadProfilePDF ফাংশন */
+        /* ১০০% পারফেক্ট, আকর্ষণীয় ও কোনো প্রকার ফাঁকা জায়গা ছাড়া প্রফেশনাল A4 downloadProfilePDF ফাংশন */
         function downloadProfilePDF() {
             const userDataStr = localStorage.getItem('gssc_user_data');
             let userData = {};
@@ -1649,31 +1649,35 @@
                 </div>
 
                 <div style="position: relative; z-index: 1;">
-                    <!-- হেডার সেকশন: দুপাশে লোগো বড় করা হয়েছে এবং একদম পারফেক্ট টপ-এলাইনমেন্টে সাজানো -->
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 5px;">
+                    <!-- হেডার সেকশন: সুষম ৩-কলাম পারফেক্ট সাইড-বাই-সাইড লেআউট (ফাঁকা জায়গা পুরোপুরি মুক্ত) -->
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px;">
                         <tr>
-                            <!-- বাম পাশ: লোগো ও অফিস কপি বিবরণ -->
-                            <td style="width: 22%; vertical-align: top; text-align: left;">
-                                <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                                    <img src="17700954426981835287012.png" alt="College Logo" style="width: 60px; height: 60px; object-fit: contain; display: block; margin-bottom: 6px;">
+                            <!-- বাম কলাম: কলেজের লোগো ও অফিস কপি পরিচিতি -->
+                            <td style="width: 25%; vertical-align: middle; text-align: left;">
+                                <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+                                    <img src="17700954426981835287012.png" alt="College Logo" style="width: 58px; height: 58px; object-fit: contain; display: block; margin-bottom: 6px;">
                                     <div style="font-size: 9.5px; border: 1px solid #222; padding: 2px 6px; display: inline-block; font-weight: bold; margin-bottom: 4px; border-radius: 2px; text-transform: uppercase;">Office Copy</div>
                                     <div style="font-size: 10px; font-weight: bold; color:#111;">Member ID: <span style="font-weight: normal;">${memberIdVal}</span></div>
                                     <div style="font-size: 10px; font-weight: bold; color:#111;">Submission: <span style="font-weight: normal;">${appDateVal}</span></div>
                                 </div>
                             </td>
-                            <!-- মাঝখান: বড় আকৃতির অফিশিয়াল টাইটেল ও হেডার টেক্সট -->
-                            <td style="width: 56%; vertical-align: top; text-align: center; padding-top: 2px;">
+                            
+                            <!-- মাঝের কলাম: সায়েন্স ক্লাবের হেডার টাইটেল ও সাব-টাইটেল -->
+                            <td style="width: 50%; vertical-align: middle; text-align: center;">
                                 <h2 style="font-size: 22px; color: #007e33; margin: 0 0 4px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 0.8px;">SCIENCE CLUB</h2>
                                 <h3 style="font-size: 13.5px; color: #111; margin: 0 0 4px 0; font-weight: bold; letter-spacing: 0.3px;">GOVT. SHAHEED SUHRAWARDY COLLEGE</h3>
                                 <p style="font-size: 10.5px; color: #333; margin: 0 0 10px 0; font-weight: 600;">36-37, LAKSHMIBAZAR, SUTRAPUR, DHAKA-1100</p>
                                 <div style="background: #007e33; color: #fff; font-size: 11.5px; padding: 4px 18px; display: inline-block; font-weight: bold; border-radius: 3px; letter-spacing: 0.6px; text-transform: uppercase;">Membership Application</div>
                             </td>
-                            <!-- ডান পাশ: বড় সায়েন্স ক্লাব লোগো ও তার সাথে পারফেক্ট টপ-এলাইন করা ছবি -->
-                            <td style="width: 22%; vertical-align: top; text-align: right;">
-                                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
-                                    <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" style="width: 60px; height: 60px; object-fit: contain; border-radius: 50%;">
-                                    <div style="width: 90px; height: 108px; border: 1px solid #333; background: #fafafa; overflow:hidden; text-align: center;">
-                                        ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : '<div style="margin-top:38px; font-size:9.5px; color:#666;">PP Photo</div>'}
+                            
+                            <!-- ডান কলাম: সায়েন্স ক্লাব লোগো ও ছবি পাশাপাশি সুন্দর বক্সে রাখা (যাতে কোনো ফাঁকা অংশ না থাকে) -->
+                            <td style="width: 25%; vertical-align: middle; text-align: right;">
+                                <div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 8px;">
+                                    <!-- সায়েন্স ক্লাবের লোগো -->
+                                    <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" style="width: 55px; height: 55px; object-fit: contain; border-radius: 50%;">
+                                    <!-- পাসপোর্ট সাইজ ছবি -->
+                                    <div style="width: 82px; height: 98px; border: 1px solid #333; background: #fafafa; overflow:hidden; text-align: center; flex-shrink: 0;">
+                                        ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : '<div style="margin-top:35px; font-size:9.5px; color:#666;">PP Photo</div>'}
                                     </div>
                                 </div>
                             </td>
@@ -1681,42 +1685,42 @@
                     </table>
 
                     <!-- হেডার ডিভাইডার গ্রিন লাইন -->
-                    <div style="width: 100%; border-bottom: 2px solid #007e33; margin-top: 4px; margin-bottom: 12px;"></div>
+                    <div style="width: 100%; border-bottom: 2px solid #007e33; margin-top: 2px; margin-bottom: 12px;"></div>
 
                     <div style="font-size: 12px; margin-bottom: 12px; font-style: italic; color: #222; line-height: 1.4;">
                         I am applying for the MEMBERSHIP of SCIENCE CLUB, Govt. Shaheed Suhrawardy College, Dhaka.<br>
                         <strong style="font-style: normal; text-decoration: underline;">My details are given below:</strong>
                     </div>
 
-                    <!-- টেবিল গ্রিড: সুষম A4 ফাঁকা জায়গা কভার করার জন্য ২৪ পিক্সেল রো হাইট দেওয়া হয়েছে -->
+                    <!-- টেবিল গ্রিড: সুষম A4 ফাঁকা জায়গা কভার করার জন্য ২৫ পিক্সেল রো হাইট দেওয়া হয়েছে -->
                     <table style="width: 100%; border-collapse: collapse; font-size: 12px; color: #111;">
-                        <tr style="height: 24px;"><td style="width: 210px; font-weight: bold;">Payment Status</td><td style="width: 15px; text-align: center; font-weight: bold;">:</td><td>${payBadge}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">01. Name (English)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameEnVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">02. Name (বাংলা)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameBnVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">03. Father's Name</td><td style="text-align: center; font-weight: bold;">:</td><td>${fatherVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">04. Mother's Name</td><td style="text-align: center; font-weight: bold;">:</td><td>${motherVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">05. Date of Birth</td><td style="text-align: center; font-weight: bold;">:</td><td>${dobVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">06. Blood Group</td><td style="text-align: center; font-weight: bold;">:</td><td>${bloodGroupVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">07. Gender</td><td style="text-align: center; font-weight: bold;">:</td><td>${genderVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">08. Class</td><td style="text-align: center; font-weight: bold;">:</td><td>${classVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">09. Group or Department</td><td style="text-align: center; font-weight: bold;">:</td><td>${departmentVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">10. College ID No</td><td style="text-align: center; font-weight: bold;">:</td><td>${idNoVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">11. Session</td><td style="text-align: center; font-weight: bold;">:</td><td>${sessionVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">12. Contact Number (Whatsapp)</td><td style="text-align: center; font-weight: bold;">:</td><td>${whatsappVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">13. Guardian's Contact Number</td><td style="text-align: center; font-weight: bold;">:</td><td>${guardianContactVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">14. NID or Birth ID No</td><td style="text-align: center; font-weight: bold;">:</td><td>${nidVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">15. Religion</td><td style="text-align: center; font-weight: bold;">:</td><td>${religionVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">16. Present Address</td><td style="text-align: center; font-weight: bold;">:</td><td>${presentAddressVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">17. Permanent Address</td><td style="text-align: center; font-weight: bold;">:</td><td>${permanentAddressVal}</td></tr>
-                        <tr style="height: 24px;"><td style="font-weight: bold;">18. Nationality</td><td style="text-align: center; font-weight: bold;">:</td><td>${nationalityVal}</td></tr>
+                        <tr style="height: 25px;"><td style="width: 210px; font-weight: bold;">Payment Status</td><td style="width: 15px; text-align: center; font-weight: bold;">:</td><td>${payBadge}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">01. Name (English)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameEnVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">02. Name (বাংলা)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameBnVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">03. Father's Name</td><td style="text-align: center; font-weight: bold;">:</td><td>${fatherVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">04. Mother's Name</td><td style="text-align: center; font-weight: bold;">:</td><td>${motherVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">05. Date of Birth</td><td style="text-align: center; font-weight: bold;">:</td><td>${dobVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">06. Blood Group</td><td style="text-align: center; font-weight: bold;">:</td><td>${bloodGroupVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">07. Gender</td><td style="text-align: center; font-weight: bold;">:</td><td>${genderVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">08. Class</td><td style="text-align: center; font-weight: bold;">:</td><td>${classVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">09. Group or Department</td><td style="text-align: center; font-weight: bold;">:</td><td>${departmentVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">10. College ID No</td><td style="text-align: center; font-weight: bold;">:</td><td>${idNoVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">11. Session</td><td style="text-align: center; font-weight: bold;">:</td><td>${sessionVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">12. Contact Number (Whatsapp)</td><td style="text-align: center; font-weight: bold;">:</td><td>${whatsappVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">13. Guardian's Contact Number</td><td style="text-align: center; font-weight: bold;">:</td><td>${guardianContactVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">14. NID or Birth ID No</td><td style="text-align: center; font-weight: bold;">:</td><td>${nidVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">15. Religion</td><td style="text-align: center; font-weight: bold;">:</td><td>${religionVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">16. Present Address</td><td style="text-align: center; font-weight: bold;">:</td><td>${presentAddressVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">17. Permanent Address</td><td style="text-align: center; font-weight: bold;">:</td><td>${permanentAddressVal}</td></tr>
+                        <tr style="height: 25px;"><td style="font-weight: bold;">18. Nationality</td><td style="text-align: center; font-weight: bold;">:</td><td>${nationalityVal}</td></tr>
                     </table>
 
                     <div style="margin-top: 18px; font-size: 10.5px; border-top: 1px dashed #aaa; padding-top: 8px; color: #333; line-height: 1.35;">
                         I hereby declare that the above information is completely true and accurate. I have signed below committing to abide by all the rules and regulations of the organization.
                     </div>
 
-                    <!-- সিগনেচার সেকশন: A4 পেজের একদম নিচের অংশের সাথে মার্জিন ব্যালেন্স করা -->
-                    <table style="width: 100%; margin-top: 65px; border-collapse: collapse;">
+                    <!-- সিগনেচার সেকশন: A4 পেজের নিচের অংশের সাথে পারফেক্ট মার্জিন -->
+                    <table style="width: 100%; margin-top: 55px; border-collapse: collapse;">
                         <tr>
                             <td style="width: 50%; text-align: left; vertical-align: bottom;">
                                 <div style="border-bottom: 1px solid #222; width: 150px; margin-bottom: 5px;"></div>
