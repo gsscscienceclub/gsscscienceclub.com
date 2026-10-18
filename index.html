@@ -1535,7 +1535,7 @@
             closeLoginModal();
         }
 
-        /* আপডেটকৃত downloadProfilePDF ফাংশন (পাসপোর্ট সাইজ ছবি ও সঠিক লেআউট সহ) */
+        /* আপডেটকৃত downloadProfilePDF ফাংশন (কোলন সোজাসুজি এবং বড় ওয়াটারমার্ক সহ) */
         function downloadProfilePDF() {
             const userDataStr = localStorage.getItem('gssc_user_data');
             let userData = {};
@@ -1582,22 +1582,23 @@
             printContainer.style.width = '210mm';
             printContainer.style.minHeight = '297mm';
             printContainer.style.margin = '0 auto';
-            printContainer.style.fontSize = '13px';
-            printContainer.style.lineHeight = '1.6';
+            printContainer.style.fontSize = '12px';
+            printContainer.style.lineHeight = '1.5';
             printContainer.style.fontFamily = 'Arial, sans-serif';
             printContainer.style.position = 'relative';
             printContainer.style.boxSizing = 'border-box';
 
+            const labelStyle = "display: inline-block; width: 230px; font-weight: bold;";
+
             printContainer.innerHTML = `
-                <!-- ব্যাকগ্রাউন্ড ওয়াটারমার্ক (Science Club Logo) -->
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.12; pointer-events: none; z-index: 0;">
-                    <img src="FB_IMG_1788806747811.png" style="width: 380px; height: auto;" alt="Watermark">
+                <!-- ব্যাকগ্রাউন্ড ওয়াটারমার্ক (বড় সাইজের Science Club Logo) -->
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.10; pointer-events: none; z-index: 0;">
+                    <img src="FB_IMG_1788806747811.png" style="width: 520px; height: auto;" alt="Watermark">
                 </div>
 
                 <div style="position: relative; z-index: 1;">
                     <!-- হেডার সেকশন -->
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #007e33; padding-bottom: 12px; margin-bottom: 15px;">
-                        <!-- বামদিকের কর্নার: কলেজের লোগো ও ইনফো -->
                         <div style="text-align: left; width: 220px;">
                             <img src="17700954426981835287012.png" alt="College Logo" style="width: 55px; height: 55px; object-fit: contain; display: block; margin-bottom: 6px;">
                             <div style="font-size: 10px; border: 1px solid #333; padding: 1px 6px; display: inline-block; font-weight: bold; margin-bottom: 4px; border-radius: 2px;">Office Copy</div>
@@ -1605,7 +1606,6 @@
                             <div style="font-size: 11px; font-weight: bold; color:#111;">Submission Time: <span style="font-weight: normal;">${appDateVal}</span></div>
                         </div>
 
-                        <!-- মাঝের সেকশন: ক্লাবের নাম ও টাইটেল -->
                         <div style="text-align: center; flex: 1; padding: 0 10px;">
                             <h2 style="font-size: 18px; color: #007e33; margin: 0 0 3px 0; font-weight: bold; text-transform: uppercase;">SCIENCE CLUB</h2>
                             <h3 style="font-size: 13px; color: #222; margin: 0 0 3px 0; font-weight: bold;">GOVT. SHAHEED SUHRAWARDY COLLEGE</h3>
@@ -1613,7 +1613,6 @@
                             <div style="background: #007e33; color: #fff; font-size: 12px; padding: 4px 14px; display: inline-block; font-weight: bold; border-radius: 3px; letter-spacing: 0.5px;">Membership Application</div>
                         </div>
 
-                        <!-- ডানদিকের কর্নার: পাসপোর্ট সাইজ ছবির ঘর -->
                         <div style="width: 105px; text-align: right; display: flex; justify-content: flex-end;">
                             <div style="width: 90px; height: 108px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 10px; color: #666; background: #fafafa; overflow:hidden;">
                                 ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : 'Picture<br>(PP Size)'}
@@ -1626,35 +1625,35 @@
                         <strong style="font-style: normal; text-decoration: underline;">My details are given below:</strong>
                     </div>
 
-                    <!-- মেম্বারশিপ ফিল্ডসমূহ (এক সিরিয়ালে সাজানো) -->
-                    <div style="display: flex; flex-direction: column; gap: 5px; font-size: 12px; color: #111;">
-                        <div><strong>Payment Status:</strong> ${payBadge}</div>
-                        <div><strong>01. Name (English):</strong> ${nameEnVal}</div>
-                        <div><strong>02. Name (বাংলা):</strong> ${nameBnVal}</div>
-                        <div><strong>03. Father's Name:</strong> ${fatherVal}</div>
-                        <div><strong>04. Mother's Name:</strong> ${motherVal}</div>
-                        <div><strong>05. Date of Birth:</strong> ${dobVal}</div>
-                        <div><strong>06. Blood Group:</strong> ${bloodGroupVal}</div>
-                        <div><strong>07. Gender:</strong> ${genderVal}</div>
-                        <div><strong>08. Class:</strong> ${classVal}</div>
-                        <div><strong>09. Group or Department:</strong> ${departmentVal}</div>
-                        <div><strong>10. College ID No:</strong> ${idNoVal}</div>
-                        <div><strong>11. Session:</strong> ${sessionVal}</div>
-                        <div><strong>12. Contact Number (Whatsapp):</strong> ${whatsappVal}</div>
-                        <div><strong>13. Guardian's Contact Number:</strong> ${guardianContactVal}</div>
-                        <div><strong>14. NID or Birth ID No:</strong> ${nidVal}</div>
-                        <div><strong>15. Religion:</strong> ${religionVal}</div>
-                        <div><strong>16. Present Address:</strong> ${presentAddressVal}</div>
-                        <div><strong>17. Permanent Address:</strong> ${permanentAddressVal}</div>
-                        <div><strong>18. Nationality:</strong> ${nationalityVal}</div>
+                    <!-- সোজাসুজি লাইনে সাজানো ফিল্ডসমূহ -->
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #111;">
+                        <div><span style="${labelStyle}">Payment Status:</span> ${payBadge}</div>
+                        <div><span style="${labelStyle}">01. Name (English):</span> ${nameEnVal}</div>
+                        <div><span style="${labelStyle}">02. Name (বাংলা):</span> ${nameBnVal}</div>
+                        <div><span style="${labelStyle}">03. Father's Name:</span> ${fatherVal}</div>
+                        <div><span style="${labelStyle}">04. Mother's Name:</span> ${motherVal}</div>
+                        <div><span style="${labelStyle}">05. Date of Birth:</span> ${dobVal}</div>
+                        <div><span style="${labelStyle}">06. Blood Group:</span> ${bloodGroupVal}</div>
+                        <div><span style="${labelStyle}">07. Gender:</span> ${genderVal}</div>
+                        <div><span style="${labelStyle}">08. Class:</span> ${classVal}</div>
+                        <div><span style="${labelStyle}">09. Group or Department:</span> ${departmentVal}</div>
+                        <div><span style="${labelStyle}">10. College ID No:</span> ${idNoVal}</div>
+                        <div><span style="${labelStyle}">11. Session:</span> ${sessionVal}</div>
+                        <div><span style="${labelStyle}">12. Contact Number (Whatsapp):</span> ${whatsappVal}</div>
+                        <div><span style="${labelStyle}">13. Guardian's Contact Number:</span> ${guardianContactVal}</div>
+                        <div><span style="${labelStyle}">14. NID or Birth ID No:</span> ${nidVal}</div>
+                        <div><span style="${labelStyle}">15. Religion:</span> ${religionVal}</div>
+                        <div><span style="${labelStyle}">16. Present Address:</span> ${presentAddressVal}</div>
+                        <div><span style="${labelStyle}">17. Permanent Address:</span> ${permanentAddressVal}</div>
+                        <div><span style="${labelStyle}">18. Nationality:</span> ${nationalityVal}</div>
                     </div>
 
-                    <div style="margin-top: 18px; font-size: 11px; border-top: 1px dashed #aaa; padding-top: 8px; color: #444; line-height: 1.4;">
+                    <div style="margin-top: 15px; font-size: 11px; border-top: 1px dashed #aaa; padding-top: 8px; color: #444; line-height: 1.4;">
                         I hereby declare that the above information is completely true and accurate. I have signed below committing to abide by all the rules and regulations of the organization.
                     </div>
 
-                    <!-- সিগনেচার সেকশন (উভয় পাশে সমান ডিজাইন) -->
-                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px;">
+                    <!-- সিগনেচার সেকশন -->
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 45px;">
                         <div style="text-align: center;">
                             <div style="border-bottom: 1px solid #333; width: 140px; margin-bottom: 4px;"></div>
                             <div style="font-size: 11px; font-weight: bold; color: #222;">Recipient's Sign</div>
