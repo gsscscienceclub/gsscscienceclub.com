@@ -1552,8 +1552,8 @@
             try { userData = JSON.parse(userDataStr || '{}'); } catch(e){}
             let detailsObj = userData.details || userData;
 
-            let memberIdVal = detailsObj['memberId'] || detailsObj['মেম্বার আইডি'] || userData.savedMemberId || '2025260504';
-            let appDateVal = detailsObj['date'] || detailsObj['তারিখ'] || '04/05/26';
+            let memberIdVal = detailsObj['memberId'] || detailsObj['মেম্বার আইডি'] || userData.savedMemberId || ${memberIdVal};
+            let appDateVal = detailsObj['date'] || detailsObj['তারিখ'] || let appDateVal=detailsObj['Submission Time'];
             let photoUrl = getDirectDriveImageUrl(userData.photo || userData.photoUrl || detailsObj['photo'] || detailsObj['ছবি'] || '');
             
             // Extract profile info fields
