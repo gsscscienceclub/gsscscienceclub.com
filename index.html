@@ -1502,27 +1502,12 @@
                 realGuardian = strV3;
             }
 
-            let rawPayStatus = String(detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || detailsObj['status'] || detailsObj['Status'] || 'Unpaid').trim();
-            let lowerPay = rawPayStatus.toLowerCase();
-            
-            let payBadgeBg = '#c62828';
-            let payDisplayText = rawPayStatus;
-
-            if (lowerPay.includes('paid') || lowerPay.includes('পেইড') || lowerPay.includes('পরিশোধিত')) {
-                payBadgeBg = '#2e7d32';
-                payDisplayText = 'Paid';
-            } else if (lowerPay.includes('waiting') || lowerPay.includes('pending') || lowerPay.includes('অপেক্ষমাণ')) {
-                payBadgeBg = '#ef6c00';
-                payDisplayText = 'Waiting';
-            } else if (lowerPay.includes('unpaid') || lowerPay.includes('অপরিশোধিত')) {
-                payBadgeBg = '#c62828';
-                payDisplayText = 'Unpaid';
-            }
-
-            let payDisplayHtml = `<span style="background:${payBadgeBg}; color:#fff; padding:2px 10px; border-radius:10px; font-weight:bold; font-size:12px;">${payDisplayText}</span>`;
+            // গুগল শীটে যে স্ট্যাটাস থাকবে হুবহু সেটাই থাকবে
+            let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || detailsObj['status'] || detailsObj['Status'] || '';
 
             const profileFields = [
-                { label: 'Payment Status', val: payDisplayHtml, isHtml: true },
+                { label: 'Payment Status', val: paymentStatusVal },
+                { label: 'Member ID', val: memberId },
                 { label: 'Name (English)', val: detailsObj['Name (En)'] || detailsObj['Name (English)'] || '' },
                 { label: 'Name (বাংলা)', val: detailsObj['Name (Bn)'] || detailsObj['Name (Bengali)'] || '' },
                 { label: "Father's Name", val: detailsObj["Father's Name"] || '' },
@@ -1545,10 +1530,9 @@
 
             let html = '';
             profileFields.forEach(item => {
-                if(item.isHtml || item.val) {
-                    let displayVal = item.isHtml ? item.val : String(item.val);
+                if(item.val) {
                     html += `<div style="margin-bottom:6px; border-bottom:1px dashed #ddd; padding-bottom:4px;">
-                                <strong style="color:#007e33; font-style:italic;">${item.label}:</strong> <span>${displayVal}</span>
+                                <strong style="color:#007e33; font-style:italic;">${item.label}:</strong> <span>${item.val}</span>
                              </div>`;
                 }
             });
@@ -1702,7 +1686,7 @@
             let rawPhotoUrl = userData.Photo || userData.photo || userData.photoUrl || detailsObj['Photo'] || detailsObj['photo'] || detailsObj['ছবি'] || '';
             let photoUrl = getDirectDriveImageUrl(rawPhotoUrl);
             
-            let paymentStatusVal = String(detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || detailsObj['status'] || detailsObj['Status'] || 'Unpaid').trim();
+            let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || detailsObj['status'] || detailsObj['Status'] || '';
             let nameEnVal = detailsObj['Name (En)'] || detailsObj['Name (English)'] || detailsObj['নাম (ইংলিশ)'] || '';
             let nameBnVal = detailsObj['Name (Bn)'] || detailsObj['Name (Bengali)'] || detailsObj['নাম (বাংলা)'] || '';
             let fatherVal = detailsObj["Father's Name"] || detailsObj['বাবার নাম'] || '';
@@ -1737,23 +1721,6 @@
             let presentAddressVal = detailsObj['Present Address'] || detailsObj['বর্তমান ঠিকানা'] || '';
             let permanentAddressVal = detailsObj['Permanent Address'] || detailsObj['স্থায়ী ঠিকানা'] || '';
             let nationalityVal = detailsObj['Nationality'] || detailsObj['জাতীয়তা'] || 'Bangladeshi';
-
-            let valLowerPdf = paymentStatusVal.toLowerCase();
-            let pdfBadgeColor = '#c62828';
-            let pdfDisplayText = paymentStatusVal;
-
-            if (valLowerPdf.includes('paid') || valLowerPdf.includes('পেইড') || valLowerPdf.includes('পরিশোধিত')) {
-                pdfBadgeColor = '#2e7d32';
-                pdfDisplayText = 'Paid';
-            } else if (valLowerPdf.includes('waiting') || valLowerPdf.includes('pending') || valLowerPdf.includes('অপেক্ষমাণ')) {
-                pdfBadgeColor = '#ef6c00';
-                pdfDisplayText = 'Waiting';
-            } else if (valLowerPdf.includes('unpaid') || valLowerPdf.includes('অপরিশোধিত')) {
-                pdfBadgeColor = '#c62828';
-                pdfDisplayText = 'Unpaid';
-            }
-
-            let payBadge = `<span style="color:${pdfBadgeColor}; font-weight:bold;">${pdfDisplayText}</span>`;
 
             const printContainer = document.createElement('div');
             printContainer.style.background = '#ffffff';
@@ -1808,7 +1775,8 @@
                     </div>
 
                     <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #111;">
-                        <tr style="height: 25.5px;"><td style="width: 215px; font-weight: bold;">Payment Status</td><td style="width: 15px; text-align: center; font-weight: bold;">:</td><td>${payBadge}</td></tr>
+                        <tr style="height: 25.5px;"><td style="width: 215px; font-weight: bold;">Payment Status</td><td style="width: 15px; text-align: center; font-weight: bold;">:</td><td>${paymentStatusVal}</td></tr>
+                        <tr style="height: 25.5px;"><td style="font-weight: bold;">Member ID</td><td style="text-align: center; font-weight: bold;">:</td><td>${memberIdVal}</td></tr>
                         <tr style="height: 25.5px;"><td style="font-weight: bold;">01. Name (English)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameEnVal}</td></tr>
                         <tr style="height: 25.5px;"><td style="font-weight: bold;">02. Name (বাংলা)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameBnVal}</td></tr>
                         <tr style="height: 25.5px;"><td style="font-weight: bold;">03. Father's Name</td><td style="text-align: center; font-weight: bold;">:</td><td>${fatherVal}</td></tr>
