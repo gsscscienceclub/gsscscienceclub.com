@@ -7,21 +7,22 @@
     <meta name="keywords" content="GSSC, Science Club, Shaheed Suhrawardy College, Dhaka, Science Fair">
     <title>Govt. Shaheed Suhrawardy College Science Club</title>
 	
-    <!-- Favicon / Logo Links for Google Search & Browser -->
+    <!-- ফেভিকন এবং গুগল অনুসন্ধানের জন্য লোগো লিঙ্ক -->
     <link rel="icon" href="FB_IMG_1788806747811.png" type="image/png">
     <link rel="apple-touch-icon" href="https://gsscscienceclub.github.io/FB_IMG_1788806747811.png">
     
-    <!-- FontAwesome for Icons -->
+    <!-- আইকন ব্যবহারের জন্য ফন্টঅসাম লাইব্রেরি -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- html2pdf.js for Modern PDF Generation -->
+    <!-- মেম্বার প্রোফাইল পিডিএফ ডাউনলোডের জন্য html2pdf.js লাইব্রেরি -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+    <!-- সিএসএস স্টাইল অংশ (CSS Styling) -->
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; }
         body { background-color: #f1f1f1; color: #333; }
 
-        /* Top Header */
+        /* টপ হেডার (Top Header) স্টাইল */
         .top-header {
             background: linear-gradient(135deg, #004d25, #008a36);
             color: #fff;
@@ -43,7 +44,7 @@
         .badge-container { display: flex; gap: 6px; }
         .badge { background-color: #d32f2f; color: white; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
 
-        /* --- Latest Notice Bar CSS --- */
+        /* স্ক্রলিং নোটিশ বার স্টাইল */
         .latest-notice-wrapper {
             background-color: #fffae6;
             border-bottom: 1px solid #ffeeba;
@@ -81,7 +82,7 @@
             margin-right: 30px;
         }
 
-        /* Notice Title Bar */
+        /* নোটিশ বোর্ড টাইটেল ও মেনু বাটন স্টাইল */
         .notice-title-bar { position: relative; }
         .notice-title-bar .menu-btn {
             position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
@@ -91,7 +92,7 @@
         }
         .notice-title-bar .menu-btn:hover { background-color: #004d25; }
 
-        /* Sidebar Menu */
+        /* সাইডবার মেনু স্টাইল (Sidebar Menu) */
         .sidebar {
             height: 100%; width: 0; position: fixed; z-index: 1001; top: 0; left: 0;
             background-color: #fff; overflow-x: hidden; transition: 0.3s; box-shadow: 2px 0 5px rgba(0,0,0,0.2);
@@ -106,13 +107,13 @@
         .submenu { display: none; list-style: none; background-color: #f4fdf8; padding-left: 15px; }
         .submenu li a { font-size: 14px; padding: 12px 20px; color: #007e33; cursor: pointer; display: block; }
 
-        /* Container & Cards */
+        /* কন্টেইনার ও কার্ডের স্টাইল */
         .container { max-width: 800px; margin: 0 auto; padding: 15px; }
         .section-card { background: #fff; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-radius: 5px; overflow: hidden; }
         .section-title { background: #f9f9f9; padding: 12px; text-align: center; font-weight: bold; color: #007e33; border-bottom: 2px solid #007e33; display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 18px; }
         .section-content { padding: 15px; }
 
-        /* Notice List Styles */
+        /* নোটিশ আইটেম স্টাইল */
         .list-item { display: flex; flex-direction: column; padding: 12px 0; border-bottom: 1px solid #eee; color: #333; }
         .list-item:last-child { border-bottom: none; }
         .list-item .title { font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; }
@@ -124,7 +125,7 @@
         .all-notices-bottom { display: block; text-align: right; margin-top: 15px; color: #007e33; font-size: 14px; font-weight: bold; text-decoration: none; cursor: pointer; }
         .all-notices-bottom:hover { color: #d32f2f; text-decoration: underline; }
 
-        /* Modal Styles */
+        /* পপআপ মডাল উইন্ডো স্টাইল (Modals) */
         .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow-y: auto; padding: 20px 10px; }
         
         #allNoticesModal { z-index: 2000; background-color: rgba(0,0,0,0.7); }
@@ -138,31 +139,31 @@
         .modal-images img { width: 100%; height: 160px; object-fit: cover; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; transition: transform 0.2s; }
         .modal-images img:hover { transform: scale(1.03); }
 
-        /* Fullscreen Image Viewer Modal Styles */
+        /* ছবি ফুলস্ক্রিন প্রিভিউ দেখার মডাল */
         #imageViewerModal { z-index: 9000 !important; background-color: rgba(0,0,0,0.9); display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; justify-content: center; align-items: center; padding: 20px; }
         .image-viewer-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
         .image-viewer-content img { width: auto; height: auto; max-width: 100%; max-height: 85vh; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .image-viewer-close { position: absolute; top: -40px; right: 0; font-size: 35px; font-weight: bold; color: #fff; cursor: pointer; }
 
-        /* About Us Modal Styles */
+        /* আমাদের সম্পর্কে মডাল */
         #aboutModal { z-index: 7000 !important; background-color: rgba(0,0,0,0.85); }
         .about-modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 8px; max-width: 700px; width: 90%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         .about-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
         .about-modal-body { font-size: 15px; line-height: 1.6; color: #333; max-height: 400px; overflow-y: auto; }
 
-        /* Result Modal Styles */
+        /* রেজাল্ট মডাল */
         #resultModal { z-index: 7500 !important; background-color: rgba(0,0,0,0.85); }
 
-        /* Activities Modal Styles */
+        /* অ্যাক্টিভিটিস মডাল */
         #activitiesModal { z-index: 8000 !important; background-color: rgba(0,0,0,0.85); }
         .activities-modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 8px; max-width: 700px; width: 90%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         .activities-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
         .activities-modal-body { font-size: 15px; line-height: 1.6; color: #333; max-height: 400px; overflow-y: auto; }
 
-        /* Login Modal Styles */
+        /* লগইন মডাল */
         #loginModal { z-index: 8500 !important; background-color: rgba(0,0,0,0.85); }
 
-        /* Profile Nav Tabs Styling */
+        /* প্রোফাইল ট্যাব নেভিগেশন */
         .profile-tab-btn {
             flex: 1; padding: 9px; font-weight: bold; border: none; background: #e0e0e0; color: #333;
             border-radius: 5px; cursor: pointer; transition: all 0.3s ease; font-size: 14px;
@@ -172,16 +173,16 @@
             background: #007e33; color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* Scroll to Top Button */
+        /* উপরে ওঠার বাটন (Scroll to Top) - স্ক্রিনের নিচে সেন্টারে নিরাপদ দূরত্বে রাখা হয়েছে */
         #scrollTopBtn {
-            display: none; position: fixed; bottom: 20px; right: 20px; z-index: 999;
+            display: none; position: fixed; bottom: 85px; right: 20px; z-index: 998;
             font-size: 18px; border: none; outline: none; background-color: #d32f2f;
             color: white; cursor: pointer; padding: 12px 16px; border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: background-color 0.3s;
         }
         #scrollTopBtn:hover { background-color: #007e33; }
 
-        /* --- Modern Filterable Gallery Design & Slideshow --- */
+        /* গ্যালারি ফিল্টার ও স্লাইডশো স্টাইল */
         .gallery-filters {
             display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;
         }
@@ -191,7 +192,6 @@
         }
         .filter-btn:hover, .filter-btn.active { background-color: #007e33; color: #fff; }
 
-        /* Slideshow Container Style */
         .slideshow-container {
             position: relative; max-width: 100%; margin: auto; border-radius: 8px;
             overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #000;
@@ -219,6 +219,7 @@
         .doc-btn { background-color: #007e33; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: background 0.3s; }
         .doc-btn:hover { background-color: #004d25; }
 
+        /* ফুটার এবং কন্টাক্ট আইকন রো এর স্টাইল */
         .footer { background-color: #007e33; color: #fff; padding: 25px 20px; font-size: 14px; line-height: 1.6; }
         .footer-content-box {
             max-width: 800px; margin: 0 auto 20px auto; display: grid;
@@ -227,9 +228,35 @@
         }
         .footer-col h4 { font-size: 16px; margin-bottom: 12px; border-bottom: 2px solid #ffffff; display: inline-block; padding-bottom: 3px; }
         .footer-col p { margin-bottom: 6px; font-size: 13px; }
-        .footer-contact-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-        .footer-contact-links li a { color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; transition: color 0.2s; }
-        .footer-contact-links li a:hover { color: #d32f2f; text-decoration: underline; }
+
+        /* পাশাপাশি কন্টাক্ট আইকন সারির বিশেষ সিএসএস (Row Layout) */
+        .contact-icons-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .contact-icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-radius: 50%;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .contact-icon-btn:hover {
+            background-color: #ffffff;
+            color: #007e33;
+            transform: translateY(-3px);
+        }
+
         .copyright { text-align: center; font-size: 12px; padding-top: 5px; }
 
         @media (max-width: 500px) {
@@ -238,15 +265,32 @@
             .slide-item img { height: 200px; }
         }
 
-        /* --- MODERN FEATURES CSS (PRELOADER & DARK MODE) --- */
+        /* প্রি-লোডার এবং ডার্ক মোড স্টাইল */
         #science-preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
         .loader-content { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; animation: pulseLoader 1.5s infinite; }
         @keyframes pulseLoader { 0% { transform: scale(0.9); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.8; } }
         .preloader-text { margin-top: 15px; color: #007e33; font-weight: bold; font-size: 18px; letter-spacing: 2px; }
 
-        #darkModeToggleBtn { position: fixed; bottom: 80px; left: 20px; z-index: 999; font-size: 20px; border: none; outline: none; background-color: #333; color: white; cursor: pointer; padding: 12px 15px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: transform 0.3s ease, background-color 0.3s ease; }
+        /* ডার্ক মোড বাটন - স্ক্রিনের নিচে বাম কর্নারে (নিরাপদ অবস্থানে) */
+        #darkModeToggleBtn { 
+            position: fixed; 
+            bottom: 20px; 
+            left: 20px; 
+            z-index: 99999; 
+            font-size: 20px; 
+            border: none; 
+            outline: none; 
+            background-color: #333; 
+            color: white; 
+            cursor: pointer; 
+            padding: 12px 15px; 
+            border-radius: 50%; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4); 
+            transition: transform 0.3s ease, background-color 0.3s ease; 
+        }
         #darkModeToggleBtn:hover { transform: scale(1.1); background-color: #555; }
 
+        /* ডার্ক থিমের রঙসমূহ */
         body.dark-theme { background-color: #121212; color: #e0e0e0; }
         body.dark-theme .top-header { background: linear-gradient(135deg, #001f0f, #003d18); box-shadow: 0 2px 8px rgba(0,0,0,0.8); }
         body.dark-theme .latest-notice-wrapper { background-color: #1a261a; border-bottom: 1px solid #2a3b2a; }
@@ -284,7 +328,7 @@
         body.dark-theme .profile-tab-btn.active { background: #4caf50; color: #fff; }
         body.dark-theme .pay-method-box { background: #2a2a2a !important; border-color: #444 !important; }
 
-        /* --- FLOATING CIRCULAR PROFILE BADGE STYLING (Draggable & Always On Top) --- */
+        /* ড্র্যাগেবল ভাসমান প্রোফাইল ব্যাজ */
         .floating-profile-badge {
             position: fixed;
             top: 75px;
@@ -305,15 +349,8 @@
             user-select: none;
             touch-action: none;
         }
-        .floating-profile-badge:active {
-            cursor: grabbing;
-        }
-        .floating-profile-badge img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            pointer-events: none;
-        }
+        .floating-profile-badge:active { cursor: grabbing; }
+        .floating-profile-badge img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 
         .science-widget-box { background: linear-gradient(135deg, #004d25, #007e33); color: #fff; border-radius: 6px; padding: 15px; margin-top: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
         .science-widget-title { font-size: 15px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; color: #ffeb3b; }
@@ -324,7 +361,7 @@
         .countdown-num { font-size: 16px; font-weight: bold; color: #ffeb3b; }
         .countdown-label { font-size: 10px; text-transform: uppercase; }
 
-        /* --- Floating Support Chat Widget CSS --- */
+        /* সাপোর্ট চ্যাট উইজেট - স্ক্রিনের নিচে ডান কর্নারে (নিরাপদ অবস্থানে) */
         #floating-chat-btn {
             position: fixed;
             bottom: 20px;
@@ -386,16 +423,8 @@
             font-size: 13px;
             line-height: 1.4;
         }
-        .chat-msg.user {
-            background: #007e33;
-            color: #fff;
-            align-self: flex-end;
-        }
-        .chat-msg.admin {
-            background: #e0e0e0;
-            color: #333;
-            align-self: flex-start;
-        }
+        .chat-msg.user { background: #007e33; color: #fff; align-self: flex-end; }
+        .chat-msg.admin { background: #e0e0e0; color: #333; align-self: flex-start; }
         .chat-widget-footer {
             padding: 8px;
             display: flex;
@@ -420,7 +449,8 @@
             cursor: pointer;
         }
     </style>
-	    <!-- গুগল সার্চে ওয়েবসাইটের নাম ও লোগো আপডেট করার জন্য এসইও কোড -->
+	
+    <!-- গুগল সার্চ ও সোশ্যাল মিডিয়া শেয়ারের জন্য মেটা ডাটা (SEO Meta) -->
     <meta property="og:site_name" content="Govt. Shaheed Suhrawardy College Science Club">
     <meta property="og:title" content="Govt. Shaheed Suhrawardy College Science Club">
     <meta property="og:type" content="website">
@@ -442,7 +472,7 @@
 </head>
 <body>
 
-    <!-- Modern Science Preloader -->
+    <!-- ১. ওয়েবসাইট লোডিং প্রি-লোডার (Modern Preloader) -->
     <div id="science-preloader">
         <div class="loader-content">
             <i class="fas fa-atom fa-spin" style="font-size: 60px; color: #007e33;"></i>
@@ -450,15 +480,15 @@
         </div>
     </div>
 
-    <!-- Dark Mode Toggle Button -->
+    <!-- ২. ডার্ক মোড টগল বাটন (স্ক্রিনের নিচে বাম কোণে নিরাপদ স্থানে ফিক্সড করা) -->
     <button id="darkModeToggleBtn" onclick="toggleDarkMode()" title="Toggle Dark/Light Mode">
         <i class="fas fa-moon"></i>
     </button>
 
-    <!-- Dynamic Circular Floating Profile Badge (Visible only when logged in) -->
+    <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ (লগইন থাকলে স্ক্রিনে দেখাবে) -->
     <div id="floatingProfileContainer"></div>
 
-    <!-- Notice Single Modal Box -->
+    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (Single Notice Modal) -->
     <div id="noticeModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
@@ -467,7 +497,7 @@
         </div>
     </div>
 
-    <!-- Fullscreen Image Viewer Modal -->
+    <!-- ৫. ফুলস্ক্রিন ইমেজ ভিউয়ার মডাল (Full Screen Image Viewer) -->
     <div id="imageViewerModal" class="modal" onclick="closeImageViewer()">
         <div class="image-viewer-content" onclick="event.stopPropagation()">
             <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
@@ -475,7 +505,7 @@
         </div>
     </div>
 
-    <!-- About Us Floating Modal Window -->
+    <!-- ৬. আমাদের সম্পর্কে দেখার পপআপ মডাল (About Us Modal) -->
     <div id="aboutModal" class="modal">
         <div class="about-modal-content">
             <span class="modal-close" onclick="closeAboutModal()">&times;</span>
@@ -484,7 +514,7 @@
         </div>
     </div>
 
-    <!-- Result Floating Modal Window -->
+    <!-- ৭. পরীক্ষার রেজাল্ট দেখার পপআপ মডাল (Result Modal) -->
     <div id="resultModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeResultModal()">&times;</span>
@@ -493,7 +523,7 @@
         </div>
     </div>
 
-    <!-- Activities Floating Modal Window -->
+    <!-- ৮. কার্যক্রম দেখার পপআপ মডাল (Activities Modal) -->
     <div id="activitiesModal" class="modal">
         <div class="activities-modal-content">
             <span class="modal-close" onclick="closeActivitiesModal()">&times;</span>
@@ -502,7 +532,7 @@
         </div>
     </div>
 
-    <!-- Recent Activities All Images Floating Modal Window -->
+    <!-- ৯. রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি দেখার মডাল (Gallery Modal) -->
     <div id="allGalleryModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllGalleryModal()">&times;</span>
@@ -511,13 +541,13 @@
         </div>
     </div>
 
-    <!-- Member Login Floating Modal Window -->
+    <!-- ১০. মেম্বার লগইন ও পেমেন্ট ড্যাশবোর্ড মডাল (Login & Dashboard Modal) -->
     <div id="loginModal" class="modal">
         <div class="modal-content" style="max-width: 480px;">
             <span class="modal-close" onclick="closeLoginModal()">&times;</span>
             <div class="modal-title" id="modalHeaderTitle"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন / ড্যাশবোর্ড</div>
             
-            <!-- Login Form View -->
+            <!-- লগইন ফর্ম ভিউ -->
             <div id="loginFormView">
                 <form id="memberLoginForm" onsubmit="handleLogin(event)">
                     <div style="margin-bottom: 15px;">
@@ -535,9 +565,8 @@
                 </form>
             </div>
 
-            <!-- User Dashboard View with Profile & Payment Tabs -->
+            <!-- ইউজার প্রোফাইল ও পেমেন্ট ট্যাব ভিউ -->
             <div id="userProfileView" style="display:none;">
-                <!-- Profile Nav Tabs -->
                 <div style="display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #007e33; padding-bottom: 10px;">
                     <button id="tabProfileBtn" class="profile-tab-btn active" onclick="switchProfileTab('profile')">
                         <i class="fas fa-user-circle"></i> প্রোফাইল
@@ -547,14 +576,13 @@
                     </button>
                 </div>
 
-                <!-- Tab 1: Profile Details Content -->
+                <!-- প্রোফাইল ট্যাব -->
                 <div id="profileTabContent" style="text-align:center;">
                     <div id="profilePhotoContainer" style="margin-bottom:15px;">
                         <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
                     </div>
                     <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:6px; font-size:14px; line-height:1.8; border:1px solid #eee; max-height:300px; overflow-y:auto;"></div>
                     
-                    <!-- Download PDF and Logout buttons -->
                     <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
                         <button id="pdfDownloadBtn" onclick="downloadProfilePDF()" style="background:#0288d1; color:#fff; border:none; padding:8px 15px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s;">
                             <i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড
@@ -565,7 +593,7 @@
                     </div>
                 </div>
 
-                <!-- Tab 2: Payment Form Content -->
+                <!-- পেমেন্ট ট্যাব -->
                 <div id="paymentTabContent" style="display:none; text-align:left;">
                     <form id="memberPaymentForm" onsubmit="handlePaymentSubmit(event)">
                         <div style="margin-bottom: 12px;">
@@ -610,12 +638,11 @@
                         </button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <!-- Floating Modal Window for All Notices -->
+    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (All Notices Modal) -->
     <div id="allNoticesModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
@@ -676,7 +703,7 @@
         </div>
     </div>
 
-    <!-- Top Header -->
+    <!-- ১২. টপ হেডার সেকশন (Top Header) -->
     <div class="top-header">
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
         <div class="header-center">
@@ -689,7 +716,7 @@
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
-    <!-- সর্বশেষ নোটিশ অংশ -->
+    <!-- ১৩. সর্বশেষ নোটিশ সেকশন (Marquee Scrolling Notice) -->
     <div class="latest-notice-wrapper">
         <div class="latest-notice-container">
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
@@ -703,7 +730,7 @@
         </div>
     </div>
 
-    <!-- Sidebar Menu -->
+    <!-- ১৪. সাইডবার নেভিগেশন মেনু (Sidebar Menu) -->
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
             <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
@@ -767,15 +794,14 @@
                 </ul>
             </li>
             <li><a href="#contactFooterSection" onclick="closeNav()">Contact Us</a></li>
-            <!-- Dynamic Sidebar Login Link -->
             <li><a href="javascript:void(0);" id="sidebarLoginMenuLink" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Login</a></li>
         </ul>
     </div>
 
-    <!-- Main Container -->
+    <!-- ১৫. মূল কন্টেন্ট কন্টেইনার (Main Container) -->
     <div class="container">
         
-        <!-- Notice Board -->
+        <!-- নোটিশ বোর্ড সেকশন -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
@@ -783,7 +809,6 @@
             </div>
             
             <div class="section-content">
-
 
 				<div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> ১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে</span>
@@ -821,7 +846,7 @@
             </div>
         </div>
 
-        <!-- উপদেষ্টা সেকশন -->
+        <!-- উপদেষ্টামণ্ডলী সেকশন -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-users" style="color: #007e33;"></i> উপদেষ্টামণ্ডলী</div>
             <div class="section-content">
@@ -848,7 +873,7 @@
             </div>
         </div>
 
-        <!-- Recent Activities -->
+        <!-- রিসেন্ট অ্যাক্টিভিটিজ গ্যালারি সেকশন -->
         <div class="section-card" id="recentActivitiesSection" style="margin-top: 20px;">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
             <div class="section-content">
@@ -956,7 +981,7 @@
             </div>
         </div>
 
-        <!-- Useful Links -->
+        <!-- প্রয়োজনীয় লিংক সেকশন -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-link" style="color: #007e33;"></i> Useful Links</div>
             <div class="section-content useful-links">
@@ -971,7 +996,7 @@
             </div>
         </div>
 
-        <!-- Important Documents -->
+        <!-- গুরুত্বপূর্ণ ডকুমেন্টস সেকশন -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-file-pdf" style="color: #d32f2f;"></i> গুরুত্বপূর্ণ ডকুমেন্টস</div>
             <div class="section-content">
@@ -982,7 +1007,7 @@
             </div>
         </div>
 
-        <!-- Visitor Info -->
+        <!-- ভিজিটর সংখ্যা সেকশন -->
         <div class="section-card">
             <div class="section-title"><i class="fas fa-chart-line" style="color: #007e33;"></i> Visitor Info</div>
             <div class="section-content">
@@ -993,7 +1018,7 @@
 
     </div>
 
-    <!-- Footer -->
+    <!-- ১৬. ফুটার সেকশন (Contact Us ও কন্টাক্ট আইকন রো সহ) -->
     <div class="footer" id="contactFooterSection">
         <div class="footer-content-box">
             <div class="footer-col">
@@ -1001,24 +1026,25 @@
                 <p>36-37, Lakshmibazar, Dhaka-1100, Bangladesh</p>
                 <p>EIIN: 108508 | College Code: 1475</p>
             </div>
+            <!-- কন্টাক্ট আইকন পাশাপাশি রো আকারে সাজানো অংশ -->
             <div class="footer-col">
                 <h4>Contact Us</h4>
-                <ul class="footer-contact-links">
-                    <li><a href="tel:+8801851291081"><i class="fas fa-phone-alt"></i> Mobile: +880 1851291081</a></li>
-                    <li><a href="mailto:gsscscienceclub@gmail.com"><i class="fas fa-envelope"></i> E-mail: gsscscienceclub@gmail.com</a></li>
-                    <li><a href="https://wa.me/8801851291081" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp: Chat Now</a></li>
-                    <li><a href="https://www.facebook.com/share/1EvHq76RsU/" target="_blank"><i class="fab fa-facebook-f"></i> Facebook Page</a></li>
-                    <li><a href="https://www.instagram.com/gssc.scienceclub?stkn=cDBhaWhsZ29ycGFn" target="_blank"><i class="fab fa-instagram"></i> Instagram Profile</a></li>
-                </ul>
+                <div class="contact-icons-row">
+                    <a href="tel:+8801851291081" class="contact-icon-btn" title="Call Us"><i class="fas fa-phone-alt"></i></a>
+                    <a href="mailto:gsscscienceclub@gmail.com" class="contact-icon-btn" title="E-mail Us"><i class="fas fa-envelope"></i></a>
+                    <a href="https://wa.me/8801851291081" target="_blank" class="contact-icon-btn" title="Chat on Whatsapp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.facebook.com/share/1EvHq76RsU/" target="_blank" class="contact-icon-btn" title="Facebook Page"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/gssc.scienceclub?stkn=cDBhaWhsZ29ycGFn" target="_blank" class="contact-icon-btn" title="Instagram Profile"><i class="fab fa-instagram"></i></a>
+                </div>
             </div>
         </div>
         <div class="copyright">&copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib</div>
     </div>
 
-    <!-- Scroll to Top Button -->
+    <!-- ১৭. উপরে ওঠার বাটন (Scroll to Top Button) -->
     <button onclick="scrollToTop()" id="scrollTopBtn" title="উপরে যান"><i class="fas fa-arrow-up"></i></button>
 
-    <!-- Floating Support Chat Widget HTML -->
+    <!-- ১৮. ভাসমান সাপোর্ট চ্যাট বাটন ও উইজেট (স্ক্রিনের নিচে ডান কর্নারে ফিক্সড) -->
     <button id="floating-chat-btn" onclick="toggleChatBox()"><i class="fas fa-comments"></i></button>
 
     <div id="chat-widget-box">
@@ -1035,12 +1061,13 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- ১৯. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি (JavaScript Functions) -->
     <script>
         const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
         const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
         const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
 
+        /* সাইডবার খুলুন ও বন্ধ করুন */
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
         function toggleSubmenu(id) {
@@ -1048,6 +1075,7 @@
             submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
         }
 
+        /* স্ক্রোল বাটন হ্যান্ডলার */
         window.onscroll = function() {scrollFunction()};
         function scrollFunction() {
             var btn = document.getElementById("scrollTopBtn");
@@ -1062,6 +1090,7 @@
             document.documentElement.scrollTop = 0;
         }
 
+        /* স্লাইডশো ও গ্যালারি ফিল্টারিং */
         var slideIndex = 0;
         var slideInterval;
         var currentFilteredCategory = 'all';
@@ -1113,7 +1142,7 @@
             startSlideshow();
         }
 
-        // Hide preloader when window loads
+        /* প্রি-লোডার হাইড করার ইভেন্ট */
         window.addEventListener('load', function() {
             var preloader = document.getElementById('science-preloader');
             if(preloader) {
@@ -1127,6 +1156,7 @@
             checkActiveLoginStateOnLoad();
         };
 
+        /* মডাল পপআপ ফাংশনসমূহ */
         function openAllGalleryModal() {
             var container = document.getElementById('allGalleryModalImages');
             container.innerHTML = '';
@@ -1273,7 +1303,7 @@
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
-        /* Login System & Floating Circular Profile Badge Handlers */
+        /* মেম্বারশিপ ব্যাকএন্ড এপিআই কানেকশন */
         const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzIpoibZC_3ExNWnLMUONxTkI9o-izEnBZKYtVkgAIA13UmhQd-M6gXWeIogjaOK0mw/exec";
 
         function openLoginModal() { 
@@ -1284,7 +1314,7 @@
             document.getElementById('loginModal').style.display = 'none'; 
         }
 
-        /* Profile & Payment Tab Switcher */
+        /* প্রোফাইল ও পেমেন্ট ট্যাব সুইচার */
         function switchProfileTab(tabName) {
             const profileContent = document.getElementById('profileTabContent');
             const paymentContent = document.getElementById('paymentTabContent');
@@ -1346,7 +1376,6 @@
             });
         }
 
-        // Google Drive Link Converter Helper
         function getDirectDriveImageUrl(url) {
             if (!url) return '';
             let stringUrl = String(url).trim();
@@ -1368,7 +1397,6 @@
             return stringUrl;
         }
 
-        /* প্রোফাইল রেন্ডারার ফাংশন: শিটের পেমেন্ট স্ট্যাটাস অনুযায়ী সঠিক রঙ ও টেক্সট প্রদর্শন */
         function renderUserSessionState(data) {
             document.getElementById('loginFormView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
@@ -1405,27 +1433,25 @@
                 realGuardian = strV3;
             }
 
-            // গুগল শিট থেকে পেমেন্ট স্ট্যাটাস স্ট্রিং নেওয়া এবং নিখুঁত রঙ ও লেবেল সেট করা
             let rawPayStatus = String(detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || detailsObj['status'] || detailsObj['Status'] || 'Unpaid').trim();
             let lowerPay = rawPayStatus.toLowerCase();
             
-            let payBadgeBg = '#c62828'; // ডিফল্ট লাল (Unpaid এর জন্য)
+            let payBadgeBg = '#c62828';
             let payDisplayText = rawPayStatus;
 
             if (lowerPay.includes('paid') || lowerPay.includes('পেইড') || lowerPay.includes('পরিশোধিত')) {
-                payBadgeBg = '#2e7d32'; // সবুজ (Paid)
+                payBadgeBg = '#2e7d32';
                 payDisplayText = 'Paid';
             } else if (lowerPay.includes('waiting') || lowerPay.includes('pending') || lowerPay.includes('অপেক্ষমাণ')) {
-                payBadgeBg = '#ef6c00'; // কমলা (Waiting)
+                payBadgeBg = '#ef6c00';
                 payDisplayText = 'Waiting';
             } else if (lowerPay.includes('unpaid') || lowerPay.includes('অপরিশোধিত')) {
-                payBadgeBg = '#c62828'; // লাল (Unpaid)
+                payBadgeBg = '#c62828';
                 payDisplayText = 'Unpaid';
             }
 
             let payDisplayHtml = `<span style="background:${payBadgeBg}; color:#fff; padding:2px 10px; border-radius:10px; font-weight:bold; font-size:12px;">${payDisplayText}</span>`;
 
-            // সুনির্দিষ্ট অর্ডারে তথ্যের প্রদর্শন
             const profileFields = [
                 { label: 'Payment Status', val: payDisplayHtml, isHtml: true },
                 { label: 'Name (English)', val: detailsObj['Name (En)'] || detailsObj['Name (English)'] || '' },
@@ -1470,7 +1496,6 @@
             updateUIAfterLogin(photoUrl, studentName || 'Member');
         }
 
-        /* Payment Submission Handler */
         function handlePaymentSubmit(event) {
             event.preventDefault();
 
@@ -1540,7 +1565,6 @@
             if (isLoggedIn === 'true' && userDataStr) {
                 try {
                     const data = JSON.parse(userDataStr);
-                    // পুরনো ক্যাশ বা ডাটা থাকলে সার্ভার থেকে ফ্রেশ ডাটা ফেচ করার জন্য অটো-সিঙ্ক রিকোয়েস্ট
                     const memberId = data.savedMemberId || (data.details && data.details['Member ID']) || '';
                     if (memberId) {
                         fetch(`${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=`)
@@ -1597,7 +1621,7 @@
             closeLoginModal();
         }
 
-        /* প্রিন্ট ফ্রেন্ডলি স্ট্যান্ডার্ড ফন্ট সাইজ ও সাইন্স ক্লাবের লোগো দিয়ে আপডেটকৃত downloadProfilePDF ফাংশন */
+        /* পিডিএফ জেনারেটর ফাংশন */
         function downloadProfilePDF() {
             const userDataStr = localStorage.getItem('gssc_user_data');
             let userData = {};
@@ -1622,7 +1646,6 @@
             let departmentVal = detailsObj['Group or Department'] || detailsObj['Department'] || detailsObj['বিভাগ'] || '';
             let idNoVal = detailsObj['College ID'] || detailsObj['College ID No'] || detailsObj['কলেজ আইডি'] || '';
             
-            // মানগুলোর ম্যাপিং
             let v1 = detailsObj['Contact Number (Whatsapp)'] || detailsObj['WhatsApp Number'] || detailsObj['Contact Number'] || detailsObj['Number'] || '';
             let v2 = detailsObj["Guardian's Contact Number"] || detailsObj["Guardian's Number"] || '';
             let v3 = detailsObj['NID or Birth ID No'] || detailsObj['NID or Birth ID'] || detailsObj['NID Number'] || '';
@@ -1677,16 +1700,13 @@
             printContainer.style.boxSizing = 'border-box';
 
             printContainer.innerHTML = `
-                <!-- ব্যাকগ্রাউন্ড ওয়াটারমার্ক (Science Club Logo) -->
                 <div style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%); opacity: 0.08; pointer-events: none; z-index: 0;">
                     <img src="FB_IMG_1788806747811.png" style="width: 480px; height: auto;" alt="Watermark">
                 </div>
 
                 <div style="position: relative; z-index: 1;">
-                    <!-- হেডার সেকশন: বামে সায়েন্স ক্লাবের লোগো ও অফিশিয়াল তথ্য, ডানে আগের স্থানে ছবি -->
                     <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px;">
                         <tr>
-                            <!-- বাম কলাম: ক্লাবের লোগো + আইডি বিবরণ -->
                             <td style="width: 26%; vertical-align: top; text-align: left;">
                                 <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;">
                                     <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" style="width: 65px; height: 65px; object-fit: contain; border-radius: 50%; margin-bottom: 6px;">
@@ -1696,7 +1716,6 @@
                                 </div>
                             </td>
                             
-                            <!-- মাঝের কলাম: বড় টাইটেল ও সাব-টাইটেল -->
                             <td style="width: 50%; vertical-align: top; text-align: center; padding-top: 2px;">
                                 <h2 style="font-size: 22px; color: #007e33; margin: 0 0 4px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 0.8px;">SCIENCE CLUB</h2>
                                 <h3 style="font-size: 13.5px; color: #111; margin: 0 0 4px 0; font-weight: bold; letter-spacing: 0.3px;">GOVT. SHAHEED SUHRAWARDY COLLEGE</h3>
@@ -1704,7 +1723,6 @@
                                 <div style="background: #007e33; color: #fff; font-size: 11.5px; padding: 4px 18px; display: inline-block; font-weight: bold; border-radius: 3px; letter-spacing: 0.6px; text-transform: uppercase;">Membership Application</div>
                             </td>
                             
-                            <!-- ডান কলাম: ছবি আগের জায়গাতেই যথাস্থানে নির্দিষ্ট সাইজে -->
                             <td style="width: 24%; vertical-align: top; text-align: right;">
                                 <div style="display: inline-block; width: 92px; height: 112px; border: 1px solid #333; background: #fafafa; overflow:hidden; text-align: center;">
                                     ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : '<div style="margin-top:42px; font-size:10px; color:#666;">PP Photo</div>'}
@@ -1713,7 +1731,6 @@
                         </tr>
                     </table>
 
-                    <!-- হেডার ডিভাইডার সবুজ দাগ -->
                     <div style="width: 100%; border-bottom: 2px solid #007e33; margin-top: 4px; margin-bottom: 12px;"></div>
 
                     <div style="font-size: 12.5px; margin-bottom: 12px; font-style: italic; color: #111; line-height: 1.45;">
@@ -1721,7 +1738,6 @@
                         <strong style="font-style: normal; text-decoration: underline;">My details are given below:</strong>
                     </div>
 
-                    <!-- টেবিল গ্রিড: প্রিন্ট আউটে স্পষ্ট দেখার জন্য সুনির্দিষ্ট ফন্ট ও রো হাইট (25.5px) -->
                     <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #111;">
                         <tr style="height: 25.5px;"><td style="width: 215px; font-weight: bold;">Payment Status</td><td style="width: 15px; text-align: center; font-weight: bold;">:</td><td>${payBadge}</td></tr>
                         <tr style="height: 25.5px;"><td style="font-weight: bold;">01. Name (English)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameEnVal}</td></tr>
@@ -1748,7 +1764,6 @@
                         I hereby declare that the above information is completely true and accurate. I have signed below committing to abide by all the rules and regulations of the organization.
                     </div>
 
-                    <!-- সিগনেচার সেকশন: A4 পেজের নিচের অংশের সাথে সুন্দরভাবে মানানসই স্থানিক দূরত্ব -->
                     <table style="width: 100%; margin-top: 55px; border-collapse: collapse;">
                         <tr>
                             <td style="width: 50%; text-align: left; vertical-align: bottom;">
@@ -1777,6 +1792,7 @@
             html2pdf().set(opt).from(printContainer).save();
         }
 
+        /* ডার্ক মোড টগল করার ফাংশন */
         function toggleDarkMode() {
             document.body.classList.toggle('dark-theme');
             const btn = document.getElementById('darkModeToggleBtn');
@@ -1787,6 +1803,7 @@
             }
         }
 
+        /* প্রোফাইল ব্যাজ ড্র্যাগ করার ফাংশন (Draggable Profile Badge) */
         function makeBadgeDraggable(elmnt) {
             if (!elmnt) return;
             var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -1842,7 +1859,7 @@
             }
         }
 
-        /* --- Floating Support Chat Widget JavaScript --- */
+        /* ভাসমান সাপোর্ট চ্যাট উইজেট হ্যান্ডলার */
         let currentChatId = localStorage.getItem('gssc_chat_id') || 'chat_' + Math.random().toString(36).substr(2, 9);
         localStorage.setItem('gssc_chat_id', currentChatId);
 
