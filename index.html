@@ -154,7 +154,7 @@
         /* রেজাল্ট মডাল */
         #resultModal { z-index: 7500 !important; background-color: rgba(0,0,0,0.85); }
 
-        /* অ্যাক্টিভিটিস মডাল */
+        /* কার্যক্রম দেখার মডাল */
         #activitiesModal { z-index: 8000 !important; background-color: rgba(0,0,0,0.85); }
         .activities-modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 8px; max-width: 700px; width: 90%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         .activities-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
@@ -1366,7 +1366,7 @@
         }
 
         function fetchExamResults() {
-            const userDataStr = localStorage.getItem('gssc_user_data');
+            const userDataStr = sessionStorage.getItem('gssc_user_data') || localStorage.getItem('gssc_user_data');
             let userData = {};
             try { userData = JSON.parse(userDataStr || '{}'); } catch(e){}
             let memberId = userData.savedMemberId || (userData.details && userData.details['Member ID']) || '';
@@ -1426,6 +1426,10 @@
 
                 if (data.status === 'success' || data.Status === 'Success') {
                     data.savedMemberId = memberId;
+                    sessionStorage.setItem('gssc_logged_in', 'true');
+                    sessionStorage.setItem('gssc_user_data', JSON.stringify(data));
+                    
+                    // ব্যাকআপ হিসেবে লোকাল স্টোরেজেও রাখা যাতে পেজ রিফ্রেশে ইনস্ট্যান্ট পাওয়া যায়
                     localStorage.setItem('gssc_logged_in', 'true');
                     localStorage.setItem('gssc_user_data', JSON.stringify(data));
 
@@ -1502,7 +1506,6 @@
                 realGuardian = strV3;
             }
 
-            // গুগল শীটে যে স্ট্যাটাস থাকবে হুবহু সেটাই থাকবে
             let paymentStatusVal = detailsObj['Payment Status'] || detailsObj['পেমেন্ট স্ট্যাটাস'] || detailsObj['status'] || detailsObj['Status'] || '';
 
             const profileFields = [
@@ -1612,19 +1615,21 @@
         }
 
         function checkActiveLoginStateOnLoad() {
-            const isLoggedIn = localStorage.getItem('gssc_logged_in');
-            const userDataStr = localStorage.getItem('gssc_user_data');
+            const isLoggedIn = sessionStorage.getItem('gssc_logged_in') || localStorage.getItem('gssc_logged_in');
+            const userDataStr = sessionStorage.getItem('gssc_user_data') || localStorage.getItem('gssc_user_data');
 
             if (isLoggedIn === 'true' && userDataStr) {
                 try {
                     const data = JSON.parse(userDataStr);
                     const memberId = data.savedMemberId || (data.details && data.details['Member ID']) || '';
                     if (memberId) {
+                        // প্রতিবার পেজ রিফ্রেশ বা লোড হওয়ার সময় ব্যাকএন্ড গুগল শিট থেকে লাইভ ডেটা ফেচ করা হবে যাতে স্ট্যাটাস আপডেট ইনস্ট্যান্ট দেখায়
                         fetch(`${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=`)
                         .then(res => res.json())
                         .then(freshData => {
                             if (freshData.status === 'success' || freshData.Status === 'Success') {
                                 freshData.savedMemberId = memberId;
+                                sessionStorage.setItem('gssc_user_data', JSON.stringify(freshData));
                                 localStorage.setItem('gssc_user_data', JSON.stringify(freshData));
                                 renderUserSessionState(freshData);
                             } else {
@@ -1659,6 +1664,8 @@
         }
 
         function logoutUser() {
+            sessionStorage.removeItem('gssc_logged_in');
+            sessionStorage.removeItem('gssc_user_data');
             localStorage.removeItem('gssc_logged_in');
             localStorage.removeItem('gssc_user_data');
             
@@ -1676,7 +1683,7 @@
 
         /* পিডিএফ জেনারেটর ফাংশন */
         function downloadProfilePDF() {
-            const userDataStr = localStorage.getItem('gssc_user_data');
+            const userDataStr = sessionStorage.getItem('gssc_user_data') || localStorage.getItem('gssc_user_data');
             let userData = {};
             try { userData = JSON.parse(userDataStr || '{}'); } catch(e){}
             let detailsObj = userData.details || userData;
