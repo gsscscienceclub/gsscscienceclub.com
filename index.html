@@ -166,8 +166,8 @@
         /* প্রোফাইল ট্যাব নেভিগেশন */
         .profile-tab-btn {
             flex: 1; padding: 9px; font-weight: bold; border: none; background: #e0e0e0; color: #333;
-            border-radius: 5px; cursor: pointer; transition: all 0.3s ease; font-size: 14px;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
+            border-radius: 5px; cursor: pointer; transition: all 0.3s ease; font-size: 13px;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
         }
         .profile-tab-btn.active {
             background: #007e33; color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -572,14 +572,17 @@
                 </form>
             </div>
 
-            <!-- ইউজার প্রোফাইল ও পেমেন্ট ট্যাব ভিউ -->
+            <!-- ইউজার প্রোফাইল, পেমেন্ট ও রেজাল্ট ট্যাব ভিউ -->
             <div id="userProfileView" style="display:none;">
-                <div style="display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #007e33; padding-bottom: 10px;">
+                <div style="display: flex; gap: 6px; margin-bottom: 15px; border-bottom: 2px solid #007e33; padding-bottom: 10px;">
                     <button id="tabProfileBtn" class="profile-tab-btn active" onclick="switchProfileTab('profile')">
                         <i class="fas fa-user-circle"></i> প্রোফাইল
                     </button>
                     <button id="tabPaymentBtn" class="profile-tab-btn" onclick="switchProfileTab('payment')">
                         <i class="fas fa-wallet"></i> পেমেন্ট
+                    </button>
+                    <button id="tabResultBtn" class="profile-tab-btn" onclick="switchProfileTab('result')">
+                        <i class="fas fa-poll"></i> রেজাল্ট
                     </button>
                 </div>
 
@@ -644,6 +647,16 @@
                             <i class="fas fa-check-circle"></i> কনফার্ম করুন
                         </button>
                     </form>
+                </div>
+
+                <!-- রেজাল্ট ট্যাব -->
+                <div id="resultTabContent" style="display:none; text-align:left;">
+                    <div style="font-weight:bold; color:#007e33; margin-bottom:10px; font-size:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">
+                        <i class="fas fa-poll"></i> পরীক্ষার ফলাফল
+                    </div>
+                    <div id="examResultDetails" style="background:#f9f9f9; padding:10px; border-radius:6px; font-size:13px; line-height:1.6; border:1px solid #eee; max-height:280px; overflow-y:auto;">
+                        ফলাফল লোড হচ্ছে...
+                    </div>
                 </div>
             </div>
         </div>
@@ -1321,24 +1334,73 @@
             document.getElementById('loginModal').style.display = 'none'; 
         }
 
-        /* প্রোফাইল ও পেমেন্ট ট্যাব সুইচার */
+        /* প্রোফাইল, পেমেন্ট ও রেজাল্ট ট্যাব সুইচার */
         function switchProfileTab(tabName) {
             const profileContent = document.getElementById('profileTabContent');
             const paymentContent = document.getElementById('paymentTabContent');
+            const resultContent = document.getElementById('resultTabContent');
+            
             const tabProfileBtn = document.getElementById('tabProfileBtn');
             const tabPaymentBtn = document.getElementById('tabPaymentBtn');
+            const tabResultBtn = document.getElementById('tabResultBtn');
+
+            profileContent.style.display = 'none';
+            paymentContent.style.display = 'none';
+            if (resultContent) resultContent.style.display = 'none';
+            
+            tabProfileBtn.classList.remove('active');
+            tabPaymentBtn.classList.remove('active');
+            if (tabResultBtn) tabResultBtn.classList.remove('active');
 
             if (tabName === 'profile') {
                 profileContent.style.display = 'block';
-                paymentContent.style.display = 'none';
                 tabProfileBtn.classList.add('active');
-                tabPaymentBtn.classList.remove('active');
             } else if (tabName === 'payment') {
-                profileContent.style.display = 'none';
                 paymentContent.style.display = 'block';
-                tabProfileBtn.classList.remove('active');
                 tabPaymentBtn.classList.add('active');
+            } else if (tabName === 'result') {
+                if (resultContent) resultContent.style.display = 'block';
+                if (tabResultBtn) tabResultBtn.classList.add('active');
+                fetchExamResults();
             }
+        }
+
+        function fetchExamResults() {
+            const userDataStr = localStorage.getItem('gssc_user_data');
+            let userData = {};
+            try { userData = JSON.parse(userDataStr || '{}'); } catch(e){}
+            let memberId = userData.savedMemberId || (userData.details && userData.details['Member ID']) || '';
+            
+            const resultContainer = document.getElementById('examResultDetails');
+            if (!memberId) {
+                resultContainer.innerHTML = '<div style="color:#d32f2f; text-align:center;">মেম্বার আইডি পাওয়া যায়নি।</div>';
+                return;
+            }
+
+            resultContainer.innerHTML = '<div style="text-align:center; color:#666;"><i class="fas fa-spinner fa-spin"></i> ফলাফল লোড হচ্ছে...</div>';
+
+            fetch(`${APPS_SCRIPT_WEB_APP_URL}?action=get_results&memberId=${encodeURIComponent(memberId)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success' && data.results && data.results.length > 0) {
+                    let html = '<table style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">';
+                    html += '<tr style="background:#007e33; color:#fff;"><th style="padding:8px; border:1px solid #ddd;">পরীক্ষার নাম</th><th style="padding:8px; border:1px solid #ddd;">নম্বর/গ্রেড</th><th style="padding:8px; border:1px solid #ddd;">মন্তব্য</th></tr>';
+                    data.results.forEach(row => {
+                        let examName = row.examName || row.ExamName || row[1] || '';
+                        let marks = row.marks || row.Marks || row[2] || '';
+                        let remarks = row.remarks || row.Remarks || row[3] || '';
+                        html += `<tr><td style="padding:8px; border:1px solid #ddd;">${examName}</td><td style="padding:8px; border:1px solid #ddd;">${marks}</td><td style="padding:8px; border:1px solid #ddd;">${remarks}</td></tr>`;
+                    });
+                    html += '</table>';
+                    resultContainer.innerHTML = html;
+                } else {
+                    resultContainer.innerHTML = '<div style="color:#666; text-align:center; padding:15px;">আপনার কোনো পরীক্ষার ফলাফল পাওয়া যায়নি।</div>';
+                }
+            })
+            .catch(err => {
+                console.error("Result Fetch Error:", err);
+                resultContainer.innerHTML = '<div style="color:#d32f2f; text-align:center; padding:15px;">ফলাফল লোড করতে সমস্যা হয়েছে।</div>';
+            });
         }
 
         function handleLogin(event) {
