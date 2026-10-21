@@ -1831,7 +1831,7 @@
     			 	<table style="width: 100%; border-collapse: collapse; font-size: 11px;">
        				  <tr>
 					  <td style="font-size: 10.5px; font-weight: bold; color:#111; vertical-align: top; text-align: left;">Member ID: <span style="font-weight: normal;">${memberIdVal}</span></td>
-					  <td style="font-size: 10.5px; font-weight: bold; color:#111; vertical-align: top; text-align: left;">Submission time: <span style="font-weight: normal;">${appDateVal}</span></td>
+					  <td style="font-size: 10.5px; font-weight: bold; color:#111; vertical-align: top; text-align: right;">Submission time: <span style="font-weight: normal;">${appDateVal}</span></td>
              		  </tr>
  					</table>
 
@@ -1842,14 +1842,15 @@
                     	  <tr><td style="padding: 2px; width: 35%;"><b>1. Name</b></td><td style="padding: 2px; width: 5%;">:</td><td style="padding: 2px;">${nameEnVal}</td></tr>
                     	  <tr><td style="padding: 2px;"><b>2. Contact Number</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${whatsappVal}</td></tr>
                      	  <tr><td style="padding: 2px;"><b>3. Father's Name</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${fatherVal}</td></tr>
+						  <tr><td style="padding: 2px;"><b>4. Date of Birth</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${dobVal}</td></tr>
                		 	</table>
             		  </td>
                 	  <td style="width: 50%; vertical-align: top;">
                	        <table style="width: 100%; border-collapse: collapse;">
-                     	  <tr><td style="padding: 2px; width: 35%;"><b>04. Class</b></td><td style="padding: 2px; width: 5%;">:</td><td style="padding: 2px;">${classVal}</td></tr>
-                    	  <tr><td style="padding: 2px;"><b>5. Group or Department</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${departmentVal}</td></tr>
-                   		  <tr><td style="padding: 2px;"><b>6. College ID No</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${idNoVal}</td></tr>
-                    	  <tr><td style="padding: 2px;"><b>7. Session</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${sessionVal}</td></tr>
+						  <tr><td style="padding: 2px;"><b>5. College ID No</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${idNoVal}</td></tr>
+                     	  <tr><td style="padding: 2px; width: 35%;"><b>6. Class</b></td><td style="padding: 2px; width: 5%;">:</td><td style="padding: 2px;">${classVal}</td></tr>
+                    	  <tr><td style="padding: 2px;"><b>7. Group or Department</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${departmentVal}</td></tr>
+                    	  <tr><td style="padding: 2px;"><b>8. Session</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${sessionVal}</td></tr>
                 		</table>
             		  </td>
         		 	  </tr>
@@ -1857,13 +1858,17 @@
 
     				<table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 15px;">
         			  <tr>
-            		  <td style="text-align: left; padding-top: 20px;">
-                	   <b>Recipient's Sign</b>
-            		  </td>
-            		  <td style="text-align: right; padding-top: 20px;">
-                	   <b>Applicant's Sign</b>
-            		  </td>
-        			  </tr>
+                            <td style="width: 50%; text-align: left; vertical-align: bottom;">
+                                <div style="border-bottom: 1px solid #222; width: 160px; margin-bottom: 5px;"></div>
+                                <div style="font-size: 11.5px; font-weight: bold; color: #111; padding-left: 10px;">Recipient's Sign</div>
+                            </td>
+                            <td style="width: 50%; text-align: right; vertical-align: bottom;">
+                                <div style="display: inline-block; text-align: center;">
+                                    <div style="border-bottom: 1px solid #222; width: 160px; margin-bottom: 5px;"></div>
+                                    <div style="font-size: 11.5px; font-weight: bold; color: #111;">Applicant's Sign</div>
+                                </div>
+                            </td>
+                        </tr>
     				</table>
 					</div>
                	    </div>
