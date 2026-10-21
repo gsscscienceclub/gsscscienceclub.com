@@ -1705,7 +1705,12 @@
 
         /* পিডিএফ জেনারেটর ফাংশন */
         function downloadProfilePDF() {
-			document.getElementById('global-spinner').style.display='flex';
+            const spinner = document.getElementById('global-spinner');
+            if (spinner) {
+                spinner.innerHTML = '<i class="fas fa-spinner"></i> প্রোফাইল ডাউনলোড হচ্ছে...';
+                spinner.style.display = 'flex';
+            }
+
             const userDataStr = sessionStorage.getItem('gssc_user_data') || localStorage.getItem('gssc_user_data');
             let userData = {};
             try { userData = JSON.parse(userDataStr || '{}'); } catch(e){}
@@ -1884,7 +1889,7 @@
                	        <table style="width: 100%; border-collapse: collapse;">
 						  <tr><td style="padding: 2px;"><b>5. College ID No</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${idNoVal}</td></tr>
                      	  <tr><td style="padding: 2px; width: 35%;"><b>6. Class</b></td><td style="padding: 2px; width: 5%;">:</td><td style="padding: 2px;">${classVal}</td></tr>
-                    	  <tr><td style="padding: 2px;"><b>7. Group or Department</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${departmentVal}</td></tr>
+                    	  <tr><td style="padding: 2px; width: 35%;"><b>7. Group or Department</b></td><td style="padding: 2px; width: 5%;">:</td><td style="padding: 2px;">${departmentVal}</td></tr>
                     	  <tr><td style="padding: 2px;"><b>8. Session</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${sessionVal}</td></tr>
                 		</table>
             		  </td>
@@ -1915,11 +1920,15 @@
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-           
-			};
+            };
 
-            html2pdf().set(opt).from(printContainer).save();
-			document.getElementById('global-spinner').style.display='none';
+            html2pdf().set(opt).from(printContainer).save().then(() => {
+                const spinnerElem = document.getElementById('global-spinner');
+                if (spinnerElem) spinnerElem.style.display = 'none';
+            }).catch(() => {
+                const spinnerElem = document.getElementById('global-spinner');
+                if (spinnerElem) spinnerElem.style.display = 'none';
+            });
         }
 
         /* ডার্ক মোড টগল করার ফাংশন */
