@@ -1739,7 +1739,7 @@
             const printContainer = document.createElement('div');
             printContainer.style.background = '#ffffff';
             printContainer.style.color = '#000000';
-            printContainer.style.padding = '10px 20px';
+            printContainer.style.padding = '20px 30px';
             printContainer.style.width = '210mm';
             printContainer.style.minHeight = '297mm';
             printContainer.style.margin = '0 auto';
@@ -1895,7 +1895,7 @@
             `;
 
             const opt = {
-                margin:       12,
+                margin:       0,
                 filename:     `GSSC_Science_Club_${memberIdVal || 'Profile'}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 3, useCORS: true, logging: false },
