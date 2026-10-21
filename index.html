@@ -1915,10 +1915,11 @@
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-           document.getElementById('global-spinner').style.display='none';
+           
 			};
 
             html2pdf().set(opt).from(printContainer).save();
+			document.getElementById('global-spinner').style.display='none';
         }
 
         /* ডার্ক মোড টগল করার ফাংশন */
