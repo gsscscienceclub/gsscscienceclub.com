@@ -1759,11 +1759,11 @@
                         <tr>
                             <td style="width: 26%; vertical-align: top; text-align: left;">
                                 <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;">
-                                    <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" style="width: 65px; height: 65px; object-fit: contain; border-radius: 50%; margin-bottom: 6px;">
+                                    <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" style="width: 60px; height: 60px; object-fit: contain; border-radius: 50%; margin-bottom: 6px;">
                                     <div style="font-size: 10px; border: 1px solid #222; padding: 2px 6px; display: inline-block; font-weight: bold; margin-bottom: 4px; border-radius: 2px; text-transform: uppercase;">Office Copy</div>
                                     <div style="font-size: 10.5px; font-weight: bold; color:#111;">Member ID: <span style="font-weight: normal;">${memberIdVal}</span></div>
 									<div style="font-size: 10.5px; font-weight: bold; color:#111;">Submission time: <span style="font-weight: normal;">${appDateVal}</span></div>
-									<div style="font-size: 10.5px; font-weight: bold; color:#111;">Payment Status <span style="font-weight: normal;">${paymentStatusVal}</span></div>                                    
+									<div style="font-size: 10.5px; font-weight: bold; color:#111;">Payment Status: <span style="font-weight: normal;">${paymentStatusVal}</span></div>                                    
                                 </div>
                             </td>
                             
@@ -1771,11 +1771,11 @@
                                 <h2 style="font-size: 22px; color: #007e33; margin: 0 0 4px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 0.8px;">SCIENCE CLUB</h2>
                                 <h3 style="font-size: 17.5px; color: #111; margin: 0 0 4px 0; font-weight: bold; letter-spacing: 0.3px;">GOVT. SHAHEED SUHRAWARDY COLLEGE</h3>
                                 <p style="font-size: 15px; color: #333; margin: 0 0 10px 0; font-weight: 600;">36-37, LAKSHMIBAZAR, SUTRAPUR, DHAKA-1100</p>
-                                <div style="background: #007e33; color: #fff; font-size: 17px; padding: 6.5px 20.5px; display: inline-block; font-weight: bold; border-radius: 3px; letter-spacing: 0.6px; text-transform: uppercase;">Membership Application</div>
+                                <div style="background: #007e33; color: #fff; font-size: 17px; padding: 6px 20px; display: inline-block; font-weight: bold; border-radius: 3px; letter-spacing: 0.6px; text-transform: uppercase;">Membership Application</div>
                             </td>
                                <td style="width: 24%; vertical-align: top; text-align: right;">
 							
-                                <div style="display: inline-block; width: 93px; height: 113px; border: 1px solid #333; background: #fafafa; overflow:hidden; text-align: center;">
+                                <div style="display: inline-block; width: 95px; height: 115px; border: 1px solid #333; background: #fafafa; overflow:hidden; text-align: center;">
                                     ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : '<div style="margin-top:42px; font-size:10px; color:#666;">PP Photo</div>'}
                                 </div>
                             </td>
@@ -1786,7 +1786,7 @@
 
                     <div style="font-size: 12.5px; margin-bottom: 12px; font-style: italic; color: #111; line-height: 1.45;">
                         I am applying for the MEMBERSHIP of GSSC SCIENCE CLUB, Govt. Shaheed Suhrawardy College, Dhaka.<br>
-                        <strong style="font-style: normal; text-decoration: underline;">My details are given below:</strong>
+                        <strong style="font-style: normal;">My details are given below:</strong>
                     </div>
 
                     <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #111;">
@@ -1811,7 +1811,7 @@
                         <tr style="height: 25.5px;"><td style="font-weight: bold;">18. Nationality</td><td style="text-align: center; font-weight: bold;">:</td><td>${nationalityVal}</td></tr>
                     </table>
 
-                    <div style="margin-top: 18px; font-size: 11px; border-top: 1px dashed #aaa; padding-top: 8px; color: #222; line-height: 1.35;">
+                    <div style="margin-top: 14px; font-size: 11px; border-top: 1px dashed #aaa; padding-top: 8px; color: #222; line-height: 1.35;">
                         I hereby declare that the above information is completely true and accurate. I have signed below committing to abide by all the rules and regulations of GSSC Science Club.
                     </div>
 
@@ -1844,7 +1844,7 @@
 							</td>
 							<td style="width: 25%; vertical-align: top; text-align: right;">
                                 <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-start;">
-                                    <div style="font-size: 10px; border: 1px solid #222; padding: 2px 6px; display: inline-block; font-weight: bold; margin-bottom: 4px; border-radius: 2px; text-transform: uppercase;">${paymentStatusVal}</div>
+                                    <div style="font-size: 10px; border: 1px solid #222; padding: 2px 6px; display: inline-block; font-weight: bold; margin-bottom: 4px; border-radius: 2px; text-transform: uppercase;">Payment status:${paymentStatusVal}</div>
                             </td>
                         </tr>
                     </table>
@@ -1895,7 +1895,7 @@
             `;
 
             const opt = {
-                margin:       1.7,
+                margin:       1.6,
                 filename:     `GSSC_Science_Club_${memberIdVal || 'Profile'}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 3, useCORS: true, logging: false },
