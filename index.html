@@ -271,24 +271,6 @@
             .header-logo img { height: 45px; }
             .slide-item img { height: 200px; }
         }
-		/* গ্লোবাল লোডিং ইন্ডিকেটর */
-#global-spinner {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 99999;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 14px;
-    display: none;
-    align-items: center;
-    gap: 8px;
-}
-#global-spinner i {
-    animation: fa-spin 1s infinite linear;
-		}
 
         /* প্রি-লোডার এবং ডার্ক মোড স্টাইল */
         #science-preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
@@ -504,9 +486,6 @@
             <div class="preloader-text">Loading Science Club...</div>
         </div>
     </div>
-	<div id="global-spinner">
-    <i class="fas fa-spinner"></i> লোড হচ্ছে...
-	</div>
 
     <!-- ২. ডার্ক মোড টগল বাটন (স্ক্রিনের নিচে বাম কোণে নিরাপদ স্থানে ফিক্সড করা) -->
     <button id="darkModeToggleBtn" onclick="toggleDarkMode()" title="Toggle Dark/Light Mode">
@@ -1705,10 +1684,10 @@
 
         /* পিডিএফ জেনারেটর ফাংশন */
         function downloadProfilePDF() {
-            const spinner = document.getElementById('global-spinner');
-            if (spinner) {
-                spinner.innerHTML = '<i class="fas fa-spinner"></i> প্রোফাইল ডাউনলোড হচ্ছে...';
-                spinner.style.display = 'flex';
+            const btn = document.getElementById('pdfDownloadBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রোফাইল ডাউনলোড হচ্ছে...';
             }
 
             const userDataStr = sessionStorage.getItem('gssc_user_data') || localStorage.getItem('gssc_user_data');
@@ -1923,11 +1902,15 @@
             };
 
             html2pdf().set(opt).from(printContainer).save().then(() => {
-                const spinnerElem = document.getElementById('global-spinner');
-                if (spinnerElem) spinnerElem.style.display = 'none';
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড';
+                }
             }).catch(() => {
-                const spinnerElem = document.getElementById('global-spinner');
-                if (spinnerElem) spinnerElem.style.display = 'none';
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড';
+                }
             });
         }
 
@@ -2063,25 +2046,5 @@
             }
         }, 10000);
     </script>
-	<script>
-	// গ্লোবাল লোডিং ইন্ডিকেটর ইভেন্ট লিসেনার
-	document.addEventListener('click', function (e) {
-    const target = e.target.closest('a');
-    if (target && target.href && !target.href.startsWith('#') && target.target !== '_blank') {
-        const spinner = document.getElementById('global-spinner');
-        if (spinner) {
-            spinner.style.display = 'flex';
-        }
-    }
-	});
-
-// পেজ লোড সম্পূর্ণ হলে স্পিনার লুকিয়ে ফেলা
-window.addEventListener('load', function () {
-    const spinner = document.getElementById('global-spinner');
-    if (spinner) {
-        spinner.style.display = 'none';
-    }
-});	
-	</script>
 </body>
 </html>
