@@ -1705,6 +1705,7 @@
 
         /* পিডিএফ জেনারেটর ফাংশন */
         function downloadProfilePDF() {
+			document.getElementById('global-spinner').style.display='flex';
             const userDataStr = sessionStorage.getItem('gssc_user_data') || localStorage.getItem('gssc_user_data');
             let userData = {};
             try { userData = JSON.parse(userDataStr || '{}'); } catch(e){}
@@ -1909,12 +1910,13 @@
             `;
 
             const opt = {
-                margin:       2,
+                margin:       1.7,
                 filename:     `GSSC_Science_Club_${memberIdVal || 'Profile'}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
+           document.getElementById('global-spinner').style.display='none';
+			};
 
             html2pdf().set(opt).from(printContainer).save();
         }
@@ -2053,7 +2055,7 @@
     </script>
 	<script>
 	// গ্লোবাল লোডিং ইন্ডিকেটর ইভেন্ট লিসেনার
-document.addEventListener('click', function (e) {
+	document.addEventListener('click', function (e) {
     const target = e.target.closest('a');
     if (target && target.href && !target.href.startsWith('#') && target.target !== '_blank') {
         const spinner = document.getElementById('global-spinner');
@@ -2061,7 +2063,7 @@ document.addEventListener('click', function (e) {
             spinner.style.display = 'flex';
         }
     }
-});
+	});
 
 // পেজ লোড সম্পূর্ণ হলে স্পিনার লুকিয়ে ফেলা
 window.addEventListener('load', function () {
