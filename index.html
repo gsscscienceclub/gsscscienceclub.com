@@ -1741,7 +1741,7 @@
             printContainer.style.color = '#000000';
             printContainer.style.padding = '33px 38px';
             printContainer.style.width = '794px';
-            printContainer.style.minHeight = '1123px';
+            printContainer.style.height = '1120px';
             printContainer.style.margin = '0 auto';
             printContainer.style.fontSize = '12.5px';
             printContainer.style.lineHeight = '1.15';
@@ -1749,6 +1749,7 @@
             printContainer.style.position = 'relative';
             printContainer.style.boxSizing = 'border-box';
 			printContainer.style.overflow = 'hidden';
+			printContainer.style.marginBottom = '-20px';
 
             printContainer.innerHTML = `
                 <div style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%); opacity: 0.08; pointer-events: none; z-index: 0;">
@@ -1906,6 +1907,7 @@
             html2pdf().set(opt).from(printContainer).save().then(() => {
                 if (btn) {
                     btn.disabled = false;
+					
                     btn.innerHTML = '<i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড';
                 }
             }).catch(() => {
