@@ -1739,15 +1739,16 @@
             const printContainer = document.createElement('div');
             printContainer.style.background = '#ffffff';
             printContainer.style.color = '#000000';
-            printContainer.style.padding = '37px 37px';
-            printContainer.style.width = '190mm';
-            printContainer.style.minHeight = '277mm';
+            printContainer.style.padding = '38px 38px';
+            printContainer.style.width = '794px';
+            printContainer.style.minHeight = '1123px';
             printContainer.style.margin = '0 auto';
             printContainer.style.fontSize = '12.5px';
             printContainer.style.lineHeight = '1.45';
             printContainer.style.fontFamily = 'Arial, sans-serif';
             printContainer.style.position = 'relative';
             printContainer.style.boxSizing = 'border-box';
+			printContainer.style.overflow = 'hidden';
 
             printContainer.innerHTML = `
                 <div style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%); opacity: 0.08; pointer-events: none; z-index: 0;">
@@ -1895,7 +1896,7 @@
             `;
 
             const opt = {
-                margin:       2.5,
+                margin:       10,
                 filename:     `GSSC_Science_Club_${memberIdVal || 'Profile'}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 3, useCORS: true, logging: false },
