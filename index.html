@@ -174,7 +174,7 @@
             background: #007e33; color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* উপরে ওঠার বাটন (Scroll to Top) - স্ক্রিনের নিচে সেন্টারে নিরাপদ দূরত্বে রাখা হয়েছে */
+        /* উপরে ওঠার বাটন (Scroll to Top) */
         #scrollTopBtn {
             display: none; position: fixed; bottom: 85px; right: 20px; z-index: 998;
             font-size: 18px; border: none; outline: none; background-color: #d32f2f;
@@ -230,7 +230,6 @@
         .footer-col h4 { font-size: 16px; margin-bottom: 12px; border-bottom: 2px solid #ffffff; display: block; padding-bottom: 3px; text-align:center;}
         .footer-col p { text-align: center; margin-bottom: 6px; font-size: 13px; }
 
-        /* পাশাপাশি কন্টাক্ট আইকন সারির বিশেষ সিএসএস (Row Layout) */
         .contact-icons-row {
             display: flex;
             align-items: center;
@@ -264,7 +263,6 @@
 		.contact-icon-btn.facebook { background-color: #1877F2 !important; }
 		.contact-icon-btn.instagram { background: radial-gradient(circle at 30% 100%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%) !important; }
 
-
         .copyright { text-align: center; font-size: 12px; padding-top: 5px; }
 
         @media (max-width: 500px) {
@@ -279,26 +277,14 @@
         @keyframes pulseLoader { 0% { transform: scale(0.9); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.8; } }
         .preloader-text { margin-top: 15px; color: #007e33; font-weight: bold; font-size: 18px; letter-spacing: 2px; }
 
-        /* ডার্ক মোড বাটন - স্ক্রিনের নিচে বাম কর্নারে (নিরাপদ অবস্থানে) */
         #darkModeToggleBtn { 
-            position: fixed; 
-            bottom: 20px; 
-            left: 20px; 
-            z-index: 99999; 
-            font-size: 20px; 
-            border: none; 
-            outline: none; 
-            background-color: #333; 
-            color: white; 
-            cursor: pointer; 
-            padding: 12px 15px; 
-            border-radius: 50%; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4); 
-            transition: transform 0.3s ease, background-color 0.3s ease; 
+            position: fixed; bottom: 20px; left: 20px; z-index: 99999; 
+            font-size: 20px; border: none; outline: none; background-color: #333; 
+            color: white; cursor: pointer; padding: 12px 15px; border-radius: 50%; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: transform 0.3s ease, background-color 0.3s ease; 
         }
         #darkModeToggleBtn:hover { transform: scale(1.1); background-color: #555; }
 
-        /* ডার্ক থিমের রঙসমূহ */
         body.dark-theme { background-color: #121212; color: #e0e0e0; }
         body.dark-theme .top-header { background: linear-gradient(135deg, #001f0f, #003d18); box-shadow: 0 2px 8px rgba(0,0,0,0.8); }
         body.dark-theme .latest-notice-wrapper { background-color: #1a261a; border-bottom: 1px solid #2a3b2a; }
@@ -336,138 +322,47 @@
         body.dark-theme .profile-tab-btn.active { background: #4caf50; color: #fff; }
         body.dark-theme .pay-method-box { background: #2a2a2a !important; border-color: #444 !important; }
 
-        /* ড্র্যাগেবল ভাসমান প্রোফাইল ব্যাজ */
         .floating-profile-badge {
-            position: fixed;
-            top: 75px;
-            right: 15px;
-            z-index: 999999 !important;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid #ffeb3b;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            cursor: grab;
-            background: #007e33;
-            transition: box-shadow 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            user-select: none;
-            touch-action: none;
+            position: fixed; top: 75px; right: 15px; z-index: 999999 !important;
+            width: 45px; height: 45px; border-radius: 50%; overflow: hidden;
+            border: 2px solid #ffeb3b; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: grab; background: #007e33; transition: box-shadow 0.3s ease;
+            display: flex; align-items: center; justify-content: center; user-select: none; touch-action: none;
         }
         .floating-profile-badge:active { cursor: grabbing; }
         .floating-profile-badge img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 
-        .science-widget-box { background: linear-gradient(135deg, #004d25, #007e33); color: #fff; border-radius: 6px; padding: 15px; margin-top: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
-        .science-widget-title { font-size: 15px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; color: #ffeb3b; }
-        .science-fact-text { font-size: 14px; line-height: 1.5; font-style: italic; }
-        
-        .countdown-box { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
-        .countdown-item { background: rgba(0,0,0,0.25); padding: 6px 10px; border-radius: 4px; min-width: 50px; }
-        .countdown-num { font-size: 16px; font-weight: bold; color: #ffeb3b; }
-        .countdown-label { font-size: 10px; text-transform: uppercase; }
-
-        /* সাপোর্ট চ্যাট উইজেট - স্ক্রিনের নিচে ডান কর্নারে (নিরাপদ অবস্থানে) */
         #floating-chat-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99999;
-            background-color: #007e33;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed; bottom: 20px; right: 20px; z-index: 99999;
+            background-color: #007e33; color: white; border: none; border-radius: 50%;
+            width: 55px; height: 55px; font-size: 24px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;
             transition: transform 0.3s ease;
         }
         #floating-chat-btn:hover { transform: scale(1.1); }
 
         #chat-widget-box {
-            position: fixed;
-            bottom: 85px;
-            right: 20px;
-            width: 320px;
-            height: 420px;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
-            z-index: 99999;
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid #ddd;
+            position: fixed; bottom: 85px; right: 20px; width: 320px; height: 420px;
+            background: #ffffff; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+            z-index: 99999; display: none; flex-direction: column; overflow: hidden; border: 1px solid #ddd;
         }
-        .chat-widget-header {
-            background: #007e33;
-            color: #fff;
-            padding: 12px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .chat-widget-body {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-            background: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .chat-msg {
-            max-width: 80%;
-            padding: 8px 12px;
-            border-radius: 12px;
-            font-size: 13px;
-            line-height: 1.4;
-        }
+        .chat-widget-header { background: #007e33; color: #fff; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .chat-widget-body { flex: 1; padding: 10px; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 8px; }
+        .chat-msg { max-width: 80%; padding: 8px 12px; border-radius: 12px; font-size: 13px; line-height: 1.4; }
         .chat-msg.user { background: #007e33; color: #fff; align-self: flex-end; }
         .chat-msg.admin { background: #e0e0e0; color: #333; align-self: flex-start; }
-        .chat-widget-footer {
-            padding: 8px;
-            display: flex;
-            gap: 5px;
-            background: #fff;
-            border-top: 1px solid #eee;
-        }
-        .chat-widget-footer input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            outline: none;
-            font-size: 13px;
-        }
-        .chat-widget-footer button {
-            background: #007e33;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+        .chat-widget-footer { padding: 8px; display: flex; gap: 5px; background: #fff; border-top: 1px solid #eee; }
+        .chat-widget-footer input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-size: 13px; }
+        .chat-widget-footer button { background: #007e33; color: #fff; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
     </style>
 	
-    <!-- গুগল সার্চ ও সোশ্যাল মিডিয়া শেয়ারের জন্য মেটা ডাটা (SEO Meta) -->
-	<meta property="og:site_name" content="Govt. Shaheed Suhrawardy College Science Club">
+    <meta property="og:site_name" content="Govt. Shaheed Suhrawardy College Science Club">
 	<meta name="site_name" content="Govt. Shaheed Suhrawardy College Science Club">
 	<meta property="og:title" content="Govt. Shaheed Suhrawardy College Science Club">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://gsscscienceclub.github.io/">
 	<meta property="og:image" content="https://gsscscienceclub.github.io/FB_IMG_1788806747811.png">
 	<link rel="canonical" href="https://gsscscienceclub.github.io/">
-    
-    
 
     <script type="application/ld+json">
     {
@@ -482,7 +377,7 @@
 </head>
 <body>
 
-    <!-- ১. ওয়েবসাইট লোডিং প্রি-লোডার (Modern Preloader) -->
+    <!-- ১. ওয়েবসাইট লোডিং প্রি-লোডার -->
     <div id="science-preloader">
         <div class="loader-content">
             <i class="fas fa-atom fa-spin" style="font-size: 60px; color: #007e33;"></i>
@@ -490,15 +385,15 @@
         </div>
     </div>
 
-    <!-- ২. ডার্ক মোড টগল বাটন (স্ক্রিনের নিচে বাম কোণে নিরাপদ স্থানে ফিক্সড করা) -->
+    <!-- ২. ডার্ক মোড টগল বাটন -->
     <button id="darkModeToggleBtn" onclick="toggleDarkMode()" title="Toggle Dark/Light Mode">
         <i class="fas fa-moon"></i>
     </button>
 
-    <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ (লগইন থাকলে স্ক্রিনে দেখাবে) -->
+    <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ -->
     <div id="floatingProfileContainer"></div>
 
-    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (Single Notice Modal) -->
+    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল -->
     <div id="noticeModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
@@ -507,7 +402,7 @@
         </div>
     </div>
 
-    <!-- ৫. ফুলস্ক্রিন ইমেজ ভিউয়ার মডাল (Full Screen Image Viewer) -->
+    <!-- ৫. ফুলস্ক্রিন ইমেজ ভিউয়ার মডাল -->
     <div id="imageViewerModal" class="modal" onclick="closeImageViewer()">
         <div class="image-viewer-content" onclick="event.stopPropagation()">
             <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
@@ -515,7 +410,7 @@
         </div>
     </div>
 
-    <!-- ৬. আমাদের সম্পর্কে দেখার পপআপ মডাল (About Us Modal) -->
+    <!-- ৬. আমাদের সম্পর্কে দেখার পপআপ মডাল -->
     <div id="aboutModal" class="modal">
         <div class="about-modal-content">
             <span class="modal-close" onclick="closeAboutModal()">&times;</span>
@@ -524,7 +419,7 @@
         </div>
     </div>
 
-    <!-- ৭. পরীক্ষার রেজাল্ট দেখার পপআপ মডাল (Result Modal) -->
+    <!-- ৭. পরীক্ষার রেজাল্ট দেখার পপআপ মডাল -->
     <div id="resultModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeResultModal()">&times;</span>
@@ -533,7 +428,7 @@
         </div>
     </div>
 
-    <!-- ৮. কার্যক্রম দেখার পপআপ মডাল (Activities Modal) -->
+    <!-- ৮. কার্যক্রম দেখার পপআপ মডাল -->
     <div id="activitiesModal" class="modal">
         <div class="activities-modal-content">
             <span class="modal-close" onclick="closeActivitiesModal()">&times;</span>
@@ -542,7 +437,7 @@
         </div>
     </div>
 
-    <!-- ৯. রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি দেখার মডাল (Gallery Modal) -->
+    <!-- ৯. রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি দেখার মডাল -->
     <div id="allGalleryModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllGalleryModal()">&times;</span>
@@ -551,13 +446,12 @@
         </div>
     </div>
 
-    <!-- ১০. মেম্বার লগইন ও পেমেন্ট ড্যাশবোর্ড মডাল (Login & Dashboard Modal) -->
+    <!-- ১০. মেম্বার লগইন ও পেমেন্ট ড্যাশবোর্ড মডাল -->
     <div id="loginModal" class="modal">
         <div class="modal-content" style="max-width: 480px;">
             <span class="modal-close" onclick="closeLoginModal()">&times;</span>
             <div class="modal-title" id="modalHeaderTitle"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন / ড্যাশবোর্ড</div>
             
-            <!-- লগইন ফর্ম ভিউ -->
             <div id="loginFormView">
                 <form id="memberLoginForm" onsubmit="handleLogin(event)">
                     <div style="margin-bottom: 15px;">
@@ -575,7 +469,6 @@
                 </form>
             </div>
 
-            <!-- ইউজার প্রোফাইল, পেমেন্ট ও রেজাল্ট ট্যাব ভিউ -->
             <div id="userProfileView" style="display:none;">
                 <div style="display: flex; gap: 6px; margin-bottom: 15px; border-bottom: 2px solid #007e33; padding-bottom: 10px;">
                     <button id="tabProfileBtn" class="profile-tab-btn active" onclick="switchProfileTab('profile')">
@@ -589,7 +482,6 @@
                     </button>
                 </div>
 
-                <!-- প্রোফাইল ট্যাব -->
                 <div id="profileTabContent" style="text-align:center;">
                     <div id="profilePhotoContainer" style="margin-bottom:15px;">
                         <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
@@ -606,7 +498,6 @@
                     </div>
                 </div>
 
-                <!-- পেমেন্ট ট্যাব -->
                 <div id="paymentTabContent" style="display:none; text-align:left;">
                     <form id="memberPaymentForm" onsubmit="handlePaymentSubmit(event)">
                         <div style="margin-bottom: 12px;">
@@ -652,7 +543,6 @@
                     </form>
                 </div>
 
-                <!-- রেজাল্ট ট্যাব -->
                 <div id="resultTabContent" style="display:none; text-align:left;">
                     <div style="font-weight:bold; color:#007e33; margin-bottom:10px; font-size:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">
                         <i class="fas fa-poll"></i> পরীক্ষার ফলাফল
@@ -665,68 +555,18 @@
         </div>
     </div>
 
-    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (All Notices Modal) -->
+    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (এখানে all-notices.html থেকে ডায়নামিক লোড হবে) -->
     <div id="allNoticesModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
             <div class="modal-title"><i class="fas fa-bullhorn" style="color: #f39c12;"></i> সকল নোটিশ</div>
-            <div id="allNoticesListContainer" style="max-height: 450px; overflow-y: auto; padding-right: 5px;">
-
-				<div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> ১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে বিজ্ঞপ্তি</span>
-                    <div class="notice-meta">
-                        <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে বিজ্ঞপ্তি', ['অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে .jpg'])">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-				
-                <div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাবে সদস্য সংগ্রহ সংক্রান্ত বিজ্ঞপ্তি</span>
-                    <div class="notice-meta">
-                        <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openImageViewer('membercollectnotice.jpg')">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
-                    <div class="notice-meta">
-                        <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openImageViewer('ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg')">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> জাতীয় বিজ্ঞান মেলা ২০২৬ উপলক্ষে প্রজেক্ট জমাদান সংক্রান্ত জরুরি বিজ্ঞপ্তি</span>
-                    <div class="notice-meta">
-                        <span class="date">Sep 29, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('জাতীয় বিজ্ঞান মেলা ২০২৬ বিজ্ঞপ্তি', ['membercollectnotice.jpg'])">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট</span>
-                    <div class="notice-meta">
-                        <span class="date">Oct 31, 2025</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৫ রেজাল্ট', ['1Member selection result 2025 .jpg.jpg', '2Member selection result 2025.jpg', '3Member selection result 2025 .jpg'])">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-
+            <div style="max-height: 450px; overflow-y: auto; padding-right: 5px;" id="allNoticesModalListContainer">
+                <div style="text-align:center; padding: 20px; color: #666;"><i class="fas fa-spinner fa-spin"></i> নোটিশ লোড হচ্ছে...</div>
             </div>
         </div>
     </div>
 
-    <!-- ১২. টপ হেডার সেকশন (Top Header) -->
+    <!-- ১২. টপ হেডার সেকশন -->
     <div class="top-header">
         <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo"></div>
         <div class="header-center">
@@ -739,21 +579,19 @@
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
-    <!-- ১৩. সর্বশেষ নোটিশ সেকশন (Marquee Scrolling Notice - latest-notice.html থেকে ডাইনামিকালি লোড হবে) -->
+    <!-- ১৩. সর্বশেষ নোটিশ সেকশন (latest-notice.html থেকে ডায়নামিক লোড হবে) -->
     <div class="latest-notice-wrapper">
         <div class="latest-notice-container">
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
-            <div class="latest-notice-text" id="latestNoticeContainerBox">
-                <marquee behavior="scroll" direction="left">
-					<span>দূর্গাপূজা উপলক্ষে সরকারি ছুটি থাকায় ১৮ এবং ২৫ শে অক্টোবর রোজ রবিবারের জিএসএসসি বিজ্ঞান ক্লাবের সাপ্তাহিক মিটিং কার্যক্রম বন্ধ থাকিবে।</span>
-					<span>অনিবার্য কারণবশত স্থগিতকৃত জিএসএসসি বিজ্ঞান ক্লাবের প্রাথমিক সদস্য বাছাই পরীক্ষা পূজার ছুটি শেষ হওয়ার পরবর্তী ১ সপ্তাহের মধ্যে গ্রহণ করা হইবে। </span>
-                    <span>জিএসএসসি বিজ্ঞান ক্লাবের সাপ্তাহিক মিটিং প্রত্যেক রবিবার দুপুর ১২:০০ ঘটিকায় অনুষ্ঠিত হবে। | </span>
+            <div class="latest-notice-text">
+                <marquee behavior="scroll" direction="left" id="latestNoticeMarquee">
+                    <span>নোটিশ লোড হচ্ছে...</span>
                 </marquee>
             </div>
         </div>
     </div>
 
-    <!-- ১৪. সাইডবার নেভিগেশন মেনু (Sidebar Menu) -->
+    <!-- ১৪. সাইডবার নেভিগেশন মেনু -->
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
             <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
@@ -817,29 +655,22 @@
                 </ul>
             </li>
             <li><a href="#contactFooterSection" onclick="closeNav()">Contact Us</a></li>
-            
 			<li><a href="javascript:void(0);" id="sidebarLoginMenuLink" onclick="openLoginModal()" style="display: flex; justify-content: space-between; align-items: center;"><span>Login</span><i class="fas fa-sign-in-alt"></i></a></li>
         </ul>
     </div>
 
-    <!-- ১৫. মূল কন্টেন্ট কন্টেইনার (Main Container) -->
+    <!-- ১৫. মূল কন্টেন্ট কন্টেইনার -->
     <div class="container">
         
-        <!-- নোটিশ বোর্ড সেকশন (হোম পেজ - এখান থেকে প্রথম দুটি নোটিশ ডাইনামিকালি লোড হবে) -->
+        <!-- নোটিশ বোর্ড সেকশন (হোম পেজে প্রথম ২টি নোটিশ দেখাবে) -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
                 <div><i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board</div>
             </div>
             
-            <div class="section-content" id="homeNoticeContainer">
-                <!-- জাভাস্ক্রিপ্টের মাধ্যমে এখানে all-notices.html বা #allNoticesListContainer থেকে প্রথম দুটি নোটিশ ডাইনামিকালি চলে আসবে -->
-            </div>
-            
-            <div class="section-content" style="padding-top: 0;">
-                <a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">
-                    সকল নোটিশ <i class="fas fa-chevron-right"></i>
-                </a>
+            <div class="section-content" id="homeNoticeBoardContainer">
+                <div style="text-align:center; padding: 15px; color: #666;"><i class="fas fa-spinner fa-spin"></i> নোটিশ লোড হচ্ছে...</div>
             </div>
         </div>
 
@@ -1025,7 +856,7 @@
 
     </div>
 
-    <!-- ১৬. ফুটার সেকশন (Contact Us ও কন্টাক্ট আইকন রো সহ) -->
+    <!-- ১৬. ফুটার সেকশন -->
     <div class="footer" id="contactFooterSection">
         <div class="footer-content-box">
             <div class="footer-col">
@@ -1033,7 +864,6 @@
                 <p>36-37, Lakshmibazar, Dhaka-1100, Bangladesh</p>
                 <p>EIIN: 108508 | College Code: 1475</p>
             </div>
-            <!-- কন্টাক্ট আইকন পাশাপাশি রো আকারে সাজানো অংশ -->
             <div class="footer-col">
                 <h4 style="text-align:center">Contact Us</h4>
                 <div class="contact-icons-row">
@@ -1048,10 +878,10 @@
         <div class="copyright">&copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib</div>
     </div>
 
-    <!-- ১৭. উপরে ওঠার বাটন (Scroll to Top Button) -->
+    <!-- ১৭. উপরে ওঠার বাটন -->
     <button onclick="scrollToTop()" id="scrollTopBtn" title="উপরে যান"><i class="fas fa-arrow-up"></i></button>
 
-    <!-- ১৮. ভাসমান সাপোর্ট চ্যাট বাটন ও উইজেট (স্ক্রিনের নিচে ডান কর্নারে ফিক্সড) -->
+    <!-- ১৮. ভাসমান সাপোর্ট চ্যাট বাটন ও উইজেট -->
     <button id="floating-chat-btn" onclick="toggleChatBox()"><i class="fas fa-comments"></i></button>
 
     <div id="chat-widget-box">
@@ -1068,7 +898,7 @@
         </div>
     </div>
 
-    <!-- ১৯. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি (JavaScript Functions) -->
+    <!-- ১৯. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি -->
     <script>
         const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
         const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
@@ -1149,74 +979,75 @@
             startSlideshow();
         }
 
-        /* প্রি-লোডার হাইড করার ইভেন্ট এবং ডাইনামিক নোটিশ লোডিং */
+        /* প্রি-লোডার হাইড করার ইভেন্ট */
         window.addEventListener('load', function() {
             var preloader = document.getElementById('science-preloader');
             if(preloader) {
                 preloader.style.opacity = '0';
                 setTimeout(function() { preloader.style.visibility = 'hidden'; }, 500);
             }
-            
-            // ১. হোম পেজের প্রধান নোটিশ বোর্ডে প্রথম দুটি নোটিশ লোড করা হচ্ছে
-            loadHomeNoticeBoard();
-            
-            // ২. latest-notice.html থেকে স্ক্রলিং নোটিশ লোড করা হচ্ছে
-            loadLatestNoticeFromFile();
         });
-
-        /* হোম পেজের প্রধান নোটিশ বোর্ড আপডেট ফাংশন */
-        function loadHomeNoticeBoard() {
-            const homeContainer = document.getElementById('homeNoticeContainer');
-            if (!homeContainer) return;
-
-            // প্রথমে ইন-পেজ মডাল কন্টেইনার থেকে খোঁজা হবে
-            let noticeItems = document.querySelectorAll('#allNoticesListContainer .list-item');
-
-            if (noticeItems.length > 0) {
-                populateHomeNotices(noticeItems);
-            } else {
-                // যদি মডালটি বাহ্যিক all-notices.html ফাইলে থাকে, তবে তা ফেচ করে নিয়ে আসা হবে
-                fetch('all-notices.html')
-                    .then(response => response.text())
-                    .then(html => {
-                        let tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = html;
-                        let fetchedItems = tempDiv.querySelectorAll('.list-item');
-                        if (fetchedItems.length > 0) {
-                            populateHomeNotices(fetchedItems);
-                        }
-                    })
-                    .catch(err => console.error("All Notices Fetch Error:", err));
-            }
-        }
-
-        function populateHomeNotices(items) {
-            const homeContainer = document.getElementById('homeNoticeContainer');
-            homeContainer.innerHTML = '';
-            let count = Math.min(2, items.length);
-            for (let i = 0; i < count; i++) {
-                let clonedItem = items[i].cloneNode(true);
-                homeContainer.appendChild(clonedItem);
-            }
-        }
-
-        /* সর্বশেষ স্ক্রলিং নোটিশ লোড ফাংশন */
-        function loadLatestNoticeFromFile() {
-            fetch('latest-notice.html')
-                .then(response => response.text())
-                .then(html => {
-                    const container = document.getElementById('latestNoticeContainerBox');
-                    if (container && html.trim() !== '') {
-                        container.innerHTML = html;
-                    }
-                })
-                .catch(err => console.error("Latest Notice Load Error:", err));
-        }
 
         window.onload = function() { 
             startSlideshow(); 
             checkActiveLoginStateOnLoad();
+            loadNoticesDynamically();
         };
+
+        /* all-notices.html এবং latest-notice.html থেকে নোটিশ লোড করার ফাংশন */
+        function loadNoticesDynamically() {
+            // ১. latest-notice.html থেকে সর্বশেষ নোটিশ লোড করা
+            fetch('latest-notice.html')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const marqueeSpans = doc.querySelector('marquee') ? doc.querySelector('marquee').innerHTML : html;
+                    const marqueeElem = document.getElementById('latestNoticeMarquee');
+                    if (marqueeElem) {
+                        marqueeElem.innerHTML = marqueeSpans;
+                    }
+                })
+                .catch(err => {
+                    console.error('Latest notice load error:', err);
+                });
+
+            // ২. all-notices.html থেকে সকল নোটিশ লোড করা এবং হোম পেজে প্রথম ২টি দেখানো
+            fetch('all-notices.html')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const noticeItems = doc.querySelectorAll('.list-item');
+
+                    // সকল নোটিশ মডালের কন্টেইনারে ইনজেক্ট করা
+                    const allModalContainer = document.getElementById('allNoticesModalListContainer');
+                    if (allModalContainer) {
+                        allModalContainer.innerHTML = '';
+                        noticeItems.forEach(item => {
+                            allModalContainer.appendChild(item.cloneNode(true));
+                        });
+                    }
+
+                    // হোম পেজের নোটিশ বোর্ডে প্রথম দুটি নোটিশ এবং নিচে "সকল নোটিশ" বাটন ইনজেক্ট করা
+                    const homeContainer = document.getElementById('homeNoticeBoardContainer');
+                    if (homeContainer) {
+                        homeContainer.innerHTML = '';
+                        for (let i = 0; i < Math.min(2, noticeItems.length); i++) {
+                            homeContainer.appendChild(noticeItems[i].cloneNode(true));
+                        }
+                        const bottomLinkHtml = `<a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">সকল নোটিশ <i class="fas fa-chevron-right"></i></a>`;
+                        homeContainer.insertAdjacentHTML('beforeend', bottomLinkHtml);
+                    }
+                })
+                .catch(err => {
+                    console.error('All notices load error:', err);
+                    const homeContainer = document.getElementById('homeNoticeBoardContainer');
+                    if (homeContainer) {
+                        homeContainer.innerHTML = '<div style="color:#d32f2f; text-align:center; padding:10px;">নোটিশ লোড করতে সমস্যা হয়েছে।</div>';
+                    }
+                });
+        }
 
         /* মডাল পপআপ ফাংশনসমূহ */
         function openAllGalleryModal() {
@@ -1365,7 +1196,6 @@
         function openAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'block'; }
         function closeAllNoticesModal() { document.getElementById('allNoticesModal').style.display = 'none'; }
 
-        /* মেম্বারশিপ ব্যাকএন্ড এপিআই কানেকশন */
         const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwLGdf282wDJjIgZJ1O1zN0eRI5CHQKDwyvuanipLcLMsl6ryfABdvVm8yGiIplBjd9/exec";
 
         function openLoginModal() { 
@@ -1376,7 +1206,6 @@
             document.getElementById('loginModal').style.display = 'none'; 
         }
 
-        /* প্রোফাইল, পেমেন্ট ও রেজাল্ট ট্যাব সুইচার */
         function switchProfileTab(tabName) {
             const profileContent = document.getElementById('profileTabContent');
             const paymentContent = document.getElementById('paymentTabContent');
@@ -1721,7 +1550,6 @@
             closeLoginModal();
         }
 
-        /* পিডিএফ জেনারেটর ফাংশন */
         function downloadProfilePDF() {
             const btn = document.getElementById('pdfDownloadBtn');
             if (btn) {
@@ -1815,7 +1643,6 @@
                                 <div style="background: #007e33; color: #fff; font-size: 18px; padding: 6px 16px; display: inline-block; font-weight: bold; border-radius: 3px; letter-spacing: 0.6px; text-transform: uppercase;">Membership Application</div>
                             </td>
                                <td style="width: 24%; vertical-align: top; text-align: right;">
-							
                                 <div style="display: inline-block; width: 100px; height: 120px; border: 1px solid #333; background: #fafafa; overflow:hidden; text-align: center;">
                                     ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : '<div style="margin-top:42px; font-size:10px; color:#666;">PP Photo</div>'}
                                 </div>
@@ -1831,7 +1658,6 @@
                     </div>
 
                     <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #111;">
-                        
                         <tr style="height: 25.5px;"><td style="font-weight: bold;">01. Name (English)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameEnVal}</td></tr>
                         <tr style="height: 25.5px;"><td style="font-weight: bold;">02. Name (বাংলা)</td><td style="text-align: center; font-weight: bold;">:</td><td>${nameBnVal}</td></tr>
                         <tr style="height: 25.5px;"><td style="font-weight: bold;">03. Father's Name</td><td style="text-align: center; font-weight: bold;">:</td><td>${fatherVal}</td></tr>
@@ -1871,7 +1697,6 @@
                         </tr>
                     </table>
 					
-					<!-- ডটেড লাইন এবং কাঁচির চিহ্ন সহ Applicant Copy অংশ -->
 					<div style="margin-top: 30px; margin-bottom:32px; border-top: 2px dashed #333; padding-top: 15px; position: relative;">
 			 	    <div style="position: relative; z-index: 1;">
                     <table style="width: 100%; border-collapse: collapse; margin-bottom: 7px;">
@@ -1946,7 +1771,6 @@
             html2pdf().set(opt).from(printContainer).save().then(() => {
                 if (btn) {
                     btn.disabled = false;
-					
                     btn.innerHTML = '<i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড';
                 }
             }).catch(() => {
@@ -1957,7 +1781,6 @@
             });
         }
 
-        /* ডার্ক মোড টগল করার ফাংশন */
         function toggleDarkMode() {
             document.body.classList.toggle('dark-theme');
             const btn = document.getElementById('darkModeToggleBtn');
@@ -1968,7 +1791,6 @@
             }
         }
 
-        /* প্রোফাইল ব্যাজ ড্র্যাগ করার ফাংশন */
         function makeBadgeDraggable(elmnt) {
             if (!elmnt) return;
             var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -2024,7 +1846,6 @@
             }
         }
 
-        /* ভাসমান সাপোর্ট চ্যাট উইজেট হ্যান্ডলার */
         let currentChatId = localStorage.getItem('gssc_chat_id') || 'chat_' + Math.random().toString(36).substr(2, 9);
         localStorage.setItem('gssc_chat_id', currentChatId);
 
