@@ -665,7 +665,7 @@
         </div>
     </div>
 
-    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (All Notices Modal) - এখান থেকেই নোটিশগুলো ডাইনামিকালি হোম পেজে যাবে -->
+    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (All Notices Modal) - এখানে আপনার নোটিশগুলো আপডেট করবেন -->
     <div id="allNoticesModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
@@ -673,10 +673,10 @@
             <div id="allNoticesListContainer" style="max-height: 450px; overflow-y: auto; padding-right: 5px;">
 
 				<div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> ১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে</span>
+                    <span class="title"><i class="fas fa-caret-right"></i> ১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে বিজ্ঞপ্তি</span>
                     <div class="notice-meta">
                         <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে', ['অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে .jpg'])">
+                        <span class="notice-read-more" onclick="openNoticeModal('১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে বিজ্ঞপ্তি', ['অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে .jpg'])">
                             Read More <i class="fas fa-arrow-right"></i>
                         </span>
                     </div>
@@ -825,7 +825,7 @@
     <!-- ১৫. মূল কন্টেন্ট কন্টেইনার (Main Container) -->
     <div class="container">
         
-        <!-- নোটিশ বোর্ড সেকশন (এখানে হোমপেজে প্রথম দুটি নোটিশ ডাইনামিকালি লোড হবে) -->
+        <!-- নোটিশ বোর্ড সেকশন (হোম পেজ - এখান থেকে প্রথম দুটি নোটিশ ডাইনামিকালি লোড হবে) -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
@@ -833,7 +833,7 @@
             </div>
             
             <div class="section-content" id="homeNoticeContainer">
-                <!-- জাভাস্ক্রিপ্ট কোডের মাধ্যমে এখানে অটোমেটিক্যালি প্রথম ২টি নোটিশ চলে আসবে -->
+                <!-- জাভাস্ক্রিপ্টের মাধ্যমে এখানে প্রথম দুটি নোটিশ স্বয়ংক্রিয়ভাবে চলে আসবে -->
             </div>
             
             <div class="section-content" style="padding-top: 0;">
@@ -1149,7 +1149,7 @@
             startSlideshow();
         }
 
-        /* প্রি-লোডার হাইড করার ইভেন্ট ও হোম পেজে স্বয়ংক্রিয়ভাবে প্রথম ২টি নোটিশ লোড করার লজিক */
+        /* প্রি-লোডার হাইড করার ইভেন্ট এবং হোম পেজে প্রথম দুটি নোটিশ ডাইনামিকালি লোড করার ফাংশন */
         window.addEventListener('load', function() {
             var preloader = document.getElementById('science-preloader');
             if(preloader) {
@@ -1157,7 +1157,7 @@
                 setTimeout(function() { preloader.style.visibility = 'hidden'; }, 500);
             }
             
-            // অল নোটিশ মডাল থেকে প্রথম দুটি নোটিশ হোম পেজে ডাইনামিকালি দেখানোর জন্য
+            // হোম পেজের নোটিশ বোর্ডে প্রথম দুটি নোটিশ লোড করা হচ্ছে
             loadLatestNoticesToHome();
         });
 
@@ -1166,7 +1166,6 @@
             const homeContainer = document.getElementById('homeNoticeContainer');
             if (homeContainer && allNoticesList.length > 0) {
                 homeContainer.innerHTML = '';
-                // প্রথম দুটি নোটিশ লুপ চালিয়ে যুক্ত করা হচ্ছে
                 let count = Math.min(2, allNoticesList.length);
                 for (let i = 0; i < count; i++) {
                     let clonedItem = allNoticesList[i].cloneNode(true);
