@@ -153,13 +153,45 @@
         
         #allNoticesModal { z-index: 2000; background-color: rgba(0,0,0,0.7); }
         #allGalleryModal { z-index: 2500; background-color: rgba(0,0,0,0.85); }
+        
+        /* নোটিশ মডাল ফিক্সড হেডার এবং ফুটার বিন্যাস */
         #noticeModal { z-index: 5000 !important; background-color: rgba(0,0,0,0.85); }
+        #noticeModal .modal-content {
+            background-color: #fff;
+            margin: 3% auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 900px;
+            width: 95%;
+            height: 85vh;
+            max-height: 650px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        #noticeModal .modal-close { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; color: #d32f2f; cursor: pointer; z-index: 10; }
+        #noticeModal .modal-title { font-size: 16px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; flex-shrink: 0; }
+        
+        #modalImages {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            padding-right: 5px;
+        }
+        #modalImages img { width: 100%; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; }
 
-        .modal-content { background-color: #fff; margin: 3% auto; padding: 20px; border-radius: 8px; max-width: 900px; width: 95%; position: relative; }
-        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; color: #d32f2f; cursor: pointer; }
-        .modal-title { font-size: 16px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
-        .modal-images { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .modal-images img { width: 100%; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; }
+        .notice-pdf-btn-container {
+            flex-shrink: 0;
+            margin-top: 15px;
+            text-align: right;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
 
         /* আমাদের সম্পর্কে মডাল */
         #aboutModal { z-index: 7000 !important; background-color: rgba(0,0,0,0.85); }
@@ -419,14 +451,14 @@
     <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ -->
     <div id="floatingProfileContainer"></div>
 
-    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল -->
+    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (স্টেবল হেডার ও ফুটার সহ) -->
     <div id="noticeModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
             <div id="modalImages" class="modal-images"></div>
-            <!-- নোটিশ পিডিএফ ডাউনলোডের জন্য বাটন (সকল নোটিশ মডালে স্বয়ংক্রিয়ভাবে থাকবে) -->
-            <div style="margin-top: 15px; text-align: right;">
+            <!-- নোটিশ পিডিএফ ডাউনলোডের জন্য ফিক্সড ফুটার বাটন -->
+            <div class="notice-pdf-btn-container">
                 <button id="noticePdfBtn" onclick="downloadNoticePDF()" style="background:#007e33; color:#fff; border:none; padding:8px 16px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px;">
                     <i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড
                 </button>
@@ -472,7 +504,7 @@
 
     <!-- ৯. মেম্বার লগইন ও পেমেন্ট ড্যাশবোর্ড মডাল -->
     <div id="loginModal" class="modal">
-        <div class="modal-content" style="max-width: 480px;">
+        <div class="modal-content" style="max-width: 480px; height: auto; max-height: 90vh;">
             <span class="modal-close" onclick="closeLoginModal()">&times;</span>
             <div class="modal-title" id="modalHeaderTitle"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন / ড্যাশবোর্ড</div>
             
@@ -987,7 +1019,7 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (অফ-স্ক্রিন রেন্ডারিং ও প্রতিটি ছবির নিজস্ব আকৃতি অনুযায়ী মাল্টি-পেজ পিডিএফ তৈরি)
+        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (ছবি সম্পূর্ণ লোড হওয়ার পর পিডিএফ তৈরি এবং জুম সমস্যা সমাধান)
 		function downloadNoticePDF() {
     		const btn = document.getElementById('noticePdfBtn');
     		if (btn) {
@@ -1007,83 +1039,73 @@
         		return;
     		}
 
-    		let imgSources = Array.from(imgElements).map(img => img.src);
+    		const element = document.createElement('div');
+    		element.style.background = '#ffffff';
+    		element.style.padding = '15px';
+    		element.style.width = '794px';
+    		element.style.position = 'absolute';
+    		element.style.left = '-9999px';
+    		element.style.top = '0';
 
-    		// অফ-স্ক্রিন টেম্পোরারি কন্টেইনার (স্ক্রিন জুম বা লেআউট পরিবর্তন রোধ করার জন্য)
-    		const tempContainer = document.createElement('div');
-    		tempContainer.style.position = 'fixed';
-    		tempContainer.style.left = '-9999px';
-    		tempContainer.style.top = '0';
-    		tempContainer.style.background = '#ffffff';
-    		tempContainer.style.fontFamily = 'Arial, sans-serif';
-    		tempContainer.style.boxSizing = 'border-box';
-
-    		let htmlContent = '';
-    		imgSources.forEach((src, index) => {
+    		let htmlContent = `<div style="text-align: center; margin-bottom: 15px;"><h2 style="color: #007e33; font-size: 20px;">${title}</h2></div>`;
+    		imgElements.forEach((img, idx) => {
         		htmlContent += `
-                    <div style="width: 800px; padding: 15px; text-align: center; background: #ffffff; ${index < imgSources.length - 1 ? 'page-break-after: always;' : ''}">
-                        <h3 style="color: #007e33; margin-bottom: 12px; font-size: 16px;">${title}</h3>
-                        <img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" crossorigin="anonymous">
+                    <div style="text-align: center; margin-bottom: 20px; ${idx < imgElements.length - 1 ? 'page-break-after: always;' : ''}">
+                        <img src="${img.src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" crossorigin="anonymous">
                     </div>
                 `;
     		});
-    		tempContainer.innerHTML = htmlContent;
-    		document.body.appendChild(tempContainer);
+    		element.innerHTML = htmlContent;
+    		document.body.appendChild(element);
 
-    		// ছবির স্বাভাবিক আকৃতি পরিমাপ করে ডাইনামিক পেজ সাইজ নির্ধারণ
-    		const testImg = new Image();
-    		testImg.crossOrigin = "anonymous";
-    		testImg.src = imgSources[0];
-    		testImg.onload = function() {
-        		let natW = testImg.naturalWidth || 800;
-        		let natH = testImg.naturalHeight || 1131;
-        		let aspectRatio = natW / natH;
-        		
-        		let pdfWidthMm = 210;
-        		let pdfHeightMm = pdfWidthMm / aspectRatio;
+    		const images = element.querySelectorAll('img');
+    		let loadedCount = 0;
+    		const totalImages = images.length;
 
+    		function proceedWithPDF() {
         		const opt = {
-            		margin:       5,
+            		margin:       10,
             		filename:     `${safeTitle}.pdf`,
             		image:        { type: 'jpeg', quality: 0.98 },
-            		html2canvas:  { scale: 2, useCORS: true, logging: false, windowWidth: 800 },
-            		jsPDF:        { unit: 'mm', format: [pdfWidthMm, pdfHeightMm], orientation: pdfWidthMm > pdfHeightMm ? 'landscape' : 'portrait' }
+            		html2canvas:  { scale: 2, useCORS: true, logging: false, letterRendering: true },
+            		jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         		};
 
-        		html2pdf().set(opt).from(tempContainer).save().then(() => {
-            		document.body.removeChild(tempContainer);
+        		html2pdf().set(opt).from(element).save().then(() => {
+            		document.body.removeChild(element);
             		if (btn) {
                 		btn.disabled = false;
                 		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
             		}
         		}).catch((err) => {
-            		console.error("PDF download error:", err);
-            		if (document.body.contains(tempContainer)) {
-                		document.body.removeChild(tempContainer);
-            		}
+            		console.error("PDF Error:", err);
+            		if (document.body.contains(element)) document.body.removeChild(element);
             		if (btn) {
                 		btn.disabled = false;
                 		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
             		}
         		});
-    		};
+    		}
 
-    		testImg.onerror = function() {
-        		const opt = {
-            		margin:       10,
-            		filename:     `${safeTitle}.pdf`,
-            		image:        { type: 'jpeg', quality: 0.98 },
-            		html2canvas:  { scale: 2, useCORS: true, logging: false },
-            		jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        		};
-        		html2pdf().set(opt).from(tempContainer).save().then(() => {
-            		document.body.removeChild(tempContainer);
-            		if (btn) {
-                		btn.disabled = false;
-                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+    		if (totalImages === 0) {
+        		proceedWithPDF();
+    		} else {
+        		images.forEach(img => {
+            		if (img.complete) {
+                		loadedCount++;
+                		if (loadedCount === totalImages) proceedWithPDF();
+            		} else {
+                		img.onload = () => {
+                    		loadedCount++;
+                    		if (loadedCount === totalImages) proceedWithPDF();
+                		};
+                		img.onerror = () => {
+                    		loadedCount++;
+                    		if (loadedCount === totalImages) proceedWithPDF();
+                		};
             		}
         		});
-    		};
+    		}
 		}
 
         /* মডাল পপআপ ফাংশনসমূহ */
@@ -1129,7 +1151,7 @@
 
         function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
 
-        /* সরাসরি ফুল ইমেজ ডিসপ্লে মডাল (Read More এ ক্লিক করার পর আর আলাদা প্রিভিউ লাগবে না) */
+        /* সরাসরি ফুল ইমেজ ডিসপ্লে মডাল (Read More এ ক্লিক করার পর) */
         function openNoticeModal(title, imgArray) {
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
@@ -1137,12 +1159,6 @@
             imgArray.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
-                img.style.width = '100%';
-                img.style.height = 'auto';
-                img.style.display = 'block';
-                img.style.marginBottom = '15px';
-                img.style.borderRadius = '6px';
-                img.style.border = '1px solid #ddd';
                 container.appendChild(img);
             });
             document.getElementById('noticeModal').style.display = 'block';
