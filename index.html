@@ -555,7 +555,7 @@
         </div>
     </div>
 
-    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (এখানে all-notices.html থেকে ডায়নামিক লোড হবে) -->
+    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল -->
     <div id="allNoticesModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
@@ -579,7 +579,7 @@
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
-    <!-- ১৩. সর্বশেষ নোটিশ সেকশন (latest-notice.html থেকে ডায়নামিক লোড হবে) -->
+    <!-- ১৩. সর্বশেষ নোটিশ সেকশন -->
     <div class="latest-notice-wrapper">
         <div class="latest-notice-container">
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
@@ -662,7 +662,7 @@
     <!-- ১৫. মূল কন্টেন্ট কন্টেইনার -->
     <div class="container">
         
-        <!-- নোটিশ বোর্ড সেকশন (হোম পেজে প্রথম ২টি নোটিশ দেখাবে) -->
+        <!-- নোটিশ বোর্ড সেকশন -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
@@ -711,7 +711,7 @@
             </div>
         </div>
 
-        <!-- রিসেন্ট অ্যাক্টিভিটিজ গ্যালারি সেকশন -->
+        <!-- রিসেন্ট অ্যাক্টিভিটিজ গ্যালারি সেকশন (activities.html থেকে ডায়নামিকালি লোড হবে) -->
         <div class="section-card" id="recentActivitiesSection" style="margin-top: 20px;">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
             <div class="section-content">
@@ -726,90 +726,7 @@
                     <button class="filter-btn" onclick="filterGallery('others', this)">Others</button>
                 </div>
 			    <div class="slideshow-container" id="slideshowContainer">
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="সদস্য সংগ্রহ ডেস্ক.jpg" alt="Activity" onclick="openImageViewer('সদস্য সংগ্রহ ডেস্ক.jpg')">
-                        <div class="slide-overlay">সদস্য সংগ্রহ কার্যক্রম </div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="ক্লাশ ব্রিফিং.jpg" alt="Activity" onclick="openImageViewer('ক্লাশ ব্রিফিং.jpg')">
-                        <div class="slide-overlay">ক্লাশ ব্রিফিং</div>
-                    </div> 	
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="১.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ প্রশিক্ষণ.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="২.মাশরুম চাষ প্রশিক্ষণ.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ প্রশিক্ষণ.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ প্রশিক্ষণ</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="মুক্তা চাষ বিষয়ক কর্মশালা.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ বিষয়ক কর্মশালা.jpg')">
-                        <div class="slide-overlay">মুক্তা চাষ বিষয়ক কর্মশালা</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('১বিজ্ঞান ও শিল্প প্রযুক্তি মেলা ২০২৫.jpg')">
-                        <div class="slide-overlay">বিজ্ঞান ও প্রযুক্তি মেলা ২০২৫</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg" alt="Activity" onclick="openImageViewer('জিএসএসসি বিজ্ঞান ক্লাবের মনোনশীলতা.jpg')">
-                        <div class="slide-overlay">বিজ্ঞান ক্লাবের মনোনশীলতা</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="workshop">
-                        <img loading="lazy" src="লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg" alt="Activity" onclick="openImageViewer('লেজার সিকিউরিটি বিশিষ্ট বাড়ি.jpg')">
-                        <div class="slide-overlay">লেজার সিকিউরিটি বিশিষ্ট বাড়ি</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="training">
-                        <img loading="lazy" src="জাতীয় মাশরুম ইনস্টিটিউট.jpg" alt="Activity" onclick="openImageViewer('জাতীয় মাশরুম ইনস্টিটিউট.jpg')">
-                        <div class="slide-overlay">জাতীয় মাশরুম ট্রেনিং সেন্টার</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="training">
-                        <img loading="lazy" src="মুক্তা পরিচিতি.jpg" alt="Activity" onclick="openImageViewer('মুক্তা পরিচিতি.jpg')">
-                        <div class="slide-overlay">মুক্তা চাষ</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="training">
-                        <img loading="lazy" src="মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg" alt="Activity" onclick="openImageViewer('মুক্তা চাষ প্রশিক্ষণের অর্জন.jpg')">
-                        <div class="slide-overlay">মুক্তা চাষ প্রশিক্ষণ </div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="২.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('২.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="১.মাশরুম চাষ বিষয়ক সেমিনার.jpg" alt="Activity" onclick="openImageViewer('১.মাশরুম চাষ বিষয়ক সেমিনার.jpg')">
-                        <div class="slide-overlay">মাশরুম চাষ বিষয়ক সেমিনার</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="১.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('১.সাপ্তাহিক সভা.jpg')">
-                        <div class="slide-overlay">সাপ্তাহিক সভা</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="seminar">
-                        <img loading="lazy" src="২.সাপ্তাহিক সভা.jpg" alt="Activity" onclick="openImageViewer('২.সাপ্তাহিক সভা.jpg')">
-                        <div class="slide-overlay">সাপ্তাহিক সভা</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="studyTour">
-                        <img loading="lazy" src="FB_IMG_1790507317905.jpg" alt="Activity" onclick="openImageViewer('FB_IMG_1790507317905.jpg')">
-                        <div class="slide-overlay">শিক্ষা সফর ও ভিজিট</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="Admission Exam">
-                        <img loading="lazy" src="ভর্তি পরীক্ষা ২০২৫.jpg" alt="Activity" onclick="openImageViewer('ভর্তি পরীক্ষা ২০২৫.jpg')">
-                        <div class="slide-overlay">ভর্তি পরীক্ষা ২০২৫</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('১.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
-                        <div class="slide-overlay">ড. সামসুন্নাহার ম্যামের বিদায়</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg" alt="Activity" onclick="openImageViewer('২.ক্লাবের সম্মানিত মডারেটড় ড. সামসুন্নাহার ম্যামের বিদায়.jpg')">
-                        <div class="slide-overlay">ড. সামসুন্নাহার ম্যামের বিদায়</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('১.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
-                        <div class="slide-overlay">আন্তর্জাতিক মাতৃভাষা দিবস</div>
-                    </div>
-                    <div class="slide-item fade gallery-item-box" data-category="others">
-                        <img loading="lazy" src="২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg" alt="Activity" onclick="openImageViewer('২.আন্তর্জাতিক মাতৃভাষা দিবস.jpg')">
-                        <div class="slide-overlay">আন্তর্জাতিক মাতৃভাষা দিবস</div>
-                    </div>
+                    <div style="text-align:center; padding: 30px; color: #fff;"><i class="fas fa-spinner fa-spin"></i> কার্যক্রম লোড হচ্ছে...</div>
                 </div>
 
                 <a href="javascript:void(0);" onclick="openAllGalleryModal()" class="all-notices-bottom">
@@ -989,14 +906,13 @@
         });
 
         window.onload = function() { 
-            startSlideshow(); 
             checkActiveLoginStateOnLoad();
-            loadNoticesDynamically();
+            loadDynamicContent();
         };
 
-        /* all-notices.html এবং latest-notice.html থেকে নোটিশ লোড করার ফাংশন */
-        function loadNoticesDynamically() {
-            // ১. latest-notice.html থেকে সর্বশেষ নোটিশ লোড করা
+        /* all-notices.html, latest-notice.html এবং activities.html থেকে ডায়নামিক কন্টেন্ট লোড করার ফাংশন */
+        function loadDynamicContent() {
+            // ১. সর্বশেষ নোটিশ (latest-notice.html) লোড করা
             fetch('latest-notice.html')
                 .then(response => response.text())
                 .then(html => {
@@ -1008,11 +924,9 @@
                         marqueeElem.innerHTML = marqueeSpans;
                     }
                 })
-                .catch(err => {
-                    console.error('Latest notice load error:', err);
-                });
+                .catch(err => console.error('Latest notice load error:', err));
 
-            // ২. all-notices.html থেকে সকল নোটিশ লোড করা এবং হোম পেজে প্রথম ২টি দেখানো
+            // ২. সকল নোটিশ (all-notices.html) লোড করা এবং হোম পেজে প্রথম ২টি দেখানো
             fetch('all-notices.html')
                 .then(response => response.text())
                 .then(html => {
@@ -1020,7 +934,6 @@
                     const doc = parser.parseFromString(html, 'text/html');
                     const noticeItems = doc.querySelectorAll('.list-item');
 
-                    // সকল নোটিশ মডালের কন্টেইনারে ইনজেক্ট করা
                     const allModalContainer = document.getElementById('allNoticesModalListContainer');
                     if (allModalContainer) {
                         allModalContainer.innerHTML = '';
@@ -1029,7 +942,6 @@
                         });
                     }
 
-                    // হোম পেজের নোটিশ বোর্ডে প্রথম দুটি নোটিশ এবং নিচে "সকল নোটিশ" বাটন ইনজেক্ট করা
                     const homeContainer = document.getElementById('homeNoticeBoardContainer');
                     if (homeContainer) {
                         homeContainer.innerHTML = '';
@@ -1040,13 +952,26 @@
                         homeContainer.insertAdjacentHTML('beforeend', bottomLinkHtml);
                     }
                 })
-                .catch(err => {
-                    console.error('All notices load error:', err);
-                    const homeContainer = document.getElementById('homeNoticeBoardContainer');
-                    if (homeContainer) {
-                        homeContainer.innerHTML = '<div style="color:#d32f2f; text-align:center; padding:10px;">নোটিশ লোড করতে সমস্যা হয়েছে।</div>';
+                .catch(err => console.error('All notices load error:', err));
+
+            // ৩. রিসেন্ট অ্যাক্টিভিটিস ও গ্যালারি (activities.html) লোড করা
+            fetch('activities.html')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const activityItems = doc.querySelectorAll('.gallery-item-box');
+
+                    const slideshowContainer = document.getElementById('slideshowContainer');
+                    if (slideshowContainer) {
+                        slideshowContainer.innerHTML = '';
+                        activityItems.forEach(item => {
+                            slideshowContainer.appendChild(item.cloneNode(true));
+                        });
+                        startSlideshow();
                     }
-                });
+                })
+                .catch(err => console.error('Activities load error:', err));
         }
 
         /* মডাল পপআপ ফাংশনসমূহ */
