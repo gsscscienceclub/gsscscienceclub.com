@@ -22,18 +22,19 @@
     <style>
         * { 
             margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; 
-            user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; 
+            user-select: none !important; -webkit-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; 
         }
         input, textarea, select { user-select: text !important; -webkit-user-select: text !important; }
         
         img {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-user-drag: none;
+            -webkit-touch-callout: none !important;
+            -webkit-user-select: none !important;
+            -khtml-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+            -webkit-user-drag: none !important;
+            pointer-events: auto;
         }
 
         body { background-color: #f1f1f1; color: #333; }
@@ -916,7 +917,7 @@
 
             loadDynamicContent();
 
-            // Image right-click & drag protection
+            // Image protection (Prevent right click & drag)
             document.addEventListener('contextmenu', function(e) {
                 if (e.target.tagName === 'IMG') {
                     e.preventDefault();
@@ -1000,30 +1001,37 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        /* সর্বজনীন নোটিশ মডাল ও পিডিএফ ডাউনলোড ফাংশন */
+        /* সর্বজনীন নোটিশ মডাল ও ডাউনলোড ফাংশন (সকল নোটিশের জন্য বাধ্যতামূলক) */
         function openNoticeModal(title, imgArray) {
-            currentNoticeTitle = title;
-            currentNoticeImages = imgArray;
+            currentNoticeTitle = title || "নোটিশ";
+            currentNoticeImages = Array.isArray(imgArray) ? imgArray : [imgArray];
 
-            if (Array.isArray(imgArray) && imgArray.length === 1) {
-                openImageViewer(imgArray[0]);
-                return;
-            }
-            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalTitle').innerText = currentNoticeTitle;
             var container = document.getElementById('modalImages');
             container.innerHTML = ''; 
-            imgArray.forEach(function(src) {
+            
+            currentNoticeImages.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
                 img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
+
+            // ডাউনলোড বাটন রিসেট
+            const btn = document.getElementById('noticeDownloadBtn');
+            if(btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-download"></i> Download';
+            }
+
             document.getElementById('noticeModal').style.display = 'block';
         }
 
+        /* ১০০% ক্লিয়ার ইমেজ ও সঠিক নামকরণে নোটিশ পিডিএফ ডাউনলোড লজিক */
         function downloadNoticePDF() {
             const btn = document.getElementById('noticeDownloadBtn');
             if (!btn) return;
+            
             const title = currentNoticeTitle || 'Notice';
             const images = currentNoticeImages || [];
             if (images.length === 0) return;
@@ -1031,41 +1039,79 @@
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
 
+            let loadedCount = 0;
+            const canvasImages = [];
+
+            // প্রতিটি ছবিকে বেস-৬৪ ইমেজে রূপান্তর করা যাতে সাদা পেজের প্রবলেম একবারে সমাধান হয়
+            images.forEach((src, index) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.src = src;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.naturalWidth || img.width;
+                    canvas.height = img.naturalHeight || img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    canvasImages[index] = canvas.toDataURL('image/jpeg', 1.0);
+                    loadedCount++;
+
+                    if (loadedCount === images.length) {
+                        generatePDFFromData(title, canvasImages, btn);
+                    }
+                };
+                img.onerror = function() {
+                    canvasImages[index] = src; // ফলব্যাক অরিজিনাল ইউআরএল
+                    loadedCount++;
+                    if (loadedCount === images.length) {
+                        generatePDFFromData(title, canvasImages, btn);
+                    }
+                };
+            });
+        }
+
+        function generatePDFFromData(title, dataUrls, btn) {
             const tempDiv = document.createElement('div');
             tempDiv.style.background = '#ffffff';
-            tempDiv.style.padding = '15px';
+            tempDiv.style.padding = '20px';
             tempDiv.style.width = '794px';
             tempDiv.style.position = 'absolute';
             tempDiv.style.left = '-9999px';
             tempDiv.style.top = '0';
             tempDiv.style.fontFamily = 'Arial, sans-serif';
 
-            let htmlContent = `<h2 style="color: #007e33; text-align: center; margin-bottom: 20px; font-size: 22px; font-weight: bold;">${title}</h2>`;
-            images.forEach((src) => {
-                htmlContent += `<div style="margin-bottom: 15px; page-break-inside: avoid; text-align: center;"><img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border: 1px solid #ddd;" crossorigin="anonymous"></div>`;
+            let htmlContent = `<h2 style="color: #007e33; text-align: center; margin-bottom: 20px; font-size: 22px; font-weight: bold; padding-bottom: 10px; border-bottom: 2px solid #007e33;">${title}</h2>`;
+            
+            dataUrls.forEach((imgData, idx) => {
+                const pageBreak = (idx < dataUrls.length - 1) ? 'page-break-after: always;' : '';
+                htmlContent += `<div style="text-align: center; margin-bottom: 15px; ${pageBreak}">
+                    <img src="${imgData}" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border: 1px solid #ddd; border-radius: 4px;">
+                </div>`;
             });
+            
             tempDiv.innerHTML = htmlContent;
             document.body.appendChild(tempDiv);
 
+            const safeFilename = title.trim().replace(/[/\\?%*:|"<>]/g, '_') + '.pdf';
+
             const opt = {
                 margin:       10,
-                filename:     `${title.replace(/[\/\\?%*:|"<>]/g, '_')}.pdf`,
+                filename:     safeFilename,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false, letterRendering: true },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            setTimeout(() => {
-                html2pdf().set(opt).from(tempDiv).save().then(() => {
-                    document.body.removeChild(tempDiv);
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
-                }).catch(() => {
-                    if (document.body.contains(tempDiv)) document.body.removeChild(tempDiv);
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
-                });
-            }, 500);
+            html2pdf().set(opt).from(tempDiv).save().then(() => {
+                if (document.body.contains(tempDiv)) document.body.removeChild(tempDiv);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-download"></i> Download';
+            }).catch((err) => {
+                console.error("PDF generation error:", err);
+                if (document.body.contains(tempDiv)) document.body.removeChild(tempDiv);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-download"></i> Download';
+            });
         }
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
@@ -1869,54 +1915,6 @@
                 fetchChatReplies();
             }
         }, 10000);
-
-        /* নোটিশ পিডিএফ ডাউনলোড ফাংশন (মাঝের ছবি ও পেজ কাটার সমস্যা সমাধান সহ) */
-        function downloadNoticePDF() {
-            const btn = document.getElementById('noticeDownloadBtn');
-            if (!btn) return;
-            const title = currentNoticeTitle || 'Notice';
-            const images = currentNoticeImages || [];
-            if (images.length === 0) return;
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
-
-            const tempDiv = document.createElement('div');
-            tempDiv.style.background = '#ffffff';
-            tempDiv.style.padding = '15px';
-            tempDiv.style.width = '794px';
-            tempDiv.style.position = 'absolute';
-            tempDiv.style.left = '-9999px';
-            tempDiv.style.top = '0';
-            tempDiv.style.fontFamily = 'Arial, sans-serif';
-
-            let htmlContent = `<h2 style="color: #007e33; text-align: center; margin-bottom: 20px; font-size: 22px; font-weight: bold;">${title}</h2>`;
-            images.forEach((src) => {
-                htmlContent += `<div style="margin-bottom: 15px; page-break-inside: avoid; text-align: center;"><img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border: 1px solid #ddd;" crossorigin="anonymous"></div>`;
-            });
-            tempDiv.innerHTML = htmlContent;
-            document.body.appendChild(tempDiv);
-
-            const opt = {
-                margin:       10,
-                filename:     `${title.replace(/[\/\\?%*:|"<>]/g, '_')}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false, letterRendering: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            setTimeout(() => {
-                html2pdf().set(opt).from(tempDiv).save().then(() => {
-                    document.body.removeChild(tempDiv);
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
-                }).catch(() => {
-                    if (document.body.contains(tempDiv)) document.body.removeChild(tempDiv);
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
-                });
-            }, 500);
-        }
     </script>
 </body>
 </html>
