@@ -143,9 +143,10 @@
         .all-notices-bottom { display: block; text-align: right; margin-top: 15px; color: #007e33; font-size: 14px; font-weight: bold; text-decoration: none; cursor: pointer; }
         .all-notices-bottom:hover { color: #d32f2f; text-decoration: underline; }
 
-        /* পারফেক্ট ফ্লোটিং নোটিশ মডাল (স্ট্যাবল হেডার এবং স্ক্রলএবল বডি) */
-        .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; padding: 10px; z-index: 5000 !important; background-color: rgba(0,0,0,0.85); }
+        /* ফ্লোটিং মডাল কনফিগারেশন ও z-index লেয়ারিং */
+        .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; padding: 10px; background-color: rgba(0,0,0,0.85); }
         
+        #noticeModal { z-index: 6000 !important; }
         #allNoticesModal { z-index: 2000; background-color: rgba(0,0,0,0.7); }
         #allGalleryModal { z-index: 2500; background-color: rgba(0,0,0,0.85); }
 
@@ -217,7 +218,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 50px; /* যাতে নিচের ডাউনলোড বাটন ছবির ওপর না চড়ে যায় */
+            padding-bottom: 50px;
         }
 
         .notice-page-card img {
@@ -250,6 +251,27 @@
         }
         .page-download-btn:hover {
             background: #004d25;
+        }
+
+        /* "See all image" এর জন্য গ্যালারি গ্রিড ভিউ স্টাইল */
+        #allGalleryModalImages {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            width: 100%;
+        }
+        #allGalleryModalImages img {
+            width: 100% !important;
+            height: 120px !important;
+            object-fit: cover !important;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        #allGalleryModalImages img:hover {
+            transform: scale(1.03);
         }
 
         /* ছবি ফুলস্ক্রিন প্রিভিউ দেখার মডাল */
@@ -563,7 +585,7 @@
         </div>
     </div>
 
-    <!-- ৯. রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি দেখার মডাল -->
+    <!-- ৯. রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি দেখার মডাল (গ্রিড ভিউ) -->
     <div id="allGalleryModal" class="modal">
         <div class="modal-content">
             <div class="modal-header-fixed">
@@ -571,7 +593,7 @@
                 <button class="modal-close-btn" onclick="closeAllGalleryModal()">&times;</button>
             </div>
             <div class="modal-body-scrollable">
-                <div id="allGalleryModalImages" class="modal-images"></div>
+                <div id="allGalleryModalImages"></div>
             </div>
         </div>
     </div>
@@ -1216,14 +1238,14 @@
 
         function closeImageViewer() { document.getElementById('imageViewerModal').style.display = 'none'; }
 
-        /* রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি গ্যালারি আকারে পপআপে দেখানোর ফাংশন */
+        /* রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি গ্যালারি গ্রিড আকারে পপআপে দেখানোর ফাংশন */
         function openAllGalleryModal() {
             var container = document.getElementById('allGalleryModalImages');
             container.innerHTML = '';
             
             var galleryItems = document.querySelectorAll('.gallery-item-box img');
             if (galleryItems.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">কোনো ছবি পাওয়া যায়নি।</div>';
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#666; grid-column: 1 / -1;">কোনো ছবি পাওয়া যায়নি।</div>';
             } else {
                 galleryItems.forEach(function(img) {
                     var cloneImg = document.createElement('img');
@@ -1244,7 +1266,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন。<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪তের এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন。<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭৫ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -1252,7 +1274,7 @@
             } 
             else if (type === 'activities') {
                 titleElem.innerText = "আমাদের কার্যক্রমসমূহ";
-                bodyElem.innerHTML = "সরকারি শহীদ সোহরাওয়ার্দী কলেজ ক্লাব নিয়মিত বিভিন্ন শিক্ষামূলক ও ব্যবহারিক কার্যক্রম পরিচালনা করে থাকে:<br><br><ul><li><b>বিজ্ঞান প্রশিক্ষণ কর্মশালা:</b> বিভিন্ন ব্যবহারিক ও প্রায়োগিক বিষয়ভিত্তিক কর্মশালা (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি)।</li><li><b>সেমিনার ও সিম্পোজিয়াম:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ টপিক নিয়ে সেমিনার আয়োজন।</li><li><b>সদস্য সংগ্রহ ও মূল্যায়ন:</b> প্রতি শিক্ষাবর্ষে নির্দিষ্ট নিয়ম ও ভর্তি প্রক্রিয়ার মাধ্যমে বিজ্ঞান বিভাগের আগ্রহী শিক্ষার্থীদের ক্লাবের সদস্য হিসেবে অন্তর্ভুক্ত করা।.</li><li><b>প্রজেক্ট প্রদর্শনী:</b> শিক্ষার্থীদের সৃজনশীল বিজ্ঞান প্রজেক্ট প্রদর্শনের সুযোগ তৈরি করে দেওয়া।</li></ul>";
+                bodyElem.innerHTML = "সরকারি শহীদ সোহরাওয়ার্দী কলেজ ক্লাব নিয়মিত বিভিন্ন শিক্ষামূলক ও ব্যবহারিক কার্যক্রম পরিচালনা করে থাকে:<br><br><ul><li><b>বিজ্ঞান প্রশিক্ষণ কর্মশালা:</b> বিভিন্ন ব্যবহারিক ও প্রায়োগিক বিষয়ভিত্তিক কর্মশালা (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি)।</li><li><b>সেমিনার ও সিম্পোজিয়াম:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ টপিক নিয়ে সেমিনার আয়োজন।</li><li><b>সদস্য সংগ্রহ ও মূল্যায়ন:</b> প্রতি শিক্ষাবর্ষে নির্দিষ্ট নিয়ম ও ভর্তি প্রক্রিয়ার মাধ্যমে বিজ্ঞান বিভাগের আগ্রহী শিক্ষার্থীদের ক্লাবের সদস্য হিসেবে অন্তর্ভুক্ত করা।</li><li><b>প্রজেক্ট প্রদর্শনী:</b> শিক্ষার্থীদের সৃজনশীল বিজ্ঞান প্রজেক্ট প্রদর্শনের সুযোগ তৈরি করে দেওয়া।</li></ul>";
             }
             document.getElementById('aboutModal').style.display = 'block';
         }
@@ -1292,7 +1314,7 @@
 
             if (actType === 'scienceFair') {
                 titleElem.innerText = "Science Fair & Exhibition";
-                bodyElem.innerHTML = "<b>বিজ্ঞান মেলা ও প্রজেক্ট প্রদর্শনী:</b> কলেজ প্রাঙ্গণে বিজ্ঞান ক্লাবের উদ্যোগে বার্ষিক বিজ্ঞান মেলা আয়োজন করা হয়, যেখানে শিক্ষার্থীরা তাদের সৃজনশীল সায়েন্স অনুমোদন প্রজেক্ট (যেমন: রোবটিক্স, রিনিউয়েবল এনার্জি ইত্যাদি) প্রদর্শন করে। এছাড়া বিজ্ঞান বিষয়ক আকর্ষণীয় দেওয়াল পত্রিকা প্রকাশ করা হয়।";
+                bodyElem.innerHTML = "<b>বিজ্ঞান মেলা ও প্রজেক্ট প্রদর্শনী:</b> কলেজ প্রাঙ্গণে বিজ্ঞান ক্লাবের উদ্যোগে বার্ষিক বিজ্ঞান মেলা আয়োজন করা হয়, যেখানে শিক্ষার্থীরা তাদের সৃজনশীল সায়েন্স প্রজেক্ট (যেমন: রোবটিক্স, রিনিউয়েবল এনার্জি ইত্যাদি) প্রদর্শন করে। এছাড়া বিজ্ঞান বিষয়ক আকর্ষণীয় দেওয়াল পত্রিকা প্রকাশ করা হয়।";
             } else if (actType === 'workshops') {
                 titleElem.innerText = "Workshops & Training";
                 bodyElem.innerHTML = "<b>কর্মশালা ও প্রশিক্ষণ:</b> বেসিক প্রোগ্রামিং, পাইথন, ওয়েব ডিজাইন কিংবা ব্যবহারিক ল্যাব সেশন এবং প্রায়োগিক প্রশিক্ষণ (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি) এর মাধ্যমে শিক্ষার্থীদের হাতে-কলমে দক্ষতা বৃদ্ধি করা হয়।";
