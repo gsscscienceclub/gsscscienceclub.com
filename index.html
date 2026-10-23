@@ -888,6 +888,7 @@
 
         window.onload = function() { 
             checkActiveLoginStateOnLoad();
+			
             loadDynamicContent();
         };
 
@@ -1640,7 +1641,7 @@
 
     				<table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 4.3px;">
        				  <tr>
-            		  <td style="width: 50%; vertical-align: top;">
+            		  <td style="width: 48%; vertical-align: top;">
                 		<table style="width: 100%; border-collapse: collapse;">
                     	  <tr><td style="padding: 2px; width: 35%;"><b>1. Name</b></td><td style="padding: 2px; width: 5%;">:</td><td style="padding: 2px;">${nameEnVal}</td></tr>
                     	  <tr><td style="padding: 2px;"><b>2. Contact Number</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${whatsappVal}</td></tr>
@@ -1648,7 +1649,7 @@
 						  <tr><td style="padding: 2px;"><b>4. Date of Birth</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${dobVal}</td></tr>
                		 	</table>
             		  </td>
-                	  <td style="width: 50%; vertical-align: top;">
+                	  <td style="width: 52%; vertical-align: top;">
                	        <table style="width: 100%; border-collapse: collapse;">
 						  <tr><td style="padding: 2px;"><b>5. College ID No</b></td><td style="padding: 2px;">:</td><td style="padding: 2px;">${idNoVal}</td></tr>
                      	  <tr><td style="padding: 2px; width: 35%;"><b>6. Class</b></td><td style="padding: 2px; width: 5%;">:</td><td style="padding: 2px;">${classVal}</td></tr>
@@ -1703,8 +1704,10 @@
             const btn = document.getElementById('darkModeToggleBtn');
             if (document.body.classList.contains('dark-theme')) {
                 btn.innerHTML = '<i class="fas fa-sun"></i>';
+				localStorage.setItem('theme','dark');
             } else {
                 btn.innerHTML = '<i class="fas fa-moon"></i>';
+				localStorage.setItem('theme','light');
             }
         }
 
