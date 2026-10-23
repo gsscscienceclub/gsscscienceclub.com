@@ -20,17 +20,13 @@
 
     <!-- সিএসএস স্টাইল অংশ (CSS Styling) -->
     <style>
-        /* টেক্সট সিলেক্ট এবং ইমেজ প্রটেকশন (রুল ৬ ও ৭) */
+        /* ৫. টেক্সট সিলেকশন বন্ধ করার জন্য কোড */
         * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: Arial, sans-serif; 
-            scroll-behavior: smooth; 
-            -webkit-user-select: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none; 
-            user-select: none; 
+            margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; 
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         input, textarea, select {
             -webkit-user-select: text;
@@ -38,13 +34,12 @@
             -ms-user-select: text;
             user-select: text;
         }
+
+        /* ৬. ছবির উপরে লং-প্রেস বা কনটেক্সট মেনু/ডাউনলোড অপশন বন্ধ করার জন্য কোড */
         img {
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-            user-drag: none;
-            pointer-events: auto;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         body { background-color: #f1f1f1; color: #333; }
@@ -103,6 +98,7 @@
             font-size: 14px;
             color: #333333;
             font-weight: bold;
+            user-select:none;
         }
         .latest-notice-text marquee span {
             margin-right: 30px;
@@ -430,15 +426,15 @@
     <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ -->
     <div id="floatingProfileContainer"></div>
 
-    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (ডাউনলোড বাটন যুক্ত) -->
+    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (ডাউনলোড বাটন সহ) -->
     <div id="noticeModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
             <div id="modalImages" class="modal-images"></div>
-            <div style="margin-top: 15px; text-align: right;">
-                <button id="noticePdfDownloadBtn" onclick="downloadNoticePDF()" style="background:#0288d1; color:#fff; border:none; padding:8px 15px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s; display: inline-flex; align-items: center; gap: 5px;">
-                    <i class="fas fa-file-pdf"></i> Download
+            <div id="noticeModalFooter" style="margin-top: 15px; text-align: right; display: flex; justify-content: flex-end;">
+                <button id="noticeDownloadBtn" onclick="downloadCurrentNoticePDF()" style="background: #007e33; color: #fff; border: none; padding: 8px 16px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px; transition: 0.3s;">
+                    <i class="fas fa-download"></i> Download
                 </button>
             </div>
         </div>
@@ -827,13 +823,6 @@
 
     <!-- ১৯. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি -->
     <script>
-        // Disable right-click context menu on images (রুল ৭)
-        document.addEventListener('contextmenu', function(e) {
-            if (e.target.tagName === 'IMG') {
-                e.preventDefault();
-            }
-        });
-
         const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
         const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
         const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
@@ -934,7 +923,6 @@
 
         /* all-notices.html, latest-notice.html এবং activities.html থেকে ডায়নামিক কন্টেন্ট লোড করার ফাংশন */
         function loadDynamicContent() {
-            // ১. সর্বশেষ নোটিশ (latest-notice.html) লোড করা
             fetch('latest-notice.html?_t=' + new Date().getTime())
                 .then(response => response.text())
                 .then(html => {
@@ -948,7 +936,6 @@
                 })
                 .catch(err => console.error('Latest notice load error:', err));
 
-            // ২. সকল নোটিশ (all-notices.html) লোড করা এবং হোম পেজে প্রথম ২টি দেখানো
             fetch('all-notices.html?_t=' + new Date().getTime())
                 .then(response => response.text())
                 .then(html => {
@@ -976,7 +963,6 @@
                 })
                 .catch(err => console.error('All notices load error:', err));
 
-            // ৩. রিসেন্ট অ্যাক্টিভিটিস ও গ্যালারি (activities.html) লোড করা
             fetch('activities.html?_t=' + new Date().getTime())
                 .then(response => response.text())
                 .then(html => {
@@ -995,7 +981,6 @@
                 })
                 .catch(err => console.error('Activities load error:', err));
 
-            // ৪. প্রধান পৃষ্ঠপোষক ও উপদেষ্টামণ্ডলী (patron-advisors.html) লোড করা
             fetch('patron-advisors.html?_t=' + new Date().getTime())
                 .then(response => response.text())
                 .then(html => {
@@ -1052,6 +1037,10 @@
         function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
 
         function openNoticeModal(title, imgArray) {
+            if (Array.isArray(imgArray) && imgArray.length === 1) {
+                openImageViewer(imgArray[0]);
+                return;
+            }
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
             container.innerHTML = ''; 
@@ -1061,100 +1050,75 @@
                 img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
+            // স্টোর current notice data for PDF download
+            window.currentNoticeModalData = { title: title, images: imgArray };
             document.getElementById('noticeModal').style.display = 'block';
         }
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
 
-        /* নোটিশ পিডিএফ ডাউনলোড ফাংশন (পয়েন্ট ১, ২, ৩, ৪, ৫, ৮, ৯, ১০) */
-        function downloadNoticePDF() {
-            var btn = document.getElementById('noticePdfDownloadBtn');
-            if (!btn) return;
-            
-            var originalText = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
-            
-            var title = document.getElementById('modalTitle').innerText || 'Notice';
-            var imgElements = document.querySelectorAll('#modalImages img');
-            
-            if (!imgElements || imgElements.length === 0) {
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-                return;
+        /* ১, ২, ৩, ৪, ৭, ৮. নোটিশ পিডিএফ ডাউনলোড ফাংশন */
+        function downloadCurrentNoticePDF() {
+            const data = window.currentNoticeModalData;
+            if (!data || !data.images || data.images.length === 0) return;
+
+            const btn = document.getElementById('noticeDownloadBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
             }
-            
-            var container = document.createElement('div');
-            container.style.position = 'absolute';
-            container.style.left = '-9999px';
-            container.style.top = '0';
-            container.style.background = '#ffffff';
-            
-            var promises = [];
-            var pageWidth = 800;
-            var pageHeight = 1130;
-            
-            imgElements.forEach(function(imgElem, index) {
-                var p = new Promise(function(resolve) {
-                    var img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    img.onload = function() {
-                        var w = img.naturalWidth || img.width || 800;
-                        var h = img.naturalHeight || img.height || 1130;
-                        
-                        if (index === 0) {
-                            pageWidth = w;
-                            pageHeight = h;
-                        }
-                        
-                        var pageDiv = document.createElement('div');
-                        pageDiv.style.width = w + 'px';
-                        pageDiv.style.height = h + 'px';
-                        pageDiv.style.position = 'relative';
-                        pageDiv.style.pageBreakAfter = index < imgElements.length - 1 ? 'always' : 'auto';
-                        pageDiv.style.boxSizing = 'border-box';
-                        pageDiv.style.backgroundColor = '#ffffff';
-                        
-                        var clonedImg = document.createElement('img');
-                        clonedImg.src = img.src;
-                        clonedImg.style.width = '100%';
-                        clonedImg.style.height = '100%';
-                        clonedImg.style.objectFit = 'contain';
-                        clonedImg.style.display = 'block';
-                        
-                        pageDiv.appendChild(clonedImg);
-                        container.appendChild(pageDiv);
-                        resolve();
-                    };
-                    img.onerror = function() {
-                        resolve();
-                    };
-                    img.src = imgElem.src;
-                });
-                promises.push(p);
+
+            const title = data.title || 'Notice';
+            const images = data.images;
+
+            const printDiv = document.createElement('div');
+            printDiv.style.background = '#ffffff';
+            printDiv.style.color = '#000000';
+            printDiv.style.padding = '25px';
+            printDiv.style.fontFamily = 'Arial, sans-serif';
+            printDiv.style.width = '794px';
+            printDiv.style.boxSizing = 'border-box';
+
+            let htmlContent = `
+                <div style="text-align: center; margin-bottom: 25px; border-bottom: 2px solid #007e33; padding-bottom: 12px;">
+                    <h2 style="font-size: 20px; color: #007e33; margin: 0 0 5px 0; text-transform: uppercase;">Govt. Shaheed Suhrawardy College Science Club</h2>
+                    <h3 style="font-size: 16px; color: #111; margin: 0; font-weight: bold;">${title}</h3>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
+            `;
+
+            images.forEach((src, index) => {
+                htmlContent += `
+                    <div style="width: 100%; text-align: center; margin-bottom: 20px; page-break-inside: avoid; break-inside: avoid;">
+                        <img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border: 1px solid #ddd; border-radius: 4px;" crossorigin="anonymous" alt="Notice Image ${index + 1}">
+                    </div>
+                `;
             });
-            
-            Promise.all(promises).then(function() {
-                document.body.appendChild(container);
-                
-                var opt = {
-                    margin:       0,
-                    filename:     title.replace(/[\/\\?%*:|"<>]/g, '_') + '.pdf',
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true, logging: false },
-                    jsPDF:        { unit: 'px', format: [pageWidth, pageHeight], orientation: pageWidth > pageHeight ? 'landscape' : 'portrait' }
-                };
-                
-                html2pdf().set(opt).from(container).save().then(function() {
-                    document.body.removeChild(container);
+
+            htmlContent += `</div>`;
+            printDiv.innerHTML = htmlContent;
+
+            const safeTitle = title.replace(/[/\\?%*:|"<>]/g, '_').trim() || 'Notice';
+
+            const opt = {
+                margin:       10,
+                filename:     `${safeTitle}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(printDiv).save().then(() => {
+                if (btn) {
                     btn.disabled = false;
-                    btn.innerHTML = originalText;
-                }).catch(function(err) {
-                    console.error(err);
-                    if (container.parentNode) document.body.removeChild(container);
+                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                }
+            }).catch((err) => {
+                console.error("PDF generation error:", err);
+                if (btn) {
                     btn.disabled = false;
-                    btn.innerHTML = originalText;
-                });
+                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                }
             });
         }
 
