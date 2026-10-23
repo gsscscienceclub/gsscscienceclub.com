@@ -21,29 +21,7 @@
     <!-- সিএসএস স্টাইল অংশ (CSS Styling) -->
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; }
-        
-        /* সিকিউরিটি ও কন্টেন্ট প্রটেকশন (টেক্সট সিলেক্ট, কপি ও ইমেজ ড্র্যাগ বন্ধ) */
-        body { 
-            background-color: #f1f1f1; 
-            color: #333; 
-            -webkit-user-select: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none; 
-            user-select: none; 
-            -webkit-touch-callout: none; 
-        }
-        img {
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-            user-drag: none;
-            pointer-events: none;
-        }
-        /* বাটন ও ইন্টারেক্টিভ এলিমেন্টে ক্লিক ও ইন্টারঅ্যাকশন সচল রাখা */
-        a, button, input, select, textarea, .menu-btn, .notice-read-more, .doc-btn, .contact-icon-btn, .filter-btn, .sidebar-menu li a, .profile-tab-btn, .modal-close, .modal-images img, .patron-img-box img, .advisor-img-box img, .exec-img-box img {
-            pointer-events: auto !important;
-        }
+        body { background-color: #f1f1f1; color: #333; }
 
         /* টপ হেডার (Top Header) স্টাইল */
         .top-header {
@@ -149,69 +127,24 @@
         .all-notices-bottom:hover { color: #d32f2f; text-decoration: underline; }
 
         /* পপআপ মডাল উইন্ডো স্টাইল (Modals) */
-        .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow-y: auto; padding: 20px 10px; background-color: rgba(0,0,0,0.7); }
+        .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow-y: auto; padding: 20px 10px; }
         
-        #allNoticesModal { z-index: 2000; }
+        #allNoticesModal { z-index: 2000; background-color: rgba(0,0,0,0.7); }
         #allGalleryModal { z-index: 2500; background-color: rgba(0,0,0,0.85); }
-        
-        /* নোটিশ মডাল ফিক্সড হেডার এবং ফুটার বিন্যাস */
         #noticeModal { z-index: 5000 !important; background-color: rgba(0,0,0,0.85); }
-        #noticeModal .modal-content {
-            background-color: #fff;
-            margin: 3% auto;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 900px;
-            width: 95%;
-            height: 85vh;
-            max-height: 650px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-        #noticeModal .modal-close { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; color: #d32f2f; cursor: pointer; z-index: 10; }
-        #noticeModal .modal-title { font-size: 16px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; flex-shrink: 0; }
-        
-        #modalImages {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-            padding-right: 5px;
-        }
-        #modalImages img { width: 100%; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; }
 
-        .notice-pdf-btn-container {
-            flex-shrink: 0;
-            margin-top: 15px;
-            text-align: right;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-        }
+        .modal-content { background-color: #fff; margin: 3% auto; padding: 20px; border-radius: 8px; max-width: 900px; width: 95%; position: relative; }
+        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; color: #d32f2f; cursor: pointer; }
+        .modal-title { font-size: 16px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
+        .modal-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+        .modal-images img { width: 100%; height: 160px; object-fit: cover; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; transition: transform 0.2s; }
+        .modal-images img:hover { transform: scale(1.03); }
 
-        /* সাধারণ ইমেজ জুম ভিউয়ার মডাল (শুধুমাত্র ছবি দেখার জন্য, কোনো ডাউনলোড বাটন নেই) */
-        #imageViewModal { z-index: 9000 !important; background-color: rgba(0,0,0,0.85); }
-        #imageViewModal .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 600px;
-            width: 90%;
-            position: relative;
-            text-align: center;
-        }
-        #imageViewModal img {
-            width: 100%;
-            height: auto;
-            border-radius: 6px;
-            object-fit: contain;
-            max-height: 75vh;
-        }
+        /* ছবি ফুলস্ক্রিন প্রিভিউ দেখার মডাল */
+        #imageViewerModal { z-index: 9000 !important; background-color: rgba(0,0,0,0.9); display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; justify-content: center; align-items: center; padding: 20px; }
+        .image-viewer-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
+        .image-viewer-content img { width: auto; height: auto; max-width: 100%; max-height: 85vh; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .image-viewer-close { position: absolute; top: -40px; right: 0; font-size: 35px; font-weight: bold; color: #fff; cursor: pointer; }
 
         /* আমাদের সম্পর্কে মডাল */
         #aboutModal { z-index: 7000 !important; background-color: rgba(0,0,0,0.85); }
@@ -228,18 +161,8 @@
         .activities-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
         .activities-modal-body { font-size: 15px; line-height: 1.6; color: #333; max-height: 400px; overflow-y: auto; }
 
-        /* লগইন ও ড্যাশবোর্ড মডাল (পূর্বের সুন্দর ও গোছালো ডিজাইনে ফিরিয়ে আনা হয়েছে) */
+        /* লগইন মডাল */
         #loginModal { z-index: 8500 !important; background-color: rgba(0,0,0,0.85); }
-        #loginModal .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 25px;
-            border-radius: 10px;
-            max-width: 480px;
-            width: 90%;
-            position: relative;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-        }
 
         /* প্রোফাইল ট্যাব নেভিগেশন */
         .profile-tab-btn {
@@ -275,7 +198,7 @@
             overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #000;
         }
         .slide-item { display: none; position: relative; }
-        .slide-item img { width: 100%; height: 280px; object-fit: cover; display: block; }
+        .slide-item img { width: 100%; height: 280px; object-fit: cover; display: block; cursor: pointer; }
         .slide-overlay {
             position: absolute; bottom: 10px; left: 0; right: 0; background: transparent;
             color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9); padding: 5px;
@@ -401,14 +324,16 @@
 		body.dark-theme .section-content div[style*="background: #f9f9f9"] {
     		background: #1e1e1e !important;
     		border: 1px solid #333 !important;
-		}
+			}
+		/* ডার্ক মোডে উপদেষ্টা ও অন্যান্য কার্ডের টেক্সট কালার ঠিক করার কোড */
 		body.dark-theme .section-content h4, 
 		body.dark-theme .section-content h5 {
-    		color: #4CAF50 !important;
-		}
+    		color: #4CAF50 !important; /* নাম সবুজ রঙ করার জন্য */
+			}
+
 		body.dark-theme .section-content p {
-    		color: #e0e0e0 !important;
-		}
+    		color: #e0e0e0 !important; /* পদবী ও অন্যান্য লেখা পরিষ্কার সাদা রঙ করার জন্য */
+			}
 
         .floating-profile-badge {
             position: fixed; top: 75px; right: 15px; z-index: 999999 !important;
@@ -463,7 +388,7 @@
     }
 	</script>
 </head>
-<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+<body>
 
     <!-- ১. ওয়েবসাইট লোডিং প্রি-লোডার -->
     <div id="science-preloader">
@@ -481,32 +406,24 @@
     <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ -->
     <div id="floatingProfileContainer"></div>
 
-    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (স্টেবল হেডার ও ফুটার সহ) -->
+    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল -->
     <div id="noticeModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
             <div id="modalImages" class="modal-images"></div>
-            <!-- নোটিশ পিডিএফ ডাউনলোডের জন্য ফিক্সড ফুটার বাটন -->
-            <div class="notice-pdf-btn-container">
-                <button id="noticePdfBtn" onclick="downloadNoticePDF()" style="background:#007e33; color:#fff; border:none; padding:8px 16px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px;">
-                    <i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড
-                </button>
-            </div>
         </div>
     </div>
 
-    <!-- সাধারণ ইমেজ জুম ভিউয়ার মডাল (শুধুমাত্র ছবি বড় করে দেখানোর জন্য, ডাউনলোড বাটন নেই) -->
-    <div id="imageViewModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeImageViewModal()">&times;</span>
-            <div style="margin-top: 10px;">
-                <img id="zoomModalImg" src="" alt="Zoomed Image">
-            </div>
+    <!-- ৫. ফুলস্ক্রিন ইমেজ ভিউয়ার মডাল -->
+    <div id="imageViewerModal" class="modal" onclick="closeImageViewer()">
+        <div class="image-viewer-content" onclick="event.stopPropagation()">
+            <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
+            <img id="fullSizeImage" src="" alt="Full Size Notice Image">
         </div>
     </div>
 
-    <!-- ৫. আমাদের সম্পর্কে দেখার পপআপ মডাল -->
+    <!-- ৬. আমাদের সম্পর্কে দেখার পপআপ মডাল -->
     <div id="aboutModal" class="modal">
         <div class="about-modal-content">
             <span class="modal-close" onclick="closeAboutModal()">&times;</span>
@@ -515,7 +432,7 @@
         </div>
     </div>
 
-    <!-- ৬. পরীক্ষার রেজাল্ট দেখার পপআপ মডাল -->
+    <!-- ৭. পরীক্ষার রেজাল্ট দেখার পপআপ মডাল -->
     <div id="resultModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeResultModal()">&times;</span>
@@ -524,7 +441,7 @@
         </div>
     </div>
 
-    <!-- ৭. কার্যক্রম দেখার পপআপ মডাল -->
+    <!-- ৮. কার্যক্রম দেখার পপআপ মডাল -->
     <div id="activitiesModal" class="modal">
         <div class="activities-modal-content">
             <span class="modal-close" onclick="closeActivitiesModal()">&times;</span>
@@ -533,18 +450,18 @@
         </div>
     </div>
 
-    <!-- ৮. রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি দেখার মডাল -->
+    <!-- ৯. রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি দেখার মডাল -->
     <div id="allGalleryModal" class="modal">
-        <div class="modal-content" style="max-width: 800px; max-height: 85vh; display: flex; flex-direction: column;">
+        <div class="modal-content">
             <span class="modal-close" onclick="closeAllGalleryModal()">&times;</span>
-            <div class="modal-title" style="flex-shrink: 0;"><i class="fas fa-images" style="color: #007e33;"></i> রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি</div>
-            <div id="allGalleryModalImages" class="modal-images" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
+            <div class="modal-title"><i class="fas fa-images" style="color: #007e33;"></i> রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি</div>
+            <div id="allGalleryModalImages" class="modal-images" style="max-height: 480px; overflow-y: auto; padding-right: 5px;"></div>
         </div>
     </div>
 
-    <!-- ৯. মেম্বার লগইন ও পেমেন্ট ড্যাশবোর্ড মডাল -->
+    <!-- ১০. মেম্বার লগইন ও পেমেন্ট ড্যাশবোর্ড মডাল -->
     <div id="loginModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 480px;">
             <span class="modal-close" onclick="closeLoginModal()">&times;</span>
             <div class="modal-title" id="modalHeaderTitle"><i class="fas fa-user-lock" style="color: #007e33;"></i> মেম্বার লগইন / ড্যাশবোর্ড</div>
             
@@ -651,20 +568,20 @@
         </div>
     </div>
 
-    <!-- ১০. সকল নোটিশ দেখার পপআপ মডাল -->
+    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল -->
     <div id="allNoticesModal" class="modal">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:20px; border-radius:8px; max-width:900px; width:95%; max-height:85vh; display:flex; flex-direction:column; position:relative;">
+        <div class="modal-content">
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
-            <div class="modal-title" style="flex-shrink:0;"><i class="fas fa-bullhorn" style="color: #f39c12;"></i> সকল নোটিশ</div>
-            <div style="flex:1; overflow-y: auto; padding-right: 5px;" id="allNoticesModalListContainer">
+            <div class="modal-title"><i class="fas fa-bullhorn" style="color: #f39c12;"></i> সকল নোটিশ</div>
+            <div style="max-height: 450px; overflow-y: auto; padding-right: 5px;" id="allNoticesModalListContainer">
                 <div style="text-align:center; padding: 20px; color: #666;"><i class="fas fa-spinner fa-spin"></i> নোটিশ লোড হচ্ছে...</div>
             </div>
         </div>
     </div>
 
-    <!-- ১১. টপ হেডার সেকশন -->
+    <!-- ১২. টপ হেডার সেকশন -->
     <div class="top-header">
-        <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo" onclick="openImageViewModal(this.src)" style="cursor:pointer;"></div>
+        <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo"></div>
         <div class="header-center">
             <div class="header-title">সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব</div>
             <div class="badge-container">
@@ -672,10 +589,10 @@
                 <span class="badge">College Code: 1475</span>
             </div>
         </div>
-        <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo" onclick="openImageViewModal(this.src)" style="cursor:pointer;"></div>
+        <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
-    <!-- ১২. সর্বশেষ নোটিশ সেকশন -->
+    <!-- ১৩. সর্বশেষ নোটিশ সেকশন -->
     <div class="latest-notice-wrapper">
         <div class="latest-notice-container">
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
@@ -687,7 +604,7 @@
         </div>
     </div>
 
-    <!-- ১৩. সাইডবার নেভিগেশন মেনু -->
+    <!-- ১৪. সাইডবার নেভিগেশন মেনু -->
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
             <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
@@ -755,7 +672,7 @@
         </ul>
     </div>
 
-    <!-- ১৪. মূল কন্টেন্ট কন্টেইনার -->
+    <!-- ১৫. মূল কন্টেন্ট কন্টেইনার -->
     <div class="container">
         
         <!-- নোটিশ বোর্ড সেকশন -->
@@ -770,12 +687,12 @@
             </div>
         </div>
 
-        <!-- প্রধান পৃষ্ঠপোষক, উপদেষ্টামণ্ডলী ও কার্যনির্বাহী কমিটি -->
+        <!-- প্রধান পৃষ্ঠপোষক, উপদেষ্টামণ্ডলী ও কার্যনির্বাহী কমিটি (ডায়নামিকালি patron-advisors.html থেকে লোড হবে) -->
         <div id="patronAdvisorsContainer">
             <div style="text-align:center; padding: 15px; color: #666;"><i class="fas fa-spinner fa-spin"></i> তথ্য লোড হচ্ছে...</div>
         </div>
 
-        <!-- রিসেন্ট অ্যাক্টিভিটিজ গ্যালারি সেকশন -->
+        <!-- রিসেন্ট অ্যাক্টিভিটিজ গ্যালারি সেকশন (activities.html থেকে ডায়নামিকালি লোড হবে) -->
         <div class="section-card" id="recentActivitiesSection" style="margin-top: 20px;">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
             <div class="section-content">
@@ -837,7 +754,7 @@
 
     </div>
 
-    <!-- ১৫. ফুটার সেকশন -->
+    <!-- ১৬. ফুটার সেকশন -->
     <div class="footer" id="contactFooterSection">
         <div class="footer-content-box">
             <div class="footer-col">
@@ -859,10 +776,10 @@
         <div class="copyright">&copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib</div>
     </div>
 
-    <!-- ১৬. উপরে ওঠার বাটন -->
+    <!-- ১৭. উপরে ওঠার বাটন -->
     <button onclick="scrollToTop()" id="scrollTopBtn" title="উপরে যান"><i class="fas fa-arrow-up"></i></button>
 
-    <!-- ১৭. ভাসমান সাপোর্ট চ্যাট বাটন ও উইজেট -->
+    <!-- ১৮. ভাসমান সাপোর্ট চ্যাট বাটন ও উইজেট -->
     <button id="floating-chat-btn" onclick="toggleChatBox()"><i class="fas fa-comments"></i></button>
 
     <div id="chat-widget-box">
@@ -879,16 +796,11 @@
         </div>
     </div>
 
-    <!-- ১৮. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি -->
+    <!-- ১৯. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি -->
     <script>
         const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
         const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
         const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
-
-        /* সিকিউরিটি প্রোটেকশন: রাইট ক্লিক, কপি, কাট এবং ড্র্যাগ প্রতিরোধ */
-        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-        document.addEventListener('copy', function(e) { e.preventDefault(); });
-        document.addEventListener('cut', function(e) { e.preventDefault(); });
 
         /* সাইডবার খুলুন ও বন্ধ করুন */
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
@@ -979,7 +891,7 @@
 			const savedTheme = localStorage.getItem('theme');
 			if (savedTheme === 'dark') {
     			document.body.classList.add('dark-theme');
-			}
+				}
 
             loadDynamicContent();
         };
@@ -1012,10 +924,7 @@
                     if (allModalContainer) {
                         allModalContainer.innerHTML = '';
                         noticeItems.forEach(item => {
-                            // ক্লিক হ্যান্ডলার বাইন্ড করে ক্লোন করা
-                            const cloned = item.cloneNode(true);
-                            attachNoticeClickEvents(cloned);
-                            allModalContainer.appendChild(cloned);
+                            allModalContainer.appendChild(item.cloneNode(true));
                         });
                     }
 
@@ -1023,9 +932,7 @@
                     if (homeContainer) {
                         homeContainer.innerHTML = '';
                         for (let i = 0; i < Math.min(2, noticeItems.length); i++) {
-                            const cloned = noticeItems[i].cloneNode(true);
-                            attachNoticeClickEvents(cloned);
-                            homeContainer.appendChild(cloned);
+                            homeContainer.appendChild(noticeItems[i].cloneNode(true));
                         }
                         const bottomLinkHtml = `<a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">সকল নোটিশ <i class="fas fa-chevron-right"></i></a>`;
                         homeContainer.insertAdjacentHTML('beforeend', bottomLinkHtml);
@@ -1045,13 +952,7 @@
                     if (slideshowContainer) {
                         slideshowContainer.innerHTML = '';
                         activityItems.forEach(item => {
-                            const cloned = item.cloneNode(true);
-                            const img = cloned.querySelector('img');
-                            if(img) {
-                                img.style.cursor = 'pointer';
-                                img.onclick = function() { openImageViewModal(img.src); };
-                            }
-                            slideshowContainer.appendChild(cloned);
+                            slideshowContainer.appendChild(item.cloneNode(true));
                         });
                         startSlideshow();
                     }
@@ -1065,137 +966,10 @@
                     const patronContainer = document.getElementById('patronAdvisorsContainer');
                     if (patronContainer) {
                         patronContainer.innerHTML = html;
-                        // প্যাট্রন, উপদেষ্টা ও কার্যনির্বাহী কমিটির ইমেজগুলোতে ক্লিক করলে জুম ভিউয়ার ওপেন করার ব্যবস্থা (ডাউনলোড ছাড়া)
-                        const images = patronContainer.querySelectorAll('img');
-                        images.forEach(img => {
-                            img.style.cursor = 'pointer';
-                            img.onclick = function() {
-                                openImageViewModal(img.src);
-                            };
-                        });
                     }
                 })
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
-
-        // নোটিশ আইটেমে ক্লিক বা রিড মোর ইভেন্ট সংযুক্ত করার ফাংশন
-        function attachNoticeClickEvents(element) {
-            const readMoreBtn = element.querySelector('.notice-read-more');
-            const titleElem = element.querySelector('.title');
-            
-            // যদি onclick এট্রিবিউট অলরেডি থাকে, যেমন openNoticeModal(...)
-            const onclickAttr = element.getAttribute('onclick') || (readMoreBtn ? readMoreBtn.getAttribute('onclick') : '');
-            if (onclickAttr) {
-                // অলরেডি হ্যান্ডলার আছে
-                return;
-            }
-
-            // যদি ডেটাস্ট্রিং বা টেক্সট থেকে ইমেজ বের করতে হয়
-            const textTitle = titleElem ? titleElem.innerText : "Notice";
-            // ডিফল্টভাবে যদি img ট্যাগ থাকে
-            const imgs = element.querySelectorAll('img');
-            let imgSrcs = [];
-            imgs.forEach(im => imgSrcs.push(im.src));
-
-            const triggerAction = function() {
-                if(imgSrcs.length > 0) {
-                    openNoticeModal(textTitle, imgSrcs);
-                }
-            };
-
-            if(readMoreBtn) readMoreBtn.onclick = triggerAction;
-            if(titleElem) titleElem.onclick = triggerAction;
-        }
-
-        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (খালি পেজ সমস্যা ও জুম সমস্যা সমাধান সহ)
-		function downloadNoticePDF() {
-    		const btn = document.getElementById('noticePdfBtn');
-    		if (btn) {
-        		btn.disabled = true;
-        		btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> পিডিএফ তৈরি হচ্ছে...';
-    		}
-
-    		const title = document.getElementById('modalTitle').innerText || "Notice";
-    		const safeTitle = title.replace(/[/\\?%*:|"<>]/g, '_');
-    		const modalImages = document.querySelectorAll('#modalImages img');
-
-    		if (modalImages.length === 0) {
-        		if (btn) {
-            		btn.disabled = false;
-            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-        		}
-        		return;
-    		}
-
-    		const pdfWrapper = document.createElement('div');
-    		pdfWrapper.style.width = '794px';
-    		pdfWrapper.style.background = '#ffffff';
-    		pdfWrapper.style.padding = '20px';
-    		pdfWrapper.style.position = 'fixed';
-    		pdfWrapper.style.left = '-9999px';
-    		pdfWrapper.style.top = '0';
-    		pdfWrapper.style.zIndex = '-1000';
-
-    		let contentHTML = `<div style="text-align: center; margin-bottom: 20px;"><h2 style="color: #007e33; font-size: 22px;">${title}</h2></div>`;
-    		modalImages.forEach((img, idx) => {
-        		contentHTML += `
-                    <div style="text-align: center; margin-bottom: 20px; ${idx < modalImages.length - 1 ? 'page-break-after: always;' : ''}">
-                        <img src="${img.src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" crossorigin="anonymous">
-                    </div>
-                `;
-    		});
-    		pdfWrapper.innerHTML = contentHTML;
-    		document.body.appendChild(pdfWrapper);
-
-    		const imgs = pdfWrapper.querySelectorAll('img');
-    		let loadedCount = 0;
-    		const totalImages = imgs.length;
-
-    		function executePDFSave() {
-        		const opt = {
-            		margin:       10,
-            		filename:     `${safeTitle}.pdf`,
-            		image:        { type: 'jpeg', quality: 0.98 },
-            		html2canvas:  { scale: 2, useCORS: true, logging: false, letterRendering: true },
-            		jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        		};
-
-        		html2pdf().set(opt).from(pdfWrapper).save().then(() => {
-            		document.body.removeChild(pdfWrapper);
-            		if (btn) {
-                		btn.disabled = false;
-                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-            		}
-        		}).catch((err) => {
-            		console.error("PDF Error:", err);
-            		if (document.body.contains(pdfWrapper)) document.body.removeChild(pdfWrapper);
-            		if (btn) {
-                		btn.disabled = false;
-                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-            		}
-        		});
-    		}
-
-    		if (totalImages === 0) {
-        		executePDFSave();
-    		} else {
-        		imgs.forEach(img => {
-            		if (img.complete) {
-                		loadedCount++;
-                		if (loadedCount === totalImages) executePDFSave();
-            		} else {
-                		img.onload = () => {
-                    		loadedCount++;
-                    		if (loadedCount === totalImages) executePDFSave();
-                		};
-                		img.onerror = () => {
-                    		loadedCount++;
-                    		if (loadedCount === totalImages) executePDFSave();
-                		};
-            		}
-        		});
-    		}
-		}
 
         /* মডাল পপআপ ফাংশনসমূহ */
         function openAllGalleryModal() {
@@ -1213,15 +987,10 @@
                     cardDiv.style.borderRadius = '6px';
                     cardDiv.style.overflow = 'hidden';
                     cardDiv.style.boxShadow = '0 2px 5px rgba(0,0,0,0.15)';
-                    cardDiv.style.marginBottom = '12px';
                     var img = document.createElement('img');
                     img.src = src;
                     img.alt = titleText || 'Activity Image';
-                    img.style.width = '100%';
-                    img.style.height = 'auto';
-                    img.style.display = 'block';
-                    img.style.cursor = 'pointer';
-                    img.onclick = function() { openImageViewModal(src); };
+                    img.onclick = function() { openImageViewer(src); };
                     cardDiv.appendChild(img);
                     if (titleText) {
                         var caption = document.createElement('div');
@@ -1246,14 +1015,18 @@
 
         function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
 
-        /* নোটিশ বিস্তারিত দেখার পপআপ মডাল */
         function openNoticeModal(title, imgArray) {
+            if (Array.isArray(imgArray) && imgArray.length === 1) {
+                openImageViewer(imgArray[0]);
+                return;
+            }
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
             container.innerHTML = ''; 
             imgArray.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
+                img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
             document.getElementById('noticeModal').style.display = 'block';
@@ -1261,15 +1034,12 @@
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
 
-        /* সাধারণ ইমেজ জুম ভিউয়ার মডাল (ডাউনলোড বাটন ছাড়া) */
-        function openImageViewModal(imgSrc) {
-            document.getElementById('zoomModalImg').src = imgSrc;
-            document.getElementById('imageViewModal').style.display = 'block';
+        function openImageViewer(src) {
+            document.getElementById('fullSizeImage').src = src;
+            document.getElementById('imageViewerModal').style.display = 'flex';
         }
 
-        function closeImageViewModal() {
-            document.getElementById('imageViewModal').style.display = 'none';
-        }
+        function closeImageViewer() { document.getElementById('imageViewerModal').style.display = 'none'; }
 
         function openAboutModal(type) {
             closeNav(); 
@@ -1278,7 +1048,7 @@
             
             if (type === 'introduction') {
                 titleElem.innerText = "আমাদের পরিচিতি";
-                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন。<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪৭৫ এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
+                bodyElem.innerHTML = "<b>Govt. Shaheed Suhrawardy College Science Club</b> হলো সরকারি শহীদ সোহরাওয়ার্দী কলেজের বিজ্ঞানপ্রেমী শিক্ষার্থীদের একটি গতিশীল ও সক্রিয় সংগঠন。<br><br><b>ঠিকানা:</b> ৩৬-৩৭, লক্ষ্মীবাজার, সূত্রাপুর, ঢাকা-১১০০। <br><b>প্রতিষ্ঠান কোড:</b> কলেজ কোড: ১৪তের এবং ইআইআইএন (EIIN): ১০৮৫০৮.<br><b>মূল লক্ষ্য:</b> শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা, যুক্তিবাদী চিন্তা এবং সৃজনশীল গবেষণার মানসিকতা তৈরি করা।";
             } 
             else if (type === 'objectives') {
                 titleElem.innerText = "ক্লাবের লক্ষ্য ও উদ্দেশ্য";
@@ -1286,7 +1056,7 @@
             } 
             else if (type === 'activities') {
                 titleElem.innerText = "আমাদের কার্যক্রমসমূহ";
-                bodyElem.innerHTML = "সরকারি শহীদ সোহরাওয়ার্দী কলেজ ক্লাব নিয়মিত বিভিন্ন শিক্ষামূলক ও ব্যবহারিক কার্যক্রম পরিচালনা করে থাকে:<br><br><ul><li><b>বিজ্ঞান প্রশিক্ষণ কর্মশালা:</b> বিভিন্ন ব্যবহারিক ও প্রায়োগিক বিষয়ভিত্তিক কর্মশালা (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি)।</li><li><b>সেমিনার ও সিম্পোজিয়াম:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ টপিক নিয়ে সেমিনার আয়োজন।</li><li><b>সদস্য সংগ্রহ ও মূল্যায়ন:</b> প্রতি শিক্ষাবর্ষে নির্দিষ্ট নিয়ম ও ভর্তি প্রক্রিয়ার মাধ্যমে বিজ্ঞান বিভাগের আগ্রহী শিক্ষার্থীদের ক্লাবের সদস্য হিসেবে অন্তর্ভুক্ত করা।</li><li><b>প্রজেক্ট প্রদর্শনী:</b> শিক্ষার্থীদের সৃজনশীল বিজ্ঞান প্রজেক্ট প্রদর্শনের সুযোগ তৈরি করে দেওয়া।</li></ul>";
+                bodyElem.innerHTML = "সরকারি শহীদ সোহরাওয়ার্দী কলেজ ক্লাব নিয়মিত বিভিন্ন শিক্ষামূলক ও ব্যবহারিক কার্যক্রম পরিচালনা করে থাকে:<br><br><ul><li><b>বিজ্ঞান প্রশিক্ষণ কর্মশালা:</b> বিভিন্ন ব্যবহারিক ও প্রায়োগিক বিষয়ভিত্তিক কর্মশালা (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি)।</li><li><b>সেমিনার ও সিম্পোজিয়াম:</b> বিজ্ঞান বিষয়ক বিভিন্ন গুরুত্বপূর্ণ টপিক নিয়ে সেমিনার আয়োজন।</li><li><b>সদস্য সংগ্রহ ও মূল্যায়ন:</b> প্রতি শিক্ষাবর্ষে নির্দিষ্ট নিয়ম ও ভর্তি প্রক্রিয়ার মাধ্যমে বিজ্ঞান বিভাগের আগ্রহী শিক্ষার্থীদের ক্লাবের সদস্য হিসেবে অন্তর্ভুক্ত করা।.</li><li><b>প্রজেক্ট প্রদর্শনী:</b> শিক্ষার্থীদের সৃজনশীল বিজ্ঞান প্রজেক্ট প্রদর্শনের সুযোগ তৈরি করে দেওয়া।</li></ul>";
             }
             document.getElementById('aboutModal').style.display = 'block';
         }
@@ -1311,6 +1081,7 @@
             images.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
+                img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
             document.getElementById('resultModal').style.display = 'block';
@@ -1325,7 +1096,7 @@
 
             if (actType === 'scienceFair') {
                 titleElem.innerText = "Science Fair & Exhibition";
-                bodyElem.innerHTML = "<b>বিজ্ঞান মেলা ও প্রজেক্ট প্রদর্শনী:</b> কলেজ প্রাঙ্গণে বিজ্ঞান ক্লাবের উদ্যোগে বার্ষিক বিজ্ঞান মেলা আয়োজন করা হয়, যেখানে শিক্ষার্থীরা তাদের সৃজনশীল সায়েন্স প্রজেক্ট প্রদর্শন করে। এছাড়া বিজ্ঞান বিষয়ক আকর্ষণীয় দেওয়াল পত্রিকা প্রকাশ করা হয়।";
+                bodyElem.innerHTML = "<b>বিজ্ঞান মেলা ও প্রজেক্ট প্রদর্শনী:</b> কলেজ প্রাঙ্গণে বিজ্ঞান ক্লাবের উদ্যোগে বার্ষিক বিজ্ঞান মেলা আয়োজন করা হয়, যেখানে শিক্ষার্থীরা তাদের সৃজনশীল সায়েন্স অনুমোদন প্রজেক্ট (যেমন: রোবটিক্স, রিনিউয়েবল এনার্জি ইত্যাদি) প্রদর্শন করে। এছাড়া বিজ্ঞান বিষয়ক আকর্ষণীয় দেওয়াল পত্রিকা প্রকাশ করা হয়।";
             } else if (actType === 'workshops') {
                 titleElem.innerText = "Workshops & Training";
                 bodyElem.innerHTML = "<b>কর্মশালা ও প্রশিক্ষণ:</b> বেসিক প্রোগ্রামিং, পাইথন, ওয়েব ডিজাইন কিংবা ব্যবহারিক ল্যাব সেশন এবং প্রায়োগিক প্রশিক্ষণ (যেমন: মাশরুম চাষ প্রশিক্ষণ ও বেড তৈরি) এর মাধ্যমে শিক্ষার্থীদের হাতে-কলমে দক্ষতা বৃদ্ধি করা হয়।";
