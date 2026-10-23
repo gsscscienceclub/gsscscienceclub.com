@@ -412,7 +412,7 @@
             <div id="modalImages" class="modal-images"></div>
             <!-- নোটিশ পিডিএফ ডাউনলোডের জন্য বাটন -->
             <div style="margin-top: 15px; text-align: right;">
-                <button onclick="downloadNoticePDF()" style="background:#007e33; color:#fff; border:none; padding:8px 16px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px;">
+                <button id="noticePdfBtn" onclick="downloadNoticePDF()" style="background:#007e33; color:#fff; border:none; padding:8px 16px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px;">
                     <i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড
                 </button>
             </div>
@@ -928,28 +928,7 @@
                     if (allModalContainer) {
                         allModalContainer.innerHTML = '';
                         noticeItems.forEach(item => {
-                            const clonedItem = item.cloneNode(true);
-                            
-                            // ক্লোন করা আইটেমের ভেতর থেকে ইমেজ ট্যাগ খুঁজে বের করে ডাউনলোড বাটন যুক্ত করা
-                            const imgElement = clonedItem.querySelector('img');
-                            if (imgElement) {
-                                const downloadBtn = document.createElement('a');
-                                downloadBtn.href = imgElement.src;
-                                downloadBtn.download = '';
-                                downloadBtn.innerText = 'ডাউনলোড নোটিশ';
-                                downloadBtn.style.display = 'inline-block';
-                                downloadBtn.style.marginTop = '15px';
-                                downloadBtn.style.padding = '8px 16px';
-                                downloadBtn.style.backgroundColor = '#d9534f';
-                                downloadBtn.style.color = '#ffffff';
-                                downloadBtn.style.borderRadius = '4px';
-                                downloadBtn.style.textDecoration = 'none';
-                                downloadBtn.style.fontWeight = 'bold';
-                                downloadBtn.style.float = 'right';
-                                
-                                imgElement.parentNode.appendChild(downloadBtn);
-                            }
-                            allModalContainer.appendChild(clonedItem);
+                            allModalContainer.appendChild(item.cloneNode(true));
                         });
                     }
 
@@ -996,18 +975,61 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        // নোটিশ পিডিএফ ডাউনলোড ফাংশন
+        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (নোটিশের আসল ছবি ও মেইন টাইটেল সহ)
 		function downloadNoticePDF() {
-    		const element = document.querySelector('#noticeModal .modal-content');     
+    		const btn = document.getElementById('noticePdfBtn');
+    		if (btn) {
+        		btn.disabled = true;
+        		btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> নোটিশ পিডিএফ ডাউনলোড হচ্ছে...';
+    		}
+
     		const title = document.getElementById('modalTitle').innerText || "Notice";
+    		const safeTitle = title.replace(/[/\\?%*:|"<>]/g, '_');
+
+    		// মডালের ভেতর থাকা আসল ছবির সোর্স সংগ্রহ করা
+    		const imgElements = document.querySelectorAll('#modalImages img');
+
+    		// একটি অস্থায়ী কন্টেইনার তৈরি করা যাতে শুধু আসল ছবি এবং টাইটেল সুন্দরভাবে পিডিএফ আকারে আসে
+    		const tempContainer = document.createElement('div');
+    		tempContainer.style.background = '#ffffff';
+    		tempContainer.style.padding = '20px';
+    		tempContainer.style.width = '700px';
+    		tempContainer.style.fontFamily = 'Arial, sans-serif';
+    		tempContainer.style.color = '#000000';
+
+    		let htmlContent = `<h2 style="text-align: center; color: #007e33; margin-bottom: 20px; font-size: 18px;">${title}</h2>`;
+    
+    		imgElements.forEach(img => {
+        		htmlContent += `<div style="text-align: center; margin-bottom: 15px;"><img src="${img.src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" crossorigin="anonymous"></div>`;
+    		});
+
+    		tempContainer.innerHTML = htmlContent;
+    		document.body.appendChild(tempContainer);
+
     		const opt = {
-        		margin: 1,
-        		filename: `${title}.pdf`,
+        		margin: 10,
+        		filename: `${safeTitle}.pdf`,
         		image: { type: 'jpeg', quality: 0.98 },
-        		html2canvas: { scale: 2 },
-        		jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        		html2canvas: { scale: 2, useCORS: true, logging: false },
+        		jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     		};
-    		html2pdf().set(opt).from(element).save();
+
+    		html2pdf().set(opt).from(tempContainer).save().then(() => {
+        		document.body.removeChild(tempContainer);
+        		if (btn) {
+            		btn.disabled = false;
+            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+        		}
+    		}).catch((err) => {
+        		console.error("PDF download error:", err);
+        		if (document.body.contains(tempContainer)) {
+            		document.body.removeChild(tempContainer);
+        		}
+        		if (btn) {
+            		btn.disabled = false;
+            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+        		}
+    		});
 		}
 
         /* মডাল পপআপ ফাংশনসমূহ */
