@@ -449,7 +449,10 @@
         body.dark-theme .modal-content, 
         body.dark-theme .about-modal-content, 
         body.dark-theme .activities-modal-content { background-color: #1e1e1e !important; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333 !important; color: #e0e0e0 !important; }
-        body.dark-theme .section-title { background-color: #2a2a2a !important; color: #4caf50 !important; border-bottom: 2px solid #4caf50 !important; }
+        
+        /* ডার্ক মোডে সব সেকশনের টাইটেল সবুজ রঙ নিশ্চিত করার জন্য */
+        body.dark-theme .section-title { background-color: #1e1e1e !important; color: #007e33 !important; border-bottom: 2px solid #007e33 !important; }
+        
         body.dark-theme .list-item { border-bottom: 1px solid #333 !important; color: #e0e0e0 !important; }
         body.dark-theme .list-item .date { color: #aaa !important; }
         body.dark-theme .notice-read-more { color: #ff5252 !important; }
@@ -529,6 +532,37 @@
         .chat-widget-footer { padding: 8px; display: flex; gap: 5px; background: #fff; border-top: 1px solid #eee; }
         .chat-widget-footer input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-size: 13px; }
         .chat-widget-footer button { background: #007e33; color: #fff; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+
+        /* ডার্ক মোডে চ্যাটিং উইন্ডোর স্টাইল */
+        body.dark-theme #chat-widget-box {
+            background-color: #1e1e1e !important;
+            border: 1px solid #333 !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-theme .chat-widget-header {
+            background-color: #003d18 !important;
+            color: #fff !important;
+        }
+        body.dark-theme .chat-widget-body {
+            background-color: #121212 !important;
+        }
+        body.dark-theme .chat-msg.admin {
+            background-color: #333 !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-theme .chat-msg.user {
+            background-color: #004d25 !important;
+            color: #fff !important;
+        }
+        body.dark-theme .chat-widget-footer {
+            background-color: #1e1e1e !important;
+            border-top: 1px solid #333 !important;
+        }
+        body.dark-theme .chat-widget-footer input {
+            background-color: #333 !important;
+            color: #fff !important;
+            border: 1px solid #444 !important;
+        }
     </style>
 	
     <meta property="og:site_name" content="Govt. Shaheed Suhrawardy College Science Club">
@@ -2087,7 +2121,7 @@
                     btn.innerHTML = '<i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড';
                 }
             }).catch(() => {
-                if (btn) {
+                if, (btn) {
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড';
                 }
@@ -2181,6 +2215,7 @@
         function sendChatMessage() {
             const input = document.getElementById('chatUserMsg');
             const msg = input.value.trim();
+            if (!msg) present = false;
             if (!msg) return;
 
             const body = document.getElementById('chatWidgetBody');
