@@ -665,12 +665,12 @@
         </div>
     </div>
 
-    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (All Notices Modal) -->
+    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (All Notices Modal) - এখান থেকেই নোটিশগুলো ডাইনামিকালি হোম পেজে যাবে -->
     <div id="allNoticesModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
             <div class="modal-title"><i class="fas fa-bullhorn" style="color: #f39c12;"></i> সকল নোটিশ</div>
-            <div style="max-height: 450px; overflow-y: auto; padding-right: 5px;">
+            <div id="allNoticesListContainer" style="max-height: 450px; overflow-y: auto; padding-right: 5px;">
 
 				<div class="list-item">
                     <span class="title"><i class="fas fa-caret-right"></i> ১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে</span>
@@ -825,38 +825,21 @@
     <!-- ১৫. মূল কন্টেন্ট কন্টেইনার (Main Container) -->
     <div class="container">
         
-        <!-- নোটিশ বোর্ড সেকশন -->
+        <!-- নোটিশ বোর্ড সেকশন (এখানে হোমপেজে প্রথম দুটি নোটিশ ডাইনামিকালি লোড হবে) -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
                 <div><i class="fas fa-bullhorn" style="color: #f39c12;"></i> Notice Board</div>
             </div>
             
-            <div class="section-content">
-
-				<div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> ১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে</span>
-                    <div class="notice-meta">
-                        <span class="date">Oct 10, 2026</span>
-                        <span class="notice-read-more" onclick="openNoticeModal('১১ই অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে', ['অক্টোবর অনুষ্ঠিতব্য বিজ্ঞান ক্লাবের প্রাথমিক বাছাই পরীক্ষা স্থগিতকরণ প্রসঙ্গে .jpg'])">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-				<div class="list-item">
-                    <span class="title"><i class="fas fa-caret-right"></i> জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা-২০২৬ বিজ্ঞপ্তি</span>
-                    <div class="notice-meta">
-                        <span class="date">Sep 25, 2026</span>
-                        <span class="notice-read-more" onclick="openImageViewer('ভর্তি পরীক্ষা নোটিশ ২০২৬.jpg')">
-                            Read More <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-                                
+            <div class="section-content" id="homeNoticeContainer">
+                <!-- জাভাস্ক্রিপ্ট কোডের মাধ্যমে এখানে অটোমেটিক্যালি প্রথম ২টি নোটিশ চলে আসবে -->
+            </div>
+            
+            <div class="section-content" style="padding-top: 0;">
                 <a href="javascript:void(0);" onclick="openAllNoticesModal()" class="all-notices-bottom">
                     সকল নোটিশ <i class="fas fa-chevron-right"></i>
                 </a>
-
             </div>
         </div>
 
@@ -1166,14 +1149,31 @@
             startSlideshow();
         }
 
-        /* প্রি-লোডার হাইড করার ইভেন্ট */
+        /* প্রি-লোডার হাইড করার ইভেন্ট ও হোম পেজে স্বয়ংক্রিয়ভাবে প্রথম ২টি নোটিশ লোড করার লজিক */
         window.addEventListener('load', function() {
             var preloader = document.getElementById('science-preloader');
             if(preloader) {
                 preloader.style.opacity = '0';
                 setTimeout(function() { preloader.style.visibility = 'hidden'; }, 500);
             }
+            
+            // অল নোটিশ মডাল থেকে প্রথম দুটি নোটিশ হোম পেজে ডাইনামিকালি দেখানোর জন্য
+            loadLatestNoticesToHome();
         });
+
+        function loadLatestNoticesToHome() {
+            const allNoticesList = document.querySelectorAll('#allNoticesListContainer .list-item');
+            const homeContainer = document.getElementById('homeNoticeContainer');
+            if (homeContainer && allNoticesList.length > 0) {
+                homeContainer.innerHTML = '';
+                // প্রথম দুটি নোটিশ লুপ চালিয়ে যুক্ত করা হচ্ছে
+                let count = Math.min(2, allNoticesList.length);
+                for (let i = 0; i < count; i++) {
+                    let clonedItem = allNoticesList[i].cloneNode(true);
+                    homeContainer.appendChild(clonedItem);
+                }
+            }
+        }
 
         window.onload = function() { 
             startSlideshow(); 
