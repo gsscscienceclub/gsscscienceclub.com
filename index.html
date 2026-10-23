@@ -143,7 +143,7 @@
         .all-notices-bottom { display: block; text-align: right; margin-top: 15px; color: #007e33; font-size: 14px; font-weight: bold; text-decoration: none; cursor: pointer; }
         .all-notices-bottom:hover { color: #d32f2f; text-decoration: underline; }
 
-        /* পারফেক্ট ফ্লোটিং নোটিশ মডাল (স্ট্যাবল হেডার, স্ক্রলএবল বডি এবং স্ট্যাবল ফুটার) */
+        /* পারফেক্ট ফ্লোটিং নোটিশ মডাল (স্ট্যাবল হেডার এবং স্ক্রলএবল বডি) */
         .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; padding: 10px; z-index: 5000 !important; background-color: rgba(0,0,0,0.85); }
         
         #allNoticesModal { z-index: 2000; background-color: rgba(0,0,0,0.7); }
@@ -200,29 +200,56 @@
         .modal-images { 
             display: flex; 
             flex-direction: column; 
-            gap: 15px; 
+            gap: 20px; 
             align-items: center; 
         }
 
-        .modal-images img { 
-            width: 100%; 
-            max-width: 100%; 
-            height: auto; 
-            object-fit: contain; 
-            border: 1px solid #ddd; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        /* পেজ কার্ড স্টাইল যেখানে প্রতিটি ছবি A4/Legal পেজের মতো দেখাবে এবং ডাউনলোড বাটন নিচে ডান পাশে থাকবে */
+        .notice-page-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 50px; /* যাতে নিচের ডাউনলোড বাটন ছবির ওপর না চড়ে যায় */
         }
 
-        .modal-footer-fixed {
-            padding: 12px 18px;
-            background: #f5f5f5;
-            border-top: 1px solid #ddd;
+        .notice-page-card img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* পেজের নিচে ডান কোণায় ফিক্সড ডাউনলোড বাটন */
+        .page-download-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 15px;
+            background: #007e33;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
             display: flex;
-            justify-content: flex-end;
             align-items: center;
-            flex-shrink: 0;
+            gap: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background 0.3s;
+        }
+        .page-download-btn:hover {
+            background: #004d25;
         }
 
         /* ছবি ফুলস্ক্রিন প্রিভিউ দেখার মডাল */
@@ -397,7 +424,7 @@
         body.dark-theme .modal-header-fixed { background: #1e1e1e; border-bottom-color: #4caf50; }
         body.dark-theme .modal-title-text { color: #4caf50; }
         body.dark-theme .modal-body-scrollable { background: #161616; }
-        body.dark-theme .modal-footer-fixed { background: #1a1a1a; border-top-color: #333; }
+        body.dark-theme .notice-page-card { background: #1e1e1e; border-color: #333; }
         body.dark-theme input, body.dark-theme select { background-color: #333; color: #fff; border-color: #555; }
         body.dark-theme label { color: #ccc !important; }
         body.dark-theme #profileDetails { background: #252525 !important; border-color: #444 !important; color: #e0e0e0; }
@@ -490,16 +517,9 @@
                 <button class="modal-close-btn" onclick="closeNoticeModal()">&times;</button>
             </div>
             
-            <!-- স্ক্রলএবল ইমেজ বডি -->
+            <!-- স্ক্রলএবল বডি যেখানে প্রতিটি ছবির নিচে ডান দিকে ডাউনলোড বাটন থাকবে -->
             <div class="modal-body-scrollable">
                 <div id="modalImages" class="modal-images"></div>
-            </div>
-
-            <!-- স্ট্যাবল বটম ফুটার ও ডাউনলোড বাটন -->
-            <div class="modal-footer-fixed">
-                <button id="noticeDownloadBtn" onclick="downloadNoticePDF()" style="background:#007e33; color:#fff; border:none; padding:10px 22px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:14px; transition:0.3s; display:flex; align-items:center; gap:6px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                    <i class="fas fa-download"></i> Download
-                </button>
             </div>
         </div>
     </div>
@@ -1084,7 +1104,7 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        /* সর্বজনীন নোটিশ মডাল ওপেন করার ফাংশন */
+        /* সর্বজনীন নোটিশ মডাল ওপেন করার ফাংশন (প্রতিটি ছবির জন্য আলাদা পেজ কার্ড এবং নিচে ডান দিকে ডাউনলোড বাটন) */
         function openNoticeModal(title, imgArray) {
             currentNoticeTitle = title || "নোটিশ";
             currentNoticeImages = Array.isArray(imgArray) ? imgArray : [imgArray];
@@ -1093,34 +1113,39 @@
             var container = document.getElementById('modalImages');
             container.innerHTML = ''; 
             
-            currentNoticeImages.forEach(function(src) {
+            currentNoticeImages.forEach(function(src, index) {
+                var card = document.createElement('div');
+                card.className = 'notice-page-card';
+
                 var img = document.createElement('img');
                 img.src = src;
-                img.onclick = function() { openImageViewer(src); }; 
-                container.appendChild(img);
-            });
+                img.onclick = function() { openImageViewer(src); };
+                card.appendChild(img);
 
-            // ডাউনলোড বাটন রিসেট
-            const btn = document.getElementById('noticeDownloadBtn');
-            if(btn) {
-                btn.disabled = false;
+                var btn = document.createElement('button');
+                btn.className = 'page-download-btn';
                 btn.innerHTML = '<i class="fas fa-download"></i> Download';
-            }
+                btn.onclick = function() {
+                    downloadNoticePDF(btn);
+                };
+                card.appendChild(btn);
+
+                container.appendChild(card);
+            });
 
             document.getElementById('noticeModal').style.display = 'block';
         }
 
         /* সুপার ফাস্ট এবং নির্ভরযোগ্য jsPDF পিডিএফ ডাউনলোড লজিক */
-        function downloadNoticePDF() {
-            const btn = document.getElementById('noticeDownloadBtn');
-            if (!btn) return;
+        function downloadNoticePDF(btnElement) {
+            if (!btnElement) return;
             
             const title = currentNoticeTitle || 'Notice';
             const images = currentNoticeImages || [];
             if (images.length === 0) return;
 
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
+            btnElement.disabled = true;
+            btnElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
 
             try {
                 const { jsPDF } = window.jspdf;
@@ -1163,22 +1188,22 @@
                         loadedCount++;
                         if (loadedCount === images.length) {
                             doc.save(`${title.trim().replace(/[/\\?%*:|"<>]/g, '_')}.pdf`);
-                            btn.disabled = false;
-                            btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                            btnElement.disabled = false;
+                            btnElement.innerHTML = '<i class="fas fa-download"></i> Download';
                         }
                     };
                     img.onerror = function() {
                         loadedCount++;
                         if (loadedCount === images.length) {
-                            btn.disabled = false;
-                            btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                            btnElement.disabled = false;
+                            btnElement.innerHTML = '<i class="fas fa-download"></i> Download';
                         }
                     };
                 });
             } catch (err) {
                 console.error("PDF Error:", err);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                btnElement.disabled = false;
+                btnElement.innerHTML = '<i class="fas fa-download"></i> Download';
             }
         }
 
@@ -1190,6 +1215,27 @@
         }
 
         function closeImageViewer() { document.getElementById('imageViewerModal').style.display = 'none'; }
+
+        /* রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি গ্যালারি আকারে পপআপে দেখানোর ফাংশন */
+        function openAllGalleryModal() {
+            var container = document.getElementById('allGalleryModalImages');
+            container.innerHTML = '';
+            
+            var galleryItems = document.querySelectorAll('.gallery-item-box img');
+            if (galleryItems.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">কোনো ছবি পাওয়া যায়নি।</div>';
+            } else {
+                galleryItems.forEach(function(img) {
+                    var cloneImg = document.createElement('img');
+                    cloneImg.src = img.src;
+                    cloneImg.onclick = function() { openImageViewer(img.src); };
+                    container.appendChild(cloneImg);
+                });
+            }
+            document.getElementById('allGalleryModal').style.display = 'block';
+        }
+
+        function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
 
         function openAboutModal(type) {
             closeNav(); 
