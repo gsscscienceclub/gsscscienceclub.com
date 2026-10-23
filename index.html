@@ -322,9 +322,18 @@
         body.dark-theme .profile-tab-btn.active { background: #4caf50; color: #fff; }
         body.dark-theme .pay-method-box { background: #2a2a2a !important; border-color: #444 !important; }
 		body.dark-theme .section-content div[style*="background: #f9f9f9"] {
-    background: #1e1e1e !important;
-    border: 1px solid #333 !important;
-}
+    		background: #1e1e1e !important;
+    		border: 1px solid #333 !important;
+			}
+		/* ডার্ক মোডে উপদেষ্টা ও অন্যান্য কার্ডের টেক্সট কালার ঠিক করার কোড */
+		body.dark-theme .section-content h4, 
+		body.dark-theme .section-content h5 {
+    		color: #4CAF50 !important; /* নাম সবুজ রঙ করার জন্য */
+			}
+
+		body.dark-theme .section-content p {
+    		color: #e0e0e0 !important; /* পদবী ও অন্যান্য লেখা পরিষ্কার সাদা রঙ করার জন্য */
+			}
 
         .floating-profile-badge {
             position: fixed; top: 75px; right: 15px; z-index: 999999 !important;
