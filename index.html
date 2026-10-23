@@ -143,10 +143,11 @@
         .all-notices-bottom { display: block; text-align: right; margin-top: 15px; color: #007e33; font-size: 14px; font-weight: bold; text-decoration: none; cursor: pointer; }
         .all-notices-bottom:hover { color: #d32f2f; text-decoration: underline; }
 
-        /* ফ্লোটিং মডাল কনফিগারেশন ও z-index লেয়ারিং (ক্লিন ও কম্প্যাক্ট সাইজ) */
+        /* ফ্লোটিং মডাল কনফিগারেশন ও z-index লেয়ারিং */
         .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; padding: 10px; background-color: rgba(0,0,0,0.85); }
         
         #noticeModal { z-index: 6000 !important; }
+        #resultModal { z-index: 7500 !important; }
         #allNoticesModal { z-index: 2000; background-color: rgba(0,0,0,0.7); }
         #allGalleryModal { z-index: 2500; background-color: rgba(0,0,0,0.85); }
 
@@ -347,9 +348,6 @@
         .about-modal-title { font-size: 18px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
         .about-modal-body { font-size: 15px; line-height: 1.6; color: #333; max-height: 400px; overflow-y: auto; }
 
-        /* রেজাল্ট মডাল */
-        #resultModal { z-index: 7500 !important; background-color: rgba(0,0,0,0.85); }
-
         /* কার্যক্রম দেখার মডাল */
         #activitiesModal { z-index: 8000 !important; background-color: rgba(0,0,0,0.85); }
         .activities-modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 8px; max-width: 700px; width: 90%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
@@ -508,6 +506,15 @@
         body.dark-theme .modal-title-text { color: #4caf50 !important; }
         body.dark-theme .modal-body-scrollable { background: #161616 !important; }
         body.dark-theme .notice-page-card { background: #1e1e1e !important; border-color: #333 !important; color: #e0e0e0 !important; }
+        
+        /* ডার্ক মোডে About Us এবং Activities মডালের টেক্সট পুরোপুরি হোয়াইট/স্পষ্ট করার জন্য ফিক্স */
+        body.dark-theme .about-modal-body,
+        body.dark-theme .about-modal-body *,
+        body.dark-theme .activities-modal-body,
+        body.dark-theme .activities-modal-body * {
+            color: #ffffff !important;
+        }
+
         body.dark-theme input, body.dark-theme select { background-color: #333 !important; color: #fff !important; border-color: #555 !important; }
         body.dark-theme label { color: #ccc !important; }
         body.dark-theme #profileDetails { background: #252525 !important; border-color: #444 !important; color: #e0e0e0 !important; }
@@ -604,13 +611,10 @@
     <!-- ৪. নোটিশ বিস্তারিত দেখার পারফেক্ট ফ্লোটিং মডাল উইন্ডো -->
     <div id="noticeModal" class="modal">
         <div class="modal-content">
-            <!-- স্ট্যাবল টপ হেডার -->
             <div class="modal-header-fixed">
                 <div id="modalTitle" class="modal-title-text">নোটিশ বিস্তারিত</div>
                 <button class="modal-close-btn" onclick="closeNoticeModal()">&times;</button>
             </div>
-            
-            <!-- স্ক্রলএবল বডি -->
             <div class="modal-body-scrollable" id="modalBodyScrollable">
                 <div id="modalImages" class="modal-images"></div>
             </div>
@@ -634,14 +638,14 @@
         </div>
     </div>
 
-    <!-- ৭. পরীক্ষার রেজাল্ট দেখার পপআপ মডাল -->
+    <!-- ৭. পরীক্ষার রেজাল্ট দেখার পপআপ মডাল (নোটিশের মতো হরিজন্টাল স্ক্রল ও স্টেবল ডাউনলোড বাটনযুক্ত) -->
     <div id="resultModal" class="modal">
-        <div class="modal-content" style="height: auto; max-height: 90vh;">
+        <div class="modal-content">
             <div class="modal-header-fixed">
                 <div id="resultModalTitle" class="modal-title-text">রেজাল্ট বিস্তারিত</div>
                 <button class="modal-close-btn" onclick="closeResultModal()">&times;</button>
             </div>
-            <div class="modal-body-scrollable">
+            <div class="modal-body-scrollable" id="resultModalBodyScrollable">
                 <div id="resultModalImages" class="modal-images"></div>
             </div>
         </div>
@@ -854,6 +858,8 @@
                 </a>
                 <ul id="resultSubmenu" class="submenu">
                     <li><a href="javascript:void(0);" onclick="openResultModal('exam2025')">Admission Result-2025</a></li>
+                    <li><a href="javascript:void(0);" onclick="openResultModal('exam2026')">Admission Result-2026</a></li>
+                    <li><a href="javascript:void(0);" onclick="openResultModal('exam2024')">Admission Result-2024</a></li>
                 </ul>
             </li>
             <li>
@@ -1013,10 +1019,6 @@
 
     <!-- ১৯. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি -->
     <script>
-        const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
-        const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
-        const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
-
         let currentNoticeTitle = '';
         let currentNoticeImages = [];
 
@@ -1126,7 +1128,6 @@
             });
         };
 
-        /* all-notices.html, latest-notice.html এবং activities.html থেকে ডায়নামিক কন্টেন্ট লোড করার ফাংশন */
         function loadDynamicContent() {
             fetch('latest-notice.html?_t=' + new Date().getTime())
                 .then(response => response.text())
@@ -1197,7 +1198,7 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        /* সর্বজনীন নোটিশ মডাল ওপেন করার ফাংশন (একাধিক পেজ থাকলে হরিজন্টাল স্ক্রলিং এবং ফিক্সড স্টেবল ডাউনলোড বাটন) */
+        /* সর্বজনীন নোটিশ মডাল ওপেন করার ফাংশন */
         function openNoticeModal(title, imgArray) {
             currentNoticeTitle = title || "নোটিশ";
             currentNoticeImages = Array.isArray(imgArray) ? imgArray : [imgArray];
@@ -1241,7 +1242,6 @@
 
                 wrapper.appendChild(sliderContainer);
 
-                // ফিক্সড ও স্টেবল ডাউনলোড বাটন যা স্লাইড করলেও নড়বে না
                 var stableBtn = document.createElement('button');
                 stableBtn.className = 'stable-download-btn';
                 stableBtn.innerHTML = '<i class="fas fa-download"></i> Download';
@@ -1277,7 +1277,7 @@
             document.getElementById('noticeModal').style.display = 'block';
         }
 
-        /* সুপার ফাস্ট এবং নির্ভরযোগ্য jsPDF পিডিএফ ডাউনলোড লজিক */
+        /* পিডিএফ ডাউনলোড লজিক */
         function downloadNoticePDF(btnElement) {
             if (!btnElement) return;
             
@@ -1357,7 +1357,6 @@
 
         function closeImageViewer() { document.getElementById('imageViewerModal').style.display = 'none'; }
 
-        /* রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি গ্যালারি গ্রিড আকারে পপআপে দেখানোর ফাংশন */
         function openAllGalleryModal() {
             var container = document.getElementById('allGalleryModalImages');
             container.innerHTML = '';
@@ -1400,27 +1399,107 @@
 
         function closeAboutModal() { document.getElementById('aboutModal').style.display = 'none'; }
 
+        /* ডাইনামিক রেজাল্ট মডাল ওপেন করার ফাংশন (নোটিশের মতো হরিজন্টাল স্ক্রল এবং স্টেবল ডাউনলোড বাটনযুক্ত) */
         function openResultModal(examType) {
             closeNav(); 
             var titleElem = document.getElementById('resultModalTitle');
-            var container = document.getElementById('resultModalImages');
-            container.innerHTML = ''; 
+            var modalBody = document.getElementById('resultModalBodyScrollable');
+            modalBody.innerHTML = ''; 
             
-            var images = [];
-            if (examType === 'exam2025') {
-                titleElem.innerText = "জিএসএসসি বিজ্ঞান ক্লাব ভর্তি পরীক্ষা- ২০২৫ রেজাল্ট";
+            let images = [];
+            let yearTitle = "2025";
+            
+            if (examType === 'exam2026') {
+                yearTitle = "2026";
+                images = [
+                    '1Member selection result 2025 .jpg.jpg', 
+                    '2Member selection result 2025.jpg'
+                ]; // প্রয়োজনে ২০২২ এর ছবি দিন
+            } else if (examType === 'exam2024') {
+                yearTitle = "2024";
+                images = [
+                    '1Member selection result 2025 .jpg.jpg'
+                ]; // প্রয়োজনে ২০২৪ এর ছবি দিন
+            } else {
+                yearTitle = "2025";
                 images = [
                     '1Member selection result 2025 .jpg.jpg', 
                     '2Member selection result 2025.jpg', 
                     '3Member selection result 2025 .jpg'
                 ]; 
             }
-            images.forEach(function(src) {
+
+            currentNoticeTitle = `Admission Result-${yearTitle}`;
+            currentNoticeImages = images;
+
+            titleElem.innerText = `অ্যাডমিশন রেজাল্ট ${yearTitle}`;
+
+            const totalPages = images.length;
+            const hasMultiplePages = totalPages > 1;
+
+            if (hasMultiplePages) {
+                var wrapper = document.createElement('div');
+                wrapper.className = 'multipage-modal-wrapper';
+
+                var sliderContainer = document.createElement('div');
+                sliderContainer.className = 'modal-images horizontal-scroll';
+
+                images.forEach(function(src, index) {
+                    var card = document.createElement('div');
+                    card.className = 'notice-page-card';
+
+                    var indicatorBar = document.createElement('div');
+                    indicatorBar.className = 'page-indicator-bar';
+
+                    let leftSign = (index > 0) ? `<span class="scroll-sign"><i class="fas fa-chevron-left"></i> পেজ ${index}</span>` : `<span></span>`;
+                    let pageCountText = `<span>পেজ ${index + 1} / ${totalPages}</span>`;
+                    let rightSign = (index < totalPages - 1) ? `<span class="scroll-sign">পেজ ${index + 2} <i class="fas fa-chevron-right"></i></span>` : `<span></span>`;
+
+                    indicatorBar.innerHTML = leftSign + pageCountText + rightSign;
+                    card.appendChild(indicatorBar);
+
+                    var img = document.createElement('img');
+                    img.src = src;
+                    img.onclick = function() { openImageViewer(src); };
+                    card.appendChild(img);
+
+                    sliderContainer.appendChild(card);
+                });
+
+                wrapper.appendChild(sliderContainer);
+
+                var stableBtn = document.createElement('button');
+                stableBtn.className = 'stable-download-btn';
+                stableBtn.innerHTML = '<i class="fas fa-download"></i> Download';
+                stableBtn.onclick = function() { downloadNoticePDF(stableBtn); };
+                wrapper.appendChild(stableBtn);
+
+                modalBody.appendChild(wrapper);
+            } else {
+                var container = document.createElement('div');
+                container.className = 'modal-images';
+
+                var card = document.createElement('div');
+                card.className = 'notice-page-card';
+
                 var img = document.createElement('img');
-                img.src = src;
-                img.onclick = function() { openImageViewer(src); }; 
-                container.appendChild(img);
-            });
+                img.src = images[0];
+                img.onclick = function() { openImageViewer(images[0]); };
+                card.appendChild(img);
+
+                var singleDownloadContainer = document.createElement('div');
+                singleDownloadContainer.className = 'single-notice-download-container';
+                singleDownloadContainer.innerHTML = `
+                    <button onclick="downloadNoticePDF(this)" style="background:#007e33; color:#fff; border:none; padding:10px 25px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:14px; display:inline-flex; align-items:center; gap:6px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                `;
+                card.appendChild(singleDownloadContainer);
+
+                container.appendChild(card);
+                modalBody.appendChild(container);
+            }
+
             document.getElementById('resultModal').style.display = 'block';
         }
 
