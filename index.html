@@ -15,7 +15,8 @@
     <!-- আইকন ব্যবহারের জন্য ফন্টঅসাম লাইব্রেরি -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- পিডিএফ ডাউনলোডের জন্য html2pdf ও jsPDF লাইব্রেরি -->
+    <!-- পিডিএফ ডাউনলোডের জন্য jsPDF এবং html2pdf লাইব্রেরি -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <!-- সিএসএস স্টাইল অংশ (CSS Styling) -->
@@ -142,24 +143,23 @@
         .all-notices-bottom { display: block; text-align: right; margin-top: 15px; color: #007e33; font-size: 14px; font-weight: bold; text-decoration: none; cursor: pointer; }
         .all-notices-bottom:hover { color: #d32f2f; text-decoration: underline; }
 
-        /* পপআপ মডাল উইন্ডো স্টাইল (স্ট্যাবল হেডার, স্ক্রলএবল বডি এবং স্ট্যাবল ফুটার) */
-        .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; padding: 10px; }
+        /* পারফেক্ট ফ্লোটিং নোটিশ মডাল (স্ট্যাবল হেডার, স্ক্রলএবল বডি এবং স্ট্যাবল ফুটার) */
+        .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; padding: 10px; z-index: 5000 !important; background-color: rgba(0,0,0,0.85); }
         
         #allNoticesModal { z-index: 2000; background-color: rgba(0,0,0,0.7); }
         #allGalleryModal { z-index: 2500; background-color: rgba(0,0,0,0.85); }
-        #noticeModal { z-index: 5000 !important; background-color: rgba(0,0,0,0.85); }
 
         .modal-content { 
             background-color: #fff; 
-            margin: 2vh auto; 
+            margin: 3vh auto; 
             border-radius: 8px; 
-            max-width: 800px; 
-            width: 98%; 
-            height: 94vh; 
+            max-width: 750px; 
+            width: 95%; 
+            height: 92vh; 
             display: flex; 
             flex-direction: column; 
             overflow: hidden; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
         }
 
         .modal-header-fixed {
@@ -173,10 +173,10 @@
         }
 
         .modal-title-text {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             color: #007e33;
-            padding-right: 20px;
+            padding-right: 15px;
             line-height: 1.4;
         }
 
@@ -187,6 +187,7 @@
             cursor: pointer;
             background: none;
             border: none;
+            line-height: 1;
         }
 
         .modal-body-scrollable {
@@ -480,7 +481,7 @@
     <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ -->
     <div id="floatingProfileContainer"></div>
 
-    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (স্ট্যাবল হেডার, স্ক্রলএবল বডি ও স্ট্যাবল ফুটার সহ) -->
+    <!-- ৪. নোটিশ বিস্তারিত দেখার পারফেক্ট ফ্লোটিং মডাল উইন্ডো -->
     <div id="noticeModal" class="modal">
         <div class="modal-content">
             <!-- স্ট্যাবল টপ হেডার -->
@@ -489,7 +490,7 @@
                 <button class="modal-close-btn" onclick="closeNoticeModal()">&times;</button>
             </div>
             
-            <!-- স্ক্রলএবল ইমেজ কন্টেইনার -->
+            <!-- স্ক্রলএবল ইমেজ বডি -->
             <div class="modal-body-scrollable">
                 <div id="modalImages" class="modal-images"></div>
             </div>
@@ -536,7 +537,7 @@
     <!-- ৮. কার্যক্রম দেখার পপআপ মডাল -->
     <div id="activitiesModal" class="modal">
         <div class="activities-modal-content">
-            <span class="modal-close" onclick="closeAboutModal()">&times;</span>
+            <span class="modal-close" onclick="closeActivitiesModal()">&times;</span>
             <div id="activitiesModalTitle" class="activities-modal-title">কার্যক্রমের বিবরণ</div>
             <div id="activitiesModalBody" class="activities-modal-body">বিস্তারিত বিবরণ এখানে প্রদর্শিত হবে।</div>
         </div>
@@ -1109,7 +1110,7 @@
             document.getElementById('noticeModal').style.display = 'block';
         }
 
-        /* সরাসরি jsPDF ব্যবহার করে ১০০% ফাঁকা পেজ মুক্ত এবং ক্লিয়ার পিডিএফ ডাউনলোড লজিক */
+        /* সুপার ফাস্ট এবং নির্ভরযোগ্য jsPDF পিডিএফ ডাউনলোড লজিক */
         function downloadNoticePDF() {
             const btn = document.getElementById('noticeDownloadBtn');
             if (!btn) return;
@@ -1121,58 +1122,64 @@
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
 
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4');
-            const pageWidth = doc.internal.pageSize.getWidth();
-            const pageHeight = doc.internal.pageSize.getHeight();
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
 
-            let loadedCount = 0;
+                let loadedCount = 0;
 
-            images.forEach((src, index) => {
-                const img = new Image();
-                img.crossOrigin = 'Anonymous';
-                img.src = src;
-                img.onload = function() {
-                    if (index > 0) {
-                        doc.addPage();
-                    }
+                images.forEach((src, index) => {
+                    const img = new Image();
+                    img.crossOrigin = 'Anonymous';
+                    img.src = src;
+                    img.onload = function() {
+                        if (index > 0) {
+                            doc.addPage();
+                        }
 
-                    const imgWidth = img.naturalWidth || img.width;
-                    const imgHeight = img.naturalHeight || img.height;
-                    
-                    const margin = 10;
-                    const availableWidth = pageWidth - (margin * 2);
-                    const availableHeight = pageHeight - (margin * 2);
-                    
-                    let ratio = imgWidth / imgHeight;
-                    let renderWidth = availableWidth;
-                    let renderHeight = availableWidth / ratio;
-                    
-                    if (renderHeight > availableHeight) {
-                        renderHeight = availableHeight;
-                        renderWidth = availableHeight * ratio;
-                    }
-                    
-                    let x = (pageWidth - renderWidth) / 2;
-                    let y = (pageHeight - renderHeight) / 2;
-                    
-                    doc.addImage(img, 'JPEG', x, y, renderWidth, renderHeight);
-                    
-                    loadedCount++;
-                    if (loadedCount === images.length) {
-                        doc.save(`${title.trim().replace(/[/\\?%*:|"<>]/g, '_')}.pdf`);
-                        btn.disabled = false;
-                        btn.innerHTML = '<i class="fas fa-download"></i> Download';
-                    }
-                };
-                img.onerror = function() {
-                    loadedCount++;
-                    if (loadedCount === images.length) {
-                        btn.disabled = false;
-                        btn.innerHTML = '<i class="fas fa-download"></i> Download';
-                    }
-                };
-            });
+                        const imgWidth = img.naturalWidth || img.width;
+                        const imgHeight = img.naturalHeight || img.height;
+                        
+                        const margin = 10;
+                        const availableWidth = pageWidth - (margin * 2);
+                        const availableHeight = pageHeight - (margin * 2);
+                        
+                        let ratio = imgWidth / imgHeight;
+                        let renderWidth = availableWidth;
+                        let renderHeight = availableWidth / ratio;
+                        
+                        if (renderHeight > availableHeight) {
+                            renderHeight = availableHeight;
+                            renderWidth = availableHeight * ratio;
+                        }
+                        
+                        let x = (pageWidth - renderWidth) / 2;
+                        let y = (pageHeight - renderHeight) / 2;
+                        
+                        doc.addImage(img, 'JPEG', x, y, renderWidth, renderHeight);
+                        
+                        loadedCount++;
+                        if (loadedCount === images.length) {
+                            doc.save(`${title.trim().replace(/[/\\?%*:|"<>]/g, '_')}.pdf`);
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                        }
+                    };
+                    img.onerror = function() {
+                        loadedCount++;
+                        if (loadedCount === images.length) {
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                        }
+                    };
+                });
+            } catch (err) {
+                console.error("PDF Error:", err);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-download"></i> Download';
+            }
         }
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
