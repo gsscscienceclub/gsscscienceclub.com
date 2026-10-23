@@ -419,7 +419,7 @@
     <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ -->
     <div id="floatingProfileContainer"></div>
 
-    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (ডাউনলোড বাটন যুক্ত) -->
+    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (সর্বজনীন Download বাটন সহ) -->
     <div id="noticeModal" class="modal">
         <div class="modal-content" style="position: relative; padding-bottom: 60px;">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
@@ -1000,7 +1000,7 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        /* নোটিশ মডাল ও পিডিএফ ডাউনলোড ফাংশন */
+        /* সর্বজনীন নোটিশ মডাল ও পিডিএফ ডাউনলোড ফাংশন */
         function openNoticeModal(title, imgArray) {
             currentNoticeTitle = title;
             currentNoticeImages = imgArray;
@@ -1029,36 +1029,43 @@
             if (images.length === 0) return;
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
 
             const tempDiv = document.createElement('div');
             tempDiv.style.background = '#ffffff';
-            tempDiv.style.padding = '20px';
+            tempDiv.style.padding = '15px';
             tempDiv.style.width = '794px';
-            tempDiv.style.margin = '0 auto';
+            tempDiv.style.position = 'absolute';
+            tempDiv.style.left = '-9999px';
+            tempDiv.style.top = '0';
             tempDiv.style.fontFamily = 'Arial, sans-serif';
 
-            let htmlContent = `<h2 style="color: #007e33; text-align: center; margin-bottom: 20px; font-size: 20px;">${title}</h2>`;
+            let htmlContent = `<h2 style="color: #007e33; text-align: center; margin-bottom: 20px; font-size: 22px; font-weight: bold;">${title}</h2>`;
             images.forEach((src) => {
-                htmlContent += `<div style="margin-bottom: 20px; page-break-after: always; text-align: center;"><img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" crossorigin="anonymous"></div>`;
+                htmlContent += `<div style="margin-bottom: 15px; page-break-inside: avoid; text-align: center;"><img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border: 1px solid #ddd;" crossorigin="anonymous"></div>`;
             });
             tempDiv.innerHTML = htmlContent;
+            document.body.appendChild(tempDiv);
 
             const opt = {
                 margin:       10,
-                filename:     `${title}.pdf`,
+                filename:     `${title.replace(/[\/\\?%*:|"<>]/g, '_')}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                html2canvas:  { scale: 2, useCORS: true, logging: false, letterRendering: true },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(tempDiv).save().then(() => {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-download"></i> Download';
-            }).catch(() => {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-download"></i> Download';
-            });
+            setTimeout(() => {
+                html2pdf().set(opt).from(tempDiv).save().then(() => {
+                    document.body.removeChild(tempDiv);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                }).catch(() => {
+                    if (document.body.contains(tempDiv)) document.body.removeChild(tempDiv);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                });
+            }, 500);
         }
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
@@ -1862,6 +1869,54 @@
                 fetchChatReplies();
             }
         }, 10000);
+
+        /* নোটিশ পিডিএফ ডাউনলোড ফাংশন (মাঝের ছবি ও পেজ কাটার সমস্যা সমাধান সহ) */
+        function downloadNoticePDF() {
+            const btn = document.getElementById('noticeDownloadBtn');
+            if (!btn) return;
+            const title = currentNoticeTitle || 'Notice';
+            const images = currentNoticeImages || [];
+            if (images.length === 0) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
+
+            const tempDiv = document.createElement('div');
+            tempDiv.style.background = '#ffffff';
+            tempDiv.style.padding = '15px';
+            tempDiv.style.width = '794px';
+            tempDiv.style.position = 'absolute';
+            tempDiv.style.left = '-9999px';
+            tempDiv.style.top = '0';
+            tempDiv.style.fontFamily = 'Arial, sans-serif';
+
+            let htmlContent = `<h2 style="color: #007e33; text-align: center; margin-bottom: 20px; font-size: 22px; font-weight: bold;">${title}</h2>`;
+            images.forEach((src) => {
+                htmlContent += `<div style="margin-bottom: 15px; page-break-inside: avoid; text-align: center;"><img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border: 1px solid #ddd;" crossorigin="anonymous"></div>`;
+            });
+            tempDiv.innerHTML = htmlContent;
+            document.body.appendChild(tempDiv);
+
+            const opt = {
+                margin:       10,
+                filename:     `${title.replace(/[\/\\?%*:|"<>]/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false, letterRendering: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            setTimeout(() => {
+                html2pdf().set(opt).from(tempDiv).save().then(() => {
+                    document.body.removeChild(tempDiv);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                }).catch(() => {
+                    if (document.body.contains(tempDiv)) document.body.removeChild(tempDiv);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                });
+            }, 500);
+        }
     </script>
 </body>
 </html>
