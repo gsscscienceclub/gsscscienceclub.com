@@ -410,7 +410,7 @@
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
             <div id="modalImages" class="modal-images"></div>
-            <!-- নোটিশ পিডিএফ ডাউনলোডের জন্য বাটন -->
+            <!-- নোটিশ পিডিএফ ডাউনলোডের জন্য বাটন (সকল নোটিশ মডালে স্বয়ংক্রিয়ভাবে থাকবে) -->
             <div style="margin-top: 15px; text-align: right;">
                 <button id="noticePdfBtn" onclick="downloadNoticePDF()" style="background:#007e33; color:#fff; border:none; padding:8px 16px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px;">
                     <i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড
@@ -975,7 +975,7 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (নোটিশের আসল ছবি ও মেইন টাইটেল সহ)
+        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (ছবির মূল আকৃতি অনুযায়ী পেজ সাইজ ও একাধিক ছবি পর্যায়ক্রমে যুক্ত করার কোড)
 		function downloadNoticePDF() {
     		const btn = document.getElementById('noticePdfBtn');
     		if (btn) {
@@ -985,51 +985,89 @@
 
     		const title = document.getElementById('modalTitle').innerText || "Notice";
     		const safeTitle = title.replace(/[/\\?%*:|"<>]/g, '_');
-
-    		// মডালের ভেতর থাকা আসল ছবির সোর্স সংগ্রহ করা
     		const imgElements = document.querySelectorAll('#modalImages img');
 
-    		// একটি অস্থায়ী কন্টেইনার তৈরি করা যাতে শুধু আসল ছবি এবং টাইটেল সুন্দরভাবে পিডিএফ আকারে আসে
+    		if (imgElements.length === 0) {
+        		if (btn) {
+            		btn.disabled = false;
+            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+        		}
+        		return;
+    		}
+
+    		let imgSources = Array.from(imgElements).map(img => img.src);
+
     		const tempContainer = document.createElement('div');
     		tempContainer.style.background = '#ffffff';
-    		tempContainer.style.padding = '20px';
-    		tempContainer.style.width = '700px';
+    		tempContainer.style.padding = '10px';
+    		tempContainer.style.width = '800px';
+    		tempContainer.style.boxSizing = 'border-box';
     		tempContainer.style.fontFamily = 'Arial, sans-serif';
-    		tempContainer.style.color = '#000000';
 
-    		let htmlContent = `<h2 style="text-align: center; color: #007e33; margin-bottom: 20px; font-size: 18px;">${title}</h2>`;
-    
-    		imgElements.forEach(img => {
-        		htmlContent += `<div style="text-align: center; margin-bottom: 15px;"><img src="${img.src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" crossorigin="anonymous"></div>`;
+    		let htmlContent = `<h3 style="text-align: center; color: #007e33; margin-bottom: 10px; font-size: 16px;">${title}</h3>`;
+    		imgSources.forEach(src => {
+        		htmlContent += `<div style="text-align: center; margin-bottom: 10px;"><img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" crossorigin="anonymous"></div>`;
     		});
-
     		tempContainer.innerHTML = htmlContent;
     		document.body.appendChild(tempContainer);
 
-    		const opt = {
-        		margin: 10,
-        		filename: `${safeTitle}.pdf`,
-        		image: { type: 'jpeg', quality: 0.98 },
-        		html2canvas: { scale: 2, useCORS: true, logging: false },
-        		jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    		const testImg = new Image();
+    		testImg.crossOrigin = "anonymous";
+    		testImg.src = imgSources[0];
+    		testImg.onload = function() {
+        		let natW = testImg.naturalWidth || 800;
+        		let natH = testImg.naturalHeight || 1056;
+        		let aspectRatio = natW / natH;
+        		
+        		let pdfWidthMm = 210;
+        		let pdfHeightMm = pdfWidthMm / aspectRatio;
+        		
+        		if (imgSources.length > 1) {
+            		pdfHeightMm = pdfHeightMm * imgSources.length;
+        		}
+
+        		const opt = {
+            		margin:       5,
+            		filename:     `${safeTitle}.pdf`,
+            		image:        { type: 'jpeg', quality: 0.98 },
+            		html2canvas:  { scale: 2, useCORS: true, logging: false },
+            		jsPDF:        { unit: 'mm', format: [pdfWidthMm, pdfHeightMm], orientation: pdfWidthMm > pdfHeightMm ? 'landscape' : 'portrait' }
+        		};
+
+        		html2pdf().set(opt).from(tempContainer).save().then(() => {
+            		document.body.removeChild(tempContainer);
+            		if (btn) {
+                		btn.disabled = false;
+                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+            		}
+        		}).catch((err) => {
+            		console.error("PDF download error:", err);
+            		if (document.body.contains(tempContainer)) {
+                		document.body.removeChild(tempContainer);
+            		}
+            		if (btn) {
+                		btn.disabled = false;
+                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+            		}
+        		});
     		};
 
-    		html2pdf().set(opt).from(tempContainer).save().then(() => {
-        		document.body.removeChild(tempContainer);
-        		if (btn) {
-            		btn.disabled = false;
-            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-        		}
-    		}).catch((err) => {
-        		console.error("PDF download error:", err);
-        		if (document.body.contains(tempContainer)) {
+    		testImg.onerror = function() {
+        		const opt = {
+            		margin:       10,
+            		filename:     `${safeTitle}.pdf`,
+            		image:        { type: 'jpeg', quality: 0.98 },
+            		html2canvas:  { scale: 2, useCORS: true, logging: false },
+            		jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        		};
+        		html2pdf().set(opt).from(tempContainer).save().then(() => {
             		document.body.removeChild(tempContainer);
-        		}
-        		if (btn) {
-            		btn.disabled = false;
-            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-        		}
-    		});
+            		if (btn) {
+                		btn.disabled = false;
+                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+            		}
+        		});
+    		};
 		}
 
         /* মডাল পপআপ ফাংশনসমূহ */
@@ -1077,10 +1115,6 @@
         function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
 
         function openNoticeModal(title, imgArray) {
-            if (Array.isArray(imgArray) && imgArray.length === 1) {
-                openImageViewer(imgArray[0]);
-                return;
-            }
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
             container.innerHTML = ''; 
