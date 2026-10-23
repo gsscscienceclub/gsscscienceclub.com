@@ -665,7 +665,7 @@
         </div>
     </div>
 
-    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (All Notices Modal) - এখানে আপনার নোটিশগুলো আপডেট করবেন -->
+    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল (All Notices Modal) -->
     <div id="allNoticesModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
@@ -739,11 +739,11 @@
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
-    <!-- ১৩. সর্বশেষ নোটিশ সেকশন (Marquee Scrolling Notice) -->
+    <!-- ১৩. সর্বশেষ নোটিশ সেকশন (Marquee Scrolling Notice - latest-notice.html থেকে ডাইনামিকালি লোড হবে) -->
     <div class="latest-notice-wrapper">
         <div class="latest-notice-container">
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
-            <div class="latest-notice-text">
+            <div class="latest-notice-text" id="latestNoticeContainerBox">
                 <marquee behavior="scroll" direction="left">
 					<span>দূর্গাপূজা উপলক্ষে সরকারি ছুটি থাকায় ১৮ এবং ২৫ শে অক্টোবর রোজ রবিবারের জিএসএসসি বিজ্ঞান ক্লাবের সাপ্তাহিক মিটিং কার্যক্রম বন্ধ থাকিবে।</span>
 					<span>অনিবার্য কারণবশত স্থগিতকৃত জিএসএসসি বিজ্ঞান ক্লাবের প্রাথমিক সদস্য বাছাই পরীক্ষা পূজার ছুটি শেষ হওয়ার পরবর্তী ১ সপ্তাহের মধ্যে গ্রহণ করা হইবে। </span>
@@ -825,7 +825,7 @@
     <!-- ১৫. মূল কন্টেন্ট কন্টেইনার (Main Container) -->
     <div class="container">
         
-        <!-- নোটিশ বোর্ড সেকশন (হোম পেজ - এখান থেকে প্রথম দুটি নোটিশ ডাইনামিকালি লোড হবে) -->
+        <!-- নোটিশ বোর্ড সেকশন -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
@@ -1149,7 +1149,7 @@
             startSlideshow();
         }
 
-        /* প্রি-লোডার হাইড করার ইভেন্ট এবং হোম পেজে প্রথম দুটি নোটিশ ডাইনামিকালি লোড করার ফাংশন */
+        /* প্রি-লোডার হাইড করার ইভেন্ট এবং হোম পেজে প্রথম দুটি নোটিশ ও লেটেস্ট নোটিশ ডাইনামিকালি লোড করার ফাংশন */
         window.addEventListener('load', function() {
             var preloader = document.getElementById('science-preloader');
             if(preloader) {
@@ -1159,6 +1159,9 @@
             
             // হোম পেজের নোটিশ বোর্ডে প্রথম দুটি নোটিশ লোড করা হচ্ছে
             loadLatestNoticesToHome();
+            
+            // latest-notice.html থেকে সর্বশেষ স্ক্রলিং নোটিশ লোড করা হচ্ছে
+            loadLatestNoticeFromFile();
         });
 
         function loadLatestNoticesToHome() {
@@ -1172,6 +1175,18 @@
                     homeContainer.appendChild(clonedItem);
                 }
             }
+        }
+
+        function loadLatestNoticeFromFile() {
+            fetch('latest-notice.html')
+                .then(response => response.text())
+                .then(html => {
+                    const container = document.getElementById('latestNoticeContainerBox');
+                    if (container && html.trim() !== '') {
+                        container.innerHTML = html;
+                    }
+                })
+                .catch(err => console.error("Latest Notice Load Error:", err));
         }
 
         window.onload = function() { 
@@ -1432,7 +1447,6 @@
                     sessionStorage.setItem('gssc_logged_in', 'true');
                     sessionStorage.setItem('gssc_user_data', JSON.stringify(data));
                     
-                    // ব্যাকআপ হিসেবে লোকাল স্টোরেজেও রাখা যাতে পেজ রিফ্রেশে ইনস্ট্যান্ট পাওয়া যায়
                     localStorage.setItem('gssc_logged_in', 'true');
                     localStorage.setItem('gssc_user_data', JSON.stringify(data));
 
@@ -1626,7 +1640,6 @@
                     const data = JSON.parse(userDataStr);
                     const memberId = data.savedMemberId || (data.details && data.details['Member ID']) || '';
                     if (memberId) {
-                        // প্রতিবার পেজ রিফ্রেশ বা লোড হওয়ার সময় ব্যাকএন্ড গুগল শিট থেকে লাইভ ডেটা ফেচ করা হবে যাতে স্ট্যাটাস আপডেট ইনস্ট্যান্ট দেখায়
                         fetch(`${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=`)
                         .then(res => res.json())
                         .then(freshData => {
@@ -1931,7 +1944,7 @@
             }
         }
 
-        /* প্রোফাইল ব্যাজ ড্র্যাগ করার ফাংশন (Draggable Profile Badge) */
+        /* প্রোফাইল ব্যাজ ড্র্যাগ করার ফাংশন */
         function makeBadgeDraggable(elmnt) {
             if (!elmnt) return;
             var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
