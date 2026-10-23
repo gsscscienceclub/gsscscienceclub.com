@@ -205,7 +205,7 @@
             align-items: center; 
         }
 
-        /* পেজ কার্ড স্টাইল যেখানে প্রতিটি ছবি A4/Legal পেজের মতো দেখাবে এবং ডাউনলোড বাটন নিচে ডান পাশে থাকবে */
+        /* পেজ কার্ড স্টাইল যেখানে প্রতিটি ছবি পেজের মতো দেখাবে এবং একাধিক পেজ থাকলে প্রথম পেজের নিচে ডান পাশে ডাউনলোড বাটন থাকবে */
         .notice-page-card {
             background: #ffffff;
             width: 100%;
@@ -218,7 +218,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 50px;
+        }
+
+        .notice-page-card.has-download {
+            padding-bottom: 50px; /* ডাউনলোড বাটন থাকার কারণে নিচে স্পেস রাখা হয়েছে */
         }
 
         .notice-page-card img {
@@ -230,7 +233,7 @@
             cursor: pointer;
         }
 
-        /* পেজের নিচে ডান কোণায় ফিক্সড ডাউনলোড বাটন */
+        /* প্রথম পেজের নিচে ডান কোণায় ফিক্সড ডাউনলোড বাটন (একাধিক পেজ থাকলে) */
         .page-download-btn {
             position: absolute;
             bottom: 12px;
@@ -251,6 +254,35 @@
         }
         .page-download-btn:hover {
             background: #004d25;
+        }
+
+        /* পেজ কাউন্টার এবং স্ক্রল সাইন স্টাইল */
+        .page-indicator-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #555;
+            padding: 0 2px;
+        }
+        .scroll-sign {
+            color: #007e33;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        /* একক ছবির নোটিশের ক্ষেত্রে নিচের সেন্টারে মূল ডাউনলোড বাটন */
+        .single-notice-download-container {
+            text-align: center; 
+            margin-top: 18px; 
+            padding-bottom: 10px;
+            width: 100%;
         }
 
         /* "See all image" এর জন্য গ্যালারি গ্রিড ভিউ স্টাইল */
@@ -539,7 +571,7 @@
                 <button class="modal-close-btn" onclick="closeNoticeModal()">&times;</button>
             </div>
             
-            <!-- স্ক্রলএবল বডি যেখানে প্রতিটি ছবির নিচে ডান দিকে ডাউনলোড বাটন থাকবে -->
+            <!-- স্ক্রলএবল বডি -->
             <div class="modal-body-scrollable">
                 <div id="modalImages" class="modal-images"></div>
             </div>
@@ -1106,6 +1138,7 @@
 
                     const slideshowContainer = document.getElementById('slideshowContainer');
                     if (slideshowContainer) {
+                        slideshowContainer.innerHTML = 'অ্যাক্টিভিটিজ ছবি লোড করা হচ্ছে...';
                         slideshowContainer.innerHTML = '';
                         activityItems.forEach(item => {
                             slideshowContainer.appendChild(item.cloneNode(true));
@@ -1126,7 +1159,7 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        /* সর্বজনীন নোটিশ মডাল ওপেন করার ফাংশন (প্রতিটি ছবির জন্য আলাদা পেজ কার্ড এবং নিচে ডান দিকে ডাউনলোড বাটন) */
+        /* সর্বজনীন নোটিশ মডাল ওপেন করার ফাংশন (একাধিক পেজ থাকলে প্রথম পেজে শুধু ডাউনলোড বাটন এবং পেজ কাউন্টার/স্ক্রল সাইন থাকবে) */
         function openNoticeModal(title, imgArray) {
             currentNoticeTitle = title || "নোটিশ";
             currentNoticeImages = Array.isArray(imgArray) ? imgArray : [imgArray];
@@ -1135,22 +1168,70 @@
             var container = document.getElementById('modalImages');
             container.innerHTML = ''; 
             
+            const totalPages = currentNoticeImages.length;
+            const hasMultiplePages = totalPages > 1;
+
             currentNoticeImages.forEach(function(src, index) {
                 var card = document.createElement('div');
                 card.className = 'notice-page-card';
+                if (hasMultiplePages && index === 0) {
+                    card.classList.add('has-download');
+                }
+
+                // পেজ কাউন্টার এবং স্ক্রল সাইন হেডার তৈরি (যদি একাধিক পেজ থাকে)
+                if (hasMultiplePages) {
+                    var indicatorBar = document.createElement('div');
+                    indicatorBar.className = 'page-indicator-bar';
+
+                    // বাম দিকের স্ক্রল সাইন (যদি আগের বা পরের পেজ থাকে)
+                    let leftSign = '';
+                    if (index > 0) {
+                        leftSign = `<span class="scroll-sign"><i class="fas fa-chevron-left"></i> পেজ ${index}</span>`;
+                    } else {
+                        leftSign = `<span></span>`;
+                    }
+
+                    // পেজ কাউন্টার (যেমন: Page 1 of 3)
+                    let pageCountText = `<span>পেজ ${index + 1} / ${totalPages}</span>`;
+
+                    // ডান দিকের স্ক্রল সাইন (যদি পরবর্তী পেজ থাকে)
+                    let rightSign = '';
+                    if (index < totalPages - 1) {
+                        rightSign = `<span class="scroll-sign">পেজ ${index + 2} <i class="fas fa-chevron-right"></i></span>`;
+                    } else {
+                        rightSign = `<span></span>`;
+                    }
+
+                    indicatorBar.innerHTML = leftSign + pageCountText + rightSign;
+                    card.appendChild(indicatorBar);
+                }
 
                 var img = document.createElement('img');
                 img.src = src;
                 img.onclick = function() { openImageViewer(src); };
                 card.appendChild(img);
 
-                var btn = document.createElement('button');
-                btn.className = 'page-download-btn';
-                btn.innerHTML = '<i class="fas fa-download"></i> Download';
-                btn.onclick = function() {
-                    downloadNoticePDF(btn);
-                };
-                card.appendChild(btn);
+                // যদি একাধিক পেজ থাকে, তবে শুধুমাত্র প্রথম পেজে ডান দিকে ডাউনলোড বাটন থাকবে
+                if (hasMultiplePages && index === 0) {
+                    var btn = document.createElement('button');
+                    btn.className = 'page-download-btn';
+                    btn.innerHTML = '<i class="fas fa-download"></i> Download';
+                    btn.onclick = function() {
+                        downloadNoticePDF(btn);
+                    };
+                    card.appendChild(btn);
+                } 
+                // যদি মাত্র একটি পেজ থাকে, তবে নিচে সেন্টারে ডাউনলোড বাটন থাকবে
+                else if (!hasMultiplePages) {
+                    var singleDownloadContainer = document.createElement('div');
+                    singleDownloadContainer.className = 'single-notice-download-container';
+                    singleDownloadContainer.innerHTML = `
+                        <button onclick="downloadNoticePDF(this)" style="background:#007e33; color:#fff; border:none; padding:10px 25px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:14px; display:inline-flex; align-items:center; gap:6px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    `;
+                    card.appendChild(singleDownloadContainer);
+                }
 
                 container.appendChild(card);
             });
