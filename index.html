@@ -913,7 +913,7 @@
         /* all-notices.html, latest-notice.html এবং activities.html থেকে ডায়নামিক কন্টেন্ট লোড করার ফাংশন */
         function loadDynamicContent() {
             // ১. সর্বশেষ নোটিশ (latest-notice.html) লোড করা
-            fetch('latest-notice.html')
+            fetch('latest-notice.html?_t=' + new Date().getTime())
                 .then(response => response.text())
                 .then(html => {
                     const parser = new DOMParser();
@@ -927,7 +927,7 @@
                 .catch(err => console.error('Latest notice load error:', err));
 
             // ২. সকল নোটিশ (all-notices.html) লোড করা এবং হোম পেজে প্রথম ২টি দেখানো
-            fetch('all-notices.html')
+            fetch('all-notices.html?_t=' + new Date().getTime())
                 .then(response => response.text())
                 .then(html => {
                     const parser = new DOMParser();
@@ -955,7 +955,7 @@
                 .catch(err => console.error('All notices load error:', err));
 
             // ৩. রিসেন্ট অ্যাক্টিভিটিস ও গ্যালারি (activities.html) লোড করা
-            fetch('activities.html')
+            fetch('activities.html?_t=' + new Date().getTime())
                 .then(response => response.text())
                 .then(html => {
                     const parser = new DOMParser();
@@ -1175,7 +1175,7 @@
 
             resultContainer.innerHTML = '<div style="text-align:center; color:#666;"><i class="fas fa-spinner fa-spin"></i> ফলাফল লোড হচ্ছে...</div>';
 
-            fetch(`${APPS_SCRIPT_WEB_APP_URL}?action=get_results&memberId=${encodeURIComponent(memberId)}`)
+            fetch(`${APPS_SCRIPT_WEB_APP_URL}?action=get_results&memberId=${encodeURIComponent(memberId)}&_t=${new Date().getTime()}`)
             .then(res => res.json())
             .then(data => {
                 if (data.status === 'success' && data.results && data.results.length > 0) {
@@ -1211,7 +1211,7 @@
             submitBtn.disabled = true;
             submitBtn.style.opacity = '0.7';
 
-            const targetUrl = `${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=${encodeURIComponent(password)}`;
+            const targetUrl = `${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=${encodeURIComponent(password)}&_t=${new Date().getTime()}`;
 
             fetch(targetUrl)
             .then(res => res.json())
@@ -1375,7 +1375,7 @@
             formData.append('trxId', trxId);
             formData.append('amount', amount);
 
-            fetch(APPS_SCRIPT_WEB_APP_URL, {
+            fetch(APPS_SCRIPT_WEB_APP_URL + '?_t=' + new Date().getTime(), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
                 body: formData.toString()
@@ -1418,7 +1418,7 @@
                     const data = JSON.parse(userDataStr);
                     const memberId = data.savedMemberId || (data.details && data.details['Member ID']) || '';
                     if (memberId) {
-                        fetch(`${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=`)
+                        fetch(`${APPS_SCRIPT_WEB_APP_URL}?memberId=${encodeURIComponent(memberId)}&password=&_t=${new Date().getTime()}`)
                         .then(res => res.json())
                         .then(freshData => {
                             if (freshData.status === 'success' || freshData.Status === 'Success') {
@@ -1804,7 +1804,7 @@
             formData.append('message', msg);
             formData.append('sender', 'User');
 
-            fetch(APPS_SCRIPT_WEB_APP_URL, {
+            fetch(APPS_SCRIPT_WEB_APP_URL + '?_t=' + new Date().getTime(), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
                 body: formData.toString()
@@ -1812,7 +1812,7 @@
         }
 
         function fetchChatReplies() {
-            fetch(`${APPS_SCRIPT_WEB_APP_URL}?action=chat_fetch&chatId=${currentChatId}`)
+            fetch(`${APPS_SCRIPT_WEB_APP_URL}?action=chat_fetch&chatId=${currentChatId}&_t=${new Date().getTime()}`)
             .then(res => res.json())
             .then(data => {
                 if (data.status === 'success' && data.messages.length > 0) {
