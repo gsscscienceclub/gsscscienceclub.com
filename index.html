@@ -21,7 +21,29 @@
     <!-- সিএসএস স্টাইল অংশ (CSS Styling) -->
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; }
-        body { background-color: #f1f1f1; color: #333; }
+        
+        /* সিকিউরিটি ও কন্টেন্ট প্রটেকশন (টেক্সট সিলেক্ট ও ইমেজ ড্র্যাগ বন্ধ) */
+        body { 
+            background-color: #f1f1f1; 
+            color: #333; 
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none; 
+            user-select: none; 
+            -webkit-touch-callout: none; 
+        }
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
+        }
+        /* বাটন ও ইন্টারেক্টিভ এলিমেন্টে ক্লিক সচল রাখা */
+        a, button, input, select, textarea, .menu-btn, .notice-read-more, .doc-btn, .contact-icon-btn, .filter-btn, .sidebar-menu li a, .profile-tab-btn, .modal-close, .modal-images img {
+            pointer-events: auto !important;
+        }
 
         /* টপ হেডার (Top Header) স্টাইল */
         .top-header {
@@ -136,15 +158,8 @@
         .modal-content { background-color: #fff; margin: 3% auto; padding: 20px; border-radius: 8px; max-width: 900px; width: 95%; position: relative; }
         .modal-close { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; color: #d32f2f; cursor: pointer; }
         .modal-title { font-size: 16px; font-weight: bold; color: #007e33; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #007e33; padding-right: 30px; }
-        .modal-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-        .modal-images img { width: 100%; height: 160px; object-fit: cover; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; transition: transform 0.2s; }
-        .modal-images img:hover { transform: scale(1.03); }
-
-        /* ছবি ফুলস্ক্রিন প্রিভিউ দেখার মডাল */
-        #imageViewerModal { z-index: 9000 !important; background-color: rgba(0,0,0,0.9); display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; justify-content: center; align-items: center; padding: 20px; }
-        .image-viewer-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
-        .image-viewer-content img { width: auto; height: auto; max-width: 100%; max-height: 85vh; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .image-viewer-close { position: absolute; top: -40px; right: 0; font-size: 35px; font-weight: bold; color: #fff; cursor: pointer; }
+        .modal-images { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .modal-images img { width: 100%; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; }
 
         /* আমাদের সম্পর্কে মডাল */
         #aboutModal { z-index: 7000 !important; background-color: rgba(0,0,0,0.85); }
@@ -198,7 +213,7 @@
             overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #000;
         }
         .slide-item { display: none; position: relative; }
-        .slide-item img { width: 100%; height: 280px; object-fit: cover; display: block; cursor: pointer; }
+        .slide-item img { width: 100%; height: 280px; object-fit: cover; display: block; }
         .slide-overlay {
             position: absolute; bottom: 10px; left: 0; right: 0; background: transparent;
             color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9); padding: 5px;
@@ -386,7 +401,7 @@
     }
 	</script>
 </head>
-<body>
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
     <!-- ১. ওয়েবসাইট লোডিং প্রি-লোডার -->
     <div id="science-preloader">
@@ -419,15 +434,7 @@
         </div>
     </div>
 
-    <!-- ৫. ফুলস্ক্রিন ইমেজ ভিউয়ার মডাল -->
-    <div id="imageViewerModal" class="modal" onclick="closeImageViewer()">
-        <div class="image-viewer-content" onclick="event.stopPropagation()">
-            <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
-            <img id="fullSizeImage" src="" alt="Full Size Notice Image">
-        </div>
-    </div>
-
-    <!-- ৬. আমাদের সম্পর্কে দেখার পপআপ মডাল -->
+    <!-- ৫. আমাদের সম্পর্কে দেখার পপআপ মডাল -->
     <div id="aboutModal" class="modal">
         <div class="about-modal-content">
             <span class="modal-close" onclick="closeAboutModal()">&times;</span>
@@ -436,7 +443,7 @@
         </div>
     </div>
 
-    <!-- ৭. পরীক্ষার রেজাল্ট দেখার পপআপ মডাল -->
+    <!-- ৬. পরীক্ষার রেজাল্ট দেখার পপআপ মডাল -->
     <div id="resultModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeResultModal()">&times;</span>
@@ -445,7 +452,7 @@
         </div>
     </div>
 
-    <!-- ৮. কার্যক্রম দেখার পপআপ মডাল -->
+    <!-- ৭. কার্যক্রম দেখার পপআপ মডাল -->
     <div id="activitiesModal" class="modal">
         <div class="activities-modal-content">
             <span class="modal-close" onclick="closeActivitiesModal()">&times;</span>
@@ -454,7 +461,7 @@
         </div>
     </div>
 
-    <!-- ৯. রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি দেখার মডাল -->
+    <!-- ৮. রিসেন্ট অ্যাক্টিভিটিসের সকল ছবি দেখার মডাল -->
     <div id="allGalleryModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllGalleryModal()">&times;</span>
@@ -463,7 +470,7 @@
         </div>
     </div>
 
-    <!-- ১০. মেম্বার লগইন ও পেমেন্ট ড্যাশবোর্ড মডাল -->
+    <!-- ৯. মেম্বার লগইন ও পেমেন্ট ড্যাশবোর্ড মডাল -->
     <div id="loginModal" class="modal">
         <div class="modal-content" style="max-width: 480px;">
             <span class="modal-close" onclick="closeLoginModal()">&times;</span>
@@ -572,7 +579,7 @@
         </div>
     </div>
 
-    <!-- ১১. সকল নোটিশ দেখার পপআপ মডাল -->
+    <!-- ১০. সকল নোটিশ দেখার পপআপ মডাল -->
     <div id="allNoticesModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
@@ -583,7 +590,7 @@
         </div>
     </div>
 
-    <!-- ১২. টপ হেডার সেকশন -->
+    <!-- ১১. টপ হেডার সেকশন -->
     <div class="top-header">
         <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo"></div>
         <div class="header-center">
@@ -596,7 +603,7 @@
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
-    <!-- ১৩. সর্বশেষ নোটিশ সেকশন -->
+    <!-- ১২. সর্বশেষ নোটিশ সেকশন -->
     <div class="latest-notice-wrapper">
         <div class="latest-notice-container">
             <div class="latest-notice-badge">সর্বশেষ নোটিশ:</div>
@@ -608,7 +615,7 @@
         </div>
     </div>
 
-    <!-- ১৪. সাইডবার নেভিগেশন মেনু -->
+    <!-- ১৩. সাইডবার নেভিগেশন মেনু -->
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
             <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
@@ -676,7 +683,7 @@
         </ul>
     </div>
 
-    <!-- ১৫. মূল কন্টেন্ট কন্টেইনার -->
+    <!-- ১৪. মূল কন্টেন্ট কন্টেইনার -->
     <div class="container">
         
         <!-- নোটিশ বোর্ড সেকশন -->
@@ -758,7 +765,7 @@
 
     </div>
 
-    <!-- ১৬. ফুটার সেকশন -->
+    <!-- ১৫. ফুটার সেকশন -->
     <div class="footer" id="contactFooterSection">
         <div class="footer-content-box">
             <div class="footer-col">
@@ -780,10 +787,10 @@
         <div class="copyright">&copy;2026 Govt. Shaheed Suhrawardy College Science Club | Developed by Mohammad Sojib</div>
     </div>
 
-    <!-- ১৭. উপরে ওঠার বাটন -->
+    <!-- ১৬. উপরে ওঠার বাটন -->
     <button onclick="scrollToTop()" id="scrollTopBtn" title="উপরে যান"><i class="fas fa-arrow-up"></i></button>
 
-    <!-- ১৮. ভাসমান সাপোর্ট চ্যাট বাটন ও উইজেট -->
+    <!-- ১৭. ভাসমান সাপোর্ট চ্যাট বাটন ও উইজেট -->
     <button id="floating-chat-btn" onclick="toggleChatBox()"><i class="fas fa-comments"></i></button>
 
     <div id="chat-widget-box">
@@ -800,7 +807,7 @@
         </div>
     </div>
 
-    <!-- ১৯. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি -->
+    <!-- ১৮. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি -->
     <script>
         const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
         const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
@@ -975,7 +982,7 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (ছবির মূল আকৃতি অনুযায়ী পেজ সাইজ ও একাধিক ছবি পর্যায়ক্রমে যুক্ত করার কোড)
+        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (পোর্ট্রেট ওরিয়েন্টেশন এবং মাল্টি-পেজ ও সঠিক আকৃতি নিশ্চিতকরণ)
 		function downloadNoticePDF() {
     		const btn = document.getElementById('noticePdfBtn');
     		if (btn) {
@@ -999,75 +1006,46 @@
 
     		const tempContainer = document.createElement('div');
     		tempContainer.style.background = '#ffffff';
-    		tempContainer.style.padding = '10px';
-    		tempContainer.style.width = '800px';
+    		tempContainer.style.width = '210mm';
     		tempContainer.style.boxSizing = 'border-box';
     		tempContainer.style.fontFamily = 'Arial, sans-serif';
 
-    		let htmlContent = `<h3 style="text-align: center; color: #007e33; margin-bottom: 10px; font-size: 16px;">${title}</h3>`;
-    		imgSources.forEach(src => {
-        		htmlContent += `<div style="text-align: center; margin-bottom: 10px;"><img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" crossorigin="anonymous"></div>`;
+    		let htmlContent = `<div style="text-align: center; padding: 15px; page-break-after: always;"><h3 style="color: #007e33; margin-bottom: 15px; font-size: 18px;">${title}</h3>`;
+    		imgSources.forEach((src, index) => {
+        		htmlContent += `
+                    <div style="width: 100%; text-align: center; margin-bottom: 15px; ${index < imgSources.length - 1 ? 'page-break-after: always;' : ''}">
+                        <img src="${src}" style="max-width: 100%; height: auto; max-height: 260mm; display: block; margin: 0 auto;" crossorigin="anonymous">
+                    </div>
+                `;
     		});
+    		htmlContent += `</div>`;
     		tempContainer.innerHTML = htmlContent;
     		document.body.appendChild(tempContainer);
 
-    		const testImg = new Image();
-    		testImg.crossOrigin = "anonymous";
-    		testImg.src = imgSources[0];
-    		testImg.onload = function() {
-        		let natW = testImg.naturalWidth || 800;
-        		let natH = testImg.naturalHeight || 1056;
-        		let aspectRatio = natW / natH;
-        		
-        		let pdfWidthMm = 210;
-        		let pdfHeightMm = pdfWidthMm / aspectRatio;
-        		
-        		if (imgSources.length > 1) {
-            		pdfHeightMm = pdfHeightMm * imgSources.length;
+    		const opt = {
+        		margin:       10,
+        		filename:     `${safeTitle}.pdf`,
+        		image:        { type: 'jpeg', quality: 0.98 },
+        		html2canvas:  { scale: 2, useCORS: true, logging: false },
+        		jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    		};
+
+    		html2pdf().set(opt).from(tempContainer).save().then(() => {
+        		document.body.removeChild(tempContainer);
+        		if (btn) {
+            		btn.disabled = false;
+            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
         		}
-
-        		const opt = {
-            		margin:       5,
-            		filename:     `${safeTitle}.pdf`,
-            		image:        { type: 'jpeg', quality: 0.98 },
-            		html2canvas:  { scale: 2, useCORS: true, logging: false },
-            		jsPDF:        { unit: 'mm', format: [pdfWidthMm, pdfHeightMm], orientation: pdfWidthMm > pdfHeightMm ? 'landscape' : 'portrait' }
-        		};
-
-        		html2pdf().set(opt).from(tempContainer).save().then(() => {
+    		}).catch((err) => {
+        		console.error("PDF download error:", err);
+        		if (document.body.contains(tempContainer)) {
             		document.body.removeChild(tempContainer);
-            		if (btn) {
-                		btn.disabled = false;
-                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-            		}
-        		}).catch((err) => {
-            		console.error("PDF download error:", err);
-            		if (document.body.contains(tempContainer)) {
-                		document.body.removeChild(tempContainer);
-            		}
-            		if (btn) {
-                		btn.disabled = false;
-                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-            		}
-        		});
-    		};
-
-    		testImg.onerror = function() {
-        		const opt = {
-            		margin:       10,
-            		filename:     `${safeTitle}.pdf`,
-            		image:        { type: 'jpeg', quality: 0.98 },
-            		html2canvas:  { scale: 2, useCORS: true, logging: false },
-            		jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        		};
-        		html2pdf().set(opt).from(tempContainer).save().then(() => {
-            		document.body.removeChild(tempContainer);
-            		if (btn) {
-                		btn.disabled = false;
-                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-            		}
-        		});
-    		};
+        		}
+        		if (btn) {
+            		btn.disabled = false;
+            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+        		}
+    		});
 		}
 
         /* মডাল পপআপ ফাংশনসমূহ */
@@ -1089,7 +1067,6 @@
                     var img = document.createElement('img');
                     img.src = src;
                     img.alt = titleText || 'Activity Image';
-                    img.onclick = function() { openImageViewer(src); };
                     cardDiv.appendChild(img);
                     if (titleText) {
                         var caption = document.createElement('div');
@@ -1114,6 +1091,7 @@
 
         function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
 
+        /* সরাসরি ফুল ইমেজ ডিসপ্লে মডাল (Read More এ ক্লিক করার পর আর আলাদা প্রিভিউ লাগবে না) */
         function openNoticeModal(title, imgArray) {
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
@@ -1121,20 +1099,18 @@
             imgArray.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
-                img.onclick = function() { openImageViewer(src); }; 
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                img.style.display = 'block';
+                img.style.marginBottom = '15px';
+                img.style.borderRadius = '6px';
+                img.style.border = '1px solid #ddd';
                 container.appendChild(img);
             });
             document.getElementById('noticeModal').style.display = 'block';
         }
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
-
-        function openImageViewer(src) {
-            document.getElementById('fullSizeImage').src = src;
-            document.getElementById('imageViewerModal').style.display = 'flex';
-        }
-
-        function closeImageViewer() { document.getElementById('imageViewerModal').style.display = 'none'; }
 
         function openAboutModal(type) {
             closeNav(); 
@@ -1176,7 +1152,6 @@
             images.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
-                img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
             document.getElementById('resultModal').style.display = 'block';
