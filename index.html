@@ -198,6 +198,7 @@
             background: #fdfdfd;
         }
 
+        /* একাধিক পেজ থাকলে বাম থেকে ডানে স্ক্রল করার জন্য হরিজন্টাল লেআউট */
         .modal-images { 
             display: flex; 
             flex-direction: column; 
@@ -205,7 +206,23 @@
             align-items: center; 
         }
 
-        /* পেজ কার্ড স্টাইল যেখানে প্রতিটি ছবি পেজের মতো দেখাবে এবং একাধিক পেজ থাকলে প্রথম পেজের নিচে ডান পাশে ডাউনলোড বাটন থাকবে */
+        .modal-images.horizontal-scroll {
+            flex-direction: row;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            gap: 15px;
+            align-items: flex-start;
+            padding-bottom: 10px;
+            width: 100%;
+        }
+
+        .modal-images.horizontal-scroll .notice-page-card {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+        }
+
+        /* পেজ কার্ড স্টাইল যেখানে প্রতিটি ছবি পেজের মতো দেখাবে */
         .notice-page-card {
             background: #ffffff;
             width: 100%;
@@ -221,7 +238,7 @@
         }
 
         .notice-page-card.has-download {
-            padding-bottom: 50px; /* ডাউনলোড বাটন থাকার কারণে নিচে স্পেস রাখা হয়েছে */
+            padding-bottom: 50px; 
         }
 
         .notice-page-card img {
@@ -478,7 +495,7 @@
         body.dark-theme .modal-header-fixed { background: #1e1e1e; border-bottom-color: #4caf50; }
         body.dark-theme .modal-title-text { color: #4caf50; }
         body.dark-theme .modal-body-scrollable { background: #161616; }
-        body.dark-theme .notice-page-card { background: #1e1e1e; border-color: #333; }
+        body.dark-theme .notice-page-card { background: #1e1e1e; border-color: #333; color: #e0e0e0; }
         body.dark-theme input, body.dark-theme select { background-color: #333; color: #fff; border-color: #555; }
         body.dark-theme label { color: #ccc !important; }
         body.dark-theme #profileDetails { background: #252525 !important; border-color: #444 !important; color: #e0e0e0; }
@@ -490,6 +507,19 @@
         body.dark-theme .profile-tab-btn { background: #333; color: #ccc; }
         body.dark-theme .profile-tab-btn.active { background: #4caf50; color: #fff; }
         body.dark-theme .pay-method-box { background: #2a2a2a !important; border-color: #444 !important; }
+
+        /* ডার্ক মোডে উপদেষ্টামণ্ডলী/কার্ডের ভেتরের সাদা অংশ ঠিক করার জন্য অতিরিক্ত রুলস */
+        body.dark-theme #patronAdvisorsContainer div,
+        body.dark-theme #patronAdvisorsContainer section,
+        body.dark-theme #patronAdvisorsContainer article {
+            background-color: #1e1e1e !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-theme #patronAdvisorsContainer div[style*="background"],
+        body.dark-theme #patronAdvisorsContainer div[style*="background-color"] {
+            background-color: #1e1e1e !important;
+            color: #e0e0e0 !important;
+        }
 
         .floating-profile-badge {
             position: fixed; top: 75px; right: 15px; z-index: 999999 !important;
@@ -1138,7 +1168,6 @@
 
                     const slideshowContainer = document.getElementById('slideshowContainer');
                     if (slideshowContainer) {
-                        slideshowContainer.innerHTML = 'অ্যাক্টিভিটিজ ছবি লোড করা হচ্ছে...';
                         slideshowContainer.innerHTML = '';
                         activityItems.forEach(item => {
                             slideshowContainer.appendChild(item.cloneNode(true));
@@ -1159,7 +1188,7 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        /* সর্বজনীন নোটিশ মডাল ওপেন করার ফাংশন (একাধিক পেজ থাকলে প্রথম পেজে শুধু ডাউনলোড বাটন এবং পেজ কাউন্টার/স্ক্রল সাইন থাকবে) */
+        /* সর্বজনীন নোটিশ মডাল ওপেন করার ফাংশন (একাধিক পেজ থাকলে বাম থেকে ডানে হরিজন্টাল স্ক্রল এবং প্রথম পেজে ডাউনলোড বাটন) */
         function openNoticeModal(title, imgArray) {
             currentNoticeTitle = title || "নোটিশ";
             currentNoticeImages = Array.isArray(imgArray) ? imgArray : [imgArray];
@@ -1170,6 +1199,12 @@
             
             const totalPages = currentNoticeImages.length;
             const hasMultiplePages = totalPages > 1;
+
+            if (hasMultiplePages) {
+                container.classList.add('horizontal-scroll');
+            } else {
+                container.classList.remove('horizontal-scroll');
+            }
 
             currentNoticeImages.forEach(function(src, index) {
                 var card = document.createElement('div');
@@ -1183,7 +1218,6 @@
                     var indicatorBar = document.createElement('div');
                     indicatorBar.className = 'page-indicator-bar';
 
-                    // বাম দিকের স্ক্রল সাইন (যদি আগের বা পরের পেজ থাকে)
                     let leftSign = '';
                     if (index > 0) {
                         leftSign = `<span class="scroll-sign"><i class="fas fa-chevron-left"></i> পেজ ${index}</span>`;
@@ -1191,10 +1225,8 @@
                         leftSign = `<span></span>`;
                     }
 
-                    // পেজ কাউন্টার (যেমন: Page 1 of 3)
                     let pageCountText = `<span>পেজ ${index + 1} / ${totalPages}</span>`;
 
-                    // ডান দিকের স্ক্রল সাইন (যদি পরবর্তী পেজ থাকে)
                     let rightSign = '';
                     if (index < totalPages - 1) {
                         rightSign = `<span class="scroll-sign">পেজ ${index + 2} <i class="fas fa-chevron-right"></i></span>`;
