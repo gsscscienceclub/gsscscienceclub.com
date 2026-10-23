@@ -574,6 +574,7 @@
             <span class="modal-close" onclick="closeAllNoticesModal()">&times;</span>
             <div class="modal-title"><i class="fas fa-bullhorn" style="color: #f39c12;"></i> সকল নোটিশ</div>
             <div style="max-height: 450px; overflow-y: auto; padding-right: 5px;" id="allNoticesModalListContainer">
+				<button onclick="downloadNoticePDF()" style="margin-top: 10px; display: block; width: 100%; padding: 10px; background-color: #007e33; color: white; border: none; border-radius: 5px; cursor: pointer;">Download PDF</button>
                 <div style="text-align:center; padding: 20px; color: #666;"><i class="fas fa-spinner fa-spin"></i> নোটিশ লোড হচ্ছে...</div>
             </div>
         </div>
@@ -970,6 +971,18 @@
                 })
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
+		function downloadNoticePDF() {
+    const element = document.querySelector('#noticeModal .modal-content');     
+    const title = document.getElementById('modalTitle').innerText || "Notice";
+    const opt = {
+        margin: 1,
+        filename: `${title}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+		}
 
         /* মডাল পপআপ ফাংশনসমূহ */
         function openAllGalleryModal() {
