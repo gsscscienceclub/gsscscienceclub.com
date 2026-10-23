@@ -2121,7 +2121,7 @@
                     btn.innerHTML = '<i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড';
                 }
             }).catch(() => {
-                if, (btn) {
+                if (btn) {
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-file-pdf"></i> প্রোফাইল ডাউনলোড';
                 }
@@ -2215,7 +2215,6 @@
         function sendChatMessage() {
             const input = document.getElementById('chatUserMsg');
             const msg = input.value.trim();
-            if (!msg) present = false;
             if (!msg) return;
 
             const body = document.getElementById('chatWidgetBody');
