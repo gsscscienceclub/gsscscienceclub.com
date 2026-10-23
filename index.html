@@ -412,7 +412,7 @@
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
             <div id="modalImages" class="modal-images"></div>
-			<button onclick="downloadNoticePDF()" style="margin-top: 10px; display: block; width: 100%; padding: 10px; background-color: #007e33; color: white; border: none; border-radius: 5px; cursor: pointer;">Download PDF</button>
+			
         </div>
     </div>
 
@@ -923,11 +923,38 @@
                     const noticeItems = doc.querySelectorAll('.list-item');
 
                     const allModalContainer = document.getElementById('allNoticesModalListContainer');
-                    if (allModalContainer) {
-                        allModalContainer.innerHTML = '';
-                        noticeItems.forEach(item => {
-                            allModalContainer.appendChild(item.cloneNode(true));
-                        });
+			 		allModalContainer.innerHTML = '';
+					notices.forEach(item => {
+    				// নোটিশ আইটেমটি ক্লোন করা হলো
+  			  		const clonedItem = item.cloneNode(true);
+    
+    				// ক্লোন করা আইটেমের ভেতর থেকে ইমেজ ট্যাগ খুঁজে বের করা
+    		  		const imgElement = clonedItem.querySelector('img');
+    				if (imgElement) {
+        			// একটি ডাউনলোড লিংক বা বাটন তৈরি করা
+       			 	const downloadBtn = document.createElement('a');
+        			downloadBtn.href = imgElement.src;
+        			downloadBtn.download = ''; // ব্রাউজারকে ফাইল ডাউনলোডের নির্দেশ দিবে
+        			downloadBtn.innerText = 'ডাউনলোড নোটিশ';
+        
+        			// বাটনের স্টাইলিং (আপনার ওয়েবসাইটের ডিজাইন অনুযায়ী কাস্টমাইজ করতে পারেন)
+        			downloadBtn.style.display = 'inline-block';
+        			downloadBtn.style.marginTop = '15px';
+        			downloadBtn.style.padding = '8px 16px';
+        			downloadBtn.style.backgroundColor = '#d9534f'; // থিমের সাথে সামঞ্জস্যপূর্ণ কালার
+        			downloadBtn.style.color = '#ffffff';
+        			downloadBtn.style.borderRadius = '4px';
+        			downloadBtn.style.textDecoration = 'none';
+        			downloadBtn.style.fontWeight = 'bold';
+        			downloadBtn.style.float = 'right'; // ডানপাশে রাখার জন্য
+        
+        			// ইমেজের প্যারেন্ট এলিমেন্টের মধ্যে বা ইমেজের নিচে বাটনটি যুক্ত করা
+        			imgElement.parentNode.appendChild(downloadBtn);
+    				}
+    
+    				// পরিমার্জিত আইটেমটি মোডাল কন্টেইনারে যুক্ত করা
+    				allModalContainer.appendChild(clonedItem);
+					});
                     }
 
                     const homeContainer = document.getElementById('homeNoticeBoardContainer');
@@ -972,18 +999,19 @@
                 })
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
+			//সকল নোটিস পৃথকভাবে pdf file ডাউনলোড
 		function downloadNoticePDF() {
-    const element = document.querySelector('#noticeModal .modal-content');     
-    const title = document.getElementById('modalTitle').innerText || "Notice";
-    const opt = {
-        margin: 1,
-        filename: `${title}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save();
-		}
+    		const element = document.querySelector('#noticeModal .modal-content');     
+    		const title = document.getElementById('modalTitle').innerText || "Notice";
+    		const opt = {
+        	margin: 1,
+        	filename: `${title}.pdf`,
+        	image: { type: 'jpeg', quality: 0.98 },
+        	html2canvas: { scale: 2 },
+        	jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    		};
+    		html2pdf().set(opt).from(element).save();
+			}
 
         /* মডাল পপআপ ফাংশনসমূহ */
         function openAllGalleryModal() {
