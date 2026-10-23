@@ -20,7 +20,29 @@
 
     <!-- সিএসএস স্টাইল অংশ (CSS Styling) -->
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; }
+        /* ৭ নম্বর পয়েন্ট: টেক্সট সিলেক্ট এবং ইমেজ লং-প্রেস/সেভ মেনু বন্ধ করার জন্য */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; 
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        
+        input, textarea, select {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        img {
+            -webkit-user-drag: none;
+            user-drag: none;
+            -webkit-touch-callout: none;
+        }
+
         body { background-color: #f1f1f1; color: #333; }
 
         /* টপ হেডার (Top Header) স্টাইল */
@@ -77,7 +99,6 @@
             font-size: 14px;
             color: #333333;
             font-weight: bold;
-            user-select:none;
         }
         .latest-notice-text marquee span {
             margin-right: 30px;
@@ -406,12 +427,17 @@
     <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ -->
     <div id="floatingProfileContainer"></div>
 
-    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল -->
+    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (১ম ও ২য় পয়েন্ট অনুযায়ী ডাউনলোড বাটন যুক্ত করা হয়েছে) -->
     <div id="noticeModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-height: 90vh; display: flex; flex-direction: column;">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
-            <div id="modalImages" class="modal-images"></div>
+            <div id="modalImages" class="modal-images" style="overflow-y: auto; flex: 1; padding-bottom: 10px;"></div>
+            <div style="text-align: right; padding-top: 10px; border-top: 1px solid #eee; margin-top: 10px;">
+                <button id="noticeDownloadBtn" onclick="downloadNoticePDF()" style="background:#0288d1; color:#fff; border:none; padding:8px 15px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s; display:inline-flex; align-items:center; gap:5px;">
+                    <i class="fas fa-file-pdf"></i> Download
+                </button>
+            </div>
         </div>
     </div>
 
@@ -419,7 +445,7 @@
     <div id="imageViewerModal" class="modal" onclick="closeImageViewer()">
         <div class="image-viewer-content" onclick="event.stopPropagation()">
             <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
-            <img id="fullSizeImage" src="" alt="Full Size Notice Image">
+            <img id="fullSizeImage" src="" alt="Full Size Notice Image" oncontextmenu="return false;">
         </div>
     </div>
 
@@ -497,7 +523,7 @@
 
                 <div id="profileTabContent" style="text-align:center;">
                     <div id="profilePhotoContainer" style="margin-bottom:15px;">
-                        <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+                        <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);" oncontextmenu="return false;">
                     </div>
                     <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:6px; font-size:14px; line-height:1.8; border:1px solid #eee; max-height:300px; overflow-y:auto;"></div>
                     
@@ -581,7 +607,7 @@
 
     <!-- ১২. টপ হেডার সেকশন -->
     <div class="top-header">
-        <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo"></div>
+        <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo" oncontextmenu="return false;"></div>
         <div class="header-center">
             <div class="header-title">সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব</div>
             <div class="badge-container">
@@ -589,7 +615,7 @@
                 <span class="badge">College Code: 1475</span>
             </div>
         </div>
-        <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
+        <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo" oncontextmenu="return false;"></div>
     </div>
 
     <!-- ১৩. সর্বশেষ নোটিশ সেকশন -->
@@ -607,7 +633,7 @@
     <!-- ১৪. সাইডবার নেভিগেশন মেনু -->
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
-            <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
+            <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" oncontextmenu="return false;">
             <span class="close-btn" onclick="closeNav()">&times;</span>
         </div>
         <ul class="sidebar-menu">
@@ -687,12 +713,12 @@
             </div>
         </div>
 
-        <!-- প্রধান পৃষ্ঠপোষক, উপদেষ্টামণ্ডলী ও কার্যনির্বাহী কমিটি (ডায়নামিকালি patron-advisors.html থেকে লোড হবে) -->
+        <!-- প্রধান পৃষ্ঠপোষক, উপদেষ্টামণ্ডলী ও কার্যনির্বাহী কমিটি -->
         <div id="patronAdvisorsContainer">
             <div style="text-align:center; padding: 15px; color: #666;"><i class="fas fa-spinner fa-spin"></i> তথ্য লোড হচ্ছে...</div>
         </div>
 
-        <!-- রিসেন্ট অ্যাক্টিভিটিজ গ্যালারি সেকশন (activities.html থেকে ডায়নামিকালি লোড হবে) -->
+        <!-- রিসেন্ট অ্যাক্টিভিটিজ গ্যালারি সেকশন -->
         <div class="section-card" id="recentActivitiesSection" style="margin-top: 20px;">
             <div class="section-title"><i class="fas fa-camera-retro" style="color: #d32f2f;"></i> Recent Activities & Gallery</div>
             <div class="section-content">
@@ -722,11 +748,11 @@
             <div class="section-title"><i class="fas fa-link" style="color: #007e33;"></i> Useful Links</div>
             <div class="section-content useful-links">
                 <a href="https://gssc.college.gov.bd/" target="_blank" class="useful-link-item">
-                    <img loading="lazy" src="17700954426981835287012.png" alt="College Logo">
+                    <img loading="lazy" src="17700954426981835287012.png" alt="College Logo" oncontextmenu="return false;">
                     <span>Govt. Shaheed Suhrawardy College</span>
                 </a>
                 <a href="https://dcu.ac.bd/" target="_blank" class="useful-link-item">
-                    <img loading="lazy" src="DCU logo.png" alt="DCU Logo">
+                    <img loading="lazy" src="DCU logo.png" alt="DCU Logo" oncontextmenu="return false;">
                     <span>Dhaka Central University</span>
                 </a>
             </div>
@@ -990,6 +1016,7 @@
                     var img = document.createElement('img');
                     img.src = src;
                     img.alt = titleText || 'Activity Image';
+                    img.setAttribute('oncontextmenu', 'return false;');
                     img.onclick = function() { openImageViewer(src); };
                     cardDiv.appendChild(img);
                     if (titleText) {
@@ -1015,7 +1042,14 @@
 
         function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
 
+        let currentNoticeTitle = "";
+        let currentNoticeImages = [];
+
+        /* ১, ২, ৩, ৪, ৫ নম্বর পয়েন্ট অনুযায়ী নোটিশ ওপেন ও পিডিএফ ডাউনলোড ফাংশন */
         function openNoticeModal(title, imgArray) {
+            currentNoticeTitle = title || "Notice";
+            currentNoticeImages = imgArray || [];
+
             if (Array.isArray(imgArray) && imgArray.length === 1) {
                 openImageViewer(imgArray[0]);
                 return;
@@ -1026,10 +1060,105 @@
             imgArray.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
+                img.setAttribute('oncontextmenu', 'return false;');
+                img.setAttribute('draggable', 'false');
                 img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
             document.getElementById('noticeModal').style.display = 'block';
+        }
+
+        function downloadNoticePDF() {
+            if (!currentNoticeImages || currentNoticeImages.length === 0) return;
+            const btn = document.getElementById('noticeDownloadBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
+            }
+
+            let loadedImages = 0;
+            const totalImages = currentNoticeImages.length;
+            const imgObjects = [];
+
+            currentNoticeImages.forEach((src, index) => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.src = src;
+                img.onload = () => {
+                    imgObjects[index] = img;
+                    loadedImages++;
+                    if (loadedImages === totalImages) {
+                        buildAndSavePDF();
+                    }
+                };
+                img.onerror = () => {
+                    imgObjects[index] = null;
+                    loadedImages++;
+                    if (loadedImages === totalImages) {
+                        buildAndSavePDF();
+                    }
+                };
+            });
+
+            function buildAndSavePDF() {
+                try {
+                    const { jsPDF } = window.jspdf || window;
+                    if (!jsPDF) {
+                        throw new Error("jsPDF not loaded");
+                    }
+
+                    let pdf = null;
+
+                    imgObjects.forEach((img, index) => {
+                        if (!img) return;
+                        const natWidth = img.naturalWidth || img.width || 800;
+                        const natHeight = img.naturalHeight || img.height || 1000;
+
+                        const maxDim = 200; // mm
+                        let pWidth, pHeight;
+                        if (natWidth >= natHeight) {
+                            pWidth = maxDim;
+                            pHeight = (natHeight / natWidth) * maxDim;
+                        } else {
+                            pHeight = maxDim;
+                            pWidth = (natWidth / natHeight) * maxDim;
+                        }
+
+                        const orientation = natWidth >= natHeight ? 'landscape' : 'portrait';
+
+                        if (index === 0) {
+                            pdf = new jsPDF({
+                                orientation: orientation,
+                                unit: 'mm',
+                                format: [pWidth, pHeight]
+                            });
+                        } else {
+                            pdf.addPage([pWidth, pHeight], orientation);
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = natWidth;
+                        canvas.height = natHeight;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+                        pdf.addImage(imgData, 'JPEG', 0, 0, pWidth, pHeight);
+                    });
+
+                    if (pdf) {
+                        const safeTitle = (currentNoticeTitle || 'Notice').replace(/[/\\?%*:|"<>]/g, '_');
+                        pdf.save(`${safeTitle}.pdf`);
+                    }
+                } catch (e) {
+                    console.error("PDF generation error:", e);
+                } finally {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download';
+                    }
+                }
+            }
         }
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
@@ -1081,6 +1210,7 @@
             images.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
+                img.setAttribute('oncontextmenu', 'return false;');
                 img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
@@ -1443,7 +1573,7 @@
             }
 
             let floatContainer = document.getElementById('floatingProfileContainer');
-            let imgHTML = photoUrl ? `<img src="${photoUrl}" alt="Profile">` : `<i class="fas fa-user" style="color:#fff; font-size:20px;"></i>`;
+            let imgHTML = photoUrl ? `<img src="${photoUrl}" alt="Profile" oncontextmenu="return false;">` : `<i class="fas fa-user" style="color:#fff; font-size:20px;"></i>`;
             
             floatContainer.innerHTML = `
                 <div class="floating-profile-badge" id="draggableBadge" onclick="openLoginModal()" title="প্রোফাইল ড্যাশবোর্ড খুলুন">
@@ -1542,7 +1672,7 @@
 
             printContainer.innerHTML = `
                 <div style="position: absolute; top: 47%; left: 50%; transform: translate(-50%, -50%); opacity: 0.08; pointer-events: none; z-index: 0;">
-                    <img src="FB_IMG_1788806747811.png" style="width: 490px; height: auto;" alt="Watermark">
+                    <img src="FB_IMG_1788806747811.png" style="width: 490px; height: auto;" alt="Watermark" oncontextmenu="return false;">
                 </div>
 
                 <div style="position: relative; z-index: 1;">
@@ -1550,7 +1680,7 @@
                         <tr>
                             <td style="width: 26%; vertical-align: top; text-align: left;">
                                 <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;">
-                                    <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" style="width: 58px; height: 58px; object-fit: contain; border-radius: 50%; margin-bottom: 6px;">
+                                    <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" style="width: 58px; height: 58px; object-fit: contain; border-radius: 50%; margin-bottom: 6px;" oncontextmenu="return false;">
                                     <div style="font-size: 10px; border: 1px solid #222; padding: 0.9px 4.4px; display: inline-block; font-weight: bold; margin-bottom: 4px; border-radius: 2px; text-transform: uppercase;">Office Copy</div>
                                     <div style="font-size: 10.8px; font-weight: bold; color:#111;">Member ID: <span style="font-weight: normal;">${memberIdVal}</span></div>
 									<div style="font-size: 10.8px; font-weight: bold; color:#111;">Submission time: <span style="font-weight: normal;">${appDateVal}</span></div>
@@ -1566,7 +1696,7 @@
                             </td>
                                <td style="width: 24%; vertical-align: top; text-align: right;">
                                 <div style="display: inline-block; width: 100px; height: 120px; border: 1px solid #333; background: #fafafa; overflow:hidden; text-align: center;">
-                                    ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : '<div style="margin-top:42px; font-size:10px; color:#666;">PP Photo</div>'}
+                                    ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo" oncontextmenu="return false;">` : '<div style="margin-top:42px; font-size:10px; color:#666;">PP Photo</div>'}
                                 </div>
                             </td>
                         </tr>
@@ -1833,6 +1963,13 @@
                 fetchChatReplies();
             }
         }, 10000);
+
+        // গ্লোবালি যেকোনো ইমেজে রাইট-ক্লিক ও লং-প্রেস মেনু প্রিভেন্ট করার কোড (পয়েন্ট ৭)
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
