@@ -20,27 +20,31 @@
 
     <!-- সিএসএস স্টাইল অংশ (CSS Styling) -->
     <style>
-        /* ৭ নম্বর পয়েন্ট: টেক্সট সিলেক্ট এবং ইমেজ লং-প্রেস/সেভ মেনু বন্ধ করার জন্য */
+        /* টেক্সট সিলেক্ট এবং ইমেজ প্রটেকশন (রুল ৬ ও ৭) */
         * { 
-            margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; 
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: Arial, sans-serif; 
+            scroll-behavior: smooth; 
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none; 
+            user-select: none; 
         }
-        
         input, textarea, select {
-            -webkit-user-select: text !important;
-            -moz-user-select: text !important;
-            -ms-user-select: text !important;
-            user-select: text !important;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
-
         img {
             -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
             user-drag: none;
-            -webkit-touch-callout: none;
+            pointer-events: auto;
         }
 
         body { background-color: #f1f1f1; color: #333; }
@@ -346,14 +350,13 @@
     		background: #1e1e1e !important;
     		border: 1px solid #333 !important;
 			}
-		/* ডার্ক মোডে উপদেষ্টা ও অন্যান্য কার্ডের টেক্সট কালার ঠিক করার কোড */
 		body.dark-theme .section-content h4, 
 		body.dark-theme .section-content h5 {
-    		color: #4CAF50 !important; /* নাম সবুজ রঙ করার জন্য */
+    		color: #4CAF50 !important;
 			}
 
 		body.dark-theme .section-content p {
-    		color: #e0e0e0 !important; /* পদবী ও অন্যান্য লেখা পরিষ্কার সাদা রঙ করার জন্য */
+    		color: #e0e0e0 !important;
 			}
 
         .floating-profile-badge {
@@ -427,14 +430,14 @@
     <!-- ৩. মেম্বার প্রোফাইল ফ্লোটিং ব্যাজ -->
     <div id="floatingProfileContainer"></div>
 
-    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (১ম ও ২য় পয়েন্ট অনুযায়ী ডাউনলোড বাটন যুক্ত করা হয়েছে) -->
+    <!-- ৪. নোটিশ বিস্তারিত দেখার পপআপ মডাল (ডাউনলোড বাটন যুক্ত) -->
     <div id="noticeModal" class="modal">
-        <div class="modal-content" style="max-height: 90vh; display: flex; flex-direction: column;">
+        <div class="modal-content">
             <span class="modal-close" onclick="closeNoticeModal()">&times;</span>
             <div id="modalTitle" class="modal-title">নোটিশ বিস্তারিত</div>
-            <div id="modalImages" class="modal-images" style="overflow-y: auto; flex: 1; padding-bottom: 10px;"></div>
-            <div style="text-align: right; padding-top: 10px; border-top: 1px solid #eee; margin-top: 10px;">
-                <button id="noticeDownloadBtn" onclick="downloadNoticePDF()" style="background:#0288d1; color:#fff; border:none; padding:8px 15px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s; display:inline-flex; align-items:center; gap:5px;">
+            <div id="modalImages" class="modal-images"></div>
+            <div style="margin-top: 15px; text-align: right;">
+                <button id="noticePdfDownloadBtn" onclick="downloadNoticePDF()" style="background:#0288d1; color:#fff; border:none; padding:8px 15px; font-weight:bold; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s; display: inline-flex; align-items: center; gap: 5px;">
                     <i class="fas fa-file-pdf"></i> Download
                 </button>
             </div>
@@ -445,7 +448,7 @@
     <div id="imageViewerModal" class="modal" onclick="closeImageViewer()">
         <div class="image-viewer-content" onclick="event.stopPropagation()">
             <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
-            <img id="fullSizeImage" src="" alt="Full Size Notice Image" oncontextmenu="return false;">
+            <img id="fullSizeImage" src="" alt="Full Size Notice Image">
         </div>
     </div>
 
@@ -523,7 +526,7 @@
 
                 <div id="profileTabContent" style="text-align:center;">
                     <div id="profilePhotoContainer" style="margin-bottom:15px;">
-                        <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);" oncontextmenu="return false;">
+                        <img id="profilePhoto" src="" alt="Profile Photo" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid #007e33; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
                     </div>
                     <div id="profileDetails" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:6px; font-size:14px; line-height:1.8; border:1px solid #eee; max-height:300px; overflow-y:auto;"></div>
                     
@@ -607,7 +610,7 @@
 
     <!-- ১২. টপ হেডার সেকশন -->
     <div class="top-header">
-        <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo" oncontextmenu="return false;"></div>
+        <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo"></div>
         <div class="header-center">
             <div class="header-title">সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব</div>
             <div class="badge-container">
@@ -615,7 +618,7 @@
                 <span class="badge">College Code: 1475</span>
             </div>
         </div>
-        <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo" oncontextmenu="return false;"></div>
+        <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
 
     <!-- ১৩. সর্বশেষ নোটিশ সেকশন -->
@@ -633,7 +636,7 @@
     <!-- ১৪. সাইডবার নেভিগেশন মেনু -->
     <div id="mySidebar" class="sidebar">
         <div class="sidebar-header">
-            <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" oncontextmenu="return false;">
+            <img src="FB_IMG_1788806747811.png" alt="Science Club Logo">
             <span class="close-btn" onclick="closeNav()">&times;</span>
         </div>
         <ul class="sidebar-menu">
@@ -748,11 +751,11 @@
             <div class="section-title"><i class="fas fa-link" style="color: #007e33;"></i> Useful Links</div>
             <div class="section-content useful-links">
                 <a href="https://gssc.college.gov.bd/" target="_blank" class="useful-link-item">
-                    <img loading="lazy" src="17700954426981835287012.png" alt="College Logo" oncontextmenu="return false;">
+                    <img loading="lazy" src="17700954426981835287012.png" alt="College Logo">
                     <span>Govt. Shaheed Suhrawardy College</span>
                 </a>
                 <a href="https://dcu.ac.bd/" target="_blank" class="useful-link-item">
-                    <img loading="lazy" src="DCU logo.png" alt="DCU Logo" oncontextmenu="return false;">
+                    <img loading="lazy" src="DCU logo.png" alt="DCU Logo">
                     <span>Dhaka Central University</span>
                 </a>
             </div>
@@ -824,6 +827,13 @@
 
     <!-- ১৯. জাভাস্ক্রিপ্ট লজিক ও ইন্টারঅ্যাক্টিভিটি -->
     <script>
+        // Disable right-click context menu on images (রুল ৭)
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        });
+
         const CONFIG_EVENT_TITLE = "বার্ষিক বিজ্ঞান মেলা ২০২৬ শুরু হতে বাকি:";
         const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
         const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
@@ -1016,7 +1026,6 @@
                     var img = document.createElement('img');
                     img.src = src;
                     img.alt = titleText || 'Activity Image';
-                    img.setAttribute('oncontextmenu', 'return false;');
                     img.onclick = function() { openImageViewer(src); };
                     cardDiv.appendChild(img);
                     if (titleText) {
@@ -1042,126 +1051,112 @@
 
         function closeAllGalleryModal() { document.getElementById('allGalleryModal').style.display = 'none'; }
 
-        let currentNoticeTitle = "";
-        let currentNoticeImages = [];
-
-        /* ১, ২, ৩, ৪, ৫ নম্বর পয়েন্ট অনুযায়ী নোটিশ ওপেন ও পিডিএফ ডাউনলোড ফাংশন */
         function openNoticeModal(title, imgArray) {
-            currentNoticeTitle = title || "Notice";
-            currentNoticeImages = imgArray || [];
-
-            if (Array.isArray(imgArray) && imgArray.length === 1) {
-                openImageViewer(imgArray[0]);
-                return;
-            }
             document.getElementById('modalTitle').innerText = title;
             var container = document.getElementById('modalImages');
             container.innerHTML = ''; 
             imgArray.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
-                img.setAttribute('oncontextmenu', 'return false;');
-                img.setAttribute('draggable', 'false');
                 img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
             document.getElementById('noticeModal').style.display = 'block';
         }
 
-        function downloadNoticePDF() {
-            if (!currentNoticeImages || currentNoticeImages.length === 0) return;
-            const btn = document.getElementById('noticeDownloadBtn');
-            if (btn) {
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
-            }
-
-            let loadedImages = 0;
-            const totalImages = currentNoticeImages.length;
-            const imgObjects = [];
-
-            currentNoticeImages.forEach((src, index) => {
-                const img = new Image();
-                img.crossOrigin = 'anonymous';
-                img.src = src;
-                img.onload = () => {
-                    imgObjects[index] = img;
-                    loadedImages++;
-                    if (loadedImages === totalImages) {
-                        buildAndSavePDF();
-                    }
-                };
-                img.onerror = () => {
-                    imgObjects[index] = null;
-                    loadedImages++;
-                    if (loadedImages === totalImages) {
-                        buildAndSavePDF();
-                    }
-                };
-            });
-
-            function buildAndSavePDF() {
-                try {
-                    const { jsPDF } = window.jspdf || window;
-                    if (!jsPDF) {
-                        throw new Error("jsPDF not loaded");
-                    }
-
-                    let pdf = null;
-
-                    imgObjects.forEach((img, index) => {
-                        if (!img) return;
-                        const natWidth = img.naturalWidth || img.width || 800;
-                        const natHeight = img.naturalHeight || img.height || 1000;
-
-                        const maxDim = 200; // mm
-                        let pWidth, pHeight;
-                        if (natWidth >= natHeight) {
-                            pWidth = maxDim;
-                            pHeight = (natHeight / natWidth) * maxDim;
-                        } else {
-                            pHeight = maxDim;
-                            pWidth = (natWidth / natHeight) * maxDim;
-                        }
-
-                        const orientation = natWidth >= natHeight ? 'landscape' : 'portrait';
-
-                        if (index === 0) {
-                            pdf = new jsPDF({
-                                orientation: orientation,
-                                unit: 'mm',
-                                format: [pWidth, pHeight]
-                            });
-                        } else {
-                            pdf.addPage([pWidth, pHeight], orientation);
-                        }
-
-                        const canvas = document.createElement('canvas');
-                        canvas.width = natWidth;
-                        canvas.height = natHeight;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0);
-                        const imgData = canvas.toDataURL('image/jpeg', 0.95);
-
-                        pdf.addImage(imgData, 'JPEG', 0, 0, pWidth, pHeight);
-                    });
-
-                    if (pdf) {
-                        const safeTitle = (currentNoticeTitle || 'Notice').replace(/[/\\?%*:|"<>]/g, '_');
-                        pdf.save(`${safeTitle}.pdf`);
-                    }
-                } catch (e) {
-                    console.error("PDF generation error:", e);
-                } finally {
-                    if (btn) {
-                        btn.disabled = false;
-                        btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download';
-                    }
-                }
-            }
-        }
-
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
+
+        /* নোটিশ পিডিএফ ডাউনলোড ফাংশন (পয়েন্ট ১, ২, ৩, ৪, ৫, ৮, ৯, ১০) */
+        function downloadNoticePDF() {
+            var btn = document.getElementById('noticePdfDownloadBtn');
+            if (!btn) return;
+            
+            var originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ডাউনলোড হচ্ছে...';
+            
+            var title = document.getElementById('modalTitle').innerText || 'Notice';
+            var imgElements = document.querySelectorAll('#modalImages img');
+            
+            if (!imgElements || imgElements.length === 0) {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                return;
+            }
+            
+            var container = document.createElement('div');
+            container.style.position = 'absolute';
+            container.style.left = '-9999px';
+            container.style.top = '0';
+            container.style.background = '#ffffff';
+            
+            var promises = [];
+            var pageWidth = 800;
+            var pageHeight = 1130;
+            
+            imgElements.forEach(function(imgElem, index) {
+                var p = new Promise(function(resolve) {
+                    var img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = function() {
+                        var w = img.naturalWidth || img.width || 800;
+                        var h = img.naturalHeight || img.height || 1130;
+                        
+                        if (index === 0) {
+                            pageWidth = w;
+                            pageHeight = h;
+                        }
+                        
+                        var pageDiv = document.createElement('div');
+                        pageDiv.style.width = w + 'px';
+                        pageDiv.style.height = h + 'px';
+                        pageDiv.style.position = 'relative';
+                        pageDiv.style.pageBreakAfter = index < imgElements.length - 1 ? 'always' : 'auto';
+                        pageDiv.style.boxSizing = 'border-box';
+                        pageDiv.style.backgroundColor = '#ffffff';
+                        
+                        var clonedImg = document.createElement('img');
+                        clonedImg.src = img.src;
+                        clonedImg.style.width = '100%';
+                        clonedImg.style.height = '100%';
+                        clonedImg.style.objectFit = 'contain';
+                        clonedImg.style.display = 'block';
+                        
+                        pageDiv.appendChild(clonedImg);
+                        container.appendChild(pageDiv);
+                        resolve();
+                    };
+                    img.onerror = function() {
+                        resolve();
+                    };
+                    img.src = imgElem.src;
+                });
+                promises.push(p);
+            });
+            
+            Promise.all(promises).then(function() {
+                document.body.appendChild(container);
+                
+                var opt = {
+                    margin:       0,
+                    filename:     title.replace(/[\/\\?%*:|"<>]/g, '_') + '.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, useCORS: true, logging: false },
+                    jsPDF:        { unit: 'px', format: [pageWidth, pageHeight], orientation: pageWidth > pageHeight ? 'landscape' : 'portrait' }
+                };
+                
+                html2pdf().set(opt).from(container).save().then(function() {
+                    document.body.removeChild(container);
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }).catch(function(err) {
+                    console.error(err);
+                    if (container.parentNode) document.body.removeChild(container);
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                });
+            });
+        }
 
         function openImageViewer(src) {
             document.getElementById('fullSizeImage').src = src;
@@ -1210,7 +1205,6 @@
             images.forEach(function(src) {
                 var img = document.createElement('img');
                 img.src = src;
-                img.setAttribute('oncontextmenu', 'return false;');
                 img.onclick = function() { openImageViewer(src); }; 
                 container.appendChild(img);
             });
@@ -1573,7 +1567,7 @@
             }
 
             let floatContainer = document.getElementById('floatingProfileContainer');
-            let imgHTML = photoUrl ? `<img src="${photoUrl}" alt="Profile" oncontextmenu="return false;">` : `<i class="fas fa-user" style="color:#fff; font-size:20px;"></i>`;
+            let imgHTML = photoUrl ? `<img src="${photoUrl}" alt="Profile">` : `<i class="fas fa-user" style="color:#fff; font-size:20px;"></i>`;
             
             floatContainer.innerHTML = `
                 <div class="floating-profile-badge" id="draggableBadge" onclick="openLoginModal()" title="প্রোফাইল ড্যাশবোর্ড খুলুন">
@@ -1672,7 +1666,7 @@
 
             printContainer.innerHTML = `
                 <div style="position: absolute; top: 47%; left: 50%; transform: translate(-50%, -50%); opacity: 0.08; pointer-events: none; z-index: 0;">
-                    <img src="FB_IMG_1788806747811.png" style="width: 490px; height: auto;" alt="Watermark" oncontextmenu="return false;">
+                    <img src="FB_IMG_1788806747811.png" style="width: 490px; height: auto;" alt="Watermark">
                 </div>
 
                 <div style="position: relative; z-index: 1;">
@@ -1680,7 +1674,7 @@
                         <tr>
                             <td style="width: 26%; vertical-align: top; text-align: left;">
                                 <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;">
-                                    <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" style="width: 58px; height: 58px; object-fit: contain; border-radius: 50%; margin-bottom: 6px;" oncontextmenu="return false;">
+                                    <img src="FB_IMG_1788806747811.png" alt="Science Club Logo" style="width: 58px; height: 58px; object-fit: contain; border-radius: 50%; margin-bottom: 6px;">
                                     <div style="font-size: 10px; border: 1px solid #222; padding: 0.9px 4.4px; display: inline-block; font-weight: bold; margin-bottom: 4px; border-radius: 2px; text-transform: uppercase;">Office Copy</div>
                                     <div style="font-size: 10.8px; font-weight: bold; color:#111;">Member ID: <span style="font-weight: normal;">${memberIdVal}</span></div>
 									<div style="font-size: 10.8px; font-weight: bold; color:#111;">Submission time: <span style="font-weight: normal;">${appDateVal}</span></div>
@@ -1696,7 +1690,7 @@
                             </td>
                                <td style="width: 24%; vertical-align: top; text-align: right;">
                                 <div style="display: inline-block; width: 100px; height: 120px; border: 1px solid #333; background: #fafafa; overflow:hidden; text-align: center;">
-                                    ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo" oncontextmenu="return false;">` : '<div style="margin-top:42px; font-size:10px; color:#666;">PP Photo</div>'}
+                                    ${photoUrl ? `<img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" crossorigin="anonymous" alt="Photo">` : '<div style="margin-top:42px; font-size:10px; color:#666;">PP Photo</div>'}
                                 </div>
                             </td>
                         </tr>
@@ -1963,13 +1957,6 @@
                 fetchChatReplies();
             }
         }, 10000);
-
-        // গ্লোবালি যেকোনো ইমেজে রাইট-ক্লিক ও লং-প্রেস মেনু প্রিভেন্ট করার কোড (পয়েন্ট ৭)
-        document.addEventListener('contextmenu', function(e) {
-            if (e.target.tagName === 'IMG') {
-                e.preventDefault();
-            }
-        });
     </script>
 </body>
 </html>
