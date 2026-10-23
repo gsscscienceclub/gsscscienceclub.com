@@ -22,7 +22,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; scroll-behavior: smooth; }
         
-        /* সিকিউরিটি ও কন্টেন্ট প্রটেকশন (টেক্সট সিলেক্ট ও ইমেজ ড্র্যাগ বন্ধ) */
+        /* সিকিউরিটি ও কন্টেন্ট প্রটেকশন (টেক্সট সিলেক্ট, কপি ও ইমেজ ড্র্যাগ বন্ধ) */
         body { 
             background-color: #f1f1f1; 
             color: #333; 
@@ -40,7 +40,7 @@
             user-drag: none;
             pointer-events: none;
         }
-        /* বাটন ও ইন্টারেক্টিভ এলিমেন্টে ক্লিক সচল রাখা */
+        /* বাটন ও ইন্টারেক্টিভ এলিমেন্টে ক্লিক ও ইন্টারঅ্যাকশন সচল রাখা */
         a, button, input, select, textarea, .menu-btn, .notice-read-more, .doc-btn, .contact-icon-btn, .filter-btn, .sidebar-menu li a, .profile-tab-btn, .modal-close, .modal-images img {
             pointer-events: auto !important;
         }
@@ -813,6 +813,11 @@
         const CONFIG_EVENT_DATE = "Nov 15, 2026 10:00:00";
         const CONFIG_SCIENCE_FACT = "মহাবিশ্বের প্রায় ৬৮% অংশ ডার্ক এনার্জি এবং ২৭% অংশ ডার্ক ম্যাটার দ্বারা গঠিত।";
 
+        /* সিকিউরিটি প্রোটেকশন: রাইট ক্লিক, কপি, কাট এবং ড্র্যাগ প্রতিরোধ */
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('copy', function(e) { e.preventDefault(); });
+        document.addEventListener('cut', function(e) { e.preventDefault(); });
+
         /* সাইডবার খুলুন ও বন্ধ করুন */
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
@@ -982,12 +987,12 @@
                 .catch(err => console.error('Patron and Advisors load error:', err));
         }
 
-        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (পোর্ট্রেট ওরিয়েন্টেশন এবং মাল্টি-পেজ ও সঠিক আকৃতি নিশ্চিতকরণ)
+        // নোটিশ পিডিএফ ডাউনলোড ফাংশন (অফ-স্ক্রিন রেন্ডারিং ও প্রতিটি ছবির নিজস্ব আকৃতি অনুযায়ী মাল্টি-পেজ পিডিএফ তৈরি)
 		function downloadNoticePDF() {
     		const btn = document.getElementById('noticePdfBtn');
     		if (btn) {
         		btn.disabled = true;
-        		btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> নোটিশ পিডিএফ ডাউনলোড হচ্ছে...';
+        		btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> পিডিএফ তৈরি হচ্ছে...';
     		}
 
     		const title = document.getElementById('modalTitle').innerText || "Notice";
@@ -1004,48 +1009,81 @@
 
     		let imgSources = Array.from(imgElements).map(img => img.src);
 
+    		// অফ-স্ক্রিন টেম্পোরারি কন্টেইনার (স্ক্রিন জুম বা লেআউট পরিবর্তন রোধ করার জন্য)
     		const tempContainer = document.createElement('div');
+    		tempContainer.style.position = 'fixed';
+    		tempContainer.style.left = '-9999px';
+    		tempContainer.style.top = '0';
     		tempContainer.style.background = '#ffffff';
-    		tempContainer.style.width = '210mm';
-    		tempContainer.style.boxSizing = 'border-box';
     		tempContainer.style.fontFamily = 'Arial, sans-serif';
+    		tempContainer.style.boxSizing = 'border-box';
 
-    		let htmlContent = `<div style="text-align: center; padding: 15px;"><h3 style="color: #007e33; margin-bottom: 15px; font-size: 18px;">${title}</h3>`;
+    		let htmlContent = '';
     		imgSources.forEach((src, index) => {
         		htmlContent += `
-                    <div style="width: 100%; text-align: center; margin-bottom: 15px; ${index < imgSources.length - 1 ? 'page-break-after: always;' : ''}">
-                        <img src="${src}" style="max-width: 100%; height: auto; max-height: 260mm; display: block; margin: 0 auto;" crossorigin="anonymous">
+                    <div style="width: 800px; padding: 15px; text-align: center; background: #ffffff; ${index < imgSources.length - 1 ? 'page-break-after: always;' : ''}">
+                        <h3 style="color: #007e33; margin-bottom: 12px; font-size: 16px;">${title}</h3>
+                        <img src="${src}" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" crossorigin="anonymous">
                     </div>
                 `;
     		});
-    		htmlContent += `</div>`;
     		tempContainer.innerHTML = htmlContent;
     		document.body.appendChild(tempContainer);
 
-    		const opt = {
-        		margin:       10,
-        		filename:     `${safeTitle}.pdf`,
-        		image:        { type: 'jpeg', quality: 0.98 },
-        		html2canvas:  { scale: 2, useCORS: true, logging: false },
-        		jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    		// ছবির স্বাভাবিক আকৃতি পরিমাপ করে ডাইনামিক পেজ সাইজ নির্ধারণ
+    		const testImg = new Image();
+    		testImg.crossOrigin = "anonymous";
+    		testImg.src = imgSources[0];
+    		testImg.onload = function() {
+        		let natW = testImg.naturalWidth || 800;
+        		let natH = testImg.naturalHeight || 1131;
+        		let aspectRatio = natW / natH;
+        		
+        		let pdfWidthMm = 210;
+        		let pdfHeightMm = pdfWidthMm / aspectRatio;
+
+        		const opt = {
+            		margin:       5,
+            		filename:     `${safeTitle}.pdf`,
+            		image:        { type: 'jpeg', quality: 0.98 },
+            		html2canvas:  { scale: 2, useCORS: true, logging: false, windowWidth: 800 },
+            		jsPDF:        { unit: 'mm', format: [pdfWidthMm, pdfHeightMm], orientation: pdfWidthMm > pdfHeightMm ? 'landscape' : 'portrait' }
+        		};
+
+        		html2pdf().set(opt).from(tempContainer).save().then(() => {
+            		document.body.removeChild(tempContainer);
+            		if (btn) {
+                		btn.disabled = false;
+                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+            		}
+        		}).catch((err) => {
+            		console.error("PDF download error:", err);
+            		if (document.body.contains(tempContainer)) {
+                		document.body.removeChild(tempContainer);
+            		}
+            		if (btn) {
+                		btn.disabled = false;
+                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+            		}
+        		});
     		};
 
-    		html2pdf().set(opt).from(tempContainer).save().then(() => {
-        		document.body.removeChild(tempContainer);
-        		if (btn) {
-            		btn.disabled = false;
-            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-        		}
-    		}).catch((err) => {
-        		console.error("PDF download error:", err);
-        		if (document.body.contains(tempContainer)) {
+    		testImg.onerror = function() {
+        		const opt = {
+            		margin:       10,
+            		filename:     `${safeTitle}.pdf`,
+            		image:        { type: 'jpeg', quality: 0.98 },
+            		html2canvas:  { scale: 2, useCORS: true, logging: false },
+            		jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        		};
+        		html2pdf().set(opt).from(tempContainer).save().then(() => {
             		document.body.removeChild(tempContainer);
-        		}
-        		if (btn) {
-            		btn.disabled = false;
-            		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
-        		}
-    		});
+            		if (btn) {
+                		btn.disabled = false;
+                		btn.innerHTML = '<i class="fas fa-file-pdf"></i> নোটিশ পিডিএফ ডাউনলোড';
+            		}
+        		});
+    		};
 		}
 
         /* মডাল পপআপ ফাংশনসমূহ */
