@@ -825,7 +825,7 @@
     <!-- ১৫. মূল কন্টেন্ট কন্টেইনার (Main Container) -->
     <div class="container">
         
-        <!-- নোটিশ বোর্ড সেকশন -->
+        <!-- নোটিশ বোর্ড সেকশন (হোম পেজ - এখান থেকে প্রথম দুটি নোটিশ ডাইনামিকালি লোড হবে) -->
         <div class="section-card">
             <div class="section-title notice-title-bar">
                 <div class="menu-btn" onclick="openNav()"><i class="fas fa-bars"></i> <span>MENU</span></div>
@@ -833,7 +833,7 @@
             </div>
             
             <div class="section-content" id="homeNoticeContainer">
-                <!-- জাভাস্ক্রিপ্টের মাধ্যমে এখানে প্রথম দুটি নোটিশ স্বয়ংক্রিয়ভাবে চলে আসবে -->
+                <!-- জাভাস্ক্রিপ্টের মাধ্যমে এখানে all-notices.html বা #allNoticesListContainer থেকে প্রথম দুটি নোটিশ ডাইনামিকালি চলে আসবে -->
             </div>
             
             <div class="section-content" style="padding-top: 0;">
@@ -1149,7 +1149,7 @@
             startSlideshow();
         }
 
-        /* প্রি-লোডার হাইড করার ইভেন্ট এবং হোম পেজে প্রথম দুটি নোটিশ ও লেটেস্ট নোটিশ ডাইনামিকালি লোড করার ফাংশন */
+        /* প্রি-লোডার হাইড করার ইভেন্ট এবং ডাইনামিক নোটিশ লোডিং */
         window.addEventListener('load', function() {
             var preloader = document.getElementById('science-preloader');
             if(preloader) {
@@ -1157,26 +1157,50 @@
                 setTimeout(function() { preloader.style.visibility = 'hidden'; }, 500);
             }
             
-            // হোম পেজের নোটিশ বোর্ডে প্রথম দুটি নোটিশ লোড করা হচ্ছে
-            loadLatestNoticesToHome();
+            // ১. হোম পেজের প্রধান নোটিশ বোর্ডে প্রথম দুটি নোটিশ লোড করা হচ্ছে
+            loadHomeNoticeBoard();
             
-            // latest-notice.html থেকে সর্বশেষ স্ক্রলিং নোটিশ লোড করা হচ্ছে
+            // ২. latest-notice.html থেকে স্ক্রলিং নোটিশ লোড করা হচ্ছে
             loadLatestNoticeFromFile();
         });
 
-        function loadLatestNoticesToHome() {
-            const allNoticesList = document.querySelectorAll('#allNoticesListContainer .list-item');
+        /* হোম পেজের প্রধান নোটিশ বোর্ড আপডেট ফাংশন */
+        function loadHomeNoticeBoard() {
             const homeContainer = document.getElementById('homeNoticeContainer');
-            if (homeContainer && allNoticesList.length > 0) {
-                homeContainer.innerHTML = '';
-                let count = Math.min(2, allNoticesList.length);
-                for (let i = 0; i < count; i++) {
-                    let clonedItem = allNoticesList[i].cloneNode(true);
-                    homeContainer.appendChild(clonedItem);
-                }
+            if (!homeContainer) return;
+
+            // প্রথমে ইন-পেজ মডাল কন্টেইনার থেকে খোঁজা হবে
+            let noticeItems = document.querySelectorAll('#allNoticesListContainer .list-item');
+
+            if (noticeItems.length > 0) {
+                populateHomeNotices(noticeItems);
+            } else {
+                // যদি মডালটি বাহ্যিক all-notices.html ফাইলে থাকে, তবে তা ফেচ করে নিয়ে আসা হবে
+                fetch('all-notices.html')
+                    .then(response => response.text())
+                    .then(html => {
+                        let tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = html;
+                        let fetchedItems = tempDiv.querySelectorAll('.list-item');
+                        if (fetchedItems.length > 0) {
+                            populateHomeNotices(fetchedItems);
+                        }
+                    })
+                    .catch(err => console.error("All Notices Fetch Error:", err));
             }
         }
 
+        function populateHomeNotices(items) {
+            const homeContainer = document.getElementById('homeNoticeContainer');
+            homeContainer.innerHTML = '';
+            let count = Math.min(2, items.length);
+            for (let i = 0; i < count; i++) {
+                let clonedItem = items[i].cloneNode(true);
+                homeContainer.appendChild(clonedItem);
+            }
+        }
+
+        /* সর্বশেষ স্ক্রলিং নোটিশ লোড ফাংশন */
         function loadLatestNoticeFromFile() {
             fetch('latest-notice.html')
                 .then(response => response.text())
