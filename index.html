@@ -41,31 +41,18 @@
         body { background-color: #f1f1f1; color: #333; }
 
         /* টপ হেডার (Top Header) স্টাইল */
-			.top-header {
-  				position: relative;
-  				overflow: hidden;
-  				background: linear-gradient(135deg, #052e16, #14532d, #064e3b);
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-						}
-
-			#moto-canvas {
-  				position: absolute;
-  				top: 0;
-  				left: 0;
- 			 	width: 100%;
- 			 	height: 100%;
-  				pointer-events: none;
-  				z-index: 1;
-						}
-
-		/* হেডারের ভেতরের লেখা বা কন্টেন্টগুলো যেন ক্যানভাসের উপরে থাকে */
-		.top-header > * {
- 			 position: relative;
- 			 z-index: 2;
-						}
-        
+        .top-header {
+            background: linear-gradient(135deg, #004d25, #008a36);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
         .header-logo img {
             height: 60px; width: auto; display: block; border-radius: 100%;
             background: #ffffff; padding: 0px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
@@ -910,7 +897,6 @@
 
     <!-- ১২. টপ হেডার সেকশন -->
     <div class="top-header">
-    <canvas id="moto-canvas"></canvas>
         <div class="header-logo"><img src="17700954426981835287012.png" alt="College Logo"></div>
         <div class="header-center">
             <div class="header-title">সরকারি শহীদ সোহরাওয়ার্দী কলেজ বিজ্ঞান ক্লাব</div>
@@ -2388,57 +2374,7 @@
             }
         }, 10000);
     </script>
-	<script>
-	  // Particle System Script for top header
-		const canvas = document.getElementById('moto-canvas');
-if (canvas) {
-  const ctx = canvas.getContext('2d');
-  let particles = [];
-  
-  function resizeCanvas() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  }
-  
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  // পার্টিকেল তৈরি করার লজিক
-  for (let i = 0; i < 50; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 2 + 1,
-      vx: (Math.random() - 0.5) * 1,
-      vy: (Math.random() - 0.5) * 1
-    });
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-    
-    particles.forEach(p => {
-      p.x += p.vx;
-      p.y += p.vy;
-      
-      if (p.x < 0) p.x = canvas.width;
-      if (p.x > canvas.width) p.x = 0;
-      if (p.y < 0) p.y = canvas.height;
-      if (p.y > canvas.height) p.y = 0;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    requestAnimationFrame(animate);
-  }
-  
-  animate();
-		}
-	</script>
-	<script>
+					<script>
   // Particle System Script for Science Canvas
   const canvas = document.getElementById('mottoCanvas');
   const ctx = canvas.getContext('2d');
@@ -2519,6 +2455,6 @@ if (canvas) {
 
   init();
   animate();
-	</script>
+					</script>
 </body>
 </html>
