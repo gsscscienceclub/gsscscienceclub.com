@@ -136,7 +136,11 @@
 
 /* Golden Accent Highlight */
 .motto-heading .highlight {
-  color: #facc15;
+  background: linear-gradient(90deg, #facc15, #ffffff, #facc15);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: moveGradient 3s linear infinite;
   font-weight: 700;
   text-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
 }
@@ -146,6 +150,10 @@
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-3px) rotate(15deg); }
 }
+		@keyframes moveGradient {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+		}
 
 /* Responsive Design for Mobile Devices */
 @media (max-width: 600px) {
