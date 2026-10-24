@@ -41,18 +41,21 @@
         body { background-color: #f1f1f1; color: #333; }
 
         /* টপ হেডার (Top Header) স্টাইল */
-        .top-header {
-            background: linear-gradient(135deg, #004d25, #008a36);
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+			.top-header {
+  background: linear-gradient(135deg, #052e16, #14532d, #064e3b);
+  background-size: 200% 200%;
+  animation: moveGradient 5s ease infinite;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+		}
+        
         .header-logo img {
             height: 60px; width: auto; display: block; border-radius: 100%;
             background: #ffffff; padding: 0px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
