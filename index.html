@@ -1081,6 +1081,7 @@
                 }
             });
             startSlideshow();
+			openAllGalleryModal(category);
         }
 
         window.addEventListener('load', function() {
@@ -1364,7 +1365,7 @@
 
         function closeImageViewer() { document.getElementById('imageViewerModal').style.display = 'none'; }
 
-        function openAllGalleryModal() {
+        function openAllGalleryModal(category='all') {
             var container = document.getElementById('allGalleryModalImages');
             container.innerHTML = '';
             
@@ -1373,11 +1374,13 @@
                 container.innerHTML = '<div style="text-align:center; padding:20px; color:#666; grid-column: 1 / -1;">কোনো ছবি পাওয়া যায়নি।</div>';
             } else {
                 galleryItems.forEach(function(img) {
+					if (category==='all'||img.parentElement.getAttribute('data-category')===category){
                     var cloneImg = document.createElement('img');
                     cloneImg.src = img.src;
                     cloneImg.onclick = function() { openImageViewer(img.src); };
                     container.appendChild(cloneImg);
-                });
+					}
+				});
             }
             document.getElementById('allGalleryModal').style.display = 'block';
         }
