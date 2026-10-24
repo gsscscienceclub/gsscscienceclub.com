@@ -827,7 +827,7 @@
         </div>
         <ul class="sidebar-menu">
            <li>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqoMTqWlK0TV6vaM0PCdfSIRbThh14h2PrMAJ3Q4B52b_kZQ/viewform?usp=publish-editor" target="_blank" onclick="closeNav()">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqoMTqWlK0TV6vaM0PCdfSIRbThh14h2PrMAJ3Q4B52b_kZQ/viewform?usp=publish-editor" target="_blank" onclick="changeText();closeNav();">
                Membership Application<i class="fas fa-file-signature"></i>
             </a>
            </li>
@@ -1353,6 +1353,7 @@
                 btnElement.innerHTML = '<i class="fas fa-download"></i> Download';
             }
         }
+		function changeText() { document.getElementById('membership-text').innerText = '<i class="fas fa-spinner fa-spin"></i>মেম্বারশিপ এপ্লিকেশন ফরম ওপেন হচ্ছে…';}
 
         function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
 
