@@ -61,6 +61,107 @@
         .header-title { font-size: 33px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); }
         .badge-container { display: flex; gap: 6px; }
         .badge { background-color: #d32f2f; color: white; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+		/*মূলমন্ত্র সেকশন*/
+		/* Motto Banner Base Styling */
+.motto-banner-container {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(135deg, #052e16 0%, #14532d 50%, #064e3b 100%);
+  padding: 18px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Background Particle Canvas */
+#mottoCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Glassmorphism Card Effect */
+.motto-glass-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 12px 24px;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.motto-glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(34, 197, 94, 0.25);
+  border-color: rgba(74, 222, 128, 0.4);
+}
+
+/* Motto Text Styles */
+.motto-text-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.motto-icon {
+  font-size: 1.4rem;
+  animation: floatAtom 4s ease-in-out infinite;
+}
+
+.motto-heading {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-family: 'Kalpurush', 'SolaimanLipi', sans-serif;
+}
+
+/* Golden Accent Highlight */
+.motto-heading .highlight {
+  color: #facc15;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+}
+
+/* Float Animation for Science Icon */
+@keyframes floatAtom {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(15deg); }
+}
+
+/* Responsive Design for Mobile Devices */
+@media (max-width: 600px) {
+  .motto-banner-container {
+    padding: 12px 10px;
+  }
+  .motto-glass-card {
+    padding: 10px 15px;
+  }
+  .motto-heading {
+    font-size: 1.05rem;
+  }
+  .motto-icon {
+    font-size: 1.1rem;
+  }
+		}
 
         /* স্ক্রলিং নোটিশ বার স্টাইল */
         .latest-notice-wrapper {
@@ -806,6 +907,19 @@
         </div>
         <div class="header-logo"><img src="FB_IMG_1788806747811.png" alt="Science Club Logo"></div>
     </div>
+	<!-- Science Motto Banner Start -->
+<div class="motto-banner-container">
+  <canvas id="mottoCanvas"></canvas>
+  <div class="motto-glass-card">
+    <div class="motto-text-wrapper">
+      <span class="motto-icon">⚛️</span>
+      <h2 class="motto-heading">
+        <span class="highlight">যুক্তি</span> দিয়ে সত্য খুঁজি, <span class="highlight">বিজ্ঞানেতেই</span> বিশ্ব বুঝি
+      </h2>
+    </div>
+  </div>
+</div>
+<!-- Science Motto Banner End -->
 
     <!-- ১৩. সর্বশেষ নোটিশ সেকশন -->
     <div class="latest-notice-wrapper">
@@ -2259,5 +2373,87 @@
             }
         }, 10000);
     </script>
+					<script>
+  // Particle System Script for Science Canvas
+  const canvas = document.getElementById('mottoCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  let particlesArray = [];
+  const numberOfParticles = 40;
+
+  function setCanvasSize() {
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetHeight;
+  }
+  setCanvasSize();
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = (Math.random() - 0.5) * 0.8;
+      this.speedY = (Math.random() - 0.5) * 0.8;
+      this.color = '#4ade80';
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+    }
+    draw() {
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function init() {
+    particlesArray = [];
+    for (let i = 0; i < numberOfParticles; i++) {
+      particlesArray.push(new Particle());
+    }
+  }
+
+  function connectParticles() {
+    for (let a = 0; a < particlesArray.length; a++) {
+      for (let b = a; b < particlesArray.length; b++) {
+        let dx = particlesArray[a].x - particlesArray[b].x;
+        let dy = particlesArray[a].y - particlesArray[b].y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 90) {
+          ctx.strokeStyle = `rgba(74, 222, 128, ${1 - distance / 90})`;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+          ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particlesArray.length; i++) {
+      particlesArray[i].update();
+      particlesArray[i].draw();
+    }
+    connectParticles();
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', () => {
+    setCanvasSize();
+    init();
+  });
+
+  init();
+  animate();
+					</script>
 </body>
 </html>
